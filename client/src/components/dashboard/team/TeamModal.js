@@ -26,7 +26,7 @@ const [team, setData] = useState({
   const [services, setServices] = useState([]);
   useEffect(() => {
     getData(process.env.REACT_APP_API_URL + "/api/services").then((res) => {
-      setServices(res.data);
+
       let serviceArr = [];
       for( let i = 0; i < res.data.length; i++ ) {
         let temp = { 
@@ -35,10 +35,7 @@ const [team, setData] = useState({
         }
         serviceArr.push(temp)
       }
-      setData({
-        ...team,
-        ...{services: serviceArr}
-      })
+      setServices(serviceArr);
     });
   }, []);
   useEffect(() => {
@@ -65,7 +62,7 @@ const [team, setData] = useState({
   const getTeamContent = (id) => {
     getData(process.env.REACT_APP_API_URL + "/api/team/" + id)
       .then((res) => {
-        setData(res);
+        setData(res)
       })
       .catch((err) => {
         console.log(err);
@@ -158,6 +155,13 @@ const [team, setData] = useState({
         });
     }
   };
+
+  const isSelected = id => {
+    if(team.services.length){
+      return team.services[0].includes(id)? true: false;
+    }
+  }
+
   return (
     <>
       <Button bsPrefix="azh_btn" onClick={(e) => modalShow(true)}>
@@ -212,11 +216,11 @@ const [team, setData] = useState({
             </Form.Group>
               <Form.Group className="mb-4" controlId="team.services">
               <Form.Label>Services</Form.Label>
-              <Form.Select name="services" multiple>
-                <option disabled value={0}>Select Services</option>
-                {team.services.length && team.services.map((item, index)=>{
+              <Form.Select name="services" defaultValue={team.services}   multiple>
+                <option disabled value={0} >Select Services</option>
+                {services.length && services.map((item, index)=>{
                   return (
-                    <option key={index} value={item._id}>{item.title}</option>
+                    <option key={index}  value={item._id} selected={isSelected(item._id)} >{item.title}</option>
                   )
                 })}
               </Form.Select>
@@ -256,8 +260,7 @@ const [team, setData] = useState({
               <Col xs={12} sm={6} lg={6}>
                 <Form.Group
                   className="mb-4"
-                  controlId="team.imagePreview"
-                >
+                  controlId="team.imagePreview">
                   <img
                     id="previewImage"
                     height="100"

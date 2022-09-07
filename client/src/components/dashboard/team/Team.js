@@ -61,6 +61,7 @@ export default function Team() {
     getData(process.env.REACT_APP_API_URL + "/api/team").then((res) => {
       for( let i = 0; i < res.data.length; i++ ) {
         res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
+        res.data[i].services = JSON.parse(res.data[i].services)
       }
       setTeam(res.data);
     });
@@ -113,7 +114,8 @@ export default function Team() {
                 <td>
                   <Button
                     className="mr-2"
-                    bsPrefix="azh_btn azh_btn_edit"
+                    data-id={teams[index]["_id"]}
+                    bsPrefix="azh_btn azh_btn_edit "
                     onClick={(e) => modalShow(true, teams[index]["_id"])}
                   >
                     Edit

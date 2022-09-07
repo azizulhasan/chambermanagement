@@ -50,9 +50,9 @@ export default function Dashboard() {
     }).observe(document, { subtree: true, childList: true });
   }, [componentName]);
 
-  // addScripts([
-  //   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js",
-  // ]);
+  addScripts([
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js",
+  ]);
 
   return (
     <Router>

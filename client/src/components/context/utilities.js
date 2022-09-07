@@ -5,13 +5,21 @@ import { element } from "prop-types";
  * @param {url} script url
  */
 export const addScripts = (scripts) => {
-  [...scripts].forEach((scirpt) => {
-    let tag = document.createElement("script");
-    tag.async = true;
-    tag.src = scirpt;
-    let allScripts = document.getElementsByTagName('script')
-    console.log(Object.values(allScripts))
-   
+  let allScripts = document.getElementsByTagName('script')
+   allScripts = Object.values(allScripts);
+   let scriptArr = []
+   for( let i in allScripts ) {
+      scriptArr.push(allScripts[i].src)
+   }
+   console.log(scriptArr);
+
+   [...scripts].forEach((script) => {
+      let tag = document.createElement("script");
+      tag.async = true;
+      tag.src = script;
+      if( ! scriptArr.includes( script ) ) {
+        document.body.appendChild(tag)
+      }
   });
 };
 
