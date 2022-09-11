@@ -40,8 +40,12 @@ export default function Services() {
    *
    * @param {id} id get the specific id which want to be deleted.
    */
-  const deleteServices = (id) => {
-    alert("Are you sure? It will be permanently deleted.");
+  const deleteServices = (service) => {
+    let id = service['_id'];
+    let result = window.confirm("Are you sure? It will be permanently deleted.");
+    if( ! result){
+      return;
+    }
     deletePost(process.env.REACT_APP_API_URL + "/api/services/" + id)
       .then((res) => {
         for( let i = 0; i < res.data.length; i++ ) {
@@ -93,9 +97,9 @@ export default function Services() {
         </thead>
         <tbody>
           {services.length &&
-            services.map((services, index) => (
+            services.map((service, index) => (
               <tr key={index}>
-                {Object.keys(services).map((key) => {
+                {Object.keys(service).map((key) => {
                   if (
                     key === "title" ||
                     key === "image"
@@ -104,7 +108,7 @@ export default function Services() {
                     return (
                       <td
                         key={key}
-                        dangerouslySetInnerHTML={{ __html: services[key] }}
+                        dangerouslySetInnerHTML={{ __html: service[key] }}
                       ></td>
                     );
                   }
@@ -119,7 +123,7 @@ export default function Services() {
                   </Button>
                   <Button
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => deleteServices(services[index]["_id"])}
+                    onClick={(e) => deleteServices(services[index])}
                   >
                     Delete
                   </Button>

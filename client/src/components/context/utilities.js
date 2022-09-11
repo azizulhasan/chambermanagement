@@ -1,17 +1,22 @@
 import { element } from "prop-types";
 
+
+const getAllScripts = () => {
+  
+   let allScripts = Object.values( document.getElementsByTagName('script') );
+   let scriptArr = []
+   for( let i in allScripts ) {
+      scriptArr.push(allScripts[i].src)
+   }
+
+   return scriptArr;
+}
 /**
  * Load all scripts.
  * @param {url} script url
  */
 export const addScripts = (scripts) => {
-  let allScripts = document.getElementsByTagName('script')
-   allScripts = Object.values(allScripts);
-   let scriptArr = []
-   for( let i in allScripts ) {
-      scriptArr.push(allScripts[i].src)
-   }
-   console.log(scriptArr);
+  let scriptArr = getAllScripts();
 
    [...scripts].forEach((script) => {
       let tag = document.createElement("script");

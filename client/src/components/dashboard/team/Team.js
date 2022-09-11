@@ -41,7 +41,9 @@ export default function Team() {
    * @param {id} id get the specific id which want to be deleted.
    */
   const deleteTeam = (id) => {
-    alert("Are you sure? It will be permanently deleted.");
+    if( !window.confirm("Are you sure? It will be permanently deleted.")){
+      return;
+    }
     deletePost(process.env.REACT_APP_API_URL + "/api/team/" + id)
       .then((res) => {
         for( let i = 0; i < res.data.length; i++ ) {
