@@ -1,4 +1,5 @@
 import React from "react";
+
 /**
  * Stypes and scripts
  */
@@ -19,6 +20,6 @@ export default function App() {
   if (!pathArr.includes('dashboard')) {
     return <Front />;
   } else {
-    return <Dashboard />;
+    return  <Dashboard />
   }
 }

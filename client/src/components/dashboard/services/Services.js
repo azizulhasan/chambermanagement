@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Table, Button } from "react-bootstrap";
+import {fetchServices, fetchService} from "../../../store/serviceSlice";
+import {STATUSES}  from '../../../store/serviceSlice';
+import {useDispatch, useSelector} from "react-redux";
 /**
  * Hooks
  */
@@ -13,29 +16,30 @@ import "./services.css";
 
 // Then, use it in a component.
 export default function Services() {
-  const [services, setServices] = useState([]);
+  // const [services, setServices] = useState([]);
   const [updateBtn, setUpdateBtn] = useState({ display: false, id: "" });
   const [lgShow, setLgShow] = useState(false);
-  /**
-   * This method is called when services data is posted or updated by modal.
-   * @param {data} data
-   */
-  const setServicesData = (data) => {
-    setServices(data);
-  };
+    const dispatch = useDispatch();
+
+    const {services, modalShow}  = useSelector (state => state.services ) ;
+    
+  useEffect(() => {
+        dispatch(fetchServices());
+    }, [dispatch]);
+
   /**
    *
    * @param {value} value true or false.
    * @param {id} id get id if want to edit specific services.
    */
-  const modalShow = (value, id = null) => {
-    setLgShow(value);
-    if (id !== null) {
-      setUpdateBtn({ display: true, id: id });
-    } else {
-      setUpdateBtn({ display: false, id: "" });
-    }
-  };
+  // const modalShow = (value, id = null) => {
+  //   setLgShow(value);
+  //   if (id !== null) {
+  //     setUpdateBtn({ display: true, id: id });
+  //   } else {
+  //     setUpdateBtn({ display: false, id: "" });
+  //   }
+  // };
   /**
    *
    * @param {id} id get the specific id which want to be deleted.
@@ -51,24 +55,13 @@ export default function Services() {
         for( let i = 0; i < res.data.length; i++ ) {
           res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
         }
-        setServices(res.data);
+        // setServices(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  useEffect(() => {
-    /**
-     * Get data from and display to table.
-     */
-    getData(process.env.REACT_APP_API_URL + "/api/services").then((res) => {
-      for( let i = 0; i < res.data.length; i++ ) {
-        res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
-      }
-      setServices(res.data);
-    });
-  }, []);
 
   return (
     <React.Fragment>
@@ -79,10 +72,7 @@ export default function Services() {
           className="d-flex flex-col justify-content-start align-items-start"
         >
           <ServicesModal
-            updateBtn={updateBtn}
             modalShow={modalShow}
-            lgShow={lgShow}
-            setServicesData={setServicesData}
           />
         </Col>
       </Row>
@@ -117,7 +107,7 @@ export default function Services() {
                   <Button
                     className="mr-2"
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => modalShow(true, services[index]["_id"])}
+                    onClick={(e) => dispatch(fetchService([true, services[index]["_id"]]))}
                   >
                     Edit
                   </Button>
