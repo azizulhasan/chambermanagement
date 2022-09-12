@@ -10,9 +10,19 @@ export const STATUSES = Object.freeze( {
 
 const initialState = {
     services: [],
-    service: {},
+    singleService: {},
     status:  STATUSES.IDLE,
-    modalShow: true
+    isModalActive: false,
+    SERVICE_HEADERS: [
+    {
+      prop: "title",
+      title: "Title",
+    },
+    {
+      prop: "image",
+      title: "Image",
+    },
+  ]
 
 };
 
@@ -20,14 +30,9 @@ const serviceSlice = createSlice({
     name: 'service',
     initialState,
     reducers: {
-        // setProduct ( state , action ) {
-        //
-        //     state.data = action.payload
-        // },
-        //
-        // setStatus( state, action ){
-        //     state.status = action.payload;
-        // },
+        showModal( state, action ){
+            state.isModalActive = action.payload;
+        },
 
     },
 
@@ -42,15 +47,15 @@ const serviceSlice = createSlice({
             })
             .addCase(fetchServices.rejected, (state, action) => {
                 state.status = STATUSES.ERROR;
-            }).addCase(fetchService, (state, action) =>{
+            }).addCase(fetchSingleService, (state, action) =>{
                 console.log(action)
-                // state.service = action.payload.service
-                // state.modalShow = action.payload.modalShow;
+                state.singleService = action.payload.singleService
+                state.isModalActive = action.payload.isModalActive;
             })
     }
 });
 
-export  const { setProduct, setStatus } = serviceSlice.actions;
+export  const { showModal } = serviceSlice.actions;
 
 
 export default serviceSlice.reducer;
@@ -70,14 +75,16 @@ export const fetchServices = createAsyncThunk( 'services' , async () => {
     return data.data;
 })
 
-export const fetchService = createAsyncThunk( 'services' , async (payload) => {
-    const [modalShow, id] = payload;
+export const fetchSingleService = createAsyncThunk( 'services/singleService' , async (payload) => {
+    const [isModalActive, id] = payload;
+        
     const res = await fetch(process.env.REACT_APP_API_URL + `/api/services/${id}`);
     const data = await res.json();
-    return [modalShow, data.data];
+    console.log(data)
+    return [isModalActive, data.data];
 })
 
-// export  function fetchServices() {
+// export  function fetchSingleServices() {
 //     return async function fetchProductThunk( dispatch, getState ) {
 //
 //         console.log(getState)

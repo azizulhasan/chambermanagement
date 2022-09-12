@@ -1,39 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
-import {fetchService} from "../../../store/serviceSlice";
+import { showModal} from "../../../store/serviceSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 import { Editor } from "@tinymce/tinymce-react";
 
-import { getData, postData, getIframeContent, previewImage } from "./ServicesHooks";
+import {postData, getIframeContent, previewImage } from "./ServicesHooks";
 import { sliceComponentName } from "../../context/utilities";
 /**
  * Css
  */
 
 export default function ServicesModal() {
-  const [services, setData] = useState({
-    _id: "",
-    title: "",
-    image: '',
-    details: "",
-  });
 
-  const { service, modalShow } = useSelector( state => state.services)
-  useEffect(() => {
-    // if (lgShow === true) {
-    //   if (updateBtn.id !== "") {
-    //     getServicesContent(updateBtn.id);
-    //   } else {
-    //     setData({
-    //       _id: "",
-    //       title: "",
-    //       image: '',
-    //       details: "",
-    //     });
-    //   }
-    // }
-  }, []);
+  const { singleService, isModalActive } = useSelector( state => state.services)
+
 
   const dispatch = useDispatch();
   /**
@@ -41,7 +22,7 @@ export default function ServicesModal() {
    * @param {event} e
    */
   const handleChange = (e) => {
-    setData({ ...service, ...{ [e.target.name]: e.target.value } });
+    // setData({ ...singleService, ...{ [e.target.name]: e.target.value } });
   };
   /**
    * Handle services content form submission
@@ -59,18 +40,17 @@ export default function ServicesModal() {
         if (
           key === "" ||
           value === "" ||
-          (key === "image" && value.name === "" && !service.image)
+          (key === "image" && value.name === "" && !singleService.image)
         ) {
           alert("Please fill the value of : " + key);
           return;
         }
-      if(key === "image" && value.name === "" && service.image){
-        data[key] = service.image;
+      if(key === "image" && value.name === "" && singleService.image){
+        data[key] = singleService.image;
       }else{
         data[key] = value;
       }
     }
-    
     /**
      * format form data.
      */
@@ -83,10 +63,10 @@ export default function ServicesModal() {
     });
     formData.append("details", getIframeContent());
     
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
-    // return
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    return
     /**
      * Update data if "_id" exists. else save form data.
      */
@@ -100,7 +80,7 @@ export default function ServicesModal() {
           //   res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
           // }
           // setServicesData(res.data);
-          // modalShow(false);
+          // isModalActive(false);
         })
         .catch((err) => {
           console.log(err);
@@ -112,7 +92,7 @@ export default function ServicesModal() {
           //   res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
           // }
           // setServicesData(res.data);
-          // modalShow(false);
+          // isModalActive(false);
         })
         .catch((err) => {
           console.log(err);
@@ -121,50 +101,50 @@ export default function ServicesModal() {
   };
   return (
     <>
-      <Button bsPrefix="azh_btn" onClick={(e) => modalShow}>
+      <Button bsPrefix="azh_btn" onClick={(e) => dispatch(showModal(true))}>
         Add {sliceComponentName()}
       </Button>
       <Modal
         size="lg"
-        show={modalShow}
-        onHide={(e) => modalShow}
+        show={isModalActive}
+        onHide={(e) => dispatch(showModal(false))}
         aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            {service._id
+            {singleService._id
               ? `Update ${sliceComponentName()} Section Content`
               : `${sliceComponentName()} Section Content`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} encType='multipart/form-data'>
-            {service._id && (
+            {singleService._id && (
               <Form.Control
                 type="text"
                 id="_id"
                 onChange={handleChange}
-                value={service._id}
+                value={singleService._id}
                 name="_id"
                 placeholder="id"
                 hidden
               />
             )}
 
-            <Form.Group className="mb-4" controlId="service.title">
+            <Form.Group className="mb-4" controlId="singleService.title">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
                 onChange={handleChange}
-                value={service.title}
+                value={singleService.title}
                 placeholder="title"
               />
             </Form.Group>
-            <Form.Group className="mb-4" controlId="service.details">
+            <Form.Group className="mb-4" controlId="singleService.details">
               <Form.Label>Details</Form.Label>
               <Editor
-                initialValue={service.details}
+                initialValue={singleService.details}
                 name="details"
                 init={{
                   height: 200,
@@ -183,7 +163,7 @@ export default function ServicesModal() {
             </Form.Group>
                         <Row>
               <Col xs={12} sm={6} lg={6}>
-                <Form.Group className="mb-4" controlId="service.image">
+                <Form.Group className="mb-4" controlId="singleService.image">
                   <Form.Label>Image</Form.Label>
                   <Form.Control
                     accept=".png, .jpg, .jpeg, .svg, .gif"
@@ -196,14 +176,14 @@ export default function ServicesModal() {
               <Col xs={12} sm={6} lg={6}>
                 <Form.Group
                   className="mb-4"
-                  controlId="service.imagePreview"
+                  controlId="singleService.imagePreview"
                 >
                   <img
                     id="previewImage"
                     height="100"
                     width="100"
-                    alt={service.image}
-                    src={service.image}
+                    alt={singleService.image}
+                    src={singleService.image}
                   />
                 </Form.Group>
               </Col>
@@ -211,9 +191,9 @@ export default function ServicesModal() {
             <button
               className="azh_btn w-100"
               type="submit"
-              id="service.sumbit"
+              id="singleService.sumbit"
             >
-              {service._id ? "Update" : "Submit"}
+              {singleService._id ? "Update" : "Submit"}
             </button>
           </Form>
         </Modal.Body>

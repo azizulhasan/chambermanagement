@@ -21,9 +21,9 @@ const settingsRoutes = require("./routes/settingsRoutes");
 const servicesRoutes = require("./routes/servicesRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 
+
 // express app
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 // connect to mongodb & listen for requests.

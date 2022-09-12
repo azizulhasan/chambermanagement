@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Table, Button } from "react-bootstrap";
-import {fetchServices, fetchService} from "../../../store/serviceSlice";
+import {fetchServices, fetchSingleService} from "../../../store/serviceSlice";
 import {STATUSES}  from '../../../store/serviceSlice';
 import {useDispatch, useSelector} from "react-redux";
 /**
  * Hooks
  */
-import { getData, deletePost, STORY_HEADERS } from "./ServicesHooks";
+import {  deletePost } from "./ServicesHooks";
 
 /**
  * Components
@@ -16,12 +16,8 @@ import "./services.css";
 
 // Then, use it in a component.
 export default function Services() {
-  // const [services, setServices] = useState([]);
-  const [updateBtn, setUpdateBtn] = useState({ display: false, id: "" });
-  const [lgShow, setLgShow] = useState(false);
     const dispatch = useDispatch();
-
-    const {services, modalShow}  = useSelector (state => state.services ) ;
+    const {services, SERVICE_HEADERS}  = useSelector (state => state.services ) ;
     
   useEffect(() => {
         dispatch(fetchServices());
@@ -32,7 +28,7 @@ export default function Services() {
    * @param {value} value true or false.
    * @param {id} id get id if want to edit specific services.
    */
-  // const modalShow = (value, id = null) => {
+  // const isModalActive = (value, id = null) => {
   //   setLgShow(value);
   //   if (id !== null) {
   //     setUpdateBtn({ display: true, id: id });
@@ -71,15 +67,13 @@ export default function Services() {
           lg={12}
           className="d-flex flex-col justify-content-start align-items-start"
         >
-          <ServicesModal
-            modalShow={modalShow}
-          />
+          <ServicesModal/>
         </Col>
       </Row>
       <Table bordered>
         <thead>
           <tr>
-            {STORY_HEADERS.map((hearder) => (
+            {SERVICE_HEADERS.map((hearder) => (
               <th key={hearder.prop}>{hearder.title}</th>
             ))}
             <th>Action</th>
@@ -107,7 +101,7 @@ export default function Services() {
                   <Button
                     className="mr-2"
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => dispatch(fetchService([true, services[index]["_id"]]))}
+                    onClick={(e) => dispatch(fetchSingleService([true, services[index]["_id"]]))}
                   >
                     Edit
                   </Button>
