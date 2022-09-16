@@ -37,20 +37,24 @@ const serviceSlice = createSlice({
     },
 
     extraReducers: ( builder ) => {
-        builder
-            .addCase(fetchServices.pending , (state, action ) => {
+        builder.addCase(fetchServices.pending , (state, action ) => {
                 state.status = STATUSES.LOADING
             })
-            .addCase(fetchServices.fulfilled, (state, action) => {
+
+        builder.addCase(fetchServices.fulfilled, (state, action) => {
                 state.services = action.payload;
                 state.status = STATUSES.IDLE;
             })
-            .addCase(fetchServices.rejected, (state, action) => {
+            builder.addCase(fetchServices.rejected, (state, action) => {
                 state.status = STATUSES.ERROR;
-            }).addCase(fetchSingleService, (state, action) =>{
-                console.log(action)
-                state.singleService = action.payload.singleService
-                state.isModalActive = action.payload.isModalActive;
+            })
+            builder.addCase(fetchSingleService.fulfilled, (state, action) =>{
+                state.singleService = action.payload
+                state.isModalActive = true;
+            })
+
+            builder.addCase( deleteService.fulfilled, ( state, action ) => {
+                state.services = state.services
             })
     }
 });
@@ -76,34 +80,21 @@ export const fetchServices = createAsyncThunk( 'services' , async () => {
 })
 
 export const fetchSingleService = createAsyncThunk( 'services/singleService' , async (payload) => {
-    const [isModalActive, id] = payload;
-        
+    const id = payload;
+    
     const res = await fetch(process.env.REACT_APP_API_URL + `/api/services/${id}`);
     const data = await res.json();
-    console.log(data)
-    return [isModalActive, data.data];
+    return data;
 })
 
-// export  function fetchSingleServices() {
-//     return async function fetchProductThunk( dispatch, getState ) {
-//
-//         console.log(getState)
-//         dispatch(setStatus(STATUSES.LOADING))
-//         try{
-//
-//             const res = await fetch('https://fakestoreapi.com/products');
-//
-//             const data = await res.json();
-//
-//             dispatch(setProduct(data))
-//
-//             dispatch(setStatus(STATUSES.IDLE))
-//
-//         }catch (err){
-//
-//             console.log(err)
-//
-//             dispatch(setStatus(STATUSES.ERROR))
-//         }
-//     }
-// }
+export const deleteService = createAsyncThunk( 'delete_service', async ( payload)=> {
+    
+    
+        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services/" + payload, {method: "DELETE"})
+        const data = await res.json();
+        for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
+        return data.data;
+
+}) 

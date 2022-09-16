@@ -63,10 +63,10 @@ export default function ServicesModal() {
     });
     formData.append("details", getIframeContent());
     
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-    return
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+    // return
     /**
      * Update data if "_id" exists. else save form data.
      */

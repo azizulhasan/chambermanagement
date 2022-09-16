@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Col, Row, Table, Button } from "react-bootstrap";
-import {fetchServices, fetchSingleService} from "../../../store/serviceSlice";
-import {STATUSES}  from '../../../store/serviceSlice';
+import {fetchServices, fetchSingleService, deleteService} from "../../../store/serviceSlice";
 import {useDispatch, useSelector} from "react-redux";
-/**
- * Hooks
- */
-import {  deletePost } from "./ServicesHooks";
 
 /**
  * Components
@@ -40,22 +35,22 @@ export default function Services() {
    *
    * @param {id} id get the specific id which want to be deleted.
    */
-  const deleteServices = (service) => {
-    let id = service['_id'];
+  const deleteData = (id) => {
     let result = window.confirm("Are you sure? It will be permanently deleted.");
     if( ! result){
       return;
     }
-    deletePost(process.env.REACT_APP_API_URL + "/api/services/" + id)
-      .then((res) => {
-        for( let i = 0; i < res.data.length; i++ ) {
-          res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
-        }
-        // setServices(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(deleteService(id))
+    // deletePost(process.env.REACT_APP_API_URL + "/api/services/" + id)
+    //   .then((res) => {
+    //     for( let i = 0; i < res.data.length; i++ ) {
+    //       res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
+    //     }
+    //     // setServices(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
 
@@ -79,37 +74,24 @@ export default function Services() {
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          {services.length &&
-            services.map((service, index) => (
-              <tr key={index}>
-                {Object.keys(service).map((key) => {
+        <tbody>{services.length && services.map((service, index) => (
+              <tr key={index}>{Object.keys(service).map((key) => {
                   if (
                     key === "title" ||
                     key === "image"
-                    
                   ) {
-                    return (
-                      <td
-                        key={key}
-                        dangerouslySetInnerHTML={{ __html: service[key] }}
-                      ></td>
-                    );
+                    return <td key={key} dangerouslySetInnerHTML={{ __html: service[key] }}></td>
                   }
                 })}
                 <td>
                   <Button
                     className="mr-2"
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => dispatch(fetchSingleService([true, services[index]["_id"]]))}
-                  >
-                    Edit
-                  </Button>
+                    onClick={(e) => dispatch(fetchSingleService(services[index]["_id"]))}
+                  >Edit</Button>
                   <Button
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => deleteServices(services[index])}
-                  >
-                    Delete
+                    onClick={(e) => deleteData(services[index]["_id"])}>Delete
                   </Button>
                 </td>
               </tr>
