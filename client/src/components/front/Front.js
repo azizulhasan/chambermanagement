@@ -5,6 +5,7 @@ import Home from "./portfolio/Home";
 import { Navbar, Container, Nav, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NotFound from "./notfound/NotFound";
+import Register from "./portfolio/Register";
 function Front() {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -84,9 +85,8 @@ function Front() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
-            {setTimeout(() => {
-              <Route path="*" element={<NotFound />} />;
-            }, 1000)}
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="*" element={<NotFound />} />;
           </Routes>
         </Row>
       </Container>

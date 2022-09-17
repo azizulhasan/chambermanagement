@@ -33,6 +33,10 @@ const serviceSlice = createSlice({
         showModal( state, action ){
             state.isModalActive = action.payload;
         },
+        addService ( state, action ) {
+            state.isModalActive = true;
+            state.singleService = {}
+        }
 
     },
 
@@ -54,12 +58,22 @@ const serviceSlice = createSlice({
             })
 
             builder.addCase( deleteService.fulfilled, ( state, action ) => {
-                state.services = state.services
+                state.services = action.payload
+            })
+
+            builder.addCase( saveService.fulfilled, ( state, action ) => {
+                state.services      = action.payload
+                state.isModalActive = false;
+            })
+
+            builder.addCase( updateService.fulfilled, ( state, action ) => {
+                state.services      = action.payload
+                state.isModalActive = false;
             })
     }
 });
 
-export  const { showModal } = serviceSlice.actions;
+export  const { showModal, addService } = serviceSlice.actions;
 
 
 export default serviceSlice.reducer;
@@ -70,8 +84,8 @@ export default serviceSlice.reducer;
 
 export const fetchServices = createAsyncThunk( 'services' , async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + "/api/services");
-
     const data = await res.json();
+
     for( let i = 0; i < data.data.length; i++ ) {
         data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
     }
@@ -81,20 +95,49 @@ export const fetchServices = createAsyncThunk( 'services' , async () => {
 
 export const fetchSingleService = createAsyncThunk( 'services/singleService' , async (payload) => {
     const id = payload;
-    
     const res = await fetch(process.env.REACT_APP_API_URL + `/api/services/${id}`);
     const data = await res.json();
+
     return data;
 })
 
-export const deleteService = createAsyncThunk( 'delete_service', async ( payload)=> {
-    
-    
+export const deleteService = createAsyncThunk( 'deleteService', async ( payload)=> {
         const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services/" + payload, {method: "DELETE"})
         const data = await res.json();
         for( let i = 0; i < data.data.length; i++ ) {
-        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
-    }
-        return data.data;
+            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+        }
 
+    return data.data;
+}) 
+
+export const saveService = createAsyncThunk( 'saveService', async ( payload)=> {
+        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
+            {
+                method: "POST",
+                body: payload
+            }
+        )
+        const data = await res.json();
+        for( let i = 0; i < data.data.length; i++ ) {
+            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+        }
+        console.log(data)
+    return data.data;
+}) 
+
+export const updateService = createAsyncThunk( 'updateService', async ( payload)=> {
+
+        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
+            {
+                method: "PUT",
+                body: payload
+            }
+        )
+        const data = await res.json();
+        for( let i = 0; i < data.data.length; i++ ) {
+            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+        }
+        console.log(data)
+    return data.data;
 }) 

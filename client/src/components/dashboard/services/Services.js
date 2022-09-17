@@ -81,6 +81,8 @@ export default function Services() {
                     key === "image"
                   ) {
                     return <td key={key} dangerouslySetInnerHTML={{ __html: service[key] }}></td>
+                  }else{
+                    return null
                   }
                 })}
                 <td>
@@ -88,10 +90,10 @@ export default function Services() {
                     className="mr-2"
                     bsPrefix="azh_btn azh_btn_edit"
                     onClick={(e) => dispatch(fetchSingleService(services[index]["_id"]))}
-                  >Edit</Button>
+                  ><i className="fas fa-edit"></i></Button>
                   <Button
                     bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => deleteData(services[index]["_id"])}>Delete
+                    onClick={(e) => deleteData(services[index]["_id"])}><i className="fas fa-trash-alt"></i>
                   </Button>
                 </td>
               </tr>

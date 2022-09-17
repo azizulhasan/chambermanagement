@@ -51,7 +51,7 @@ export default function Dashboard() {
   }, [componentName]);
 
   addScripts([
-    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js",
   ]);
 
   return (
@@ -107,9 +107,9 @@ export default function Dashboard() {
                 <div className="text-muted">
                   Copyright &copy;{" "}
                   <a
-                    rel="noopener"
                     href="http://azizulhasan.com/"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Azizul Hasan
                   </a>

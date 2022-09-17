@@ -75,11 +75,11 @@ export default function Mail() {
       /**
        * get settings data.
        */
-      getData(process.env.REACT_APP_API_URL + "/api/settings").then((res) => {
-        setIsWelcomeModalShow(res.data[0].welcome_message_is_display);
-        let welcome_message = this.document.getElementById("welcome_message");
-        welcome_message.innerHTML = res.data[0].welcome_message
-      });
+      // getData(process.env.REACT_APP_API_URL + "/api/settings").then((res) => {
+      //   // setIsWelcomeModalShow(res.data[0].welcome_message_is_display);
+      //   // let welcome_message = this.document.getElementById("welcome_message");
+      //   // welcome_message.innerHTML = res.data[0].welcome_message
+      // });
     });
   }, []);
   /**
@@ -130,6 +130,8 @@ export default function Mail() {
                         dangerouslySetInnerHTML={{ __html: experience[key] }}
                       ></td>
                     );
+                  }else{
+                    return null;
                   }
                 })}
                 <td>
