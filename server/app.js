@@ -16,7 +16,7 @@ const educationRoutes = require("./routes/educationRoutes");
 const experienceRoutes = require("./routes/experienceRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const contactFormRoutes = require("./routes/contactFormRoutes");
-const loginRoutes = require("./routes/loginRoutes");
+const registerRoutes = require("./routes/registerRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const servicesRoutes = require("./routes/servicesRoutes");
 const teamRoutes = require("./routes/teamRoutes");
@@ -97,9 +97,13 @@ app.use("/api/contact", contactRoutes);
  */
 app.use("/api/contact_form", contactFormRoutes);
 /**
+ * register Routes
+ */
+app.use("/api/register", registerRoutes);
+/**
  * Login Routes
  */
-app.use("/api/login", loginRoutes);
+// app.use("/api/login", loginRoutes);
 /**
  * Settings routes
  */

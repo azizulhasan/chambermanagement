@@ -2,6 +2,7 @@ const Services = require("../models/services");
 const multer = require("multer");
 const fs = require("fs");
 const { getImagePath } = require("../utilities/utilities");
+const { update } = require("lodash");
 
 /**
  * Display all services content.
@@ -133,7 +134,8 @@ const services_update_post = (req, res) => {
           ...req.body,
         };
       }
-
+      let id = update_data.id;
+      delete update_data.id;
       Services.findOneAndUpdate(
         {
           _id: id,

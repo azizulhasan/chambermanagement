@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     user: {}
-
 };
 
 const registerSlice = createSlice({
@@ -14,7 +13,12 @@ const registerSlice = createSlice({
 
     extraReducers: ( builder ) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
-                state.user = action.payload;
+            // const navigate = useNavigate();
+            console.log(action)
+            if( action.payload.status ) {
+                // navigate('/login')
+                window.location.href = '/login'
+            }
         })
     }
 });
@@ -29,11 +33,14 @@ export default registerSlice.reducer;
 // Thunks
 
 export const registerUser = createAsyncThunk( 'register' , async (payload) => {
-    console.log({payload})
-    const res = await fetch(process.env.REACT_APP_API_URL + "/api/register", {
-        method: 'POST',
-        body: payload.payload
-    });
+    const res = await fetch(process.env.REACT_APP_API_URL + "/api/register",
+   {
+     headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    body: payload, // body data type must match "Content-Type" header
+   });
     const data = await res.json();
 
     return data;

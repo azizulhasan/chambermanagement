@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import {registerUser} from "../../../store/registerSlice";
 
@@ -21,7 +20,6 @@ import { Toast } from "react-bootstrap";
 import notify from "../../context/Notify";
 
 export default function Register() {
-  const navigate = useNavigate();
  const { register, handleSubmit,  formState: { errors } } = useForm();
 const [ user, setUser ] = useState( () => {
     return {
@@ -33,16 +31,16 @@ const [ user, setUser ] = useState( () => {
     }
 });
  const dispatch = useDispatch();
-const handleChange = (e) => {
-    setUser( {...user, ...{[e.target.name] : e.target.value }} ) ;
-}
-  useEffect(() => {});
+ const { user: registeredUser } = useSelector( state => state.user );
+
   const onSubmit = (data) => {
     if(data.password !== data.confirmPassword ){
         alert("Password did not match.")
             return
     }
-    dispatch(registerUser(data))
+    
+   let result =  dispatch(registerUser(JSON.stringify(data)))
+    console.log(result)
   };
   return (
     <div className="container">
