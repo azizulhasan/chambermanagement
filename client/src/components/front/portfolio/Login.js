@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, {useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import {loginUser} from "../../../store/registerSlice";
+import ReCAPTCHA from "react-google-recaptcha"
 /**
  *
  * utilities
@@ -14,9 +17,11 @@ import "./assets/css/login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-
+   const { register, handleSubmit,  formState: { errors } } = useForm();
+ const captchaRef = useRef(null)
+ const dispatch = useDispatch();
   useEffect(() => {});
-  const handleSubmit = (e) => {
+  const handleSubmit2 = (e) => {
     e.preventDefault();
 
     /**
@@ -59,6 +64,20 @@ export default function Login() {
         console.log(err);
       });
   };
+
+  const onSubmit = (data) => {
+    
+    const token = captchaRef.current.getValue();
+    data.token  = token;
+
+    if(!token){
+        alert('Check recaption');
+        return;
+    }
+   dispatch(loginUser(JSON.stringify(data)))
+
+   captchaRef.current.reset();
+  };
   return (
     <div className="container">
       {/* <!-- Outer Row --> */}
@@ -74,28 +93,36 @@ export default function Login() {
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form onSubmit={handleSubmit} className="user">
+                    <form onSubmit={handleSubmit(onSubmit)}className="user">
                       <div className="form-group">
+                        <div className="form-group">
                         <input
-                          type="email"
-                          name="email"
-                          defaultValue=""
+                        type={'email'}
+                          {...register("email", { required: true,
+                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })}
                           className="form-control form-control-user"
-                          id="exampleInputEmail"
-                          aria-describedby="emailHelp"
                           placeholder="Enter Email Address..."
+                          defaultValue={window.sessionStorage.getItem('email') || ''}
                         />
+                        {errors.email && <span className="error">Emai is require.</span>}
+                      </div>
                       </div>
                       <div className="form-group">
                         <input
                           type="password"
-                          name="password"
-                          defaultValue=""
+                          {...register("password",{
+                            required: true,
+                          })}
                           className="form-control form-control-user"
-                          id="exampleInputPassword"
                           placeholder="Password"
+                          defaultValue={''}
                         />
+                        {errors.password && <span className="error">Password is require.</span>}
                       </div>
+                      <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                        ref={captchaRef}
+                        />
                       <div className="form-group my-2">
                         <div className="custom-control custom-checkbox small">
                           <input

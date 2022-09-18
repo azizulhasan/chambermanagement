@@ -1,19 +1,75 @@
 const Register = require("../models/register")
+const axios = require('axios')
 
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+
+/**
+ * register user.
+ * @param {Object} req for getting all register content.
+ * @param {Object} res
+ */
+const register_user = async (req, res) => {
+  //Destructuring response token from request body
+  let {token} = req.body;
+
+  //sends secret key and response token to google
+  let response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`);
+  // check response status and send back to the client-side
+  if (response.data.success == true) {
+      delete req.body.token
+      const newPassword = await bcrypt.hash(req.body.password, 10)
+
+      const user = await Register.findOne({email: req.body.email})
+      if (user) {
+        res.json({status: false, message: 'Email address already exists.', data: null})
+      }else{
+        let newUser = new Register({...req.body, ...{password: newPassword}})
+        newUser.save().then(result => {
+          res.json({status: true, data: result})
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
+  }else{
+    res.json({status: false, message: 'Captcha is not valide', data: null})
+  }
+};
 
 /**
  * Display all register content.
  * @param {Object} req for getting all register content.
  * @param {Object} res
  */
-const register_user = (req, res) => {
-      let user = new Register({...req.body})
-      user.save().then(result => {
-        res.json({status: true, data: result})
-      }).catch(err=>{
-        console.log(err)
-      })
+const login_user = async (req, res) => {
+  	const user = await Register.findOne({
+		email: req.body.email,
+	})
+
+	if (!user) {
+		return res.json({ status: false, message: 'User not found' })
+	}
+
+	const isPasswordValid = await bcrypt.compare(
+		req.body.password,
+		user.password
+	)
+
+	if (isPasswordValid) {
+		const token = jwt.sign(
+			{
+				name: user.name,
+				email: user.email,
+			},
+			'mindtoheart2022'
+		)
+
+		return res.json({ status: true, user: token })
+	} else {
+		return res.json({ status: false, user: null })
+	}
 };
+
 /**
  * Display all register content.
  * @param {Object} req for getting all register content.
@@ -80,7 +136,9 @@ const register_update_post = (req, res) => {
 };
 
 module.exports = {
+  
   register_user,
+  login_user,
   register_index,
   register_details,
   register_update_post,

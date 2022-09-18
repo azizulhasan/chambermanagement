@@ -4,6 +4,7 @@ const registerController = require('../controllers/registerController');
 const router = express.Router();
 
 router.post('/', registerController.register_user);
+router.post('/login', registerController.login_user);
 router.get('/', registerController.register_index);
 router.post('/:id', registerController.register_update_post);
 router.get('/:id', registerController.register_details);
