@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form";
 import {registerUser} from "../../../store/registerSlice";
 import ReCAPTCHA from "react-google-recaptcha"
 
-
+import {
+  getSessionStorage,
+  getLocalStorage
+} from "../../context/utilities";
 import "./assets/css/register.css";
 
 export default function Register() {
@@ -13,9 +16,9 @@ export default function Register() {
 
 const [ user, setUser ] = useState( () => {
     return {
-        name: 'hasan',
-        phone: '12323452435',
-        email: 'hasan@gmail.com',
+        name: 'azizul hasan',
+        phone: '23523463546',
+        email: 'azizulhasan.cr@gmail.com',
         password: '123',
         confirmPassword: '123',
     }
@@ -25,9 +28,14 @@ const [ user, setUser ] = useState( () => {
 
 
  useEffect(()=>{
-    if( window.sessionStorage.getItem('email') ) {
-    window.location.href= '/login'
-    }
+        const Auth = {
+    session: getSessionStorage(),
+    storage: getLocalStorage(),
+  };
+  if (
+    ( Auth.session.token !== undefined || Auth.storage.token !== undefined ) ) {
+    window.location.href = process.env.REACT_APP_URL + "/dashboard";
+  }
  }, [])
   const onSubmit = (data) => {
     if(data.password !== data.confirmPassword ){

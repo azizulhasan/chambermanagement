@@ -1,4 +1,4 @@
-import { element } from "prop-types";
+
 
 
 const getAllScripts = () => {
@@ -345,16 +345,19 @@ export const getLocalStorage = (keys = []) => {
 };
 
 export const authenTicateUser = () => {
+
+
+  
   const Auth = {
     session: getSessionStorage(),
     storage: getLocalStorage(),
   };
+
   if (
-    (Auth.session.email === undefined && Auth.storage.email === undefined) ||
-    (Auth.session.password === undefined && Auth.storage.password === undefined)
-  ) {
-    window.location.href = process.env.REACT_APP_URL + "/login";
+    ( Auth.session.token === undefined && Auth.storage.token === undefined ) ) {
+    return false;
   }
+  return true;
 };
 
 export const getUserName = () => {
@@ -365,10 +368,8 @@ export const getUserName = () => {
     : "";
 };
 export const logout = () => {
-  window.localStorage.removeItem("email");
-  window.localStorage.removeItem("password");
-  window.sessionStorage.removeItem("email");
-  window.sessionStorage.removeItem("password");
+  window.localStorage.removeItem("token");
+  window.sessionStorage.removeItem("token");
 
   window.location.href = process.env.REACT_APP_URL + "/login";
 };

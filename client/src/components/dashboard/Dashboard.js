@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+// import jwt from 'jsonwebtoken'
 
 import "react-toastify/dist/ReactToastify.css";
 /**
@@ -13,6 +14,8 @@ import {
   addScripts,
   getComponentName,
   authenTicateUser,
+  getSessionStorage,
+  getLocalStorage,
 } from "../context/utilities";
 
 /**
@@ -42,9 +45,10 @@ import Settings from "./settings/Settings";
 
 
 export default function Dashboard() {
-  authenTicateUser();
   const [componentName, setComponentName] = useState(getComponentName());
   useEffect(() => {
+      
+
     new MutationObserver(() => {
       setComponentName(getComponentName());
     }).observe(document, { subtree: true, childList: true });
@@ -54,7 +58,36 @@ export default function Dashboard() {
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js",
   ]);
 
+  if(!authenTicateUser()){
+      window.location.href = '/login'
+
+  //   const Auth = {
+  //   session: getSessionStorage(),
+  //   storage: getLocalStorage(),
+  // };
+
+  // const token = Auth.session.token || Auth.storage.token;
+  // console.log(token);
+		// if (token) {
+		// 	const user = jwt.decode(token)
+    //   console.log(user)
+		// 	if (!user) {
+		// 		return false;
+		// 	} else {
+		// 		return true;
+		// 	}
+		// }
+    // return false;
+
+      //       fallback: {
+      //   util: require.resolve("util/"),
+      //   stream: require.resolve("stream-browserify/"),
+      //   crypto: require.resolve("crypto-browserify/")
+      // },
+  }else{
+
   return (
+
     <Router>
       <ToastContainer
         position="top-right"
@@ -121,4 +154,6 @@ export default function Dashboard() {
       </div>
     </Router>
   );
+  }
+
 }

@@ -12,6 +12,8 @@ import {
   postWithoutImage,
   setLocalStorage,
   setSessionStorage,
+  getSessionStorage,
+  getLocalStorage
 } from "../../context/utilities";
 import "./assets/css/login.css";
 
@@ -20,7 +22,16 @@ export default function Login() {
    const { register, handleSubmit,  formState: { errors } } = useForm();
  const captchaRef = useRef(null)
  const dispatch = useDispatch();
-  useEffect(() => {});
+  useEffect(() => {
+    const Auth = {
+    session: getSessionStorage(),
+    storage: getLocalStorage(),
+  };
+  if (
+    ( Auth.session.token !== undefined || Auth.storage.token !== undefined ) ) {
+    window.location.href = process.env.REACT_APP_URL + "/dashboard";
+  }
+  }, []);
   const handleSubmit2 = (e) => {
     e.preventDefault();
 
@@ -73,6 +84,10 @@ export default function Login() {
     if(!token){
         alert('Check recaption');
         return;
+    }
+    if (data.remember_me !== undefined) {
+      setLocalStorage({remember_me: true})
+      delete data.remember_me
     }
    dispatch(loginUser(JSON.stringify(data)))
 
@@ -139,7 +154,6 @@ export default function Login() {
                           </label>
                         </div>
                       </div>
-
                       <button
                         type="submit"
                         className="btn btn-primary btn-user w-100"

@@ -1,6 +1,5 @@
 const Register = require("../models/register")
 const axios = require('axios')
-
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
@@ -18,13 +17,15 @@ const register_user = async (req, res) => {
   // check response status and send back to the client-side
   if (response.data.success == true) {
       delete req.body.token
-      const newPassword = await bcrypt.hash(req.body.password, 10)
-
+      
+const newPassword = await bcrypt.hash(req.body.password, 10)
+    
       const user = await Register.findOne({email: req.body.email})
       if (user) {
         res.json({status: false, message: 'Email address already exists.', data: null})
       }else{
-        let newUser = new Register({...req.body, ...{password: newPassword}})
+        let userData = {...req.body, ...{password: newPassword, confirmPassword: newPassword}};
+        let newUser = new Register(userData)
         newUser.save().then(result => {
           res.json({status: true, data: result})
         }).catch(err=>{
@@ -47,7 +48,7 @@ const login_user = async (req, res) => {
 	})
 
 	if (!user) {
-		return res.json({ status: false, message: 'User not found' })
+		return res.json({ status: false, message: 'User not found', token: null })
 	}
 
 	const isPasswordValid = await bcrypt.compare(
@@ -64,9 +65,9 @@ const login_user = async (req, res) => {
 			'mindtoheart2022'
 		)
 
-		return res.json({ status: true, user: token })
+		return res.json({ status: true, token: token })
 	} else {
-		return res.json({ status: false, user: null })
+		return res.json({ status: false, message: 'email or password wrong',  token: null })
 	}
 };
 

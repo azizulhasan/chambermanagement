@@ -24,7 +24,8 @@ const registerSchema = new Schema({
     },
     passwordReset: {
         type: String,
-        required: false
+        required: false,
+        default: ""
     }
 }, { timestamps: true })
 

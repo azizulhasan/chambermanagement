@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { getLocalStorage, setLocalStorage, setSessionStorage } from "../components/context/utilities";
 
 const initialState = {
     user: {},
@@ -24,7 +25,14 @@ const registerSlice = createSlice({
 
         builder.addCase(loginUser.fulfilled, (state, action) => {
             if( action.payload.status ) {
-                window.location.href = '/dashboard/service'
+                let storage = getLocalStorage(['remember_me']);
+                if (storage.remember_me) {
+                    localStorage.removeItem('remember_me')
+                    setLocalStorage({token: action.payload.token})
+                } else {
+                    setSessionStorage({token: action.payload.token})
+                }
+                window.location.href = '/dashboard'
             }else{
                 alert(action.payload.message)
             }
