@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-// import jwt from 'jsonwebtoken'
+import { useJwt } from "react-jwt";
 
 import "react-toastify/dist/ReactToastify.css";
 /**
@@ -14,8 +14,7 @@ import {
   addScripts,
   getComponentName,
   authenTicateUser,
-  getSessionStorage,
-  getLocalStorage,
+  getRgisteredUser
 } from "../context/utilities";
 
 /**
@@ -46,9 +45,16 @@ import Settings from "./settings/Settings";
 
 export default function Dashboard() {
   const [componentName, setComponentName] = useState(getComponentName());
+  let  tokenObj = getRgisteredUser();
+  const accessToken = tokenObj.session.accessToken || tokenObj.storage.accessToken;
+   const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
+   console.log(isExpired)
+  const updateToken = () => {
+    reEvaluateToken(accessToken); // decodedToken and isExpired will be updated
+  }
+
   useEffect(() => {
       
-
     new MutationObserver(() => {
       setComponentName(getComponentName());
     }).observe(document, { subtree: true, childList: true });

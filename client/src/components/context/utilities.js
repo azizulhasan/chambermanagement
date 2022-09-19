@@ -344,19 +344,22 @@ export const getLocalStorage = (keys = []) => {
   return localData;
 };
 
+export const getRgisteredUser = () => {
+  return {
+    session: getSessionStorage()['user'] ? JSON.parse( getSessionStorage()['user'] ) : null ,
+    storage: getLocalStorage()['user']? JSON.parse( getSessionStorage()['user'] ) : null ,
+  };
+};
+
+
 export const authenTicateUser = () => {
 
-
-  
-  const Auth = {
-    session: getSessionStorage(),
-    storage: getLocalStorage(),
-  };
-
+  const Auth = getRgisteredUser();
   if (
-    ( Auth.session.token === undefined && Auth.storage.token === undefined ) ) {
+    ( Auth.session.email === undefined && Auth.storage.email === undefined ) ) {
     return false;
   }
+
   return true;
 };
 

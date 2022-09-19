@@ -3,7 +3,6 @@ import { getLocalStorage, setLocalStorage, setSessionStorage } from "../componen
 
 const initialState = {
     user: {},
-    isHuman: false,
 };
 
 const registerSlice = createSlice({
@@ -17,6 +16,7 @@ const registerSlice = createSlice({
         builder.addCase(registerUser.fulfilled, (state, action) => {
             if( action.payload.status ) {
                 window.sessionStorage.setItem('email', action.payload.data.email)
+                alert('Registration Successful.');
                 window.location.href = '/login'
             }else{
                 alert(action.payload.message)
@@ -26,11 +26,12 @@ const registerSlice = createSlice({
         builder.addCase(loginUser.fulfilled, (state, action) => {
             if( action.payload.status ) {
                 let storage = getLocalStorage(['remember_me']);
+                const registeredUser = JSON.stringify(action.payload.data);
                 if (storage.remember_me) {
                     localStorage.removeItem('remember_me')
-                    setLocalStorage({token: action.payload.token})
+                    setLocalStorage({user: registeredUser})
                 } else {
-                    setSessionStorage({token: action.payload.token})
+                    setSessionStorage({user: registeredUser})
                 }
                 window.location.href = '/dashboard'
             }else{
@@ -40,12 +41,7 @@ const registerSlice = createSlice({
     }
 });
 
-// export  const { showModal, addService } = registerSlice.actions;
-
-
 export default registerSlice.reducer;
-
-
 
 // Thunks
 

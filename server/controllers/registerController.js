@@ -3,6 +3,46 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
+
+let refreshTokens = [];
+
+const getRefreshToken =  (req, res) => {
+  const refreshToken = req.body.token;
+
+  if (!refreshToken) {
+    return res.status(401).json("You are not authenticated!")
+  }
+  if (!refreshTokens.includes(refreshToken)) {
+    return res.status(403).json("Refresh token is not valid!");
+  }
+
+  jwt.verify(refreshToken, process.env.AUTH_TOKEN_REFRESH_KEY, (err, user) => {
+    err && console.log(err);
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
+
+    refreshTokens.push(newRefreshToken);
+
+    res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+  });
+}
+// role, name, id
+const generateAccessToken = (user) => {
+  return jwt.sign({ email: user.email, userRole: user.userRole }, process.env.AUTH_TOKEN_SECRET_KEY, {
+    expiresIn: '100s',
+  });
+};
+
+
+const generateRefreshToken = (user) => {
+  return jwt.sign({ email: user.email, userRole: user.userRole }, process.env.AUTH_TOKEN_REFRESH_KEY);
+};
+
 /**
  * register user.
  * @param {Object} req for getting all register content.
@@ -13,12 +53,12 @@ const register_user = async (req, res) => {
   let {token} = req.body;
 
   //sends secret key and response token to google
-  let response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`);
+  let response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`);
   // check response status and send back to the client-side
   if (response.data.success == true) {
       delete req.body.token
       
-const newPassword = await bcrypt.hash(req.body.password, 10)
+  const newPassword = await bcrypt.hash(req.body.password, 10)
     
       const user = await Register.findOne({email: req.body.email})
       if (user) {
@@ -43,12 +83,12 @@ const newPassword = await bcrypt.hash(req.body.password, 10)
  * @param {Object} res
  */
 const login_user = async (req, res) => {
-  	const user = await Register.findOne({
-		email: req.body.email,
-	})
+  const user = await Register.findOne({
+    email: req.body.email,
+  })
 
 	if (!user) {
-		return res.json({ status: false, message: 'User not found', token: null })
+		return res.json({ status: false, message: 'User not found', data: null})
 	}
 
 	const isPasswordValid = await bcrypt.compare(
@@ -57,19 +97,27 @@ const login_user = async (req, res) => {
 	)
 
 	if (isPasswordValid) {
-		const token = jwt.sign(
-			{
-				name: user.name,
-				email: user.email,
-			},
-			'mindtoheart2022'
-		)
-
-		return res.json({ status: true, token: token })
+    //Generate an access token
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    refreshTokens.push(refreshToken);
+    return res.json({
+      status: true,
+      message: 'Login successful.',
+      data: {
+        email: user.email,
+        userRole: user.userRole,
+        accessToken,
+        refreshToken,
+      }
+    });
 	} else {
-		return res.json({ status: false, message: 'email or password wrong',  token: null })
+		return res.json({ status: false, message: 'email or password wrong', data: null })
 	}
 };
+
+
+
 
 /**
  * Display all register content.
@@ -105,8 +153,6 @@ const register_details = (req, res) => {
 };
 
 
-
-
 /**
  * Uplate the register to databse.
  * @param {Object} req register save request.
@@ -137,10 +183,10 @@ const register_update_post = (req, res) => {
 };
 
 module.exports = {
-  
+  getRefreshToken,
   register_user,
   login_user,
   register_index,
   register_details,
-  register_update_post,
-};
+  register_update_post
+}
