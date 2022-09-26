@@ -1,12 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
 import serviceSlice from "./serviceSlice";
-import registerSlice from "./registerSlice";
+import usersSlice from "./usersSlice";
 
 
 const store = configureStore({
     reducer: {
         services: serviceSlice,
-        user: registerSlice,
+        users:usersSlice, // manage users and add team members
     }
 })
 

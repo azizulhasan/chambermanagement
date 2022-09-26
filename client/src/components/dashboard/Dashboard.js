@@ -26,8 +26,8 @@ import DashboardSideNav from "./dasboardcontent/DashboardSideNav";
 import Mail from "./mail/Mail";
 // Service
 import Services from './services/Services'
-// Team
-import Team from './team/Team'
+// Users
+import Users from './users/Users'
 /**
  * Portfolio components
  */
@@ -122,7 +122,7 @@ export default function Dashboard() {
                 <Route path="/dashboard" element={<DashboardContent />} />
                 <Route path="/dashboard/mail" element={<Mail />} />
                 <Route path="/dashboard/services" element={<Services />} />
-                <Route path="/dashboard/team" element={<Team />} />
+                <Route path="/dashboard/users" element={<Users />} />
                 <Route path="/dashboard/hero" element={<Hero />} />
                 <Route path="/dashboard/about" element={<About />} />
                 <Route path="/dashboard/skills" element={<Skills />} />

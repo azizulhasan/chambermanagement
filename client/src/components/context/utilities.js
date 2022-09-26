@@ -356,7 +356,7 @@ export const authenTicateUser = () => {
 
   const Auth = getRgisteredUser();
   if (
-    ( Auth.session.email === undefined && Auth.storage.email === undefined ) ) {
+    ( Auth.session.name === undefined && Auth.storage.name === undefined ) ) {
     return false;
   }
 

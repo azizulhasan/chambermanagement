@@ -1,4 +1,4 @@
-const Register = require("../models/register")
+const Users = require("../models/users")
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -33,22 +33,22 @@ const getRefreshToken =  (req, res) => {
 }
 // role, name, id
 const generateAccessToken = (user) => {
-  return jwt.sign({ email: user.email, userRole: user.userRole }, process.env.AUTH_TOKEN_SECRET_KEY, {
-    expiresIn: '100s',
+  return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, process.env.AUTH_TOKEN_SECRET_KEY, {
+    expiresIn: '200s',
   });
 };
 
 
 const generateRefreshToken = (user) => {
-  return jwt.sign({ email: user.email, userRole: user.userRole }, process.env.AUTH_TOKEN_REFRESH_KEY);
+  return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, process.env.AUTH_TOKEN_REFRESH_KEY);
 };
 
 /**
- * register user.
- * @param {Object} req for getting all register content.
+ * users user.
+ * @param {Object} req for getting all users content.
  * @param {Object} res
  */
-const register_user = async (req, res) => {
+const get_users = async (req, res) => {
   //Destructuring response token from request body
   let {token} = req.body;
 
@@ -60,12 +60,12 @@ const register_user = async (req, res) => {
       
   const newPassword = await bcrypt.hash(req.body.password, 10)
     
-      const user = await Register.findOne({email: req.body.email})
+      const user = await Users.findOne({email: req.body.email})
       if (user) {
         res.json({status: false, message: 'Email address already exists.', data: null})
       }else{
         let userData = {...req.body, ...{password: newPassword, confirmPassword: newPassword}};
-        let newUser = new Register(userData)
+        let newUser = new Users(userData)
         newUser.save().then(result => {
           res.json({status: true, data: result})
         }).catch(err=>{
@@ -78,12 +78,12 @@ const register_user = async (req, res) => {
 };
 
 /**
- * Display all register content.
- * @param {Object} req for getting all register content.
+ * Display all users content.
+ * @param {Object} req for getting all users content.
  * @param {Object} res
  */
 const login_user = async (req, res) => {
-  const user = await Register.findOne({
+  const user = await Users.findOne({
     email: req.body.email,
   })
 
@@ -105,8 +105,9 @@ const login_user = async (req, res) => {
       status: true,
       message: 'Login successful.',
       data: {
-        email: user.email,
+        id: user._id,
         userRole: user.userRole,
+        name: user.name,
         accessToken,
         refreshToken,
       }
@@ -120,12 +121,12 @@ const login_user = async (req, res) => {
 
 
 /**
- * Display all register content.
- * @param {Object} req for getting all register content.
+ * Display all users content.
+ * @param {Object} req for getting all users content.
  * @param {Object} res
  */
-const register_index = (req, res) => {
-  Register.find()
+const get_user = (req, res) => {
+  Users.find()
     .sort({ createdAt: -1 })
 
     .then((result) => {
@@ -137,13 +138,13 @@ const register_index = (req, res) => {
 };
 
 /**
- * Display single register details.
+ * Display single users details.
  * @param {Object} req for getting single.
  * @param {Object} res
  */
-const register_details = (req, res) => {
+const get_user_details = (req, res) => {
   const id = req.params.id;
-  Register.findById(id)
+  Users.findById(id)
     .then((result) => {
       res.json(result);
     })
@@ -154,13 +155,13 @@ const register_details = (req, res) => {
 
 
 /**
- * Uplate the register to databse.
- * @param {Object} req register save request.
+ * Uplate the users to databse.
+ * @param {Object} req users save request.
  * @param {Object} res
  */
-const register_update_post = (req, res) => {
+const update_user = (req, res) => {
   const id = req.params.id;
-  Register.findOneAndUpdate(
+  Users.findOneAndUpdate(
     {
       _id: id,
     },
@@ -172,9 +173,9 @@ const register_update_post = (req, res) => {
     {
       new: true,
     },
-    (err, register) => {
+    (err, users) => {
       if (!err) {
-        res.json(register);
+        res.json(users);
       } else {
         console.log(err);
       }
@@ -184,9 +185,9 @@ const register_update_post = (req, res) => {
 
 module.exports = {
   getRefreshToken,
-  register_user,
+  get_users,
   login_user,
-  register_index,
-  register_details,
-  register_update_post
+  get_user,
+  get_user_details,
+  update_user
 }

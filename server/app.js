@@ -16,10 +16,9 @@ const educationRoutes = require("./routes/educationRoutes");
 const experienceRoutes = require("./routes/experienceRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const contactFormRoutes = require("./routes/contactFormRoutes");
-const registerRoutes = require("./routes/registerRoutes");
+const usersRoutes = require("./routes/usersRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const servicesRoutes = require("./routes/servicesRoutes");
-const teamRoutes = require("./routes/teamRoutes");
 
 
 // express app
@@ -97,9 +96,9 @@ app.use("/api/contact", contactRoutes);
  */
 app.use("/api/contact_form", contactFormRoutes);
 /**
- * register Routes
+ * users Routes
  */
-app.use("/api/register", registerRoutes);
+app.use("/api/users", usersRoutes);
 /**
  * Login Routes
  */
@@ -114,10 +113,7 @@ app.use("/api/settings", settingsRoutes)
  */
 app.use("/api/services", servicesRoutes)
 
-/**
- * Team routes
- */
-app.use("/api/team", teamRoutes)
+
 
 
 
