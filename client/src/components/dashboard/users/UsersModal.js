@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { Editor } from "@tinymce/tinymce-react";
 
 import { getIframeContent, previewImage } from "./UsersHooks";
-import { sliceComponentName } from "../../context/utilities";
+import { sliceComponentName } from "../../../utilities/utilities";
 /**
  * Css
  */

@@ -9,10 +9,10 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 
 
 /**
- * Components
+ * pages
  */
-import Dashboard from "./components/dashboard/Dashboard";
-import Front from "./components/front/Front";
+import Dashboard from "./pages/Dashboard";
+import Front from "./pages/Front";
 
 export default function App() {
   let pathArr = window.location.pathname

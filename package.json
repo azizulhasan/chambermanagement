@@ -1,7 +1,7 @@
 {
-  "name": "azizulhasan.com",
+  "name": "mindtoheart.com",
   "version": "1.0.0",
-  "description": "",
+  "description": "Doctors chember management system",
   "main": "server/app.js",
   "engines": {
     "node": "16.13.2"
@@ -31,7 +31,6 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
-    "nodemon": "^2.0.15",
-    "react-google-recaptcha": "^2.1.0"
+    "nodemon": "^2.0.15"
   }
 }

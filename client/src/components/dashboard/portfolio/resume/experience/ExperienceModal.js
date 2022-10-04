@@ -4,7 +4,7 @@ import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 
 import { getData, postData, getIframeContent } from "./ExperienceHooks";
-import { sliceComponentName } from "../../../../context/utilities";
+import { sliceComponentName } from '../../../../../utilities/utilities';
 
 export default function ExperienceModal({
   setExperienceData,

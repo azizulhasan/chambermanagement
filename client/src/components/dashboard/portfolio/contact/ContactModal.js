@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { deleteContact, addContact, getData, postData } from "./ContactHooks";
-import { sliceComponentName } from "../../../context/utilities";
+import { sliceComponentName } from "../../../../utilities/utilities";
 
 /**
  * Css

@@ -48,7 +48,7 @@ const generateRefreshToken = (user) => {
  * @param {Object} req for getting all users content.
  * @param {Object} res
  */
-const get_users = async (req, res) => {
+const register_user = async (req, res) => {
   //Destructuring response token from request body
   let {token} = req.body;
 
@@ -83,6 +83,7 @@ const get_users = async (req, res) => {
  * @param {Object} res
  */
 const login_user = async (req, res) => {
+  
   const user = await Users.findOne({
     email: req.body.email,
   })
@@ -125,7 +126,7 @@ const login_user = async (req, res) => {
  * @param {Object} req for getting all users content.
  * @param {Object} res
  */
-const get_user = (req, res) => {
+const get_users = (req, res) => {
   Users.find()
     .sort({ createdAt: -1 })
 
@@ -142,7 +143,7 @@ const get_user = (req, res) => {
  * @param {Object} req for getting single.
  * @param {Object} res
  */
-const get_user_details = (req, res) => {
+const get_single_user_details = (req, res) => {
   const id = req.params.id;
   Users.findById(id)
     .then((result) => {
@@ -185,9 +186,9 @@ const update_user = (req, res) => {
 
 module.exports = {
   getRefreshToken,
-  get_users,
+  register_user,
   login_user,
-  get_user,
-  get_user_details,
+  get_users,
+  get_single_user_details,
   update_user
 }

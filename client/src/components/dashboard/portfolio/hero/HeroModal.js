@@ -8,7 +8,7 @@ import {
   addSocialIcon,
   deleteSocialIcon,
 } from "./HeroHooks";
-import {sliceComponentName}  from '../../../context/utilities'
+import {sliceComponentName}  from '../../../../utilities/utilities'
 
 /**
  * Css

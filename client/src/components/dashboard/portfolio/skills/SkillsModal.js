@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { deleteSkill, addSkill, getData, postData } from "./SkillsHooks";
-import { sliceComponentName } from "../../../context/utilities";
+import { sliceComponentName } from '../../../../utilities/utilities';
 
 /**
  * Css

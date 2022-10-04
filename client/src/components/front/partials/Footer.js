@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
  *
  * Utilities
  */
-import { getData } from "../../context/utilities";
+import { getData } from "../../../utilities/utilities";
 export default function Footer() {
   const [hero, setHero] = useState({
     _id: "",

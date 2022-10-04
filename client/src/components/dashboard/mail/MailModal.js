@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  Modal,  } from "react-bootstrap";
 
 import { getData } from "./MailHooks";
-import { sliceComponentName } from "../../context/utilities";
+import { sliceComponentName } from "../../../utilities/utilities";
 
 export default function MailModal({
   setMailData,
