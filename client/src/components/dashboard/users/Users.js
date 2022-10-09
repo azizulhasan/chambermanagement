@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UsersModal from "./UsersModal";
 import "./users.css";
 
-// Then, use it in a component.
+
 export default function Users() {
     const dispatch = useDispatch();
     const {users, USER_HEADERS}  = useSelector (state => state.users ) ;
@@ -18,19 +18,7 @@ export default function Users() {
         dispatch(fetchUsers());
     }, [dispatch]);
 
-  /**
-   *
-   * @param {value} value true or false.
-   * @param {id} id get id if want to edit specific users.
-   */
-  // const isModalActive = (value, id = null) => {
-  //   setLgShow(value);
-  //   if (id !== null) {
-  //     setUpdateBtn({ display: true, id: id });
-  //   } else {
-  //     setUpdateBtn({ display: false, id: "" });
-  //   }
-  // };
+
   /**
    *
    * @param {id} id get the specific id which want to be deleted.
@@ -41,16 +29,6 @@ export default function Users() {
       return;
     }
     dispatch(deleteUser(id))
-    // deletePost(process.env.REACT_APP_API_URL + "/api/users/" + id)
-    //   .then((res) => {
-    //     for( let i = 0; i < res.data.length; i++ ) {
-    //       res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
-    //     }
-    //     // setUsers(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
 
@@ -68,7 +46,7 @@ export default function Users() {
       <Table bordered>
         <thead>
           <tr>
-            {USER_HEADERS.map((hearder) => (
+            {USER_HEADERS.length && USER_HEADERS.map((hearder) => (
               <th key={hearder.prop}>{hearder.title}</th>
             ))}
             <th>Action</th>
@@ -77,8 +55,10 @@ export default function Users() {
         <tbody>{users.length && users.map((user, index) => (
               <tr key={index}>{Object.keys(user).map((key) => {
                   if (
-                    key === "title" ||
-                    key === "image"
+                    key === "name" ||
+                    key === "email" ||
+                    key === "phone" ||
+                    key === "image" 
                   ) {
                     return <td key={key} dangerouslySetInnerHTML={{ __html: user[key] }}></td>
                   }else{

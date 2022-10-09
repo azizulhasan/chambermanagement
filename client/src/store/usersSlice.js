@@ -14,15 +14,27 @@ const initialState = {
     singleUser: {},
     status:  STATUSES.IDLE,
     isModalActive: false,
-    SERVICE_HEADERS: [
+    USER_HEADERS: [
     {
-      prop: "title",
-      title: "Title",
+      prop: "name",
+      title: "Name",
+    },
+    {
+      prop: "email",
+      title: "Email",
+    },
+    {
+      prop: "phone",
+      title: "Phone",
     },
     {
       prop: "image",
       title: "Image",
     },
+    
+  ],
+  USER_ROLES: [
+    'USER', 'ADMIN', 'DOCTOR'
   ]
 
 };
@@ -156,7 +168,6 @@ export const fetchUsers = createAsyncThunk( 'users' , async () => {
     for( let i = 0; i < data.data.length; i++ ) {
         data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
     }
-
     return data.data;
 })
 /**
@@ -185,16 +196,16 @@ export const deleteUser = createAsyncThunk( 'deleteUser', async ( payload)=> {
  * Add a user from dashboard.
  */
 export const saveUser = createAsyncThunk( 'saveUser', async ( payload)=> {
-        const res =  await fetch(process.env.REACT_APP_API_URL + "/api/users", 
-            {
-                method: "POST",
-                body: payload
-            }
-        )
-        const data = await res.json();
-        for( let i = 0; i < data.data.length; i++ ) {
-            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    const res =  await fetch(process.env.REACT_APP_API_URL + "/api/users", 
+        {
+            method: "POST",
+            body: payload
         }
+    )
+    const data = await res.json();
+    for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
 
     return data.data;
 }) 
@@ -203,16 +214,15 @@ export const saveUser = createAsyncThunk( 'saveUser', async ( payload)=> {
  */
 export const updateUser = createAsyncThunk( 'updateUser', async ( payload)=> {
 
-        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/users", 
-            {
-                method: "PUT",
-                body: payload
-            }
-        )
-        const data = await res.json();
-        for( let i = 0; i < data.data.length; i++ ) {
-            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    const res =         await fetch(process.env.REACT_APP_API_URL + "/api/users", 
+        {
+            method: "PUT",
+            body: payload
         }
-        console.log(data)
+    )
+    const data = await res.json();
+    for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
     return data.data;
 }) 

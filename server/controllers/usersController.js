@@ -51,7 +51,6 @@ const generateRefreshToken = (user) => {
 const register_user = async (req, res) => {
   //Destructuring response token from request body
   let {token} = req.body;
-
   //sends secret key and response token to google
   let response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`);
   // check response status and send back to the client-side
@@ -64,7 +63,7 @@ const register_user = async (req, res) => {
       if (user) {
         res.json({status: false, message: 'Email address already exists.', data: null})
       }else{
-        let userData = {...req.body, ...{password: newPassword, confirmPassword: newPassword}};
+        let userData = {...req.body, ...{password: newPassword}};
         let newUser = new Users(userData)
         newUser.save().then(result => {
           res.json({status: true, data: result})
@@ -87,7 +86,7 @@ const login_user = async (req, res) => {
   const user = await Users.findOne({
     email: req.body.email,
   })
-
+  console.log(req.body.email)
 	if (!user) {
 		return res.json({ status: false, message: 'User not found', data: null})
 	}

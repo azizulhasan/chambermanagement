@@ -13,7 +13,7 @@ import { sliceComponentName } from "../../../utilities/utilities";
 
 export default function UsersModal() {
 
-  const { singleUser, isModalActive } = useSelector( state => state.users)
+  const { singleUser, isModalActive , USER_ROLES} = useSelector( state => state.users)
 
   const [user , setUser ] = useState(() => singleUser)
 
@@ -112,15 +112,55 @@ export default function UsersModal() {
               />
             )}
 
-            <Form.Group className="mb-4" controlId="user.title">
-              <Form.Label>Title</Form.Label>
+            <Form.Group className="mb-4" controlId="user.name">
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                name="title"
+                name="name"
                 onChange={handleChange}
-                value={user.title}
-                placeholder="title"
+                value={user.name}
+                placeholder="name"
               />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="user.email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                onChange={handleChange}
+                value={user.email}
+                placeholder="email"
+              />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="user.phone">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="phone"
+                name="phone"
+                onChange={handleChange}
+                value={user.phone}
+                placeholder="phone"
+              />
+            </Form.Group>
+            {user.speciality?<Form.Group className="mb-4" controlId="user.speciality">
+              <Form.Label>Speciality</Form.Label>
+              <Form.Control
+                type="text"
+                name="speciality"
+                onChange={handleChange}
+                value={user.speciality}
+                placeholder="speciality"
+              />
+            </Form.Group>:null}
+            <Form.Group className="mb-4" controlId="user.userRole">
+              <Form.Label>User Role</Form.Label>
+              <Form.Select>
+                <option value="0">Select A Role</option>
+                { USER_ROLES.map((role, index)=>{
+                  <option key={index} value={role}>{role}</option>
+                  
+                })}
+              </Form.Select>
             </Form.Group>
             <Form.Group className="mb-4" controlId="user.details">
               <Form.Label>Details</Form.Label>
@@ -142,7 +182,7 @@ export default function UsersModal() {
                 }}
               />
             </Form.Group>
-                        <Row>
+            <Row>
               <Col xs={12} sm={6} lg={6}>
                 <Form.Group className="mb-4" controlId="user.image">
                   <Form.Label>Image</Form.Label>

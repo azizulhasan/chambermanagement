@@ -30,11 +30,11 @@ export default function DashboardSideNav() {
               </div>
               Services
             </Link>
-            <Link className="nav-link" to="/dashboard/team">
+            <Link className="nav-link" to="/dashboard/users">
               <div className="sb-nav-link-icon">
                 <i className="fas fa-envelope"></i>
               </div>
-              Team Members
+              Users
             </Link>
             <div className="sb-sidenav-menu-heading">Interface</div>
             
