@@ -1,5 +1,5 @@
 {
-  "name": "mindtoheart.com",
+  "name": "chamber-management-system",
   "version": "1.0.0",
   "description": "Doctors chember management system",
   "main": "server/app.js",

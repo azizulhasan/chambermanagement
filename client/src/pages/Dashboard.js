@@ -46,9 +46,11 @@ import Settings from "../components/dashboard/settings/Settings";
 export default function Dashboard() {
   const [componentName, setComponentName] = useState(getComponentName());
   let  tokenObj = getRgisteredUser();
-  const accessToken = tokenObj.session.accessToken || tokenObj.storage.accessToken;
-   const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
-   console.log(isExpired)
+  console.log(tokenObj)
+  const accessToken =  ( tokenObj.session )? tokenObj.session.accessToken : null || ( tokenObj.storage ) ? tokenObj.storage.accessToken : null;
+
+  const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
+   
   const updateToken = () => {
     reEvaluateToken(accessToken); // decodedToken and isExpired will be updated
   }
@@ -64,8 +66,9 @@ export default function Dashboard() {
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js",
   ]);
 
-  if(!authenTicateUser()){
+  if(! authenTicateUser() ){
       window.location.href = '/login'
+  console.log(accessToken)
 
   //   const Auth = {
   //   session: getSessionStorage(),

@@ -355,8 +355,9 @@ export const getRgisteredUser = () => {
 export const authenTicateUser = () => {
 
   const Auth = getRgisteredUser();
+ 
   if (
-    ( Auth.session.name === undefined && Auth.storage.name === undefined ) ) {
+    (  !  Auth.session  && ! Auth.storage ) ) {
     return false;
   }
 
@@ -371,8 +372,8 @@ export const getUserName = () => {
     : "";
 };
 export const logout = () => {
-  window.localStorage.removeItem("token");
-  window.sessionStorage.removeItem("token");
+  window.localStorage.removeItem("user");
+  window.sessionStorage.removeItem("user");
 
   window.location.href = process.env.REACT_APP_URL + "/login";
 };
