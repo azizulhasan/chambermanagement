@@ -19,16 +19,16 @@ import "../components/front/home/assets/css/login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-   const { register, handleSubmit,  formState: { errors } } = useForm();
- const captchaRef = useRef(null)
- const dispatch = useDispatch();
+  const { register, handleSubmit,  formState: { errors } } = useForm();
+  const captchaRef = useRef(null)
+  const dispatch = useDispatch();
   useEffect(() => {
     const Auth = {
-    session: getSessionStorage(),
-    storage: getLocalStorage(),
+    session: getSessionStorage()['user'],
+    storage: getLocalStorage()['user'],
   };
   if (
-    ( Auth.session.token !== undefined || Auth.storage.token !== undefined ) ) {
+    ( Auth.session !== undefined || Auth.storage !== undefined ) ) {
     window.location.href = process.env.REACT_APP_URL + "/dashboard";
   }
   }, []);
@@ -42,6 +42,7 @@ export default function Login() {
         alert('Check recaption');
         return;
     }
+    data.remember_me = document.getElementById('remember_me').value
     if (data.remember_me !== undefined) {
       setLocalStorage({remember_me: true})
       delete data.remember_me
@@ -101,11 +102,11 @@ export default function Login() {
                             type="checkbox"
                             name="remember_me"
                             className="custom-control-input"
-                            id="customCheck"
+                            id="remember_me"
                           />
                           <label
                             className="custom-control-label"
-                            htmlFor="customCheck"
+                            htmlFor="remember_me"
                           >
                             Remember Me
                           </label>

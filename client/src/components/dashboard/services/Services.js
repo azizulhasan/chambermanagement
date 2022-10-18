@@ -20,19 +20,6 @@ export default function Services() {
 
   /**
    *
-   * @param {value} value true or false.
-   * @param {id} id get id if want to edit specific services.
-   */
-  // const isModalActive = (value, id = null) => {
-  //   setLgShow(value);
-  //   if (id !== null) {
-  //     setUpdateBtn({ display: true, id: id });
-  //   } else {
-  //     setUpdateBtn({ display: false, id: "" });
-  //   }
-  // };
-  /**
-   *
    * @param {id} id get the specific id which want to be deleted.
    */
   const deleteData = (id) => {
@@ -41,16 +28,6 @@ export default function Services() {
       return;
     }
     dispatch(deleteService(id))
-    // deletePost(process.env.REACT_APP_API_URL + "/api/services/" + id)
-    //   .then((res) => {
-    //     for( let i = 0; i < res.data.length; i++ ) {
-    //       res.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${res.data[i].image}">`
-    //     }
-    //     // setServices(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
 

@@ -23,6 +23,11 @@ export default function UsersModal() {
    * @param {event} e
    */
   const handleChange = (e) => {
+    if(e.target.name === 'userRole' && e.target.value === 'DOCTOR' ) {
+      document.getElementsByClassName('user.speciality')[0].style.display= 'block'
+    }else if(e.target.name === 'userRole' && e.target.value !== 'DOCTOR' ) {
+      document.getElementsByClassName('user.speciality')[0].style.display= 'none'
+    }
     setUser({ ...user, ...{ [e.target.name]: e.target.value } });
   };
 
@@ -69,6 +74,9 @@ export default function UsersModal() {
     });
     formData.append("details", getIframeContent());
     
+    // for( data of formData.values()){
+    //   console.log(data)
+    // }
     
     /**
      * Update data if "_id" exists. else save form data.
@@ -80,9 +88,14 @@ export default function UsersModal() {
       dispatch( saveUser( formData ) ) ;
     }
   };
+
+  const userAdd = () => {
+    dispatch(addUser());
+    setUser({});
+  }
   return (
     <>
-      <Button bsPrefix="azh_btn" onClick={(e) => dispatch(addUser())}>
+      <Button bsPrefix="azh_btn" onClick={(e) => userAdd()}>
         Add {sliceComponentName()}
       </Button>
       <Modal
@@ -135,14 +148,23 @@ export default function UsersModal() {
             <Form.Group className="mb-4" controlId="user.phone">
               <Form.Label>Phone</Form.Label>
               <Form.Control
-                type="phone"
+                type="number"
                 name="phone"
                 onChange={handleChange}
                 value={user.phone}
                 placeholder="phone"
               />
+            </Form.Group> 
+            <Form.Group className="mb-4" controlId="user.userRole">
+              <Form.Label>User Role</Form.Label>
+              <Form.Select  name="userRole"  onChange={handleChange} defaultValue={user.userRole}>
+                <option value="0">Select A Role</option>
+                { USER_ROLES.length &&  USER_ROLES.map((role, index)=>{
+                  return <option key={index} value={role}>{role}</option>
+                })}
+              </Form.Select>
             </Form.Group>
-            {user.speciality?<Form.Group className="mb-4" controlId="user.speciality">
+            <Form.Group style={{"display": "none"}} className="mb-4 user.speciality" controlId="user.speciality">
               <Form.Label>Speciality</Form.Label>
               <Form.Control
                 type="text"
@@ -151,16 +173,6 @@ export default function UsersModal() {
                 value={user.speciality}
                 placeholder="speciality"
               />
-            </Form.Group>:null}
-            <Form.Group className="mb-4" controlId="user.userRole">
-              <Form.Label>User Role</Form.Label>
-              <Form.Select>
-                <option value="0">Select A Role</option>
-                { USER_ROLES.map((role, index)=>{
-                  <option key={index} value={role}>{role}</option>
-                  
-                })}
-              </Form.Select>
             </Form.Group>
             <Form.Group className="mb-4" controlId="user.details">
               <Form.Label>Details</Form.Label>

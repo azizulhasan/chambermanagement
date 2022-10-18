@@ -28,12 +28,12 @@ const [ user, setUser ] = useState( () => {
 
 
  useEffect(()=>{
-        const Auth = {
-    session: getSessionStorage(),
-    storage: getLocalStorage(),
+    const Auth = {
+    session: getSessionStorage()['user'],
+    storage: getLocalStorage()['user'],
   };
   if (
-    ( Auth.session.token !== undefined || Auth.storage.token !== undefined ) ) {
+    ( Auth.session !== undefined || Auth.storage !== undefined ) ) {
     window.location.href = process.env.REACT_APP_URL + "/dashboard";
   }
  }, [])

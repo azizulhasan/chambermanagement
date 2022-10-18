@@ -80,9 +80,14 @@ export default function ServicesModal() {
       dispatch( saveService( formData ) ) ;
     }
   };
+
+  const serviceAdd = () => {
+    dispatch(addService())
+    setService({});
+  }
   return (
     <>
-      <Button bsPrefix="azh_btn" onClick={(e) => dispatch(addService())}>
+      <Button bsPrefix="azh_btn" onClick={(e) => serviceAdd()}>
         Add {sliceComponentName()}
       </Button>
       <Modal

@@ -2,6 +2,7 @@ const Users = require("../models/users")
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const { uploadImage } = require('../utilities/utilities')
 
 
 let refreshTokens = [];
@@ -44,8 +45,8 @@ const generateRefreshToken = (user) => {
 };
 
 /**
- * users user.
- * @param {Object} req for getting all users content.
+ * User register from frontend.
+ * @param {Object} req.
  * @param {Object} res
  */
 const register_user = async (req, res) => {
@@ -74,6 +75,45 @@ const register_user = async (req, res) => {
   }else{
     res.json({status: false, message: 'Captcha is not valide', data: null})
   }
+};
+
+const uploads = uploadImage();
+
+/**
+ * Save the user to databse and save image to "uploads" folder.
+ * @param {Object} req blog save request.
+ * @param {Object} res
+ */
+const register_user_from_dashboard = (req, res) => {
+  uploads(req, res, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const users = new Users({
+        ...req.body,
+        ...{
+          image:
+            process.env.UPLOAD_FOLDER_URL + "/" + req.file.filename,
+            password: req.body.phone
+        },
+      });
+      users
+        .save()
+        .then((result) => {
+          Users.find()
+            .sort({ createdAt: -1 })
+            .then((result) => {
+              res.json({ data: result });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
 };
 
 /**
@@ -186,6 +226,7 @@ const update_user = (req, res) => {
 module.exports = {
   getRefreshToken,
   register_user,
+  register_user_from_dashboard,
   login_user,
   get_users,
   get_single_user_details,

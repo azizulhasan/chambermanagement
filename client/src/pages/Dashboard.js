@@ -46,7 +46,6 @@ import Settings from "../components/dashboard/settings/Settings";
 export default function Dashboard() {
   const [componentName, setComponentName] = useState(getComponentName());
   let  tokenObj = getRgisteredUser();
-  console.log(tokenObj)
   const accessToken =  ( tokenObj.session )? tokenObj.session.accessToken : null || ( tokenObj.storage ) ? tokenObj.storage.accessToken : null;
 
   const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
@@ -68,31 +67,6 @@ export default function Dashboard() {
 
   if(! authenTicateUser() ){
       window.location.href = '/login'
-  console.log(accessToken)
-
-  //   const Auth = {
-  //   session: getSessionStorage(),
-  //   storage: getLocalStorage(),
-  // };
-
-  // const token = Auth.session.token || Auth.storage.token;
-  // console.log(token);
-		// if (token) {
-		// 	const user = jwt.decode(token)
-    //   console.log(user)
-		// 	if (!user) {
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	}
-		// }
-    // return false;
-
-      //       fallback: {
-      //   util: require.resolve("util/"),
-      //   stream: require.resolve("stream-browserify/"),
-      //   crypto: require.resolve("crypto-browserify/")
-      // },
   }else{
 
   return (

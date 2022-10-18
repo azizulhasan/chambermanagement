@@ -347,7 +347,7 @@ export const getLocalStorage = (keys = []) => {
 export const getRgisteredUser = () => {
   return {
     session: getSessionStorage()['user'] ? JSON.parse( getSessionStorage()['user'] ) : null ,
-    storage: getLocalStorage()['user']? JSON.parse( getSessionStorage()['user'] ) : null ,
+    storage: getLocalStorage()['user'] ? JSON.parse( getLocalStorage()['user'] ) : null ,
   };
 };
 
@@ -357,7 +357,7 @@ export const authenTicateUser = () => {
   const Auth = getRgisteredUser();
  
   if (
-    (  !  Auth.session  && ! Auth.storage ) ) {
+    (  ! Auth.session  && ! Auth.storage ) ) {
     return false;
   }
 
@@ -365,10 +365,10 @@ export const authenTicateUser = () => {
 };
 
 export const getUserName = () => {
-  return window.sessionStorage.getItem("email")
-    ? window.sessionStorage.getItem("email").split("@")[0]
-    : window.localStorage.getItem("email")
-    ? window.localStorage.getItem("email").split("@")[0]
+  return window.sessionStorage.getItem("user")
+    ? JSON.parse(getSessionStorage()['user'])['name']
+    : window.localStorage.getItem("user")
+    ? window.localStorage.getItem("user")['storage']
     : "";
 };
 export const logout = () => {
