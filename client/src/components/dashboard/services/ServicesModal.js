@@ -27,7 +27,10 @@ export default function ServicesModal() {
   };
 
   useEffect(() => {
-    setService(singleService)
+    if(singleService.title){
+      setService(singleService)
+      dispatch(showModal(true))
+    }
   }, [singleService]);
   
   /**

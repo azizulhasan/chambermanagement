@@ -99,7 +99,6 @@ const usersSlice = createSlice({
             })
             builder.addCase(fetchSingleUser.fulfilled, (state, action) =>{
                 state.singleUser = action.payload
-                state.isModalActive = true;
             })
 
             builder.addCase( deleteUser.fulfilled, ( state, action ) => {
@@ -213,7 +212,6 @@ export const saveUser = createAsyncThunk( 'saveUser', async ( payload)=> {
  * Update users details
  */
 export const updateUser = createAsyncThunk( 'updateUser', async ( payload)=> {
-
     const res =         await fetch(process.env.REACT_APP_API_URL + "/api/users", 
         {
             method: "PUT",

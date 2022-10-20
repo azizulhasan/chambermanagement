@@ -7,7 +7,8 @@ router.post('/register', usersController.register_user);
 router.post('/', usersController.register_user_from_dashboard);
 router.post('/login', usersController.login_user);
 router.get('/', usersController.get_users);
-router.put('/:id', usersController.update_user);
+router.put('/', usersController.update_user);
 router.get('/:id', usersController.get_single_user_details);
+router.delete('/:id', usersController.delete_user);
 
 module.exports = router;

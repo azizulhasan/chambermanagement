@@ -32,7 +32,12 @@ export default function UsersModal() {
   };
 
   useEffect(() => {
-    setUser(singleUser)
+    
+    if(singleUser.name) {
+      setUser(singleUser)
+      dispatch(showModal(true))
+    }
+
   }, [singleUser]);
   
   /**
@@ -53,8 +58,13 @@ export default function UsersModal() {
           value === "" ||
           (key === "image" && value.name === "" && !user.image)
         ) {
-          alert("Please fill the value of : " + key);
-          return;
+          if(data.userRole !== 'DOCTOR' && key == 'speciality'){
+
+          }else{
+            alert("Please fill the value of : " + key);
+            return;
+          }
+          
         }
       if(key === "image" && value.name === "" && user.image){
         data[key] = user.image;
@@ -67,8 +77,7 @@ export default function UsersModal() {
      */
     let formData = new FormData();
     Object.keys(data).forEach((key) => {
-      if (key === "_id") {
-      } else {
+      if (key !== "_id") {
         formData.append(key, data[key]);
       }
     });
@@ -77,6 +86,7 @@ export default function UsersModal() {
     // for( data of formData.values()){
     //   console.log(data)
     // }
+    
     
     /**
      * Update data if "_id" exists. else save form data.

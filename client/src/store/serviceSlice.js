@@ -54,7 +54,6 @@ const serviceSlice = createSlice({
             })
             builder.addCase(fetchSingleService.fulfilled, (state, action) =>{
                 state.singleService = action.payload
-                state.isModalActive = true;
             })
 
             builder.addCase( deleteService.fulfilled, ( state, action ) => {
@@ -102,42 +101,40 @@ export const fetchSingleService = createAsyncThunk( 'services/singleService' , a
 })
 
 export const deleteService = createAsyncThunk( 'deleteService', async ( payload)=> {
-        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services/" + payload, {method: "DELETE"})
-        const data = await res.json();
-        for( let i = 0; i < data.data.length; i++ ) {
-            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
-        }
+    const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services/" + payload, {method: "DELETE"})
+    const data = await res.json();
+    for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
 
     return data.data;
 }) 
 
 export const saveService = createAsyncThunk( 'saveService', async ( payload)=> {
-        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
-            {
-                method: "POST",
-                body: payload
-            }
-        )
-        const data = await res.json();
-        for( let i = 0; i < data.data.length; i++ ) {
-            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
+        {
+            method: "POST",
+            body: payload
         }
-        console.log(data)
+    )
+    const data = await res.json();
+    for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
     return data.data;
 }) 
 
 export const updateService = createAsyncThunk( 'updateService', async ( payload)=> {
 
-        const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
-            {
-                method: "PUT",
-                body: payload
-            }
-        )
-        const data = await res.json();
-        for( let i = 0; i < data.data.length; i++ ) {
-            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    const res =         await fetch(process.env.REACT_APP_API_URL + "/api/services", 
+        {
+            method: "PUT",
+            body: payload
         }
-        console.log(data)
+    )
+    const data = await res.json();
+    for( let i = 0; i < data.data.length; i++ ) {
+        data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`
+    }
     return data.data;
 }) 
