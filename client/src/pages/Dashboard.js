@@ -28,6 +28,8 @@ import Mail from "../components/dashboard/mail/Mail";
 import Services from '../components/dashboard/services/Services'
 // Users
 import Users from '../components/dashboard/users/Users'
+// Schedules
+import Schedules from '../components/dashboard/schedules/Schedules'
 /**
  * Portfolio components
  */
@@ -46,7 +48,7 @@ import Settings from "../components/dashboard/settings/Settings";
 export default function Dashboard() {
   const [componentName, setComponentName] = useState(getComponentName());
   let  tokenObj = getRgisteredUser();
-  const accessToken =  ( tokenObj.session )? tokenObj.session.accessToken : null || ( tokenObj.storage ) ? tokenObj.storage.accessToken : null;
+  const accessToken =  ( tokenObj.schedule )? tokenObj.schedule.accessToken : null || ( tokenObj.storage ) ? tokenObj.storage.accessToken : null;
 
   const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
    
@@ -100,6 +102,7 @@ export default function Dashboard() {
                 <Route path="/dashboard/mail" element={<Mail />} />
                 <Route path="/dashboard/services" element={<Services />} />
                 <Route path="/dashboard/users" element={<Users />} />
+                <Route path="/dashboard/schedules" element={<Schedules />} />
                 <Route path="/dashboard/hero" element={<Hero />} />
                 <Route path="/dashboard/about" element={<About />} />
                 <Route path="/dashboard/skills" element={<Skills />} />

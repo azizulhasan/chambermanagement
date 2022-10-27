@@ -36,6 +36,12 @@ export default function DashboardSideNav() {
               </div>
               Users
             </Link>
+            <Link className="nav-link" to="/dashboard/schedules">
+              <div className="sb-nav-link-icon">
+                <i className="fas fa-envelope"></i>
+              </div>
+              Schedules
+            </Link>
             <div className="sb-sidenav-menu-heading">Interface</div>
             
             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

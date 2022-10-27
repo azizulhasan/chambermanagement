@@ -174,7 +174,7 @@ export default function UsersModal() {
                 })}
               </Form.Select>
             </Form.Group>
-            <Form.Group style={{"display": "none"}} className="mb-4 user.speciality" controlId="user.speciality">
+            <Form.Group style={ user.speciality ? {"display": "block"} :  {"display": "none"}} className="mb-4 user.speciality" controlId="user.speciality">
               <Form.Label>Speciality</Form.Label>
               <Form.Control
                 type="text"
