@@ -1,2 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+
+.azh_btn_edit{
+    padding: 0.2rem 0.3rem;
+}
+
+.azh_btn_education{
+    padding: 0.2rem 0.3rem;
+    margin-left: 20px;
+}
     

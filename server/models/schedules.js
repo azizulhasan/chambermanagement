@@ -1,55 +1,28 @@
 const mongoose = require('mongoose')
 const Schema    = mongoose.Schema
 
-const usersSchema = new Schema({
-    departement:{
+const schedulesSchema = new Schema({
+    branch:{
         type:String,
         required: true
     },
-    branch:{
-        type:Array,
-        required: true
-    },
-    sessionLength:{
+    PerSessionLength:{
         type:Number,
         required: true
     },
-    consultant: {
-        type: String,
-        required: true,
-    },
-    date: {
+    offDay: {
         type: Array,
-        required: false,
+        required: true,
         default: []
     },
-    timeSlot: {
-        type: String,
-        required: false,
-        default: ''
-    },
-    image: {
-        type: String,
-        required: false,
-        default: '',
-    },
-    password:{
-        type:String,
+    timeSlots: {
+        type: Array,
         required: true,
+        default: []
     },
-    passwordReset: {
-        type: String,
-        required: false,
-        default: ""
-    },
-    userRole: {
-        type: String,
-        required: false,
-        default: "USER"
-    }
 }, { timestamps: true })
 
 
-const Users = mongoose.model('Users', usersSchema)
+const Schedules = mongoose.model('Schedules', schedulesSchema)
 
-module.exports = Users
+module.exports = Schedules

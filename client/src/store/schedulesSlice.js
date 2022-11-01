@@ -11,7 +11,12 @@ export const STATUSES = Object.freeze( {
 
 const initialState = {
     schedules: [],
-    singleSchedule: {},
+    options:  ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wensday', 'Thursday', 'Friday'],
+    singleSchedule: {
+        branch: "",
+        perSessionLength: 60,
+        timeSlots:[],
+    },
     status:  STATUSES.IDLE,
     isModalActive: false,
     SCHEDULE_HEADERS: [

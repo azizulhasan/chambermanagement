@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { Multiselect } from 'multiselect-react-dropdown';
 import { showModal, addSchedule, saveSchedule, updateSchedule } from "../../../store/schedulesSlice";
 import {useDispatch, useSelector} from "react-redux";
 
-import { Editor } from "@tinymce/tinymce-react";
-
-import { getIframeContent, previewImage } from "./SchedulesHooks";
 import { sliceComponentName } from "../../../utilities/utilities";
+
+import SlotPicker  from './timeslots/SlotPicker';
 
 /**
  * Css
@@ -14,9 +14,12 @@ import { sliceComponentName } from "../../../utilities/utilities";
 
 export default function SchedulesModal() {
 
-  const { singleSchedule, isModalActive , SCHEDULE_ROLES} = useSelector( state => state.schedules)
-
+  const { singleSchedule, isModalActive , options} = useSelector( state => state.schedules)
   const [schedule , setSchedule ] = useState(() => singleSchedule)
+  const [field , setField ] = useState(() => []);
+  const [selectedTime, setSelectedTime] = useState(0);
+  const [lang, setLang] = useState('en');
+  const interval = 30;
 
   const dispatch = useDispatch();
   /**
@@ -24,21 +27,16 @@ export default function SchedulesModal() {
    * @param {event} e
    */
   const handleChange = (e) => {
-    if(e.target.name === 'scheduleRole' && e.target.value === 'DOCTOR' ) {
-      document.getElementsByClassName('schedule.speciality')[0].style.display= 'block'
-    }else if(e.target.name === 'scheduleRole' && e.target.value !== 'DOCTOR' ) {
-      document.getElementsByClassName('schedule.speciality')[0].style.display= 'none'
-    }
     setSchedule({ ...schedule, ...{ [e.target.name]: e.target.value } });
   };
 
   useEffect(() => {
     
-    if(singleSchedule.name) {
+    if(singleSchedule.branch) {
       setSchedule(singleSchedule)
       dispatch(showModal(true))
     }
-
+    console.log(singleSchedule)
   }, [singleSchedule]);
   
   /**
@@ -59,13 +57,9 @@ export default function SchedulesModal() {
           value === "" ||
           (key === "image" && value.name === "" && !schedule.image)
         ) {
-          if(data.scheduleRole !== 'DOCTOR' && key == 'speciality'){
-
-          }else{
+          
             alert("Please fill the value of : " + key);
             return;
-          }
-          
         }
       if(key === "image" && value.name === "" && schedule.image){
         data[key] = schedule.image;
@@ -82,7 +76,7 @@ export default function SchedulesModal() {
         formData.append(key, data[key]);
       }
     });
-    formData.append("details", getIframeContent());
+
     
     // for( data of formData.values()){
     //   console.log(data)
@@ -104,6 +98,17 @@ export default function SchedulesModal() {
     dispatch(addSchedule());
     setSchedule({});
   }
+
+
+   const  onSelect = (selectedList, selectedItem) => {
+    console.log(selectedList )
+    console.log(selectedItem )
+  }
+
+  const onRemove =(selectedList, removedItem) =>{
+    console.log(selectedList,removedItem )
+  }
+
   return (
     <>
       <Button bsPrefix="azh_btn" onClick={(e) => scheduleAdd()}>
@@ -136,102 +141,47 @@ export default function SchedulesModal() {
               />
             )}
 
-            <Form.Group className="mb-4" controlId="schedule.name">
-              <Form.Label>Name</Form.Label>
+            <Form.Group className="mb-4" controlId="schedule.branch">
+              <Form.Label>Branch</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
+                name="branch"
                 onChange={handleChange}
-                value={schedule.name}
-                placeholder="name"
+                value={schedule.branch}
+                placeholder="branch name"
               />
             </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={schedule.email}
-                placeholder="email"
-              />
-            </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.phone">
-              <Form.Label>Phone</Form.Label>
+            <Form.Group className="mb-4" controlId="schedule.perSessionLength">
+              <Form.Label>Per Session Lenghth</Form.Label>
               <Form.Control
                 type="number"
-                name="phone"
+                name="perSessionLength"
                 onChange={handleChange}
-                value={schedule.phone}
-                placeholder="phone"
-              />
-            </Form.Group> 
-            <Form.Group className="mb-4" controlId="schedule.scheduleRole">
-              <Form.Label>Schedule Role</Form.Label>
-              <Form.Select  name="scheduleRole"  onChange={handleChange} defaultValue={schedule.scheduleRole}>
-                <option value="0">Select A Role</option>
-                { SCHEDULE_ROLES.length &&  SCHEDULE_ROLES.map((role, index)=>{
-                  return <option key={index} value={role}>{role}</option>
-                })}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group style={ schedule.speciality ? {"display": "block"} :  {"display": "none"}} className="mb-4 schedule.speciality" controlId="schedule.speciality">
-              <Form.Label>Speciality</Form.Label>
-              <Form.Control
-                type="text"
-                name="speciality"
-                onChange={handleChange}
-                value={schedule.speciality}
-                placeholder="speciality"
+                value={schedule.perSessionLength}
+                placeholder="Per Session Lenghth"
               />
             </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.details">
-              <Form.Label>Details</Form.Label>
-              <Editor
-                initialValue={schedule.details}
-                name="details"
-                init={{
-                  height: 200,
-                  menubar: true,
-                  plugins: [
-                    "a11ychecker advcode advlist anchor autolink codesample fullscreen help  tinydrive",
-                    " lists link media noneditable powerpaste preview",
-                    " searchreplace table template tinymcespellchecker visualblocks wordcount",
-                  ],
-                  toolbar:
-                    "insertfile a11ycheck undo redo | bold italic | forecolor backcolor | template codesample | alignleft aligncenter alignright alignjustify | bullist numlist | link image tinydrive",
-                  content_style:
-                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                }}
-              />
+            <Form.Group className="mb-4" controlId="schedule.offDay" >
+            <Form.Label>Off Day</Form.Label>
+              <Multiselect
+                options={options} // Options to display in the dropdown
+                isObject={false}
+                style={{"color":"red"}}
+                />
             </Form.Group>
-            <Row>
-              <Col xs={12} sm={6} lg={6}>
-                <Form.Group className="mb-4" controlId="schedule.image">
-                  <Form.Label>Image</Form.Label>
-                  <Form.Control
-                    accept=".png, .jpg, .jpeg, .svg, .gif"
-                    name="image"
-                    onChange={previewImage}
-                    type="file"
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={12} sm={6} lg={6}>
-                <Form.Group
-                  className="mb-4"
-                  controlId="schedule.imagePreview"
-                >
-                  <img
-                    id="previewImage"
-                    height="100"
-                    width="100"
-                    alt={schedule.image}
-                    src={schedule.image}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+            <Form.Group className="mb-4" controlId="schedule.timeSlots">
+              <Form.Label>Time Slots</Form.Label>
+               <SlotPicker
+                interval={schedule.perSessionLength}
+                from={'07:00'}
+                to={'23:00'}
+                unAvailableSlots={['12:00']}
+                lang={lang}
+                defaultSelectedTime="12:00"
+                onSelectTime={s => setSelectedTime(s)}
+            />
+            </Form.Group>
+          
             <button
               className="azh_btn w-100"
               type="submit"
