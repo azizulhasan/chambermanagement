@@ -11,9 +11,10 @@ dayjs.extend(utc);
 dayjs.extend(duration);
 
 export default function TimeSlot({
+  isOff,
   slot,
   interval,
-  lang = 'en',
+  lang,
   selectedSlotColor,
   isSelected,
   onSelect,
@@ -28,22 +29,24 @@ export default function TimeSlot({
     <React.Fragment>
       <div
         onClick={(e) => handleOnSelect(e)}
-        className={`sp-timeslot  ${
-          isSelected  ? 'selected' : ''
+        className={`sp-timeslot ${isOff ? 'is-booked' : ''} ${
+          isSelected && !isOff ? 'selected' : ''
         } ${isOnTheHour && 'with-tick'}`}
-        style={isSelected ? { background: selectedSlotColor } : {}}
+        style={isSelected && !isOff ? { background: selectedSlotColor } : {}}
       >
         <span
           className="sp-label"
-          style={isSelected  ? { background: selectedSlotColor } : {}}
+          style={isSelected && !isOff ? { background: selectedSlotColor } : {}}
         >
-          {isSelected  ? (
+          {isSelected && !isOff ? (
             <span className="sp-success-label">{langData.selectedTitle}</span>
           ) : null}
           {`${slot.format('hh:mm')}${amOrPm(slot)} - `}
           {`${slot.add(interval, 'm').format('hh:mm')}${amOrPm(slot)}`}
         </span>
-        <button onClick={(e) => handleOnSelect(e)} className="radioBtn"></button>
+        {isOff ? <button onClick={(e) => notify('This time will will not be selected')} className="radioBtn"></button> : (
+          <button onClick={(e) => handleOnSelect(e)} className="radioBtn"></button>
+        )}
         {isOnTheHour && (
           <span className="sp-tick">
             <strong>{`${slot.format('hh')}`}</strong>

@@ -49,25 +49,14 @@ export default function SlotPicker({
   }
 
   let [selectedTime, setSelectedTime] = useState(
-    [defaultSelectedTime || undefined]
+    [{ data: defaultSelectedTime || '' } || undefined]
   );
 
   const handleSelection = (data) => {
     // selectedTime.push({ data: data.format('HH:mm') })
-    if(selectedTime.includes(data.format('HH:mm'))) {
-      let slots = selectedTime.filter( item=> item !== data.format('HH:mm'));
-      setSelectedTime(slots);
-    }else{
-      let slots = [data.format('HH:mm')].concat(selectedTime)
-      setSelectedTime(slots);
-    }
-    // console.log(slots)
-    // console.log(timeSlots[0].format('HH:mm'))
-    Object.values(timeSlots).map((item, i)=>{
-      // if( slots[i]?.data == item.format('HH:mm') ){
-        console.log(selectedTime.includes(item.format('HH:mm')))
-      // }
-    })
+    let slots = [{ data: data.format('HH:mm') }].concat(selectedTime)
+    console.log(slots)
+    setSelectedTime(slots);
     // console.log(data.format('HH:mm'))
     onSelectTime(data);
   };
@@ -114,10 +103,15 @@ export default function SlotPicker({
               <TimeSlot
                 interval={interval}
                 // the slot is off if it's less then current time or already blacklisted(in unAvailableSlots)
+                isOff={
+                  slot.isBefore(currTime) ||
+                  disabledSlots.indexOf(slot.format('HH:mm')) !== -1
+                }
                 selectedSlotColor={selectedSlotColor}
                 slot={slot}
+                lang={lang || 'en'}
                 key={i}
-                isSelected={selectedTime.includes(slot.format('HH:mm')) }
+                isSelected={selectedTime[i]?.data == slot.format('HH:mm')}
                 onSelect={handleSelection}
               />
             ))}

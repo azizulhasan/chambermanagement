@@ -119,15 +119,11 @@
 .sp-timeslot.selected:not(.is-off) .sp-label {
   top: -3px;
   color: #fff;
-  display: none;
-}
-.sp-timeslot.selected:not(.is-booked):hover .sp-label,
-.sp-timeslot.selected:not(.is-off):hover .sp-label {
   display: block;
 }
 .sp-timeslot.selected:not(.is-booked):before,
 .sp-timeslot.selected:not(.is-off):before {
-  display: none;
+  display: block;
   width: 10px;
   height: 10px;
   transform: translateX(-50%) rotate(45deg);

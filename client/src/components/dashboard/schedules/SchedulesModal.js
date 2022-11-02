@@ -5,6 +5,8 @@ import { showModal, addSchedule, saveSchedule, updateSchedule } from "../../../s
 import {useDispatch, useSelector} from "react-redux";
 
 import { sliceComponentName } from "../../../utilities/utilities";
+import {amOrPm} from '../../../utilities/timeUtilities'
+
 
 import SlotPicker  from './timeslots/SlotPicker';
 
@@ -17,7 +19,7 @@ export default function SchedulesModal() {
   const { singleSchedule, isModalActive , options} = useSelector( state => state.schedules)
   const [schedule , setSchedule ] = useState(() => singleSchedule)
   const [field , setField ] = useState(() => []);
-  const [selectedTime, setSelectedTime] = useState(0);
+  const [selectedTime, setSelectedTime] = useState([]);
   const [lang, setLang] = useState('en');
   const interval = 30;
 
@@ -36,7 +38,6 @@ export default function SchedulesModal() {
       setSchedule(singleSchedule)
       dispatch(showModal(true))
     }
-    console.log(singleSchedule)
   }, [singleSchedule]);
   
   /**
@@ -46,10 +47,13 @@ export default function SchedulesModal() {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     /**
      * Get full form data and modify them for saving to database.
      */
     let form = new FormData(e.target);
+    console.log(form.entries());
+    return
     let data = {};
     for (let [key, value] of form.entries()) {
         if (
@@ -100,13 +104,10 @@ export default function SchedulesModal() {
   }
 
 
-   const  onSelect = (selectedList, selectedItem) => {
-    console.log(selectedList )
-    console.log(selectedItem )
-  }
-
-  const onRemove =(selectedList, removedItem) =>{
-    console.log(selectedList,removedItem )
+   const  addToSelectedArray = (slot) => {
+    let from = slot.format('hh:mm')+amOrPm(slot);
+    let to = slot.add(schedule.perSessionLength??60, 'm').format('hh:mm')+amOrPm(slot)
+    // console.log(from  + " - "+ to );
   }
 
   return (
@@ -128,7 +129,7 @@ export default function SchedulesModal() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit} encType='multipart/form-data'>
+          <Form onSubmit={handleSubmit}>
             {schedule._id && (
               <Form.Control
                 type="text"
@@ -157,7 +158,7 @@ export default function SchedulesModal() {
                 type="number"
                 name="perSessionLength"
                 onChange={handleChange}
-                value={schedule.perSessionLength}
+                value={schedule.perSessionLength??60}
                 placeholder="Per Session Lenghth"
               />
             </Form.Group>
@@ -172,20 +173,20 @@ export default function SchedulesModal() {
             <Form.Group className="mb-4" controlId="schedule.timeSlots">
               <Form.Label>Time Slots</Form.Label>
                <SlotPicker
-                interval={schedule.perSessionLength}
+                interval={schedule.perSessionLength??60}
                 from={'07:00'}
                 to={'23:00'}
                 unAvailableSlots={['12:00']}
                 lang={lang}
                 defaultSelectedTime="12:00"
-                onSelectTime={s => setSelectedTime(s)}
+                onSelectTime={s => addToSelectedArray(s)}
             />
             </Form.Group>
           
             <button
               className="azh_btn w-100"
-              type="submit"
               id="schedule.sumbit"
+              type="submit"
             >
               {schedule._id ? "Update" : "Submit"}
             </button>

@@ -11,9 +11,10 @@ dayjs.extend(utc);
 dayjs.extend(duration);
 
 export default function TimeSlot({
+  isOff,
   slot,
   interval,
-  lang = 'en',
+  lang,
   selectedSlotColor,
   isSelected,
   onSelect,
@@ -33,7 +34,7 @@ export default function TimeSlot({
         } ${isOnTheHour && 'with-tick'}`}
         style={isSelected ? { background: selectedSlotColor } : {}}
       >
-        <span
+        {/* <span
           className="sp-label"
           style={isSelected  ? { background: selectedSlotColor } : {}}
         >
@@ -42,7 +43,7 @@ export default function TimeSlot({
           ) : null}
           {`${slot.format('hh:mm')}${amOrPm(slot)} - `}
           {`${slot.add(interval, 'm').format('hh:mm')}${amOrPm(slot)}`}
-        </span>
+        </span> */}
         <button onClick={(e) => handleOnSelect(e)} className="radioBtn"></button>
         {isOnTheHour && (
           <span className="sp-tick">
