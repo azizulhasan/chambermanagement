@@ -3,6 +3,9 @@ import TimeSlot from './TimeSlot';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
+
+import { useSelector } from "react-redux";
+
 dayjs.extend(utc);
 dayjs.extend(duration);
 
@@ -51,24 +54,20 @@ export default function SlotPicker({
   let [selectedTime, setSelectedTime] = useState(
     [defaultSelectedTime || undefined]
   );
+  const { singleSchedule } = useSelector(state => state.schedules)
 
   const handleSelection = (data) => {
-    // selectedTime.push({ data: data.format('HH:mm') })
-    if(selectedTime.includes(data.format('HH:mm'))) {
-      let slots = selectedTime.filter( item=> item !== data.format('HH:mm'));
+    let slots = [];
+    if (selectedTime.includes(data.format('HH:mm'))) {
+      slots = selectedTime.filter(item => item !== data.format('HH:mm'));
       setSelectedTime(slots);
-    }else{
-      let slots = [data.format('HH:mm')].concat(selectedTime)
+    } else {
+      slots = [data.format('HH:mm')].concat(selectedTime)
       setSelectedTime(slots);
     }
-    // console.log(slots)
-    // console.log(timeSlots[0].format('HH:mm'))
-    Object.values(timeSlots).map((item, i)=>{
-      // if( slots[i]?.data == item.format('HH:mm') ){
-        console.log(selectedTime.includes(item.format('HH:mm')))
-      // }
-    })
-    // console.log(data.format('HH:mm'))
+    singleSchedule.timeSlots.push(slots)
+
+    console.log(singleSchedule.timeSlots)
     onSelectTime(data);
   };
 
@@ -117,7 +116,7 @@ export default function SlotPicker({
                 selectedSlotColor={selectedSlotColor}
                 slot={slot}
                 key={i}
-                isSelected={selectedTime.includes(slot.format('HH:mm')) }
+                isSelected={selectedTime.includes(slot.format('HH:mm'))}
                 onSelect={handleSelection}
               />
             ))}

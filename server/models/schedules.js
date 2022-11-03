@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
-const Schema    = mongoose.Schema
+const Schema = mongoose.Schema
 
 const schedulesSchema = new Schema({
-    branch:{
-        type:String,
+    branch: {
+        type: String,
         required: true
     },
-    PerSessionLength:{
-        type:Number,
+    PerSessionLength: {
+        type: Number,
         required: true
     },
     offDay: {

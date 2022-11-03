@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Multiselect } from 'multiselect-react-dropdown';
 import { showModal, addSchedule, saveSchedule, updateSchedule } from "../../../store/schedulesSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { fetchUsers } from "../../../store/usersSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import { sliceComponentName } from "../../../utilities/utilities";
-import {amOrPm} from '../../../utilities/timeUtilities'
+import { amOrPm } from '../../../utilities/timeUtilities'
 
 
-import SlotPicker  from './timeslots/SlotPicker';
+import SlotPicker from './timeslots/SlotPicker';
 
 /**
  * Css
@@ -16,12 +18,14 @@ import SlotPicker  from './timeslots/SlotPicker';
 
 export default function SchedulesModal() {
 
-  const { singleSchedule, isModalActive , options} = useSelector( state => state.schedules)
-  const [schedule , setSchedule ] = useState(() => singleSchedule)
-  const [field , setField ] = useState(() => []);
+  const { singleSchedule, isModalActive, options } = useSelector(state => state.schedules)
+  const { users } = useSelector(state => state.users);
+
+  const [schedule, setSchedule] = useState(() => singleSchedule)
+  const [field, setField] = useState(() => []);
   const [selectedTime, setSelectedTime] = useState([]);
   const [lang, setLang] = useState('en');
-  const interval = 30;
+  const interval = 60;
 
   const dispatch = useDispatch();
   /**
@@ -30,16 +34,18 @@ export default function SchedulesModal() {
    */
   const handleChange = (e) => {
     setSchedule({ ...schedule, ...{ [e.target.name]: e.target.value } });
+    console.log(singleSchedule)
   };
 
   useEffect(() => {
-    
-    if(singleSchedule.branch) {
+
+    if (singleSchedule.branch) {
       setSchedule(singleSchedule)
       dispatch(showModal(true))
     }
-  }, [singleSchedule]);
-  
+    dispatch(fetchUsers());
+  }, [singleSchedule, dispatch]);
+
   /**
    * Handle schedules content form submission
    * @param {event} e
@@ -47,7 +53,7 @@ export default function SchedulesModal() {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     /**
      * Get full form data and modify them for saving to database.
      */
@@ -56,18 +62,18 @@ export default function SchedulesModal() {
     return
     let data = {};
     for (let [key, value] of form.entries()) {
-        if (
-          key === "" ||
-          value === "" ||
-          (key === "image" && value.name === "" && !schedule.image)
-        ) {
-          
-            alert("Please fill the value of : " + key);
-            return;
-        }
-      if(key === "image" && value.name === "" && schedule.image){
+      if (
+        key === "" ||
+        value === "" ||
+        (key === "image" && value.name === "" && !schedule.image)
+      ) {
+
+        alert("Please fill the value of : " + key);
+        return;
+      }
+      if (key === "image" && value.name === "" && schedule.image) {
         data[key] = schedule.image;
-      }else{
+      } else {
         data[key] = value;
       }
     }
@@ -81,20 +87,20 @@ export default function SchedulesModal() {
       }
     });
 
-    
+
     // for( data of formData.values()){
     //   console.log(data)
     // }
-    
-    
+
+
     /**
      * Update data if "_id" exists. else save form data.
      */
     if (data._id !== undefined) {
-      formData.append( 'id', data._id );
-      dispatch( updateSchedule( formData ) ) ;
+      formData.append('id', data._id);
+      dispatch(updateSchedule(formData));
     } else {
-      dispatch( saveSchedule( formData ) ) ;
+      dispatch(saveSchedule(formData));
     }
   };
 
@@ -104,10 +110,10 @@ export default function SchedulesModal() {
   }
 
 
-   const  addToSelectedArray = (slot) => {
-    let from = slot.format('hh:mm')+amOrPm(slot);
-    let to = slot.add(schedule.perSessionLength??60, 'm').format('hh:mm')+amOrPm(slot)
-    // console.log(from  + " - "+ to );
+  const addToSelectedArray = (slot) => {
+    let from = slot.format('hh:mm') + amOrPm(slot);
+    let to = slot.add(schedule.perSessionLength ?? 60, 'm').format('hh:mm') + amOrPm(slot)
+
   }
 
   return (
@@ -141,7 +147,6 @@ export default function SchedulesModal() {
                 hidden
               />
             )}
-
             <Form.Group className="mb-4" controlId="schedule.branch">
               <Form.Label>Branch</Form.Label>
               <Form.Control
@@ -152,37 +157,45 @@ export default function SchedulesModal() {
                 placeholder="branch name"
               />
             </Form.Group>
+
+            <Form.Group className="mb-4" controlId="schedule.branch">
+              <Form.Label>Consultant</Form.Label>
+              <Form.Select name="user" onChange={handleChange} defaultValue={'0'}>
+                <option value={'0'}>Select Consultant</option>
+                {users.length && users.map((user, i) => user.userRole === 'DOCTOR' ? (<option key={i} value={user._id}>{user.name}</option>)
+                  : null)}
+              </Form.Select>
+            </Form.Group>
             <Form.Group className="mb-4" controlId="schedule.perSessionLength">
-              <Form.Label>Per Session Lenghth</Form.Label>
+              <Form.Label>Per Session Length</Form.Label>
               <Form.Control
                 type="number"
                 name="perSessionLength"
                 onChange={handleChange}
-                value={schedule.perSessionLength??60}
-                placeholder="Per Session Lenghth"
+                value={schedule.perSessionLength ?? 60}
+                placeholder="Per Session Length"
               />
             </Form.Group>
             <Form.Group className="mb-4" controlId="schedule.offDay" >
-            <Form.Label>Off Day</Form.Label>
+              <Form.Label>Off Day</Form.Label>
               <Multiselect
                 options={options} // Options to display in the dropdown
                 isObject={false}
-                style={{"color":"red"}}
-                />
+              />
             </Form.Group>
             <Form.Group className="mb-4" controlId="schedule.timeSlots">
               <Form.Label>Time Slots</Form.Label>
-               <SlotPicker
-                interval={schedule.perSessionLength??60}
+              <SlotPicker
+                interval={schedule.perSessionLength ?? 60}
                 from={'07:00'}
                 to={'23:00'}
                 unAvailableSlots={['12:00']}
                 lang={lang}
                 defaultSelectedTime="12:00"
                 onSelectTime={s => addToSelectedArray(s)}
-            />
+              />
             </Form.Group>
-          
+
             <button
               className="azh_btn w-100"
               id="schedule.sumbit"
