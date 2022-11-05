@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Multiselect } from 'multiselect-react-dropdown';
-import { showModal, addSchedule, saveSchedule, updateSchedule } from "../../../store/schedulesSlice";
+import { showModal, addSchedule, saveSchedule, updateSchedule, updateScheduleState } from "../../../store/schedulesSlice";
 import { fetchUsers } from "../../../store/usersSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,18 +33,25 @@ export default function SchedulesModal() {
    * @param {event} e
    */
   const handleChange = (e) => {
-    setSchedule({ ...schedule, ...{ [e.target.name]: e.target.value } });
-    console.log(singleSchedule)
+
+    if (Array.isArray(e)) {
+      let data = { offDay: e }
+      dispatch(updateScheduleState(data))
+    } else {
+      let data = { [e.target.name]: e.target.value }
+      dispatch(updateScheduleState(data))
+    }
   };
 
   useEffect(() => {
 
-    if (singleSchedule.branch) {
-      setSchedule(singleSchedule)
-      dispatch(showModal(true))
-    }
+    // if (singlesingleSchedule.branch) {
+    setSchedule(singleSchedule)
+    // dispatch(showModal(true))
+    // }
+    console.log(singleSchedule)
     dispatch(fetchUsers());
-  }, [singleSchedule, dispatch]);
+  }, [singleSchedule]);
 
   /**
    * Handle schedules content form submission
@@ -65,14 +72,14 @@ export default function SchedulesModal() {
       if (
         key === "" ||
         value === "" ||
-        (key === "image" && value.name === "" && !schedule.image)
+        (key === "image" && value.name === "" && !singleSchedule.image)
       ) {
 
         alert("Please fill the value of : " + key);
         return;
       }
-      if (key === "image" && value.name === "" && schedule.image) {
-        data[key] = schedule.image;
+      if (key === "image" && value.name === "" && singleSchedule.image) {
+        data[key] = singleSchedule.image;
       } else {
         data[key] = value;
       }
@@ -112,7 +119,7 @@ export default function SchedulesModal() {
 
   const addToSelectedArray = (slot) => {
     let from = slot.format('hh:mm') + amOrPm(slot);
-    let to = slot.add(schedule.perSessionLength ?? 60, 'm').format('hh:mm') + amOrPm(slot)
+    let to = slot.add(singleSchedule.perSessionLength ?? 60, 'm').format('hh:mm') + amOrPm(slot)
 
   }
 
@@ -129,36 +136,36 @@ export default function SchedulesModal() {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            {schedule._id
+            {singleSchedule._id
               ? `Update ${sliceComponentName()} Section Content`
               : `${sliceComponentName()} Section Content`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            {schedule._id && (
+            {singleSchedule._id && (
               <Form.Control
                 type="text"
                 id="_id"
                 onChange={handleChange}
-                value={schedule._id}
+                value={singleSchedule._id}
                 name="_id"
                 placeholder="id"
                 hidden
               />
             )}
-            <Form.Group className="mb-4" controlId="schedule.branch">
+            <Form.Group className="mb-4" controlId="singleSchedule.branch">
               <Form.Label>Branch</Form.Label>
               <Form.Control
                 type="text"
                 name="branch"
                 onChange={handleChange}
-                value={schedule.branch}
+                value={singleSchedule.branch}
                 placeholder="branch name"
               />
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="schedule.branch">
+            <Form.Group className="mb-4" controlId="singleSchedule.branch">
               <Form.Label>Consultant</Form.Label>
               <Form.Select name="user" onChange={handleChange} defaultValue={'0'}>
                 <option value={'0'}>Select Consultant</option>
@@ -166,27 +173,29 @@ export default function SchedulesModal() {
                   : null)}
               </Form.Select>
             </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.perSessionLength">
+            <Form.Group className="mb-4" controlId="singleSchedule.perSessionLength">
               <Form.Label>Per Session Length</Form.Label>
               <Form.Control
                 type="number"
                 name="perSessionLength"
                 onChange={handleChange}
-                value={schedule.perSessionLength ?? 60}
+                value={singleSchedule.perSessionLength ?? 60}
                 placeholder="Per Session Length"
               />
             </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.offDay" >
+            <Form.Group className="mb-4" controlId="singleSchedule.offDay" >
               <Form.Label>Off Day</Form.Label>
               <Multiselect
+                onSelect={handleChange}
+                onRemove={handleChange}
                 options={options} // Options to display in the dropdown
                 isObject={false}
               />
             </Form.Group>
-            <Form.Group className="mb-4" controlId="schedule.timeSlots">
+            <Form.Group className="mb-4" controlId="singleSchedule.timeSlots">
               <Form.Label>Time Slots</Form.Label>
               <SlotPicker
-                interval={schedule.perSessionLength ?? 60}
+                interval={singleSchedule.perSessionLength ?? 60}
                 from={'07:00'}
                 to={'23:00'}
                 unAvailableSlots={['12:00']}
@@ -198,10 +207,10 @@ export default function SchedulesModal() {
 
             <button
               className="azh_btn w-100"
-              id="schedule.sumbit"
+              id="singleSchedule.sumbit"
               type="submit"
             >
-              {schedule._id ? "Update" : "Submit"}
+              {singleSchedule._id ? "Update" : "Submit"}
             </button>
           </Form>
         </Modal.Body>

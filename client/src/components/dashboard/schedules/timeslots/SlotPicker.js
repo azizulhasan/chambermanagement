@@ -4,7 +4,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateScheduleState } from '../../../../store/schedulesSlice'
 
 dayjs.extend(utc);
 dayjs.extend(duration);
@@ -55,6 +56,7 @@ export default function SlotPicker({
     [defaultSelectedTime || undefined]
   );
   const { singleSchedule } = useSelector(state => state.schedules)
+  const dispatch = useDispatch()
 
   const handleSelection = (data) => {
     let slots = [];
@@ -65,9 +67,7 @@ export default function SlotPicker({
       slots = [data.format('HH:mm')].concat(selectedTime)
       setSelectedTime(slots);
     }
-    singleSchedule.timeSlots.push(slots)
-
-    console.log(singleSchedule.timeSlots)
+    dispatch(updateScheduleState(slots))
     onSelectTime(data);
   };
 

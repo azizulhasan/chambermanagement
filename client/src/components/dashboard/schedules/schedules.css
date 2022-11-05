@@ -185,3 +185,19 @@
 .sp-timeslot:hover .sp-label {
   display: block;
 }
+
+
+/**
+Multiselect background color
+*/
+#multiselectContainerReact .search-wrapper .chip{
+  background-color: rgb(84 96 58);
+}
+.multiSelectContainer li.highlightOption {
+  background-color: rgb(84 96 58);
+  color:white
+}
+.multiSelectContainer li:hover{
+  background-color: rgb(84 96 58);
+  color:white
+}

@@ -62,7 +62,22 @@ let schedulesSlice = createSlice({
                 timeSlots: [],
                 user: '',
             }
-        }
+        },
+        updateScheduleState(state, action) {
+
+            if (Array.isArray(action.payload)) {
+                state.singleSchedule.timeSlots = action.payload
+            } else {
+                let name = Object.keys(action.payload)[0];
+                if (name == 'offDay') {
+                    state.singleSchedule[name] = [...new Set(action.payload[name])];
+                } else {
+                    state.singleSchedule[name] = action.payload[name];
+                }
+            }
+
+
+        },
 
     },
 
@@ -130,7 +145,7 @@ let schedulesSlice = createSlice({
     }
 });
 
-export let { showModal, addSchedule } = schedulesSlice.actions;
+export let { showModal, addSchedule, updateScheduleState } = schedulesSlice.actions;
 
 
 export default schedulesSlice.reducer;
