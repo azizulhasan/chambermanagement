@@ -67,6 +67,7 @@ export default function SlotPicker({
       slots = [data.format('HH:mm')].concat(selectedTime)
       setSelectedTime(slots);
     }
+    slots = slots.filter(item => item != undefined);
     dispatch(updateScheduleState(slots))
     onSelectTime(data);
   };

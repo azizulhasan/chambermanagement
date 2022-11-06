@@ -1,7 +1,7 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Table, Button } from "react-bootstrap";
-import {fetchSchedules, fetchSingleSchedule, deleteSchedule} from "../../../store/schedulesSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { fetchSchedules, fetchSingleSchedule, deleteSchedule } from "../../../store/schedulesSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Components
@@ -11,12 +11,13 @@ import "./schedules.css";
 
 
 export default function Schedules() {
-    const dispatch = useDispatch();
-    const {schedules, SCHEDULE_HEADERS}  = useSelector (state => state.schedules ) ;
-    
+  const dispatch = useDispatch();
+  const { schedules, SCHEDULE_HEADERS } = useSelector(state => state.schedules);
+
   useEffect(() => {
-        dispatch(fetchSchedules());
-    }, [dispatch]);
+    dispatch(fetchSchedules());
+    console.log(schedules)
+  }, [dispatch]);
 
 
   /**
@@ -25,7 +26,7 @@ export default function Schedules() {
    */
   const deleteData = (id) => {
     let result = window.confirm("Are you sure? It will be permanently deleted.");
-    if( ! result){
+    if (!result) {
       return;
     }
     dispatch(deleteSchedule(id))
@@ -40,7 +41,7 @@ export default function Schedules() {
           lg={12}
           className="d-flex flex-col justify-content-start align-items-start"
         >
-          <SchedulesModal/>
+          <SchedulesModal />
         </Col>
       </Row>
       <Table bordered>
@@ -53,31 +54,31 @@ export default function Schedules() {
           </tr>
         </thead>
         <tbody>{schedules.length && schedules.map((schedule, index) => (
-              <tr key={index}>{Object.keys(schedule).map((key) => {
-                  if (
-                    key === "name" ||
-                    key === "email" ||
-                    key === "phone" ||
-                    key === "image" 
-                  ) {
-                    return <td key={key} dangerouslySetInnerHTML={{ __html: schedule[key] }}></td>
-                  }else{
-                    return null
-                  }
-                })}
-                <td>
-                  <Button
-                    className="mr-2"
-                    bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => dispatch(fetchSingleSchedule(schedules[index]["_id"]))}
-                  ><i className="fas fa-edit"></i></Button>
-                  <Button
-                    bsPrefix="azh_btn azh_btn_edit"
-                    onClick={(e) => deleteData(schedules[index]["_id"])}><i className="fas fa-trash-alt"></i>
-                  </Button>
-                </td>
-              </tr>
-            ))}
+          <tr key={index}>{Object.keys(schedule).map((key) => {
+            if (
+              key === "name" ||
+              key === "email" ||
+              key === "phone" ||
+              key === "image"
+            ) {
+              return <td key={key} dangerouslySetInnerHTML={{ __html: schedule[key] }}></td>
+            } else {
+              return null
+            }
+          })}
+            <td>
+              <Button
+                className="mr-2"
+                bsPrefix="azh_btn azh_btn_edit"
+                onClick={(e) => dispatch(fetchSingleSchedule(schedules[index]["_id"]))}
+              ><i className="fas fa-edit"></i></Button>
+              <Button
+                bsPrefix="azh_btn azh_btn_edit"
+                onClick={(e) => deleteData(schedules[index]["_id"])}><i className="fas fa-trash-alt"></i>
+              </Button>
+            </td>
+          </tr>
+        ))}
         </tbody>
       </Table>
     </React.Fragment>

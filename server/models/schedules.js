@@ -6,7 +6,11 @@ const schedulesSchema = new Schema({
         type: String,
         required: true
     },
-    PerSessionLength: {
+    user: {
+        type: String,
+        required: true
+    },
+    perSessionLength: {
         type: Number,
         required: true
     },
@@ -23,6 +27,4 @@ const schedulesSchema = new Schema({
 }, { timestamps: true })
 
 
-const Schedules = mongoose.model('Schedules', schedulesSchema)
-
-module.exports = Schedules
+module.exports = mongoose.model('Schedules', schedulesSchema)

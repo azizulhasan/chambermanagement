@@ -14,7 +14,7 @@ import { addScripts } from "../../../utilities/utilities";
  * Sections
  */
 import MenuBar from "./sections/MenuBar";
-import Hero from "./sections/Hero";
+import Slider from "./sections/Slider";
 import About from "./sections/About";
 import Skills from "./sections/Skills";
 import Resume from "./sections/resume/Resume";
@@ -22,7 +22,7 @@ import Contact from "./sections/Contact";
 import Footer from "../partials/Footer";
 
 
-export default function Home(){
+export default function Home() {
   useEffect(() => {
     /**
      * Load all script of portfolio. and this url is based on "public/front/assets" folder
@@ -45,7 +45,7 @@ export default function Home(){
       <MenuBar />
       {/* End Header */}
       {/** Hero Section */}
-      <Hero />
+      <Slider />
       {/** End Hero */}
 
       <main id="main">

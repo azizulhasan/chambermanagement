@@ -2,7 +2,6 @@ const Services = require("../models/services");
 const multer = require("multer");
 const fs = require("fs");
 const { getImagePath } = require("../utilities/utilities");
-const { update } = require("lodash");
 
 /**
  * Display all services content.
@@ -95,9 +94,9 @@ const services_create_post = (req, res) => {
  * @param {Object} res
  */
 const services_update_post = (req, res) => {
-  
+
   uploads(req, res, (err) => {
-  let id = req.body.id;
+    let id = req.body.id;
     if (err) {
       console.log(err.message);
     } else {
@@ -134,7 +133,7 @@ const services_update_post = (req, res) => {
           ...req.body,
         };
       }
-      
+
       delete update_data.id;
       Services.findOneAndUpdate(
         {
@@ -175,7 +174,7 @@ const services_delete_post = (req, res) => {
   const id = req.params.id;
   // Delete user image.
   Services.findById(id).then((result) => {
-    let path = result.image ?  getImagePath(result.image) : "";
+    let path = result.image ? getImagePath(result.image) : "";
     if (fs.existsSync(path)) {
       fs.unlink(path, (err) => {
         console.log(result.image + " was deleted.");

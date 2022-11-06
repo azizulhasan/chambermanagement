@@ -44,12 +44,6 @@ export default function SchedulesModal() {
   };
 
   useEffect(() => {
-
-    // if (singlesingleSchedule.branch) {
-    setSchedule(singleSchedule)
-    // dispatch(showModal(true))
-    // }
-    console.log(singleSchedule)
     dispatch(fetchUsers());
   }, [singleSchedule]);
 
@@ -65,55 +59,44 @@ export default function SchedulesModal() {
      * Get full form data and modify them for saving to database.
      */
     let form = new FormData(e.target);
-    console.log(form.entries());
-    return
     let data = {};
     for (let [key, value] of form.entries()) {
       if (
         key === "" ||
-        value === "" ||
-        (key === "image" && value.name === "" && !singleSchedule.image)
-      ) {
-
-        alert("Please fill the value of : " + key);
-        return;
-      }
-      if (key === "image" && value.name === "" && singleSchedule.image) {
-        data[key] = singleSchedule.image;
-      } else {
-        data[key] = value;
+        value === "") {
+        if (key === 'search_name_input') {
+          continue;
+        } else {
+          alert("Please fill the value of : " + key);
+          return;
+        }
       }
     }
+
+    // if (!singleSchedule.timeSlots.length) {
+    //   alert("Please fill Time slots");
+    // }
+
     /**
-     * format form data.
-     */
+    ` * format form data.
+    */
     let formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (key !== "_id") {
-        formData.append(key, data[key]);
-      }
-    });
-
-
     // for( data of formData.values()){
     //   console.log(data)
     // }
-
 
     /**
      * Update data if "_id" exists. else save form data.
      */
     if (data._id !== undefined) {
-      formData.append('id', data._id);
-      dispatch(updateSchedule(formData));
+      dispatch(updateSchedule([data._id, singleSchedule]));
     } else {
-      dispatch(saveSchedule(formData));
+      dispatch(saveSchedule(singleSchedule));
     }
   };
 
   const scheduleAdd = () => {
     dispatch(addSchedule());
-    setSchedule({});
   }
 
 
@@ -199,8 +182,8 @@ export default function SchedulesModal() {
                 from={'07:00'}
                 to={'23:00'}
                 unAvailableSlots={['12:00']}
-                lang={lang}
-                defaultSelectedTime="12:00"
+                lang={'en'}
+                defaultSelectedTime=""
                 onSelectTime={s => addToSelectedArray(s)}
               />
             </Form.Group>
