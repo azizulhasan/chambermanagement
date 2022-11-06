@@ -5,6 +5,7 @@ import "./assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "./assets/vendor/boxicons/css/boxicons.min.css";
 import "./assets/vendor/swiper/swiper-bundle.min.css";
 import "./assets/css/style.css";
+import './sections/carousel.scss'
 
 /**
  * Utilities
@@ -15,11 +16,14 @@ import { addScripts } from "../../../utilities/utilities";
  */
 import MenuBar from "./sections/MenuBar";
 import Slider from "./sections/Slider";
+import Professionals from "./sections/Professionals";
+import GoogleMap from "./sections/GoogleMap";
 import About from "./sections/About";
 import Skills from "./sections/Skills";
 import Resume from "./sections/resume/Resume";
 import Contact from "./sections/Contact";
 import Footer from "../partials/Footer";
+import WhatsAppIcon from "./sections/WhatsAppIcon";
 
 
 export default function Home() {
@@ -44,10 +48,11 @@ export default function Home() {
       {/* Header Section*/}
       <MenuBar />
       {/* End Header */}
-      {/** Hero Section */}
+      {/** Slider Section */}
       <Slider />
-      {/** End Hero */}
-
+      {/** End Slider */}
+      <Professionals />
+      <GoogleMap />
       <main id="main">
         {/** About Section */}
         <About />
@@ -63,11 +68,10 @@ export default function Home() {
         {/** End Contact Section */}
       </main>
       {/* End #main */}
-
+      <WhatsAppIcon />
       {/** Footer */}
       <Footer />
       {/* End Footer */}
-
       {/* <ScrollToTop /> */}
     </React.Fragment>
   );
