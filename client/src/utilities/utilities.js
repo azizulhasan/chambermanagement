@@ -2,14 +2,14 @@
 
 
 const getAllScripts = () => {
-  
-   let allScripts = Object.values( document.getElementsByTagName('script') );
-   let scriptArr = []
-   for( let i in allScripts ) {
-      scriptArr.push(allScripts[i].src)
-   }
 
-   return scriptArr;
+  let allScripts = Object.values(document.getElementsByTagName('script'));
+  let scriptArr = []
+  for (let i in allScripts) {
+    scriptArr.push(allScripts[i].src)
+  }
+
+  return scriptArr;
 }
 /**
  * Load all scripts.
@@ -18,13 +18,13 @@ const getAllScripts = () => {
 export const addScripts = (scripts) => {
   let scriptArr = getAllScripts();
 
-   [...scripts].forEach((script) => {
-      let tag = document.createElement("script");
-      tag.async = true;
-      tag.src = script;
-      if( ! scriptArr.includes( script ) ) {
-        document.body.appendChild(tag)
-      }
+  [...scripts].forEach((script) => {
+    let tag = document.createElement("script");
+    tag.async = true;
+    tag.src = script;
+    if (!scriptArr.includes(script)) {
+      document.body.appendChild(tag)
+    }
   });
 };
 
@@ -346,8 +346,8 @@ export const getLocalStorage = (keys = []) => {
 
 export const getRgisteredUser = () => {
   return {
-    session: getSessionStorage()['user'] ? JSON.parse( getSessionStorage()['user'] ) : null ,
-    storage: getLocalStorage()['user'] ? JSON.parse( getLocalStorage()['user'] ) : null ,
+    session: getSessionStorage()['user'] ? JSON.parse(getSessionStorage()['user']) : null,
+    storage: getLocalStorage()['user'] ? JSON.parse(getLocalStorage()['user']) : null,
   };
 };
 
@@ -355,9 +355,9 @@ export const getRgisteredUser = () => {
 export const authenTicateUser = () => {
 
   const Auth = getRgisteredUser();
- 
+
   if (
-    (  ! Auth.session  && ! Auth.storage ) ) {
+    (!Auth.session && !Auth.storage)) {
     return false;
   }
 
@@ -368,8 +368,8 @@ export const getUserName = () => {
   return window.sessionStorage.getItem("user")
     ? JSON.parse(getSessionStorage()['user'])['name']
     : window.localStorage.getItem("user")
-    ? window.localStorage.getItem("user")['storage']
-    : "";
+      ? window.localStorage.getItem("user")['storage']
+      : "";
 };
 export const logout = () => {
   window.localStorage.removeItem("user");
@@ -433,22 +433,21 @@ export const getFormattedDate = () => {
   var month = months[d.getMonth()];
   var year = d.getFullYear();
   var x = document.getElementById("time");
-  
-   return  day + " " + hr + ":" + min + ampm + " " + date + " " + month + " " + year;
+
+  return day + " " + hr + ":" + min + ampm + " " + date + " " + month + " " + year;
 };
 
-  /**
-   * Get ifram content
-   */
- export  const getIframeContent = (textareaIndex) => {
-    let textareaId = document
-      .getElementsByTagName("textarea")[textareaIndex]
-      .getAttribute("id");
-    let iframeContent = document.getElementById(textareaId + "_ifr").contentWindow
-      .document.body.innerHTML;
-  
-    return iframeContent;
-  };
+/**
+ * Get ifram content
+ */
+export const getIframeContent = (textareaIndex) => {
+  let textareaId = document
+    .getElementsByTagName("textarea")[textareaIndex]
+    .getAttribute("id");
+  let iframeContent = document.getElementById(textareaId + "_ifr").contentWindow
+    .document.body.innerHTML;
+
+  return iframeContent;
+};
 
 
-  

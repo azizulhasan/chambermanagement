@@ -1,10 +1,4 @@
 import React, { useEffect } from "react";
-
-
-import "./assets/vendor/bootstrap-icons/bootstrap-icons.css";
-import "./assets/vendor/boxicons/css/boxicons.min.css";
-import "./assets/vendor/swiper/swiper-bundle.min.css";
-import "./assets/css/style.css";
 import './sections/carousel.scss'
 
 /**
@@ -33,13 +27,13 @@ export default function Home() {
      * @param {url} script url
      */
     addScripts([
-      "assets/front/vendor/purecounter/purecounter.js",
-      "assets/front/vendor/aos/aos.js",
-      "assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js",
-      "assets/front/vendor/swiper/swiper-bundle.min.js",
-      "assets/front/vendor/typed.js/typed.min.js",
-      "assets/front/vendor/waypoints/noframework.waypoints.js",
-      "assets/front/js/main.js",
+      // "assets/front/vendor/purecounter/purecounter.js",
+      // "assets/front/vendor/aos/aos.js",
+      // "assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js",
+      // "assets/front/vendor/swiper/swiper-bundle.min.js",
+      // "assets/front/vendor/typed.js/typed.min.js",
+      // "assets/front/vendor/waypoints/noframework.waypoints.js",
+      // "assets/front/js/main.js",
     ]);
   });
 
@@ -47,30 +41,31 @@ export default function Home() {
     <React.Fragment>
       {/* Header Section*/}
       <MenuBar />
-      {/* End Header */}
-      {/** Slider Section */}
-      <Slider />
-      {/** End Slider */}
-      <Professionals />
-      <GoogleMap />
+
       <main id="main">
+        {/* End Header */}
+        {/** Slider Section */}
+        <Slider />
+        {/** End Slider */}
+        <Professionals />
+        <GoogleMap />
         {/** About Section */}
-        <About />
+        {/* <About /> */}
         {/** End About Section */}
         {/** Skills Section */}
-        <Skills />
+        {/* <Skills /> */}
         {/** End Skills Section */}
         {/** Resume Section */}
-        <Resume />
+        {/* <Resume /> */}
         {/** End Resume Section */}
         {/** Contact Section */}
-        <Contact />
+        {/* <Contact /> */}
         {/** End Contact Section */}
       </main>
       {/* End #main */}
       <WhatsAppIcon />
       {/** Footer */}
-      <Footer />
+      {/* <Footer /> */}
       {/* End Footer */}
       {/* <ScrollToTop /> */}
     </React.Fragment>
