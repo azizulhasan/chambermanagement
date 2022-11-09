@@ -18,6 +18,7 @@ import Resume from "./sections/resume/Resume";
 import Contact from "./sections/Contact";
 import Footer from "../partials/Footer";
 import WhatsAppIcon from "./sections/WhatsAppIcon";
+import TopNav from "./sections/TopNav";
 
 
 export default function Home() {
@@ -40,6 +41,7 @@ export default function Home() {
   return (
     <React.Fragment>
       {/* Header Section*/}
+      <TopNav />
       <MenuBar />
 
       <main id="main">
@@ -59,13 +61,13 @@ export default function Home() {
         {/* <Resume /> */}
         {/** End Resume Section */}
         {/** Contact Section */}
-        {/* <Contact /> */}
+        <Contact />
         {/** End Contact Section */}
       </main>
       {/* End #main */}
       <WhatsAppIcon />
       {/** Footer */}
-      {/* <Footer /> */}
+      <Footer />
       {/* End Footer */}
       {/* <ScrollToTop /> */}
     </React.Fragment>
