@@ -25,7 +25,7 @@
   border-radius: 2px;
 }
 .topnav_bg, .topnav_bg .btn-dark, #layoutSidenav_nav, .footer_bg, .ButtonGroup__root .btn-primary, .azh_btn{
-  background-color: rgb(84 96 58);
+  background-color: rgb(103, 147, 75); 
 }
 
 .ButtonGroup__root .btn-primary:disabled, .btn-primary.disabled, .azh_btn, .topnav_bg .btn-dark{
@@ -46,6 +46,7 @@
 .ButtonGroup__root .btn-primary{
     color:white;
 }
-
-
 .modal{background-color: rgba(0, 0, 0, .4)}
+
+
+

@@ -29,8 +29,10 @@ export default function Settings() {
      * Get data from and display to table.
      */
     getData(process.env.REACT_APP_API_URL + "/api/settings").then((res) => {
-      setSettings(res.data[0]);
-      setChecked(res.data[0].welcome_message_is_display);
+      if (res.data.length) {
+        setSettings(res.data[0]);
+        setChecked(res.data[0].welcome_message_is_display);
+      }
     });
   }, []);
 
@@ -225,7 +227,7 @@ export default function Settings() {
             </button>
           </div>
         </Row>
-        
+
       </Form>
     </React.Fragment>
   );

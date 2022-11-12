@@ -17,16 +17,62 @@ const getAllScripts = () => {
  */
 export const addScripts = (scripts) => {
   let scriptArr = getAllScripts();
-
+  let currentScripts = [];
   [...scripts].forEach((script) => {
     let tag = document.createElement("script");
     tag.async = true;
     tag.src = script;
-    if (!scriptArr.includes(script)) {
+    /**
+     * If link starts with http means this is an extarnal url add this as it is.
+     * Else add with the url orgin  
+     */
+    if (script.slice(0, 4) !== 'http') {
+      script = window.location.origin + script;
+    }
+    if (!scriptArr.includes(script) && !currentScripts.includes(scripts)) {
+      currentScripts.push(script)
       document.body.appendChild(tag)
     }
   });
 };
+
+const getAllCSSFiles = () => {
+  let allCSS = Object.values(document.getElementsByTagName('link'));
+  let cssArr = []
+  for (let i in allCSS) {
+    if (allCSS[i].rel === 'stylesheet') {
+      cssArr.push(allCSS[i].href)
+    }
+  }
+  return cssArr;
+}
+/**
+ * Load all css.
+ * @param {url} script url
+ */
+export const addCSS = (css) => {
+  let previousCSSFiles = getAllCSSFiles();
+  let currentCSSFiles = [];
+  [...css].forEach((script) => {
+    let tag = document.createElement("link");
+    tag.rel = 'stylesheet';
+    tag.href = script;
+    /**
+     * If link starts with http means this is an extarnal url add this as it is.
+     * Else add with the url orgin  
+     */
+    if (script.slice(0, 4) !== 'http') {
+      script = window.location.origin + script;
+    }
+    if (!previousCSSFiles.includes(script) && !currentCSSFiles.includes(script)) {
+      document.head.appendChild(tag)
+      currentCSSFiles.push(script)
+    }
+  });
+
+
+};
+
 
 /**
  * Post data method.

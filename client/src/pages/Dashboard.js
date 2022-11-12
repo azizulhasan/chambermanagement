@@ -7,11 +7,16 @@ import "react-toastify/dist/ReactToastify.css";
 /**
  * Scripts
  */
+/**
+ * Stypes and scripts
+ */
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../components/dashboard/assets/css/styles.css";
 import "../components/dashboard/assets/css/custom.css";
 import "../components/dashboard/assets/js/scripts.js";
 import {
   addScripts,
+  addCSS,
   getComponentName,
   authenTicateUser,
   getRgisteredUser
@@ -47,17 +52,17 @@ import Settings from "../components/dashboard/settings/Settings";
 
 export default function Dashboard() {
   const [componentName, setComponentName] = useState(getComponentName());
-  let  tokenObj = getRgisteredUser();
-  const accessToken =  ( tokenObj.schedule )? tokenObj.schedule.accessToken : null || ( tokenObj.storage ) ? tokenObj.storage.accessToken : null;
+  let tokenObj = getRgisteredUser();
+  const accessToken = (tokenObj.schedule) ? tokenObj.schedule.accessToken : null || (tokenObj.storage) ? tokenObj.storage.accessToken : null;
 
   const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
-   
+
   const updateToken = () => {
     reEvaluateToken(accessToken); // decodedToken and isExpired will be updated
   }
 
   useEffect(() => {
-      
+
     new MutationObserver(() => {
       setComponentName(getComponentName());
     }).observe(document, { subtree: true, childList: true });
@@ -65,81 +70,86 @@ export default function Dashboard() {
 
   addScripts([
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js",
+    "/assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js",
+    // "../components/dashboard/assets/js/scripts.js"
   ]);
+  addCSS([
+    '/assets/front/vendor/bootstrap/css/bootstrap.css'
+  ])
 
-  if(! authenTicateUser() ){
-      window.location.href = '/login'
-  }else{
+  if (!authenTicateUser()) {
+    window.location.href = '/login'
+  } else {
 
-  return (
+    return (
 
-    <Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <DashboardTopNav />
-      <div id="layoutSidenav">
-        <DashboardSideNav />
-        <div id="layoutSidenav_content">
-          <main>
-            <div className="container-fluid px-4">
-              <h1 className="mt-4">Dashboard</h1>
-              <ol className="breadcrumb mb-4">
-                <li className="breadcrumb-item active">
-                  Dashboard {componentName}
-                </li>
-              </ol>
-              <Routes>
-                <Route path="/dashboard" element={<DashboardContent />} />
-                <Route path="/dashboard/mail" element={<Mail />} />
-                <Route path="/dashboard/services" element={<Services />} />
-                <Route path="/dashboard/users" element={<Users />} />
-                <Route path="/dashboard/schedules" element={<Schedules />} />
-                <Route path="/dashboard/hero" element={<Hero />} />
-                <Route path="/dashboard/about" element={<About />} />
-                <Route path="/dashboard/skills" element={<Skills />} />
-                <Route path="/dashboard/resume/summery" element={<Summery />} />
-                <Route
-                  path="/dashboard/resume/education"
-                  element={<Education />}
-                />
-                <Route
-                  path="/dashboard/resume/experience"
-                  element={<Experience />}
-                />
-                <Route path="/dashboard/contact" element={<Contact />} />
-                <Route path="/dashboard/settings" element={<Settings />} />
-              </Routes>
-            </div>
-          </main>
-          <footer className="py-4 mt-auto footer_bg">
-            <div className="container-fluid px-4">
-              <div className="d-flex align-items-center justify-content-between small">
-                <div className="text-muted">
-                  Copyright &copy;{" "}
-                  <a
-                    href="http://azizulhasan.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Azizul Hasan
-                  </a>
+      <Router>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <DashboardTopNav />
+        <div id="layoutSidenav">
+          <DashboardSideNav />
+          <div id="layoutSidenav_content">
+            <main>
+              <div className="container-fluid px-4">
+                <h1 className="mt-4">Dashboard</h1>
+                <ol className="breadcrumb mb-4">
+                  <li className="breadcrumb-item active">
+                    Dashboard {componentName}
+                  </li>
+                </ol>
+                <Routes>
+                  <Route path="/dashboard" element={<DashboardContent />} />
+                  <Route path="/dashboard/mail" element={<Mail />} />
+                  <Route path="/dashboard/services" element={<Services />} />
+                  <Route path="/dashboard/users" element={<Users />} />
+                  <Route path="/dashboard/schedules" element={<Schedules />} />
+                  <Route path="/dashboard/hero" element={<Hero />} />
+                  <Route path="/dashboard/about" element={<About />} />
+                  <Route path="/dashboard/skills" element={<Skills />} />
+                  <Route path="/dashboard/resume/summery" element={<Summery />} />
+                  <Route
+                    path="/dashboard/resume/education"
+                    element={<Education />}
+                  />
+                  <Route
+                    path="/dashboard/resume/experience"
+                    element={<Experience />}
+                  />
+                  <Route path="/dashboard/contact" element={<Contact />} />
+                  <Route path="/dashboard/settings" element={<Settings />} />
+                </Routes>
+              </div>
+            </main>
+            <footer className="py-4 mt-auto footer_bg">
+              <div className="container-fluid px-4">
+                <div className="d-flex align-items-center justify-content-between small">
+                  <div className="text-muted">
+                    Copyright &copy;{" "}
+                    <a
+                      href="http://azizulhasan.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Azizul Hasan
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </footer>
+            </footer>
+          </div>
         </div>
-      </div>
-    </Router>
-  );
+      </Router>
+    );
   }
 
 }
