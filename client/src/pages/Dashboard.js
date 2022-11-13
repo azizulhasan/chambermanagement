@@ -4,16 +4,6 @@ import { ToastContainer } from "react-toastify";
 import { useJwt } from "react-jwt";
 
 import "react-toastify/dist/ReactToastify.css";
-/**
- * Scripts
- */
-/**
- * Stypes and scripts
- */
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../components/dashboard/assets/css/styles.css";
-import "../components/dashboard/assets/css/custom.css";
-import "../components/dashboard/assets/js/scripts.js";
 import {
   addScripts,
   addCSS,
@@ -38,13 +28,12 @@ import Schedules from '../components/dashboard/schedules/Schedules'
 /**
  * Portfolio components
  */
-import Hero from "../components/dashboard/portfolio/hero/Hero";
-import About from "../components/dashboard/portfolio/about/About";
-import Skills from "../components/dashboard/portfolio/skills/Skills";
-import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
-import Education from "../components/dashboard/portfolio/resume/education/Education";
-import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
-
+// import Hero from "../components/dashboard/portfolio/hero/Hero";
+// import About from "../components/dashboard/portfolio/about/About";
+// import Skills from "../components/dashboard/portfolio/skills/Skills";
+// import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
+// import Education from "../components/dashboard/portfolio/resume/education/Education";
+// import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
 import Contact from "../components/dashboard/portfolio/contact/Contact";
 import Settings from "../components/dashboard/settings/Settings";
 
@@ -67,15 +56,6 @@ export default function Dashboard() {
       setComponentName(getComponentName());
     }).observe(document, { subtree: true, childList: true });
   }, [componentName]);
-
-  addScripts([
-    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js",
-    "/assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js",
-    // "../components/dashboard/assets/js/scripts.js"
-  ]);
-  addCSS([
-    '/assets/front/vendor/bootstrap/css/bootstrap.css'
-  ])
 
   if (!authenTicateUser()) {
     window.location.href = '/login'
@@ -113,18 +93,6 @@ export default function Dashboard() {
                   <Route path="/dashboard/services" element={<Services />} />
                   <Route path="/dashboard/users" element={<Users />} />
                   <Route path="/dashboard/schedules" element={<Schedules />} />
-                  <Route path="/dashboard/hero" element={<Hero />} />
-                  <Route path="/dashboard/about" element={<About />} />
-                  <Route path="/dashboard/skills" element={<Skills />} />
-                  <Route path="/dashboard/resume/summery" element={<Summery />} />
-                  <Route
-                    path="/dashboard/resume/education"
-                    element={<Education />}
-                  />
-                  <Route
-                    path="/dashboard/resume/experience"
-                    element={<Experience />}
-                  />
                   <Route path="/dashboard/contact" element={<Contact />} />
                   <Route path="/dashboard/settings" element={<Settings />} />
                 </Routes>

@@ -1,9 +1,13 @@
 // https://www.npmjs.com/package/react-responsive-carousel
 
 import { Carousel } from 'react-responsive-carousel';
-import './styles/slider.scss'
+import { addCSS } from '../../../../utilities/utilities';
 // onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 const Slider = () => {
+
+    addCSS([
+        '/assets/front/css/slider/slider.scss'
+    ])
     return (
         <Carousel autoPlay={true} showArrows={false} className="presentation-mode">
             <div>

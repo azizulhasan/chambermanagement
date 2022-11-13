@@ -1,10 +1,13 @@
 // https://www.npmjs.com/package/react-responsive-carousel
 
 import { Carousel } from 'react-responsive-carousel';
-import './styles/professional.scss'
+import { addCSS } from '../../../../utilities/utilities';
 
 // onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 const Professionals = () => {
+    addCSS([
+        '/assets/front/css/professional.scss'
+    ])
     return (
         <Carousel autoPlay={true} showArrows={true} className="presentation-mode professional">
             <div className='professional'>

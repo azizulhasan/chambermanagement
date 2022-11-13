@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import {loginUser} from "../store/usersSlice";
+import { loginUser } from "../store/usersSlice";
 import ReCAPTCHA from "react-google-recaptcha"
 /**
  *
@@ -13,44 +13,48 @@ import {
   setLocalStorage,
   setSessionStorage,
   getSessionStorage,
-  getLocalStorage
+  getLocalStorage,
+  addCSS
 } from "../utilities/utilities";
-import "../components/front/home/assets/css/login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit,  formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const captchaRef = useRef(null)
   const dispatch = useDispatch();
   useEffect(() => {
     const Auth = {
-    session: getSessionStorage()['user'],
-    storage: getLocalStorage()['user'],
-  };
-  if (
-    ( Auth.session !== undefined || Auth.storage !== undefined ) ) {
-    window.location.href = process.env.REACT_APP_URL + "/dashboard";
-  }
+      session: getSessionStorage()['user'],
+      storage: getLocalStorage()['user'],
+    };
+    if (
+      (Auth.session !== undefined || Auth.storage !== undefined)) {
+      window.location.href = process.env.REACT_APP_URL + "/dashboard";
+    }
   }, []);
 
   const onSubmit = (data) => {
-    
-    const token = captchaRef.current.getValue();
-    data.token  = token;
 
-    if(!token){
-        alert('Check recaption');
-        return;
+    const token = captchaRef.current.getValue();
+    data.token = token;
+
+    if (!token) {
+      alert('Check recaption');
+      return;
     }
     data.remember_me = document.getElementById('remember_me').value
     if (data.remember_me !== undefined) {
-      setLocalStorage({remember_me: true})
+      setLocalStorage({ remember_me: true })
       delete data.remember_me
     }
-   dispatch(loginUser(JSON.stringify(data)))
+    dispatch(loginUser(JSON.stringify(data)))
 
-   captchaRef.current.reset();
+    captchaRef.current.reset();
   };
+
+  addCSS([
+    '/assets/front/css/login.css'
+  ])
   return (
     <div className="container">
       {/* <!-- Outer Row --> */}
@@ -66,24 +70,26 @@ export default function Login() {
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)}className="user">
+                    <form onSubmit={handleSubmit(onSubmit)} className="user">
                       <div className="form-group">
                         <div className="form-group">
-                        <input
-                        type={'email'}
-                          {...register("email", { required: true,
-                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })}
-                          className="form-control form-control-user"
-                          placeholder="Enter Email Address..."
-                          defaultValue={window.sessionStorage.getItem('email') || ''}
-                        />
-                        {errors.email && <span className="error">Emai is require.</span>}
-                      </div>
+                          <input
+                            type={'email'}
+                            {...register("email", {
+                              required: true,
+                              pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                            })}
+                            className="form-control form-control-user"
+                            placeholder="Enter Email Address..."
+                            defaultValue={window.sessionStorage.getItem('email') || ''}
+                          />
+                          {errors.email && <span className="error">Emai is require.</span>}
+                        </div>
                       </div>
                       <div className="form-group">
                         <input
                           type="password"
-                          {...register("password",{
+                          {...register("password", {
                             required: true,
                           })}
                           className="form-control form-control-user"
@@ -95,7 +101,7 @@ export default function Login() {
                       <ReCAPTCHA
                         sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                         ref={captchaRef}
-                        />
+                      />
                       <div className="form-group my-2">
                         <div className="custom-control custom-checkbox small">
                           <input

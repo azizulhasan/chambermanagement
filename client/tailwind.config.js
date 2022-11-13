@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/components/front/**/*.{js,jsx,ts,tsx}",
+    "./src/pages/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     colors: {

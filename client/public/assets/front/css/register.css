@@ -1,0 +1,9 @@
+.error{
+    position: relative;
+    left: 0;
+    top: 0;
+    font-size: 13px;
+    transform: translateY(-60%);
+    font-family: 'Righteous', cursive;
+    color: #ff0000;
+}

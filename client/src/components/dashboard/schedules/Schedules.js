@@ -3,11 +3,12 @@ import { Col, Row, Table, Button } from "react-bootstrap";
 import { fetchSchedules, fetchSingleSchedule, deleteSchedule } from "../../../store/schedulesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+
 /**
  * Components
  */
 import SchedulesModal from "./SchedulesModal";
-import "./schedules.css";
+import { addCSS } from "../../../utilities/utilities";
 
 
 export default function Schedules() {
@@ -19,6 +20,9 @@ export default function Schedules() {
     console.log(schedules)
   }, [dispatch]);
 
+  addCSS([
+    '/assets/dashboard/css/schedules.css'
+  ])
 
   /**
    *

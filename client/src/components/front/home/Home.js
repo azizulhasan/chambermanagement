@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import './sections/carousel.scss'
 
 /**
  * Utilities
  */
-import { addScripts } from "../../../utilities/utilities";
+import { addCSS, addScripts } from "../../../utilities/utilities";
 /**
  * Sections
  */
@@ -22,22 +21,10 @@ import TopNav from "./sections/TopNav";
 
 
 export default function Home() {
-  useEffect(() => {
-    /**
-     * Load all script of portfolio. and this url is based on "public/front/assets" folder
-     * @param {url} script url
-     */
-    addScripts([
-      // "assets/front/vendor/purecounter/purecounter.js",
-      // "assets/front/vendor/aos/aos.js",
-      // "assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js",
-      // "assets/front/vendor/swiper/swiper-bundle.min.js",
-      // "assets/front/vendor/typed.js/typed.min.js",
-      // "assets/front/vendor/waypoints/noframework.waypoints.js",
-      // "assets/front/js/main.js",
-    ]);
-  });
 
+  addCSS([
+    '/assets/front/css/slider/carousel.scss',
+  ])
   return (
     <React.Fragment>
       {/* Header Section*/}

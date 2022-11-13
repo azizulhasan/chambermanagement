@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
+import("./tailwind.css")
 
-import '../components/front/home/assets/css/style.css'
-
-
-import Login from "./Login";
-import Register from "./Register";
-import NotFound from "../components/front/notfound/NotFound";
-import Home from "../components/front/home/Home";
+const Login = lazy(() => import("./Login"));
+const Register = lazy(() => import("./Register"));
+const NotFound = lazy(() => import("../components/front/notfound/NotFound"));
+const Home = lazy(() => import("../components/front/home/Home"));
 
 function Front() {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
+
     /**
      * Display or hide portfolio menus.
      */
@@ -40,15 +39,17 @@ function Front() {
         displayMunu();
       }
     });
-  });
+  }, []);
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="*" element={<NotFound />} />;
-      </Routes>
+      <Suspense fallback={<div>Loading.......</div>}>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="*" element={<NotFound />} />;
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
