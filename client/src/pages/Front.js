@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { addCSS } from "../utilities/utilities";
 
-import("./tailwind.css")
 
 const Login = lazy(() => import("./Login"));
 const Register = lazy(() => import("./Register"));
@@ -9,6 +9,8 @@ const NotFound = lazy(() => import("../components/front/notfound/NotFound"));
 const Home = lazy(() => import("../components/front/home/Home"));
 
 function Front() {
+
+
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
 

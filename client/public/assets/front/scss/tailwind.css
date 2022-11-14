@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import 'custom.css'; */
+
+@layer utilities {
+    .themeColor {
+        background-color: rgb(103, 147, 75);
+    }
+}

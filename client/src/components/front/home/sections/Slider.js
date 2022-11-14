@@ -5,9 +5,9 @@ import { addCSS } from '../../../../utilities/utilities';
 // onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 const Slider = () => {
 
-    addCSS([
-        '/assets/front/css/slider/slider.scss'
-    ])
+    // addCSS([
+    //     '/assets/front/css/slider/slider.scss'
+    // ])
     return (
         <Carousel autoPlay={true} showArrows={false} className="presentation-mode">
             <div>
