@@ -24,9 +24,6 @@ export default function Register() {
     }
   });
   const dispatch = useDispatch();
-
-
-
   useEffect(() => {
     const Auth = {
       session: getSessionStorage()['user'],

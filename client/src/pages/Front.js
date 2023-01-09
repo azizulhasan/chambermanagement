@@ -10,6 +10,9 @@ const Home = lazy(() => import("../components/front/home/Home"));
 
 function Front() {
 
+  addCSS([
+    '/assets/front/css/tailwind.css',
+  ])
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {

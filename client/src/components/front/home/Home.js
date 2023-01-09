@@ -23,7 +23,6 @@ import TopNav from "./sections/TopNav";
 export default function Home() {
 
   addCSS([
-    '/assets/front/css/tailwind.css',
     '/assets/front/css/slider.css',
     '/assets/front/css/carousel.css',
     '/assets/front/css/professional.css',
