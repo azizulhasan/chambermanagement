@@ -24,4 +24,9 @@ form.user .form-group .custom-checkbox.small label {
     padding: 0.75rem 1rem;
   }
 
+  .image-height{
+    height: 500px;
+    width: 600PX;
+  }
+
   

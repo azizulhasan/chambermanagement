@@ -2,42 +2,59 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { registerUser } from "../store/usersSlice";
-import ReCAPTCHA from "react-google-recaptcha"
+import ReCAPTCHA from "react-google-recaptcha";
+import retistrationImage from "../assets/registration/registration_page.PNG";
+import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import { MdLockOutline, MdPhone } from "react-icons/md";
+
 
 import {
   getSessionStorage,
   getLocalStorage,
   addCSS
 } from "../utilities/utilities";
+import { useNavigate } from "react-router-dom";
+
+const initialUser = { 
+  name: 'azizul hasan',
+  phone: '23523463546',
+  email: 'azizulhasan.cr@gmail.com',
+  password: '123',
+  confirmPassword: '123',
+}
 
 export default function Register() {
+  //#region Hooks
   const { register, handleSubmit, formState: { errors } } = useForm();
   const captchaRef = useRef(null)
-
-  const [user, setUser] = useState(() => {
-    return {
-      name: 'azizul hasan',
-      phone: '23523463546',
-      email: 'azizulhasan.cr@gmail.com',
-      password: '123',
-      confirmPassword: '123',
-    }
-  });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //#endregion
+
+  //#region States
+  const [user, setUser] = useState(initialUser);
+  //#endregion
+
+  //#region useEffect
   useEffect(() => {
     const Auth = {
       session: getSessionStorage()['user'],
       storage: getLocalStorage()['user'],
     };
+    console.log({...Auth});
     if (
       (Auth.session !== undefined || Auth.storage !== undefined)) {
-      window.location.href = process.env.REACT_APP_URL + "/dashboard";
+      // window.location.href = process.env.REACT_APP_URL + "/dashboard";
+      navigate("/dashboard");
     }
-  }, [])
+  }, []);
+//#endregion
+
+//#region Events
   const onSubmit = (data) => {
     if (data.password !== data.confirmPassword) {
       alert("Password did not match.")
-      return
+      return;
     }
     const token = captchaRef.current.getValue();
     data.token = token;
@@ -46,104 +63,144 @@ export default function Register() {
       alert('Check recaption');
       return;
     }
-    dispatch(registerUser(JSON.stringify(data)))
-
+    dispatch(registerUser(JSON.stringify(data)));
     captchaRef.current.reset();
   };
+  //#endregion
 
+  //#region Custom Functions
   addCSS([
     '/assets/front/css/register.css'
-  ])
+  ]);
+  //#endregion
+
   return (
-    <div className="container">
+    <div>
       {/* <!-- Outer Row --> */}
-      <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          <div className="card o-hidden border-0 shadow-lg my-5">
-            <div className="card-body p-0">
-              {/* <!-- Nested Row within Card Body --> */}
-              <div className="row">
-                <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                <div className="col-lg-6">
-                  <div className="p-5">
-                    <div className="text-center">
-                      <h1 className="h4 text-gray-900 mb-4">Welcome To Mind To Heart!</h1>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="user">
-                      <div className="form-group">
-                        <input
+
+      <div className="flex flex-col xl:justify-center lg:justify-between justify-center items-center min-h-screen py-2 bg-gray-100 g-6">
+        <main className="flex flex-col items-center justify-center w-full flex-1 text-center">
+          <div className="bg-white rounded-2xl shadow-2xl flex max-w-4xl">
+            <div className="xm:hidden">
+              <img
+                src={retistrationImage}
+                alt="Registration Images"
+                className="rounded-l-2xl image-height"
+              />
+            </div>
+            {/* Registration From start */} 
+            <div className="p-5">
+              <div className="py-10">
+                <h2 className="text-3xl font-bold text-green-500">
+                  Sign Up Form
+                </h2>
+                <div className="border-2 w-10 border-green-500 inline-block mb-3"></div>
+                <form
+                  className="space-y-4 md:space-y-6 xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0"
+                  action="#"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className="flex flex-col items-center">
+                    {/* User Name start */}
+                    <div className="bg-gray-100 w-full p-2 flex items-center mb-3">
+                      <FaRegUser className="text-gray-400 m-2" />
+                      <input
                           type="text"
                           {...register("name", { required: true, maxLength: 50 })}
-                          className="form-control form-control-user"
+                          className="bg-gray-100 outline-none text-sm flex-1 border-none"
                           placeholder="Enter name "
                           defaultValue={user.name}
                         />
                         {errors.name && <span className="error">Name is required.</span>}
-                      </div>
-                      <div className="form-group">
-                        <input
+                    </div>
+                     {/* User Name End */}
+
+                      {/* Phone Number start */}
+                    <div className="bg-gray-100 w-full p-2 flex items-center mb-3">
+                      <MdPhone className="text-gray-400 m-2" />
+                      <input
                           type='number'
                           {...register("phone", { required: true })}
-                          className="form-control form-control-user"
+                          className="bg-gray-100 outline-none text-sm flex-1 border-none"
                           placeholder="Enter phone number..."
                           defaultValue={user.phone}
                         />
-                        {errors.phone && <span className="error">Phone is require.</span>}
-                      </div>
-                      <div className="form-group">
-                        <input
+                        {errors.phone && <span className="error">Phone is require.</span>}                      
+                    </div>
+                     {/* Phone Number End */}
+
+                    {/* Email start */}
+                    <div className="bg-gray-100 w-full p-2 flex items-center mb-3">
+                      <FaRegEnvelope className="text-gray-400 m-2" />
+                      <input
                           type={'email'}
                           {...register("email", {
                             required: true,
                             pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                           })}
-                          className="form-control form-control-user"
+                          className="bg-gray-100 outline-none text-sm flex-1 border-none"
                           placeholder="Enter Email Address..."
                           defaultValue={user.email}
                         />
-                        {errors.email && <span className="error">Emai is require.</span>}
-                      </div>
-                      <div className="form-group">
-                        <input
+                        {errors.email && <span className="error">Email is require.</span>}                      
+                    </div>
+                    {/* Email End */}
+
+                    {/* Password start */}
+                    <div className="bg-gray-100 w-full p-2 flex items-center mb-3">
+                      <MdLockOutline className="text-gray-400 m-2" />
+                      <input
                           type="password"
                           {...register("password", {
                             required: true,
                           })}
-                          className="form-control form-control-user"
+                          className="bg-gray-100 outline-none text-sm flex-1 border-none"
                           placeholder="Password"
                           defaultValue={user.password}
                         />
-                        {errors.password && <span className="error">Password is require.</span>}
-                      </div>
-                      <div className="form-group">
-                        <input
+                        {errors.password && <span className="error">Password is require.</span>}                      
+                    </div>
+                    {/* Password End */}
+
+                    {/* Confirm Password start */}
+                    <div className="bg-gray-100 w-full p-2 flex items-center">
+                      <MdLockOutline className="text-gray-400 m-2" />
+                      <input
                           type={'password'}
                           {...register("confirmPassword", {
                             required: true,
                           })}
-                          className="form-control form-control-user"
+                          className="bg-gray-100 outline-none text-sm flex-1 border-none"
                           placeholder="confirmPassword"
                           defaultValue={user.confirmPassword}
                         />
-                        {errors.confirmPassword && <span className="error">confirmPassword is require.</span>}
-                      </div>
-                      <ReCAPTCHA
-                        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                        ref={captchaRef}
-                      />
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-user w-100"
-                      >
-                        Register
-                      </button>
-                    </form>
+                        {errors.confirmPassword && <span className="error">confirmPassword is require.</span>}                      
+                    </div>
+                    {/* Confirm Password End */}
+
+                    {/* Captcha start */}
+                    <ReCAPTCHA
+                      className="mt-2 items-center"
+                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                      ref={captchaRef}
+                    />
+                    {/* Captcha End */}
+
+                    {/* Register button start */}                    
+                    <button
+                      type="submit"
+                      className="border-2 border-green bg-green-600 text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-green-500 mt-3 mb-2"
+                    >
+                      Register
+                    </button>
+                    {/* Register Button End */}
                   </div>
-                </div>
+                </form>
               </div>
             </div>
+            {/* Registration From End */}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
