@@ -22,7 +22,7 @@ import {
 export default function Login() {
   //#region Hooks
   const navigate = useNavigate();
-  const {register, handleSubmit, formState: { errors }} = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const captchaRef = useRef(null);
   const dispatch = useDispatch();
   //#endregion
@@ -39,7 +39,7 @@ export default function Login() {
 
     const sessionAuth = getSessionStorage()["user"];
     const localAuth = getLocalStorage()["user"];
-    if (sessionAuth || localAuth ) {
+    if (sessionAuth || localAuth) {
       navigate("/dashboard");
     };
   }, []);
