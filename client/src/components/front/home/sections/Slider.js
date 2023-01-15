@@ -51,24 +51,23 @@ const Slider = () => {
     }, [showNotice])
 
     return (
-        <Carousel autoPlay={false} showArrows={true} className="presentation-mode">
+        <button onClick={(e) => dispatch(openModal({ displayModal: true }))}>open</button>
+        // <Carousel autoPlay={false} showArrows={true} className="presentation-mode">
 
-            {
-                sliders.length && sliders.map((item, index) => {
-                    return (
-                        <div key={item.img}>
-                            <img src={path + item.img} />
-                            <p className="legend bg-themeColor"><a onClick={(e) => {
-                                e.preventDefault()
-                                dispatch(openModal({ displayModal: true }))
-                            }} href='#' className=''>{item.content}</a></p>
-                        </div>
-                    )
-                })
-            }
-        </Carousel >
-
-
+        //     {
+        //         sliders.length && sliders.map((item, index) => {
+        //             return (
+        //                 <div key={item.img}>
+        //                     <img src={path + item.img} />
+        //                     <p className="legend bg-themeColor"><a onClick={(e) => {
+        //                         e.preventDefault()
+        //                         dispatch(openModal({ displayModal: true }))
+        //                     }} href='#' className=''>{item.content}</a></p>
+        //                 </div>
+        //             )
+        //         })
+        //     }
+        // </Carousel >
     );
 }
 

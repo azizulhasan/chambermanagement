@@ -4,6 +4,7 @@
     "private": true,
     "proxy:": "https://azizulhasan.com",
     "dependencies": {
+        "@headlessui/react": "^1.7.7",
         "@reduxjs/toolkit": "^1.8.5",
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
@@ -41,7 +42,8 @@
         "eject": "react-scripts eject",
         "sass": "gulp sass",
         "tailwind": "npx tailwindcss -i ./src/components/front/home/tailwind.css -o ./public/assets/front/css/tailwind.css -w",
-        "sass:watch": "gulp watch"
+        "sass:watch": "gulp watch",
+        "gulp:tailwind": "gulp tailwind"
     },
     "eslintConfig": {
         "extends": [
@@ -64,7 +66,6 @@
     "devDependencies": {
         "@fortawesome/free-solid-svg-icons": "^6.2.1",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "@headlessui/react": "^1.7.7",
         "@heroicons/react": "^2.0.13",
         "autoprefixer": "^10.4.13",
         "css-loader": "^6.7.2",
