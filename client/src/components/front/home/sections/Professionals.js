@@ -6,7 +6,7 @@ import { addCSS } from '../../../../utilities/utilities';
 // onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 const Professionals = () => {
     return (
-        <Carousel autoPlay={true} showArrows={true} className="presentation-mode professional">
+        <Carousel autoPlay={false} showArrows={true} className="presentation-mode professional">
             <div className='professional'>
                 <div>
                     <img src="./assets/front/images/corousel/1.jpeg" />
