@@ -4,7 +4,6 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../../utilities/utilities';
 
 export default function Modal({ children, showModal, closeModal, modalSize = 'sm:w-3/12', classes = '' }) {
-    console.log(showModal);
     const modalSizes = {
         'xs': 'sm:w-3/12',
         'sm': 'sm:w-4/12',
@@ -17,7 +16,7 @@ export default function Modal({ children, showModal, closeModal, modalSize = 'sm
     modalClasses += modalSizes[modalSize] !== undefined ? modalSizes[modalSize] : modalSize;
     return (
         <Transition.Root show={showModal} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Dialog as="div" className="relative z-50" onClose={closeModal}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"

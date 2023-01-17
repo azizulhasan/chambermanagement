@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
 export default function ScrollToTop() {
   return (
@@ -8,9 +9,9 @@ export default function ScrollToTop() {
         href="#"
         target="_blank"
         rel="noopener noreferrer"
-        className="back-to-top d-flex align-items-center justify-content-center"
+        className="back-to-top flex items-end justify-end float-right mr-3 mb-3 "
       >
-        <i className="bi bi-arrow-up-short"></i>
+        <ArrowUpCircleIcon className="h-6 w-6" aria-hidden="true" />
       </a>
     </>
   );
