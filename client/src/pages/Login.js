@@ -52,13 +52,11 @@ export default function Login() {
     captchaRef.current.reset();
   };
 
-  addCSS([
-    '/assets/front/css/login.css'
-  ])
+
   return (
     <div className="container">
       {/* <!-- Outer Row --> */}
-      <div className="row justify-content-center">
+      <div className="row justify-content-center ">
         <div className="col-xl-10 col-lg-12 col-md-9">
           <div className="card o-hidden border-0 shadow-lg my-5">
             <div className="card-body p-0">
@@ -120,7 +118,7 @@ export default function Login() {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-primary btn-user w-100"
+                        className="btn btn-primary btn-user w-100 bg-themeColor border border-themeColor text-white py-[5px] px-12 mb-[100px]  "
                       >
                         Login
                       </button>
