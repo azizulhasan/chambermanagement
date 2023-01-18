@@ -91,7 +91,7 @@ export default function Login() {
                 </h2>
                 <div className="border-2 w-10 border-green-500 inline-block mb-3"></div>
                 <form
-                  className="space-y-4 md:space-y-6 xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0"
+                  className="space-y-4 md:space-y-6 mb-12 md:mb-0"
                   action="#"
                   onSubmit={handleSubmit(onSubmit)}
                 >
