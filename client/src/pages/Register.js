@@ -80,21 +80,21 @@ export default function Register() {
 
       <div className="flex flex-col xl:justify-center lg:justify-between justify-center items-center min-h-screen py-2 bg-gray-100 g-6">
         <main className="flex flex-col items-center justify-center w-full flex-1 text-center">
-          <div className="bg-white rounded-2xl shadow-2xl flex max-w-4xl">
-            <div className="xm:hidden">
+          <div className="bg-white rounded-2xl shadow-2xl sm:block md:flex lg:flex xl:flex max-w-4xl">
+          <div className="sm:hidden md:block lg:block xl:block h-image">
               <img
                 src={retistrationImage}
-                alt="Registration Images"
+                alt="Login Images"
                 className="rounded-l-2xl image-height"
               />
             </div>
             {/* Registration From start */} 
-            <div className="p-5">
-              <div className="py-10">
-                <h2 className="text-3xl font-bold text-green-500">
+            <div className="px-5">
+              <div className="py-5">
+                <h2 className="text-3xl font-bold text-themeColor">
                   Sign Up Form
                 </h2>
-                <div className="border-2 w-10 border-green-500 inline-block mb-3"></div>
+                <div className="border-2 w-10 border-themeColor inline-block mb-3"></div>
                 <form
                   className="space-y-4 md:space-y-6 mb-12 md:mb-0"
                   action="#"
@@ -189,7 +189,7 @@ export default function Register() {
                     {/* Register button start */}                    
                     <button
                       type="submit"
-                      className="border-2 border-green bg-green-600 text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-green-500 mt-3 mb-2"
+                      className="border-2 border-green bg-themeColor text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-themeColor mt-3 mb-2"
                     >
                       Register
                     </button>
@@ -199,6 +199,14 @@ export default function Register() {
               </div>
             </div>
             {/* Registration From End */}
+
+            <div className="sm:block md:hidden lg:hidden xl:hidden">
+              <img
+                src={retistrationImage}
+                alt="Login Images"
+                className="rounded-l-2xl image-height"
+              />
+            </div>
           </div>
         </main>
       </div>

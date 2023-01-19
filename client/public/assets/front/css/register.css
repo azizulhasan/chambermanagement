@@ -8,6 +8,17 @@
     color: #ff0000;
 }
 .image-height{
-    height: 618px;
-    width: 500px;
+    height: 540px;
+    width: 400px;
+  }
+
+  @media only screen and (max-width: 640px) {
+    /* For tablets and mobile: */
+    .h-image {
+      display: none;
+    }
+    .image-height{
+        height: 300px;
+        margin-top: -50px;
+    }
   }

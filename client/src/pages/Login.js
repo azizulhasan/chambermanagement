@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaRegEnvelope } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login/login_page.PNG";
 import { loginUser } from "../store/usersSlice";
 /**
@@ -42,7 +42,7 @@ export default function Login() {
     if (sessionAuth || localAuth) {
       navigate("/dashboard");
     };
-  }, []);
+  }, [navigate]);
   //#endregion
 
   //#region Events
@@ -51,7 +51,7 @@ export default function Login() {
     data.token = token;
     //Check token
     if (!token) {
-      alert("Check recaption");
+      alert("Check recaption"); 
       return;
     }
     data.remember_me = document.getElementById("remember_me")?.value;
@@ -75,8 +75,8 @@ export default function Login() {
 
       <div className="flex flex-col xl:justify-center lg:justify-between justify-center items-center min-h-screen py-2 bg-gray-100 g-6">
         <main className="flex flex-col items-center justify-center w-full flex-1 text-center">
-          <div className="bg-white rounded-2xl shadow-2xl flex max-w-4xl">
-            <div className="xm:hidden">
+          <div className="bg-white rounded-2xl shadow-2xl sm:block md:flex lg:flex xl:flex max-w-4xl">
+            <div className="sm:hidden md:block lg:block xl:block h-image">
               <img
                 src={loginImage}
                 alt="Login Images"
@@ -85,11 +85,11 @@ export default function Login() {
             </div>
 
             <div className="p-5">
-              <div className="py-10">
-                <h2 className="text-3xl font-bold text-green-500">
+              <div className="pt-10">
+                <h2 className="text-3xl font-bold text-themeColor">
                   Sign in to Account
                 </h2>
-                <div className="border-2 w-10 border-green-500 inline-block mb-3"></div>
+                <div className="border-2 w-10 border-themeColor inline-block mb-3"></div>
                 <form
                   className="space-y-4 md:space-y-6 mb-12 md:mb-0"
                   action="#"
@@ -164,7 +164,7 @@ export default function Login() {
                     />
                     <button
                       type="submit"
-                      className="border-2 border-green bg-green-600 text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-green-500 mt-3 mb-2"
+                      className="border-2 border-green bg-themeColor text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-themeColor mt-3 mb-2"
                     >
                       Sign in
                     </button>
@@ -182,6 +182,15 @@ export default function Login() {
                 </form>
               </div>
             </div>
+
+            <div className="sm:block md:hidden lg:hidden xl:hidden">
+              <img
+                src={loginImage}
+                alt="Login Images"
+                className="rounded-l-2xl image-height"
+              />
+            </div>
+
           </div>
         </main>
       </div>
