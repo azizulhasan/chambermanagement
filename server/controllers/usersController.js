@@ -8,7 +8,7 @@ const { uploadImage, getImagePath } = require('../utilities/utilities')
 
 let refreshTokens = [];
 
-const getRefreshToken =  (req, res) => {
+const getRefreshToken = (req, res) => {
   const refreshToken = req.body.token;
 
   if (!refreshToken) {
@@ -52,29 +52,29 @@ const generateRefreshToken = (user) => {
  */
 const register_user = async (req, res) => {
   //Destructuring response token from request body
-  let {token} = req.body;
+  let { token } = req.body;
   //sends secret key and response token to google
   let response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`);
   // check response status and send back to the client-side
   if (response.data.success == true) {
-      delete req.body.token
-      
-  const newPassword = await bcrypt.hash(req.body.password, 10)
-    
-      const user = await Users.findOne({email: req.body.email})
-      if (user) {
-        res.json({status: false, message: 'Email address already exists.', data: null})
-      }else{
-        let userData = {...req.body, ...{password: newPassword}};
-        let newUser = new Users(userData)
-        newUser.save().then(result => {
-          res.json({status: true, data: result})
-        }).catch(err=>{
-          console.log(err)
-        })
-      }
-  }else{
-    res.json({status: false, message: 'Captcha is not valide', data: null})
+    delete req.body.token
+
+    const newPassword = await bcrypt.hash(req.body.password, 10)
+
+    const user = await Users.findOne({ email: req.body.email })
+    if (user) {
+      res.json({ status: false, message: 'Email address already exists.', data: null })
+    } else {
+      let userData = { ...req.body, ...{ password: newPassword } };
+      let newUser = new Users(userData)
+      newUser.save().then(result => {
+        res.json({ status: true, data: result })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  } else {
+    res.json({ status: false, message: 'Captcha is not valide', data: null })
   }
 };
 
@@ -95,7 +95,7 @@ const register_user_from_dashboard = (req, res) => {
         ...{
           image:
             process.env.UPLOAD_FOLDER_URL + "/" + req.file.filename,
-            password: req.body.phone
+          password: req.body.phone
         },
       });
       users
@@ -123,21 +123,21 @@ const register_user_from_dashboard = (req, res) => {
  * @param {Object} res
  */
 const login_user = async (req, res) => {
-  
+
   const user = await Users.findOne({
     email: req.body.email,
   })
   console.log(req.body.email)
-	if (!user) {
-		return res.json({ status: false, message: 'User not found', data: null})
-	}
+  if (!user) {
+    return res.json({ status: false, message: 'User not found', data: null })
+  }
 
-	const isPasswordValid = await bcrypt.compare(
-		req.body.password,
-		user.password
-	)
+  const isPasswordValid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  )
 
-	if (isPasswordValid) {
+  if (isPasswordValid) {
     //Generate an access token
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
@@ -153,9 +153,9 @@ const login_user = async (req, res) => {
         refreshToken,
       }
     });
-	} else {
-		return res.json({ status: false, message: 'email or password wrong', data: null })
-	}
+  } else {
+    return res.json({ status: false, message: 'email or password wrong', data: null })
+  }
 };
 
 
@@ -277,7 +277,7 @@ const delete_user = (req, res) => {
   const id = req.params.id;
   // Delete user image.
   Users.findById(id).then((result) => {
-    let path = result.image ?  getImagePath(result.image) : "";
+    let path = result.image ? getImagePath(result.image) : "";
     if (fs.existsSync(path)) {
       fs.unlink(path, (err) => {
         console.log(result.image + " was deleted.");
@@ -288,7 +288,7 @@ const delete_user = (req, res) => {
   });
   Users.deleteOne({ _id: id }, function (err) {
     if (!err) {
-        // Get all users and return;
+      // Get all users and return;
       Users.find()
         .sort({ createdAt: -1 })
         .then((result) => {
