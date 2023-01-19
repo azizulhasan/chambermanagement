@@ -9,6 +9,7 @@ import { addCSS } from "../../../utilities/utilities";
 import MenuBar from "./sections/MenuBar";
 import Slider from "./sections/Slider";
 import Professionals from "./sections/Professionals";
+import HealthSerivces from './sections/HealthSerivces'
 import GoogleMap from "./sections/GoogleMap";
 import Contact from "./sections/Contact";
 import Footer from "../common/partials/Footer";
@@ -39,6 +40,11 @@ export default function Home({ modalConfig = {} }) {
                 <Slider />
                 {/** End Slider */}
                 <Professionals />
+
+                {/** Healteh Service Section */}
+                <HealthSerivces/>
+                {/** End Health Service */}
+
                 <GoogleMap />
                 {/** Contact Section */}
                 <Contact />
