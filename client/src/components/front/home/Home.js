@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../store/commonDataSlice";
 import Modal from "../common/Modal";
 import ScrollToTop from "../common/partials/ScrollToTop";
+import ContactSection from "../common/partials/ContactSection";
 
 export default function Home({ modalConfig = {} }) {
     const { showModal } = useSelector(state => state.common)
@@ -45,9 +46,9 @@ export default function Home({ modalConfig = {} }) {
                 <HealthSerivces/>
                 {/** End Health Service */}
 
-                <GoogleMap />
+                {/* <GoogleMap /> */}
                 {/** Contact Section */}
-                <Contact />
+                {/* <Contact /> */}
                 {/** End Contact Section */}
             </main>
             {/* End #main */}

@@ -27,9 +27,10 @@ export default function Footer() {
     });
   }, []);
   return (
+
     <>
       <footer id="footer">
-        <div className="container">
+        {/* <div className="container">
           <h3>{process.env.REACT_APP_WEBSITE_NAME}</h3>
 
           <div className="social-links">
@@ -61,7 +62,7 @@ export default function Footer() {
               Azizul Hasan
             </a>
           </div>
-        </div>
+        </div> */}
       </footer>
 
     </>
