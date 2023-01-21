@@ -10,7 +10,12 @@ export default function TopNav() {
                         <div className="relative flex h-10 items-center justify-between">
 
                             <div className="flex flex-1 items-center justify-center sm:items-center sm:justify-center text-white  text-centent">
-                                Call for Appointments: <a href='callto:+8801715769060' className='hover:text-white'> +8801715769060</a>, Email: <a href='mailto:mindtoheart.bd@gmail.com' className='hover:text-white'> mindtoheart.bd@gmail.com</a>
+                                <div>
+                                Call for Appointments: <a href='callto:+8801715769060' className='hover:text-white'> +8801715769060</a>
+                                </div> , 
+                                <div>
+                                Email: <a href='mailto:mindtoheart.bd@gmail.com' className='hover:text-white'> mindtoheart.bd@gmail.com</a>
+                                </div>
                             </div>
 
                         </div>
