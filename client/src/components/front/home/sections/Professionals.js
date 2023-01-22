@@ -20,6 +20,7 @@ const Professionals = () => {
       emulateTouch={true}
       infiniteLoop={true}
       stopOnHover={true}
+      showThumbs={false}
       className="presentation-mode professional mt-2 px-5"
     >
       {/* <div className="professional gap-2 flex"> */}

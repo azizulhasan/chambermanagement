@@ -5,7 +5,7 @@ import PatientDetails from "./PatientDetails"
 import PaymentDetails from "./PaymentDetails"
 export default function ModalContent() {
     return <div className="py-5 mt-5">
-        <Carousel autoPlay={false} infiniteLoop={true} emulateTouch={true} autoFocus={true} showArrows={true} className="presentation-mode">
+        <Carousel showThumbs={false} autoPlay={false} infiniteLoop={true} emulateTouch={true} autoFocus={true} showArrows={true} className="presentation-mode">
             <SessionDetails />
             <PatientDetails />
             <PaymentDetails />

@@ -22,7 +22,7 @@ const HealthSerivces = () => {
       <div className="text-2xl font-bold tracking-tight text-gray-900 ml-20">
         <h1>Health Services</h1>
       </div>
-      <Carousel infiniteLoop={true} autoPlay={true} emulateTouch={true} showArrows={true} className="presentation-mode professional">
+      <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true} emulateTouch={true} showArrows={true} className="presentation-mode professional">
         {/* <div className="justify-center gap-5 flex flex-wrap py-5"> */}
         {dataAray?.map((item, index) => (
           <div

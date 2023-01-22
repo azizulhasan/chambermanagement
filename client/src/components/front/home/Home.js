@@ -96,7 +96,7 @@ export default function Home({ modalConfig = {} }) {
             <div
                 className="hidden bg-gray-50 border-b dark:bg-gray dark:border-gray border-gray"></div>
             {/* MODAL */}
-            <div className="hidden bg-[rgba(0,0,0,.5)] w-60 py-4 mb-8 ml-16 ml-60 ml-96 bg-red-700 -ml-2 mr-2 sm:ml-10 md:ml-20 lg:ml-40 xl:ml-48 2xl:ml-60"></div>
+            <div className="hidden  border-themeColor my-1 bg-[rgba(0,0,0,.5)] w-60 mx-2 px-2 col-span-4  py-4 mb-8 ml-16 ml-60 ml-96 bg-red-700 -ml-2 mr-2 sm:ml-10 md:ml-20 lg:ml-40 xl:ml-48 2xl:ml-60"></div>
             {/*LOADER*/}
             <div className="hidden w-8 w-36 w-48 w-44 w-32  !bg-gray-500 w-fit h-fit rounded animate-pulse space-y-8 inline-block min-w-full py-2 align-middle md:px-6 lg:px-8 bg-gray-500 rounded w-fit h-4 bg-gray-700"></div>
             {/*GENEREL*/}

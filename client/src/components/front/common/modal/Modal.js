@@ -12,7 +12,7 @@ export default function Modal({ children, showModal, closeModal, modalSize = 'sm
         'xl': 'sm:w-9/12',
         'xxl': 'sm:w-10/12',
     }
-    let modalClasses = 'relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full ';
+    let modalClasses = 'relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl h-fit transition-all sm:my-8 w-full ';
     modalClasses += modalSizes[modalSize] !== undefined ? modalSizes[modalSize] : modalSize;
     return (
         <Transition.Root show={showModal} as={Fragment}>

@@ -1,19 +1,19 @@
-import {classNames} from "../../utilities/utilities";
+import { classNames } from "../../../../utilities/utilities";
 import ToolTip from "../common/ToolTip";
 
 export default function Input({
-								  label,
-								  type = 'text',
-								  name,
-								  value = '',
-								  placeholder = '',
-								  classes = '',
-								  required = false,
-								  readOnly = false,
-								  onBlur = null,
-								  onChange = null,
-								  toolTip = ''
-							  }) {
+	label,
+	type = 'text',
+	name,
+	value = '',
+	placeholder = '',
+	classes = '',
+	required = false,
+	readOnly = false,
+	onBlur = null,
+	onChange = null,
+	toolTip = ''
+}) {
 	return (
 		toolTip
 			?
@@ -21,7 +21,7 @@ export default function Input({
 				<div className="ctx-group ctx-flex ctx-relative">
 					{label &&
 						<label className='ctx-inline-flex ctx-mt-1 ctx-text-gray-500'
-							   htmlFor="input-field">{label}</label>}
+							htmlFor="input-field">{label}</label>}
 					<input
 						type={type}
 						name={name}
@@ -35,10 +35,10 @@ export default function Input({
 						onChange={onChange && onChange}
 						onBlur={onBlur && onBlur}
 					/>
-					<ToolTip title={toolTip}  />
+					<ToolTip title={toolTip} />
 				</div>
-				</>
-				: <>
+			</>
+			: <>
 				{label &&
 					<label className='ctx-inline-flex ctx-mt-1 ctx-text-gray-500' htmlFor="input-field">{label}</label>}
 				<input
@@ -55,5 +55,5 @@ export default function Input({
 					onBlur={onBlur && onBlur}
 				/>
 			</>
-		);
-	}
+	);
+}
