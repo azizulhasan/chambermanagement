@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { classNames } from '../../../utilities/utilities';
+import { classNames } from '../../../../utilities/utilities';
 
 export default function Modal({ children, showModal, closeModal, modalSize = 'sm:w-3/12', classes = '' }) {
     const modalSizes = {
@@ -26,7 +26,7 @@ export default function Modal({ children, showModal, closeModal, modalSize = 'sm
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="inset-0 bg-gray-500 bg-opacity-75 transition-opacity fixed" />
+                    <div className="inset-0 bg-[rgba(0,0,0,.5)] bg-opacity-75 transition-opacity fixed" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-10 overflow-y-auto">

@@ -52,7 +52,7 @@ const Slider = () => {
 
     return (
         <>
-            <Carousel autoPlay={true} showArrows={true} className="presentation-mode">
+            <Carousel infiniteLoop={true} emulateTouch={true} autoPlay={true} showArrows={true} className="presentation-mode">
 
                 {
                     sliders.length && sliders.map((item, index) => {
