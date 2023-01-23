@@ -22,7 +22,31 @@ export default function SessionDetails() {
             <Select defaultValue="" defaultOption="Select Doctor" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="doctor_name" name="doctor_name" />
         </div>
         <div className="w-60">
-            <Calendar className="m-2 border border-themeColor " onChange={(e) => getFormValue(e)} />
+            <Calendar
+                OnChangeDateCallback={(e) => console.log(e)}
+                ClickWeekNumberCallback={(e) => console.log(e)}
+                tileClassName={'p-1 hover:bg-gray-200'}
+                tileContent={({ date, view }) => null}
+                activeStartDate={new Date(2023, 0, 1)}
+                tileDisabled={({ activeStartDate, date, view }) => {
+                    console.log(date.getDay())
+                    // unable to select
+                    return date.getDay() === 0
+                }}
+                defaultActiveStartDate={new Date()}
+                // navigationLabel={(e) => {
+                //     console.log(e)
+                //     return e
+                // }
+                // }
+                nextLabel={<p className="inline ml-1 p-1 hover:bg-gray-200" >{'>'}</p>}
+                next2Label={<p className="inline ml-3 p-1 hover:bg-gray-200" >{'>>'}</p>}
+                prevLabel={<p className="inline mr-1 p-1 hover:bg-gray-200" >{'<'}</p>}
+                prev2Label={<p className="inline mr-3 p-1 hover:bg-gray-200" >{'<<'}</p>}
+
+                className="m-2 border border-themeColor "
+                onChange={(e) => getFormValue(e)}
+            />
         </div>
         <div className="w-60">
             <SlotPicker
@@ -35,5 +59,5 @@ export default function SessionDetails() {
                 onSelectTime={s => addToSelectedArray(s)}
             />
         </div>
-    </div>;
+    </div >;
 }
