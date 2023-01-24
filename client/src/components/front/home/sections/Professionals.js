@@ -2,7 +2,6 @@
 
 import { uniqueId } from "lodash";
 import { Carousel } from "react-responsive-carousel";
-import { addCSS } from "../../../../utilities/utilities";
 
 const doctorInformation = [
   {
