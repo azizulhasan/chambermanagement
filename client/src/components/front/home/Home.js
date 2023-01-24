@@ -48,11 +48,12 @@ export default function Home({ modalConfig = {} }) {
 
                 {/* <GoogleMap /> */}
                 {/** Contact Section */}
-                {/* <Contact /> */}
+                <Contact />
                 {/** End Contact Section */}
             </main>
             {/* End #main */}
             {/* <WhatsAppIcon /> */}
+
             {/** Footer */}
             <Footer />
             {/* End Footer */}
