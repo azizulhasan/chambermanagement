@@ -21,6 +21,7 @@ import Modal from "../common/modal/Modal";
 import ScrollToTop from "../common/partials/ScrollToTop";
 import ContactSection from "../common/partials/ContactSection";
 import ModalContent from "../common/modal/ModalContent";
+import Skills from "./sections/Skills";
 
 export default function Home({ modalConfig = {} }) {
     const { showModal } = useSelector(state => state.common)
@@ -42,6 +43,7 @@ export default function Home({ modalConfig = {} }) {
                 <Slider />
                 {/** End Slider */}
                 <Professionals />
+                <Skills />
 
                 {/** Healteh Service Section */}
                 <HealthSerivces />
