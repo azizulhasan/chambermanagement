@@ -31,7 +31,7 @@ export default function Footer() {
     <>
       <footer aria-label="Site Footer" className="bg-themeColor w-full">
         <div className="mx-auto max-w-screen-xl px-4 pt-8 pb-6 sm:px-6 lg:px-2 lg:pt-5">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             <div>
               <div className="flex flex-shrink-0 items-center  text-black font-medium">
                 <img
@@ -41,35 +41,31 @@ export default function Footer() {
                 />
                 Mind To Heart
               </div>
-{/* 
-              <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-white sm:mx-0 sm:max-w-xs sm:text-left">
-                Company Info
-              </p> */}
 
-                <div className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
+              <div className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
                 <div>
                   <h4 className="text-2xl font-semibold text-center mb-6 text-white">
                     Social Media Icons
                   </h4>
                   <div className="icons">
-                <a href="/" className="icon icon--instagram">
-                  <i className="fa fa-instagram"></i>
-                </a>
-                <a href="/" className="icon icon--twitter">
-                  <i className="fa fa-twitter"></i>
-                </a>
-                <a href="/" className="icon icon--linkedin"> 
-                  <i className="fa fa-linkedin"></i>
-                </a>
-                <a href="/" className="icon icon--facebook">
-                  <i className="fa fa-facebook"></i>
-                </a>
-              </div>
+                    <a href="/" className="icon icon--instagram">
+                      <i className="fa fa-instagram"></i>
+                    </a>
+                    <a href="/" className="icon icon--twitter">
+                      <i className="fa fa-twitter"></i>
+                    </a>
+                    <a href="/" className="icon icon--linkedin">
+                      <i className="fa fa-linkedin"></i>
+                    </a>
+                    <a href="/" className="icon icon--facebook">
+                      <i className="fa fa-facebook"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
+            
               <div className="text-center sm:text-left">
                 <p className="text-lg font-medium text-white">About Us</p>
 
@@ -237,11 +233,13 @@ export default function Footer() {
                   </li>
                 </ul>
               </div>
-            </div>
           </div>
 
           <div className="mt-5 border-t border-gray-100 pt-3">
             <div className="text-center sm:flex sm:justify-between sm:text-left">
+            <p className="mt-1 text-sm text-wite sm:order-first sm:mt-0">
+                &copy; 2023 Mind To Heart
+              </p>
               <p className="text-sm text-white">
                 <span className="block sm:inline">All rights reserved.</span>
 
@@ -261,48 +259,10 @@ export default function Footer() {
                   Privacy Policy
                 </a>
               </p>
-
-              <p className="mt-4 text-sm text-wite sm:order-first sm:mt-0">
-                &copy; 2023 Mind To Heart
-              </p>
+              
             </div>
           </div>
         </div>
-      </footer>
-      <footer id="footer">
-        {/* <div className="container">
-          <h3>{process.env.REACT_APP_WEBSITE_NAME}</h3>
-
-          <div className="social-links">
-            {hero.icons.length &&
-              JSON.parse(hero.icons).map((icon) => {
-                return (
-                  <a
-                    key={icon[0]}
-                    href={icon[1]}
-                    target="_blank"
-                    className={icon[1]}
-                  >
-                    <i className={"bx bxl-" + icon[0]}></i>
-                  </a>
-                );
-              })}
-          </div>
-          <div className="copyright">
-            &copy; Copyright{" "}
-            <strong>
-              <span><a rel="noopener" href={hero.icons.length && JSON.parse(hero.icons)[0][1]} target="_blank">
-                {process.env.REACT_APP_WEBSITE_NAME}
-              </a></span>
-            </strong>
-            . All Rights Reserved
-          </div>
-          <div className="credits">
-            Developed by <a rel="noopener" href="http://azizulhasan.com/" target="_blank">
-              Azizul Hasan
-            </a>
-          </div>
-        </div> */}
       </footer>
     </>
   );

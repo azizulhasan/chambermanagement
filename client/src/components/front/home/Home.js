@@ -77,6 +77,9 @@ export default function Home({ modalConfig = {} }) {
             <div className="hidden z-50 relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full sm:w-10/12 mx-auto opacity-100 translate-y-0 sm:scale-100 flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 absolute top-0 right-0 hidden pt-4 pr-4 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 h-6 w-6 flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 fixed inset-0 z-10 overflow-y-auto"></div>
             {/* Professionals */}
             <div className="col-span-3 w-300"></div>
+            {/* Footer */}
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4"></div>
+            <div className="text-center sm:flex sm:justify-between sm:text-left"></div>
         </React.Fragment>
     );
 }

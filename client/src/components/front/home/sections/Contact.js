@@ -97,110 +97,6 @@ export default function Contact() {
   };
 
   return (
-    // <section id="contact" className="contact">
-    //   <div className="container" data-aos="fade-up">
-    //     <div className="section-title">
-    //       <h2>{contact.section_title ? contact.section_title : "Contact"}</h2>
-    //     </div>
-
-    //     <div className="row mt-1" style={{zIndex: 99999}}>
-    //       <div className="col-lg-4">
-    //         <div className="info">
-    //           {contact.contacts &&
-    //             contact.contacts.map((contact, i) => {
-    //               return (
-    //                 <div  key={i} className={setUpContactTypeData(contact[0]).className}>
-    //                   <i
-    //                     className={
-    //                       "bi bi-" + setUpContactTypeData(contact[0]).icon
-    //                     }
-    //                   ></i>
-    //                   <h4>{setUpContactTypeData(contact[0]).title}:</h4>
-    //                   <p>{contact[1]}</p>
-    //                 </div>
-    //               );
-    //             })}
-    //         </div>
-    //       </div>
-
-    //       <div className="col-lg-8 mt-5 mt-lg-0">
-    //         <form
-    //           onSubmit={submitContactForm}
-    //           className="php-email-form"
-    //         >
-    //           <div className="row">
-    //             <div className="col-md-6 form-group">
-    //               <input
-    //                 type="text"
-    //                 name="name"
-    //                 className="form-control"
-    //                 id="name"
-    //                 onChange={handleChange}
-    //                 value={contactForm.name}
-    //                 placeholder="Your Name"
-    //                 required
-    //               />
-    //             </div>
-    //             <div className="col-md-6 form-group mt-3 mt-md-0">
-    //               <input
-    //                 type="email"
-    //                 className="form-control"
-    //                 name="email"
-    //                 onChange={handleChange}
-    //                 value={contactForm.email}
-    //                 id="email"
-    //                 placeholder="Your Email"
-    //                 required
-    //               />
-    //             </div>
-    //           </div>
-    //           <div className="form-group mt-3">
-    //             <Form.Select
-    //               name="subject"
-    //               onChange={handleChange}
-    //               value={contactForm.subject}
-    //               aria-label="Default select example"
-    //             >
-    //               <option disabled>Open this select menu</option>
-    //               {contact.subjects &&
-    //                 Object.keys(setFormSubjects(contact.subjects)).map(
-    //                   (subject_key) => {
-    //                     return (
-    //                       <option key={subject_key} value={subject_key}>
-    //                         {setFormSubjects(contact.subjects)[subject_key]}
-    //                       </option>
-    //                     );
-    //                   }
-    //                 )}
-    //             </Form.Select>
-    //           </div>
-
-    //           <div className="form-group mt-3">
-    //             <textarea
-    //               className="form-control"
-    //               name="message"
-    //               onChange={handleChange}
-    //               value={contactForm.message}
-    //               rows="5"
-    //               placeholder="Message"
-    //               required
-    //             ></textarea>
-    //           </div>
-    //           <div className="my-3">
-    //             <div className="loading">Loading</div>
-    //             <div className="error-message"></div>
-    //             <div className="sent-message">
-    //               Your message has been sent. Thank you!
-    //             </div>
-    //           </div>
-    //           <div className="text-center">
-    //             <button type="submit">Send Message</button>
-    //           </div>
-    //         </form>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
 
     <div className="container my-2 mx-auto w-full">
       <section className="mb-2 text-gray-800 text-center">
@@ -208,7 +104,7 @@ export default function Contact() {
           <div className="container mx-auto ">
             <div className="grid lg:grid-cols-2 items-center gap-10">
              
-              <div className="md:mb-12 lg:mb-0">
+              <div className="md:mb-12 lg:mb-0 sm:hidden md:hidden lg:block xl:block">
                 <div
                   className="map-container relative shadow-lg rounded-lg"
                 >
@@ -227,12 +123,7 @@ export default function Contact() {
 
               <div className="md:mt-12 lg:mt-0 mb-12 lg:mb-0">
                 <div
-                  className="block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14"
-                  // style={{
-                  //   background: "hsla(0, 0%, 100%, 0.55)",
-                  //   backdropFilter: "blur(30px)",
-                  // }}
-                >
+                  className="block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14">
                   <h2 className="text-3xl font-bold mb-12">Contact us</h2>
                   <form>
                     <div className="form-group mb-6">
@@ -262,7 +153,7 @@ export default function Contact() {
                     <div className="form-group form-check text-center mb-6">
                       <input
                         type="checkbox"
-                        className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer"
+                        className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-themeColor checked:border-themeColor focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer"
                         id="exampleCheck87"
                         checked
                       />
@@ -275,11 +166,28 @@ export default function Contact() {
                     </div>
                     <button
                       type="submit"
-                      className="w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                      className="w-full px-6 py-2.5 bg-themeColor text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:border focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
                     >
                       Send
                     </button>
                   </form>
+                </div>
+              </div>
+
+              <div className="md:mb-12 lg:mb-0 sm:block md:block lg:hidden xl:hidden">
+                <div
+                  className="map-container relative shadow-lg rounded-lg"
+                >
+                  <iframe
+                    className="w-full"
+                    height="500"
+                    id="gmap_canvas"
+                    src="https://maps.google.com/maps?q=dhaka,Mind To Heart&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    frameBorder="0"
+                    scrolling="no"
+                    marginHeight="0"
+                    marginWidth="0"
+                  ></iframe>
                 </div>
               </div>
             </div>
