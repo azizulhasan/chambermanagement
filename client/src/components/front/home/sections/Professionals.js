@@ -69,7 +69,7 @@ const Professionals = () => {
                   <a
                     role="button"
                     href="/"
-                    className="text-white bg-purple-600 px-3 py-1 rounded-md hover:bg-themeColor"
+                    className="text-white bg-themeColor px-3 py-1 rounded-md hover:bg-white hover:text-themeColor  hover:border hover:border-themeColor"
                   >
                     Book An Appointment
                   </a>

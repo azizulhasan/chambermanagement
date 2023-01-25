@@ -104,7 +104,7 @@ export default function Contact() {
           <div className="container mx-auto ">
             <div className="grid lg:grid-cols-2 items-center gap-10">
              
-              <div className="md:mb-12 lg:mb-0 sm:hidden md:hidden lg:block xl:block">
+              <div className="md:mb-12 lg:mb-0 hidden sm:hidden md:hidden lg:block xl:block">
                 <div
                   className="map-container relative shadow-lg rounded-lg"
                 >

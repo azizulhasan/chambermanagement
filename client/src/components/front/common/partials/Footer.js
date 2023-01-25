@@ -29,7 +29,7 @@ export default function Footer() {
   }, []);
   return (
     <>
-      <footer aria-label="Site Footer" className="bg-themeColor w-full">
+      <footer aria-label="Site Footer" className="bg-themeColor w-full pt-5">
         <div className="mx-auto max-w-screen-xl px-4 pt-8 pb-6 sm:px-6 lg:px-2 lg:pt-5">
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             <div>
