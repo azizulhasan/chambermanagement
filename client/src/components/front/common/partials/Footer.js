@@ -178,7 +178,7 @@ export default function Footer() {
                         />
                       </svg>
 
-                      <span className="text-white">mindtoheart@gmail.com</span>
+                      <span className="text-white"> {" mindtoheart@gmail.com"}</span>
                     </a>
                   </li>
 
@@ -202,7 +202,7 @@ export default function Footer() {
                         />
                       </svg>
 
-                      <span className="text-white">01800000000</span>
+                      <span className="text-white"> {" 01800000000"}</span>
                     </a>
                   </li>
 
@@ -240,7 +240,7 @@ export default function Footer() {
             <p className="mt-1 text-sm text-wite sm:order-first sm:mt-0">
                 &copy; 2023 Mind To Heart
               </p>
-              <p className="text-sm text-white">
+              <p className="text-sm text-white flex">
                 <span className="block sm:inline">All rights reserved.</span>
 
                 <a
