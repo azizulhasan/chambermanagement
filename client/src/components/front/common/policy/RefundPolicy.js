@@ -83,14 +83,14 @@ const RefundPolicy = () => {
         <div className="grid gap-4 md:gap-8">
           {initialData?.headingWiseData?.map((item, index) => (
             <div key={index + 1}>
-              <h2 className="text-lg sm:text-xl font-semibold mb-2 mt-3">
+              <h2 className="text-lg sm:text-xl font-semibold">
                 {item?.heading}
               </h2>
               {item?.paragraph?.map((para, pIdx) => (
                 <div key={pIdx + 1}>
-                  <p className="mb-5">{para?.paraOne}</p>
-                  <p className="mb-5">{para?.paraTwo}</p>
-                  <p className="mb-5">{para?.paraThree}</p>
+                  <p className="pt-5">{para?.paraOne}</p>
+                  <p className="pt-5">{para?.paraTwo}</p>
+                  <p className="pt-5">{para?.paraThree}</p>
                 </div>
               ))}
             </div>
