@@ -1,7 +1,12 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Loader from "../components/front/common/Loader";
+import RefundPolicy from "../components/front/common/policy/RefundPolicy";
+import PrivacyPolicy from "../components/front/common/policy/PrivacyPolicy";
+import TermsOfServices from "../components/front/common/policy/TermsOfServices";
 import { addCSS } from "../utilities/utilities";
+import TopNav from '../components/front/home/sections/TopNav';
+import MenuBar from '../components/front/home/sections/MenuBar';
 
 
 const Login = lazy(() => import("./Login"));
@@ -47,14 +52,18 @@ function Front() {
     }, []);
     return (
         <Router>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<Loader />}> 
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />}></Route>
+                    <Route path="/refund-policy" element={<RefundPolicy />}></Route>
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />}></Route>
+                    <Route path="/terms-of-services" element={<TermsOfServices />}></Route>
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>
+
         </Router>
     );
 }

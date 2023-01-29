@@ -51,7 +51,7 @@ export default function Home({ modalConfig = {} }) {
                 <Contact />
                 {/** End Contact Section */}
             </main>
-            {/* End #main */}
+            {/* End #main */} 
             {/* <WhatsAppIcon /> */}
 
             {/** Footer */}
@@ -80,6 +80,7 @@ export default function Home({ modalConfig = {} }) {
             {/* Footer */}
             <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4"></div>
             <div className="text-center sm:flex sm:justify-between sm:text-left"></div>
+            <div className="inline-block text-black underline transition hover:text-white/75"></div>
         </React.Fragment>
     );
 }
