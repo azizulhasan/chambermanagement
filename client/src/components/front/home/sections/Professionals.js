@@ -74,7 +74,8 @@ const Professionals = () => {
       showThumbs={false}
       className="presentation-mode professional mt-2 px-5"
     >
-      {
+      <div>test</div>
+      {/* {
         totalSlides.map(i => {
           itemsInSingleSlide.map(index => {
             return (< div key={index} className={["flex-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl", `w-[${perSlideWidth}]`]} >
@@ -100,7 +101,7 @@ const Professionals = () => {
             </div>)
           })
         })
-      }
+      } */}
     </Carousel>
   );
 };
