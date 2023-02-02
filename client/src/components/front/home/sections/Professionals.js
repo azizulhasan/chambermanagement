@@ -18,84 +18,90 @@ const doctorInformations = [
 
 
 const Professionals = () => {
-  const [totalSlides, settotalSlides] = useState([0, 1, 2])
-  const [slides, setSlides] = useState({})
+  const [perSlideWidth, setPerSlideWith] = useState(100)
+  const [itemsInSingleSlide, setItemsInSingleSlide] = useState([])
+  const [totalSlides, setTotalSlides] = useState([])
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
   function decideTotalSlides() {
-    let width = window.screen.width
-    let data = 0
-    if (width < 575) {
-      let slideItems = parseInt(doctorInformations.length / 1)
-      console.log(slideItems)
-      data = Array(slideItems).fill().map(item => item)
-      settotalSlides(data);
-    } else if (width >= 575 && width < 768) {
-      let slideItems = Math.ceil(doctorInformations.length / 2)
-      console.log(slideItems)
-
-      data = Array(slideItems).fill().map(item => item)
-      settotalSlides(data);
-    } else if (width >= 768 && width < 992) {
-      let slideItems = Math.ceil(doctorInformations.length / 2)
-      console.log(slideItems)
-
-      data = Array(slideItems).fill().map(item => item)
-      settotalSlides(data);
+    let srWidth = window.screen.width
+    let slideWidth = 100;
+    let slideInARow = 1;
+    if (srWidth < 575) {
+      slideWidth = parseInt(srWidth / 1)
+      slideInARow = 1;
+    } else if (srWidth >= 575 && srWidth < 768) {
+      slideWidth = Math.ceil(srWidth / 3)
+      slideInARow = 3;
+    } else if (srWidth >= 768 && srWidth < 992) {
+      slideWidth = Math.ceil(srWidth / 4)
+      slideInARow = 4;
     } else {
-      let slideItems = Math.ceil(doctorInformations.length / 2)
-      console.log(slideItems)
-
-      data = Array(slideItems).fill().map(item => item)
-      settotalSlides(data);
+      slideWidth = Math.ceil(srWidth / 5)
+      slideInARow = 5;
     }
+    setPerSlideWith(slideWidth + "px")
+    setItemsInSingleSlide(fillArray(slideInARow))
+    let slideNumber = Math.ceil(doctorInformations.length / itemsInSingleSlide.length)
+    setTotalSlides(fillArray(slideNumber))
   }
 
+  function fillArray(length) {
+    let data = []
+    for (let i = 0; i < length; i++) {
+      data.push(i)
+    }
+    return data;
+  }
   useEffect(() => {
     decideTotalSlides()
-    console.log(totalSlides);
-  }, [screenWidth])
+  }, [])
 
-  window.addEventListener('resize', () => {
-    setScreenWidth(window.innerWidth)
-  })
+  useEffect(() => {
+    console.log({ width: screenWidth, itemsInSingleSlide: itemsInSingleSlide, perSlideWidth: perSlideWidth });
+  }, [screenWidth, itemsInSingleSlide])
+
+  // window.addEventListener('resize', () => {
+  //   setScreenWidth(window.innerWidth)
+  // })
   return (
-    // <Carousel
-    //   autoPlay={true}
-    //   showArrows={true}
-    //   emulateTouch={true}
-    //   infiniteLoop={true}
-    //   stopOnHover={true}
-    //   showThumbs={false}
-    //   className="presentation-mode professional mt-2 px-5"
-    // >
-    //   {
-    //     totalSlides.map(index => {
-    //       return (< div key={index} className="flex-2 w-300 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl" >
-    //         <img
-    //           className="h-60 object-cover rounded-xl"
-    //           src={doctorInformations[index].img}
-    //           alt=""
-    //         />
-    //         <div className="p-2">
-    //           <h2 className="font-bold text-m text-themeColor">{doctorInformations[index].specialist}</h2>
-    //           <h2 className="font-bold text-lg mb-2">{doctorInformations[index].name}</h2>
+    <Carousel
+      autoPlay={true}
+      showArrows={true}
+      emulateTouch={true}
+      infiniteLoop={true}
+      stopOnHover={true}
+      showThumbs={false}
+      className="presentation-mode professional mt-2 px-5"
+    >
+      {
+        totalSlides.map(i => {
+          itemsInSingleSlide.map(index => {
+            return (< div key={index} className={["flex-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl", `w-[${perSlideWidth}]`]} >
+              <img
+                className="h-60 object-cover rounded-xl"
+                src={doctorInformations[index].img}
+                alt=""
+              />
+              <div className="p-2">
+                <h2 className="font-bold text-m text-themeColor">{doctorInformations[index].specialist}</h2>
+                <h2 className="font-bold text-lg mb-2">{doctorInformations[index].name}</h2>
 
-    //           <div className="m-2">
-    //             <a
-    //               role="button"
-    //               href="/"
-    //               className="text-white bg-themeColor px-3 py-1 flex flex-nowrap rounded-md hover:bg-themeColor"
-    //             >
-    //               Book An Appointment
-    //             </a>
-    //           </div>
-    //         </div>
-    //       </div>)
-    //     })
-    //   }
-    // </Carousel>
-    <div>ad</div>
+                <div className="m-2">
+                  <a
+                    role="button"
+                    href="/"
+                    className="text-white bg-themeColor px-3 py-1 flex flex-nowrap rounded-md hover:bg-themeColor"
+                  >
+                    Book An Appointment
+                  </a>
+                </div>
+              </div>
+            </div>)
+          })
+        })
+      }
+    </Carousel>
   );
 };
 
