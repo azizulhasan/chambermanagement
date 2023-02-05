@@ -51,7 +51,7 @@ export default function Login() {
     data.token = token;
     //Check token
     if (!token) {
-      alert("Check recaption"); 
+      alert("Check recaption");
       return;
     }
     data.remember_me = document.getElementById("remember_me")?.value;
@@ -151,7 +151,7 @@ export default function Login() {
                         </div>
                       </div>
                       <a
-                        href="#"
+                        href="/forgotpassword"
                         className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                       >
                         Forgot password?
