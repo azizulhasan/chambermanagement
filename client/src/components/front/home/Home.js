@@ -43,7 +43,7 @@ export default function Home({ modalConfig = {} }) {
                 <Slider />
                 {/** End Slider */}
                 <Professionals />
-                <Skills />
+                {/* <Skills /> */}
 
                 {/** Healteh Service Section */}
                 <HealthSerivces />
