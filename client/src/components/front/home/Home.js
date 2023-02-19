@@ -16,6 +16,7 @@ import Footer from "../common/partials/Footer";
 import TopNav from "./sections/TopNav";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollToTop from "../common/partials/ScrollToTop";
+import Resources from "./sections/Resources";
 
 export default function Home({ modalConfig = {} }) {
     const { showModal } = useSelector(state => state.common)
@@ -43,6 +44,7 @@ export default function Home({ modalConfig = {} }) {
                 <HealthSerivces id="services" />
                 {/** End Health Service */}
 
+                <Resources />
                 {/* <GoogleMap /> */}
                 {/** Contact Section */}
                 <Contact id="contact" />
