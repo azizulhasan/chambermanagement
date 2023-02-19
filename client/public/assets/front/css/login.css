@@ -24,4 +24,18 @@ form.user .form-group .custom-checkbox.small label {
     padding: 0.75rem 1rem;
   }
 
+  .image-height{
+    height: 500px;
+    /* width: 600PX; */
+  }
+  @media only screen and (max-width: 640px) {
+    /* For tablets and mobile: */
+    .h-image {
+      display: none;
+    }
+    .image-height{
+      height: 440px;
+      margin-top: -50px;
+    }
+  }
   

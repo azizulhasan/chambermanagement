@@ -35,7 +35,7 @@ export default function Hero() {
      * Get data from and display to table.
      */
     getData(process.env.REACT_APP_API_URL + "/api/hero").then((res) => {
-      if(res.data.length){
+      if (res.data.length) {
         setHero(res.data[0]);
       }
     });
