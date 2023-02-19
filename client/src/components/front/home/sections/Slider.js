@@ -46,23 +46,17 @@ const Slider = () => {
         }
     ]
 
-    useEffect(() => {
-        console.log(showNotice);
-    }, [showNotice])
 
     return (
         <>
-            <Carousel autoPlay={true} showArrows={true} className="presentation-mode">
+            <Carousel showThumbs={false} infiniteLoop={true} emulateTouch={true} autoPlay={true} showArrows={true} className="presentation-mode">
 
                 {
                     sliders.length && sliders.map((item, index) => {
                         return (
                             <div key={item.img}>
                                 <img src={path + item.img} />
-                                <a className="legend bg-themeColor" onClick={(e) => {
-                                    e.preventDefault()
-                                    dispatch(openModal({ displayModal: true }))
-                                }} href='#'>{item.content}</a>
+                                <a className="legend bg-themeColor" href='/appointment'>{item.content}</a>
                             </div>
                         )
                     })

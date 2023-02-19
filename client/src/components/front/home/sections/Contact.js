@@ -90,8 +90,8 @@ export default function Contact() {
       value === "Address"
         ? "geo-alt"
         : value === "Email"
-        ? "envelope"
-        : value.toLowerCase();
+          ? "envelope"
+          : value.toLowerCase();
 
     return contactData;
   };
@@ -103,7 +103,7 @@ export default function Contact() {
         <div className="px-2 py-6 md:px-5">
           <div className="container mx-auto ">
             <div className="grid lg:grid-cols-2 items-center gap-10">
-             
+
               <div className="md:mb-12 lg:mb-0 hidden sm:hidden md:hidden lg:block xl:block">
                 <div
                   className="map-container relative shadow-lg rounded-lg"
@@ -155,11 +155,11 @@ export default function Contact() {
                         type="checkbox"
                         className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-themeColor checked:border-themeColor focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer"
                         id="exampleCheck87"
-                        checked
+                        onChange={(e) => e.preventDefault()}
                       />
                       <label
                         className="form-check-label inline-block text-gray-800"
-                        for="exampleCheck87"
+                        htmlFor="exampleCheck87"
                       >
                         Send me a copy of this message
                       </label>

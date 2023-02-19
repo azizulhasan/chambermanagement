@@ -15,7 +15,7 @@
     "tailwind": "npm run tailwind --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" \"npm run watch\" \"npm run tailwind\" "
+    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" \"npm run tailwind\" "
   },
   "author": "azizulhasan",
   "license": "ISC",
@@ -37,5 +37,8 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "react-calendar": "^4.0.0"
   }
 }

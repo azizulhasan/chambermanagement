@@ -10,7 +10,7 @@ export default function Skills() {
     _id: "",
     section_title: "",
     top_details: "",
-    skills: [],
+    skills: ['abc', 'abc', 'ac', 'ab', 'ad', 'af', 'ag', 'ak'],
     skill_name: "",
     skill_proficiency: "",
   });
@@ -39,9 +39,9 @@ export default function Skills() {
    * if skills is less then 6 then add a class "offset-" based on skill number.
    * @param {array} skills skills array
    */
-  const getOffset = (skills,skill_no) => {
-    if(skill_no === 0 && skills.length < 6){
-      return "offset-sm-"+ (6 - skills.length)
+  const getOffset = (skills, skill_no) => {
+    if (skill_no === 0 && skills.length < 6) {
+      return "offset-sm-" + (6 - skills.length)
     }
 
     return;
@@ -58,7 +58,7 @@ export default function Skills() {
         <div className="row">
           {skills.skills.map((skill, index) => {
             return (
-              <div  className={'col-2 '+getOffset(skills.skills, index)}  key={index}>
+              <div className={'col-2 ' + getOffset(skills.skills, index)} key={index}>
                 <div style={style.single__skill}>{skill[0]}</div>
               </div>
             );

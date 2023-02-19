@@ -8,6 +8,7 @@ const initialState = {
     showNotice: false,
     noticeMessage: '',
     noticeDelay: 2000,
+    themeColor: "rgb(103, 147, 75)"
 };
 
 export const commonDataSlice = createSlice({

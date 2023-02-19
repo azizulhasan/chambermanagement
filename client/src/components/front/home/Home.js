@@ -16,10 +16,7 @@ import Footer from "../common/partials/Footer";
 import WhatsAppIcon from "../common/WhatsAppIcon";
 import TopNav from "./sections/TopNav";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../store/commonDataSlice";
-import Modal from "../common/Modal";
 import ScrollToTop from "../common/partials/ScrollToTop";
-import ContactSection from "../common/partials/ContactSection";
 
 export default function Home({ modalConfig = {} }) {
     const { showModal } = useSelector(state => state.common)
@@ -41,6 +38,7 @@ export default function Home({ modalConfig = {} }) {
                 <Slider />
                 {/** End Slider */}
                 <Professionals />
+                {/* <Skills /> */}
 
                 {/** Healteh Service Section */}
                 <HealthSerivces />
@@ -51,24 +49,13 @@ export default function Home({ modalConfig = {} }) {
                 <Contact />
                 {/** End Contact Section */}
             </main>
-            {/* End #main */} 
+            {/* End #main */}
             {/* <WhatsAppIcon /> */}
 
             {/** Footer */}
             <Footer />
             {/* End Footer */}
             <ScrollToTop />
-            {
-
-                <Modal
-                    modalSize={'sm'}
-                    showModal={showModal}
-                    closeModal={(e) => dispatch(openModal({ displayModal: false }))}
-                    classes={['mx-auto'].join(' ')}
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, magna a placerat congue, risus odio faucibus ante, sit amet tincidunt magna lorem quis augue. Sed id enim euismod, congue nibh non, ornare velit. Sed tempor mauris vel elit pellentesque, id placerat velit aliquet. Aliquam erat volutpat. Sed id dolor a libero tristique malesuada. Sed congue ante euismod, convallis risus eu, pellentesque risus. Sed id hendrerit risus.
-                </Modal>
-            }
 
             {/* MODAL */}
             <div className="hidden min-h-full relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full sm:w-7/12 sm:w-4/12" ></div>

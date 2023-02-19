@@ -501,6 +501,36 @@ export const getIframeContent = (textareaIndex) => {
 
 
 
+export function decideTotalSlides() {
+    let srWidth = window.screen.width
+    let slideWidth = 100;
+    let slideInARow = 1;
+    if (srWidth < 575) {
+        slideWidth = parseInt(srWidth / 1)
+        slideInARow = 1;
+    } else if (srWidth >= 575 && srWidth < 768) {
+        slideWidth = Math.ceil(srWidth / 3)
+        slideInARow = 3;
+    } else if (srWidth >= 768 && srWidth < 992) {
+        slideWidth = Math.ceil(srWidth / 4)
+        slideInARow = 4;
+    } else {
+        slideWidth = Math.ceil(srWidth / 5)
+        slideInARow = 5;
+    }
+    return { perSlideWidth: slideWidth + "px", itemsInSingleSlide: fillArray(slideInARow) }
+}
+
+
+export function fillArray(length) {
+    let data = []
+    for (let i = 0; i < length; i++) {
+        data.push(i)
+    }
+    return data;
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
