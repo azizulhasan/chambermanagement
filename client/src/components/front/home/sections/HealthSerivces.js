@@ -29,7 +29,7 @@ const services = [
     },
 ];
 let currentIndex = 0;
-const HealthSerivces = () => {
+const HealthSerivces = (id = "services") => {
 
     const [perSlideWidth, setPerSlideWith] = useState(100)
     const [itemsInSingleSlide, setItemsInSingleSlide] = useState([])
@@ -55,7 +55,7 @@ const HealthSerivces = () => {
     }, [itemsInSingleSlide])
     return (
         <>
-            <div className=" my-10">
+            <div id={id} className=" my-10">
                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">Health Services</h1>
                 <Carousel
                     autoPlay={false}

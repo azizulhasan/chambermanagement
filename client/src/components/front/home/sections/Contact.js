@@ -12,7 +12,7 @@ import {
   getFormattedDate,
 } from "../../../../utilities/utilities";
 import submitContactForm from "../../../../utilities/validate";
-export default function Contact() {
+export default function Contact(id = "contact") {
   const [contact, setContact] = useState({
     _id: "",
     section_title: "",
@@ -98,7 +98,7 @@ export default function Contact() {
 
   return (
 
-    <div className="container my-2 mx-auto w-full">
+    <div id={id} className="container my-2 mx-auto w-full">
       <section className="mb-2 text-gray-800 text-center">
         <div className="px-2 py-6 md:px-5">
           <div className="container mx-auto ">
@@ -166,7 +166,7 @@ export default function Contact() {
                     </div>
                     <button
                       type="submit"
-                      className="w-full px-6 py-2.5 bg-themeColor text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:border focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
+                      className="w-full px-6 py-2.5 bg-themeColor text-white font-bold text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:border focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
                     >
                       Send
                     </button>
