@@ -44,10 +44,6 @@ const Professionals = () => {
     }, [itemsInSingleSlide])
 
 
-    useEffect(() => {
-        console.log({ width: screenWidth, itemsInSingleSlide: itemsInSingleSlide, perSlideWidth: perSlideWidth, totalSlides: totalSlides });
-    }, [totalSlides])
-
     return (
         <div className=" my-10">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">Health Professionals</h1>

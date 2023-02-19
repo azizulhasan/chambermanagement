@@ -16,12 +16,7 @@ import Footer from "../common/partials/Footer";
 import WhatsAppIcon from "../common/WhatsAppIcon";
 import TopNav from "./sections/TopNav";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../store/commonDataSlice";
-import Modal from "../common/modal/Modal";
 import ScrollToTop from "../common/partials/ScrollToTop";
-import ContactSection from "../common/partials/ContactSection";
-import ModalContent from "../common/modal/ModalContent";
-import Skills from "./sections/Skills";
 
 export default function Home({ modalConfig = {} }) {
     const { showModal } = useSelector(state => state.common)
@@ -61,17 +56,6 @@ export default function Home({ modalConfig = {} }) {
             <Footer />
             {/* End Footer */}
             <ScrollToTop />
-            {
-
-                <Modal
-                    modalSize={'xxl'}
-                    showModal={showModal}
-                    closeModal={(e) => dispatch(openModal({ displayModal: false }))}
-                    classes={['mx-auto'].join(' ')}
-                >
-                    <ModalContent />
-                </Modal>
-            }
 
             {/* MODAL */}
             <div className="hidden min-h-full relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full sm:w-7/12 sm:w-4/12" ></div>

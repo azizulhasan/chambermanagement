@@ -3,7 +3,7 @@ import langText from './lang';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
-import { amOrPm } from '../../../../../utilities/timeUtilities';
+import { amOrPm } from '../../../utilities/timeUtilities';
 
 dayjs.extend(utc);
 dayjs.extend(duration);

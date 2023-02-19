@@ -46,9 +46,6 @@ const Slider = () => {
         }
     ]
 
-    useEffect(() => {
-        console.log(showNotice);
-    }, [showNotice])
 
     return (
         <>
@@ -59,10 +56,7 @@ const Slider = () => {
                         return (
                             <div key={item.img}>
                                 <img src={path + item.img} />
-                                <a className="legend bg-themeColor" onClick={(e) => {
-                                    e.preventDefault()
-                                    dispatch(openModal({ displayModal: true }))
-                                }} href='#'>{item.content}</a>
+                                <a className="legend bg-themeColor" href='/appointment'>{item.content}</a>
                             </div>
                         )
                     })

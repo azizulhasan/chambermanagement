@@ -6,6 +6,8 @@ export default function Select({
 	selected,
 	options,
 	classes,
+	defaultValue = "",
+	value = "",
 	defaultOption = "Select value",
 	addDefaultOption = true,
 	required = true,
@@ -17,6 +19,7 @@ export default function Select({
 			name={name}
 			onChange={onChange && onChange}
 			autoComplete="on"
+			defaultValue={defaultValue}
 			required={required}
 			className={classNames(
 				"ctx-block ctx-rounded-md  !ctx-border-gray-300 ctx-shadow-sm focus:!ctx-border-gray-900  sm:ctx-text-sm ",
@@ -44,7 +47,6 @@ function getGroupDropdown(options, selected) {
 							<option
 								key={index}
 								value={optionName}
-								selected={optionName === selected}
 							>
 								{" "}
 								{currentOption}{" "}
@@ -60,7 +62,7 @@ function getGroupDropdown(options, selected) {
 function getObjectOptions(options, selected) {
 	return Object.keys(options).map((key, index) => {
 		return (
-			<option key={index} value={key} selected={key === selected}>
+			<option key={index} value={key}>
 				{" "}
 				{options[key]}{" "}
 			</option>
@@ -71,7 +73,7 @@ function getObjectOptions(options, selected) {
 function getArrayOptions(options, selected) {
 	return options.map((option, index) => {
 		return (
-			<option key={index} value={option} selected={option === selected}>
+			<option key={index} value={option}>
 				{" "}
 				{option}{" "}
 			</option>

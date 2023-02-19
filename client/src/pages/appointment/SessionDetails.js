@@ -1,8 +1,8 @@
 import React from "react";
-import Select from "../form/Select";
+import Select from "../../components/front/common/form/Select";
 import Calendar from 'react-calendar'
 import SlotPicker from './timeslots/SlotPicker'
-import { amOrPm } from '../../../../utilities/timeUtilities';
+import { amOrPm } from '../../utilities/timeUtilities';
 
 export default function SessionDetails() {
     const getFormValue = (e) => {
@@ -12,14 +12,17 @@ export default function SessionDetails() {
     const addToSelectedArray = (slot) => {
         let from = slot.format('hh:mm') + amOrPm(slot);
         let to = slot.add(60, 'm').format('hh:mm') + amOrPm(slot)
+    }
 
+    const onChange = e => {
+        console.log(e)
     }
     return <div className="flex border py-4 mb-8 ">
         <div className="w-60 ">
-            <Select defaultValue="" defaultOption="Select Session" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="session_name" name="session_name" />
+            <Select defaultValue="0" onChange={onChange} defaultOption="Select Session" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="session_name" name="session_name" />
         </div>
         <div className="w-60">
-            <Select defaultValue="" defaultOption="Select Doctor" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="doctor_name" name="doctor_name" />
+            <Select defaultValue="0" onChange={onChange} defaultOption="Select Doctor" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="doctor_name" name="doctor_name" />
         </div>
         <div className="w-60">
             <Calendar

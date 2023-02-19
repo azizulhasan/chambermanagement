@@ -1,5 +1,5 @@
 import React from "react";
-import Input from '../form/Input'
+import Input from "../../components/front/common/form/Input";
 export default function PatientDetails() {
 
     const getFormValue = (e) => {

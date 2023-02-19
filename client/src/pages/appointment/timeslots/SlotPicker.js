@@ -5,7 +5,7 @@ import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateScheduleState } from '../../../../../store/schedulesSlice'
+import { updateScheduleState } from '../../../store/schedulesSlice'
 
 dayjs.extend(utc);
 dayjs.extend(duration);

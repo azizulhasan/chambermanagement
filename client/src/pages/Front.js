@@ -14,7 +14,7 @@ const Register = lazy(() => import("./Register"));
 const NotFound = lazy(() => import("../components/front/common/notfound/NotFound"));
 const Home = lazy(() => import("../components/front/home/Home"));
 const ForgotPassword = lazy(() => import("./ForgotPassword"));
-
+const Appoinment = lazy(() => import("./Appoinment"));
 
 
 function Front() {
@@ -58,6 +58,7 @@ function Front() {
             <Suspense fallback={<Loader />}>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
+                    <Route path="/appointment" element={<Appoinment />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />}></Route>
                     <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
