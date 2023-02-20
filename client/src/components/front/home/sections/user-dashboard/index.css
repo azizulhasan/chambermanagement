@@ -1,0 +1,36 @@
+table th,
+td {
+  padding-inline: 8px;
+}
+
+.open-sidebar {
+  animation: openSidebar 500ms ease-in-out;
+}
+
+.close-sidebar {
+  transform: translateX(-100%);
+  animation: closeSidebar 500ms ease-in-out;
+}
+
+@keyframes openSidebar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes closeSidebar {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* @media screen and (max-width: 480px) {
+  table {
+  }
+} */

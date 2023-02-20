@@ -7,7 +7,7 @@ import TermsOfServices from "../components/front/common/policy/TermsOfServices";
 import { addCSS } from "../utilities/utilities";
 import TopNav from "../components/front/home/sections/TopNav";
 import MenuBar from "../components/front/home/sections/MenuBar";
-import UserDashboard from "../components/front/home/sections/UserDashboard";
+import UserDashboard from "../components/front/home/sections/user-dashboard";
 
 const Login = lazy(() => import("./Login"));
 const Register = lazy(() => import("./Register"));
@@ -62,7 +62,7 @@ function Front() {
           <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
           <Route path="/refund-policy" element={<RefundPolicy />}></Route>
           <Route path="/privacy-policy" element={<PrivacyPolicy />}></Route>
-          <Route path="/user-dashboard" element={<UserDashboard />}></Route>
+          <Route path="/user-panel/*" element={<UserDashboard />}></Route>
           <Route
             path="/terms-of-services"
             element={<TermsOfServices />}
