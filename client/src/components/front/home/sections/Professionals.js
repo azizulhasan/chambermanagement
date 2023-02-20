@@ -18,7 +18,7 @@ const doctorInformations = [
 
 let currentIndex = 0;
 
-const Professionals = () => {
+const Professionals = (id = "team") => {
     const [perSlideWidth, setPerSlideWith] = useState(100)
     const [itemsInSingleSlide, setItemsInSingleSlide] = useState([])
     const [totalSlides, setTotalSlides] = useState([])
@@ -45,7 +45,7 @@ const Professionals = () => {
 
 
     return (
-        <div className=" my-10">
+        <div id={id} className=" my-10">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">Health Professionals</h1>
             <Carousel
                 autoPlay={false}
