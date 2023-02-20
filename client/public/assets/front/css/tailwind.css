@@ -824,6 +824,14 @@ video {
   width: auto;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
+.w-\[320px\] {
+  width: 320px;
+}
+
 .max-w-4xl {
   max-width: 56rem;
 }
