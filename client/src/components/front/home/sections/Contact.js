@@ -12,7 +12,7 @@ import {
   getFormattedDate,
 } from "../../../../utilities/utilities";
 import submitContactForm from "../../../../utilities/validate";
-export default function Contact(id = "contact") {
+export default function Contact({ id = "contact" }) {
   const [contact, setContact] = useState({
     _id: "",
     section_title: "",

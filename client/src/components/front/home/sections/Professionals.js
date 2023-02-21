@@ -52,7 +52,7 @@ const doctorInformations = [
 
 let currentIndex = 0;
 
-const Professionals = (id = "team") => {
+const Professionals = ({ id = "team" }) => {
   const [perSlideWidth, setPerSlideWith] = useState(100);
   const [itemsInSingleSlide, setItemsInSingleSlide] = useState([]);
   const [totalSlides, setTotalSlides] = useState([]);

@@ -36,7 +36,7 @@ const services = [
   },
 ];
 let currentIndex = 0;
-const HealthSerivces = (id = "services") => {
+const HealthSerivces = ({ id = "services" }) => {
   const [perSlideWidth, setPerSlideWith] = useState(100);
   const [itemsInSingleSlide, setItemsInSingleSlide] = useState([]);
   const [totalSlides, setTotalSlides] = useState([]);
