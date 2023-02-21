@@ -25,12 +25,12 @@ export default function MenuBar() {
                     <a href='/' className="flex flex-shrink-0 items-center  text-black font-medium">
                         <img
                             className="block h-10 w-auto lg:hidden"
-                            src="assets/front/images/mindtoheart.ogo.png"
+                            src={process.env.REACT_APP_URL + "/assets/front/images/mindtoheart.ogo.png"}
                             alt="Mind To Heart"
                         />
                         <img
                             className="hidden h-8 w-auto lg:block"
-                            src="assets/front/images/mindtoheart.ogo.png"
+                            src={process.env.REACT_APP_URL + "/assets/front/images/mindtoheart.ogo.png"}
                             alt="Mind To Heart"
                         />
                         Mind To Heart

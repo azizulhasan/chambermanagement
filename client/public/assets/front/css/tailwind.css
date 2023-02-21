@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -820,16 +820,16 @@ video {
   width: 1.5rem;
 }
 
-.w-auto {
-  width: auto;
-}
-
 .w-80 {
   width: 20rem;
 }
 
 .w-\[320px\] {
   width: 320px;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .max-w-4xl {
