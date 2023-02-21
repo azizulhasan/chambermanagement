@@ -6,6 +6,7 @@ module.exports = {
     "./src/pages/Login.js",
     "./src/pages/Register.js",
     "./src/pages/MemberDetails.js",
+    "./src/pages/ServiceDetails.js",
   ],
   theme: {
     extend: {

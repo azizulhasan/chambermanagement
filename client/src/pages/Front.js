@@ -6,6 +6,7 @@ import PrivacyPolicy from "../components/front/common/policy/PrivacyPolicy";
 import TermsOfServices from "../components/front/common/policy/TermsOfServices";
 import { addCSS } from "../utilities/utilities";
 import WhatsAppIcon from "../components/front/common/WhatsAppIcon";
+import ServiceDetails from "./ServiceDetails";
 
 const Login = lazy(() => import("./Login"));
 const Register = lazy(() => import("./Register"));
@@ -60,6 +61,7 @@ function Front() {
               path="/health-professionals/:slug"
               element={<MemberDetails />}
             />
+            <Route path="/service-details/:slug" element={<ServiceDetails />} />
             <Route path="/appointment" element={<Appoinment />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
