@@ -56,7 +56,7 @@ const MemberDetails = () => {
               <img
                 src={memberData.image}
                 alt={"Image of " + memberData.name}
-                className="absolute inset-0 object-cover  border hover:scale-110 duration-300 ease-in-out"
+                className="h-full w-full object-cover  border hover:scale-110 duration-300 ease-in-out"
               />
             </div>
 
