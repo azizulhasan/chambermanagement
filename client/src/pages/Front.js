@@ -5,8 +5,6 @@ import RefundPolicy from "../components/front/common/policy/RefundPolicy";
 import PrivacyPolicy from "../components/front/common/policy/PrivacyPolicy";
 import TermsOfServices from "../components/front/common/policy/TermsOfServices";
 import { addCSS } from "../utilities/utilities";
-import TopNav from "../components/front/home/sections/TopNav";
-import MenuBar from "../components/front/home/sections/MenuBar";
 
 const Login = lazy(() => import("./Login"));
 const Register = lazy(() => import("./Register"));

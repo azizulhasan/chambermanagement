@@ -1,17 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        "./src/components/front/home/**/*.{html,js,jsx,ts,tsx}",
-        "./src/pages/Front.js",
-        "./src/pages/Login.js",
-        "./src/pages/Register.js",
-    ],
-    theme: {
-        extend: {
-            colors: {
-                themeColor: "rgb(103, 147, 75)"
-            }
-        }
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        themeColor: "rgb(103, 147, 75)",
+      },
     },
-    plugins: [],
-}
+  },
+  plugins: [],
+};

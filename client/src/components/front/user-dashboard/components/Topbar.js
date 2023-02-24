@@ -26,21 +26,10 @@ const Topbar = () => {
 
   return (
     <div className="h-full flex items-center justify-between px-4  drop-shadow-md border-b border-gray-400/20 backdrop-blur">
-      {/* <Link to="/"> */}
       <Link
         to="/"
         className="flex flex-shrink-0 items-center  text-black font-medium"
       >
-        {/* <img
-          className="block h-10 w-auto lg:hidden"
-          src="assets/front/images/mindtoheart.ogo.png"
-          alt="Mind To Heart"
-        />
-        <img
-          className="hidden h-8 w-auto lg:block"
-          src="assets/front/images/mindtoheart.ogo.png"
-          alt="Mind To Heart"
-        /> */}
         <div className="flex flex-shrink-0 items-center  text-black font-medium">
           <img
             className="block h-10 w-auto lg:hidden"

@@ -23,19 +23,28 @@ export default function MenuBar() {
     <nav className="w-full bg-white shadow">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:py-5 md:block">
-          <div className="flex flex-shrink-0 items-center  text-black font-medium">
+          <a
+            href="/"
+            className="flex flex-shrink-0 items-center  text-black font-medium"
+          >
             <img
               className="block h-10 w-auto lg:hidden"
-              src="assets/front/images/mindtoheart.ogo.png"
+              src={
+                process.env.REACT_APP_URL +
+                "/assets/front/images/mindtoheart.ogo.png"
+              }
               alt="Mind To Heart"
             />
             <img
               className="hidden h-8 w-auto lg:block"
-              src="assets/front/images/mindtoheart.ogo.png"
+              src={
+                process.env.REACT_APP_URL +
+                "/assets/front/images/mindtoheart.ogo.png"
+              }
               alt="Mind To Heart"
             />
             Mind To Heart
-          </div>
+          </a>
           <div className="md:hidden">
             <button
               className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
