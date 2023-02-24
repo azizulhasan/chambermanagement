@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -563,6 +563,12 @@ video {
   width: 100%;
 }
 
+@media (min-width: 400px) {
+  .container {
+    max-width: 400px;
+  }
+}
+
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
@@ -789,8 +795,8 @@ video {
   height: 1rem;
 }
 
-.h-60 {
-  height: 15rem;
+.h-64 {
+  height: 16rem;
 }
 
 .h-full {
@@ -819,6 +825,10 @@ video {
 
 .h-16 {
   height: 4rem;
+}
+
+.h-60 {
+  height: 15rem;
 }
 
 .min-h-screen {
@@ -1697,6 +1707,16 @@ video {
   .dark\:focus\:ring-themeColor:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(103 147 75 / var(--tw-ring-opacity));
+  }
+}
+
+@media (min-width: 400px) {
+  .xs\:h-64 {
+    height: 16rem;
+  }
+
+  .xs\:w-2\/3 {
+    width: 66.666667%;
   }
 }
 
