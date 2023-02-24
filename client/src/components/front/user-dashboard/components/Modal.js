@@ -1,5 +1,5 @@
 import ReactDom from "react-dom";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const Modal = ({ open, closeModal, children, stylingClasses }) => {
   //   if (!open) return null;

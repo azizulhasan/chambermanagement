@@ -99,7 +99,7 @@ const Schedule = () => {
                 <td>{data.event}</td>
                 <td>{data.duration}</td>
                 <td>
-                  <button className="bg-green-600 drop-shadow-md text-white px-4 rounded-md">
+                  <button className="bg-themeColor drop-shadow-md text-white px-4 rounded-md">
                     {data.action}
                   </button>
                 </td>

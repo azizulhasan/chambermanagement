@@ -7,7 +7,6 @@ import TermsOfServices from "../components/front/common/policy/TermsOfServices";
 import { addCSS } from "../utilities/utilities";
 import TopNav from "../components/front/home/sections/TopNav";
 import MenuBar from "../components/front/home/sections/MenuBar";
-import UserDashboard from "../components/front/home/sections/user-dashboard";
 
 const Login = lazy(() => import("./Login"));
 const Register = lazy(() => import("./Register"));
@@ -17,6 +16,9 @@ const NotFound = lazy(() =>
 const Home = lazy(() => import("../components/front/home/Home"));
 const ForgotPassword = lazy(() => import("./ForgotPassword"));
 const Appoinment = lazy(() => import("./Appoinment"));
+const UserDashboard = lazy(() =>
+  import("../components/front/user-dashboard/UserDashboard")
+);
 
 function Front() {
   addCSS(["/assets/front/css/tailwind.css"]);

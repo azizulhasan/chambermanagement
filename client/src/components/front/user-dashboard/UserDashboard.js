@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import DashboardLayout from "./layouts/dashboard-layout";
-import Schedule from "./pages/schedule";
-import Settings from "./pages/settings";
-import "./index.css";
+import DashboardLayout from "./layouts/UserDashboardLayout";
+import Schedule from "./pages/Schedule";
+import Settings from "./pages/Settings";
+import "./UserDashboard.css";
 
 function UserDashboard() {
   return (

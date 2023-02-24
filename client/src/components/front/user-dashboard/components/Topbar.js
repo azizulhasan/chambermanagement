@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
-import Modal from "../modal";
-import Navbar from "../navbar";
+import useWindowDimensions from "../hooks/useWindowDimensions";
+import Modal from "./Modal";
+import Navbar from "./Navbar";
 
 const Topbar = () => {
   const [open, setOpen] = useState(false);
@@ -41,7 +41,19 @@ const Topbar = () => {
           src="assets/front/images/mindtoheart.ogo.png"
           alt="Mind To Heart"
         /> */}
-        Mind To Heart
+        <div className="flex flex-shrink-0 items-center  text-black font-medium">
+          <img
+            className="block h-10 w-auto lg:hidden"
+            src={`${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`}
+            alt="Mind To Heart"
+          />
+          <img
+            className="hidden h-8 w-auto lg:block"
+            src={`${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`}
+            alt="Mind To Heart"
+          />
+          Mind To Heart
+        </div>
       </Link>
       {/* </Link> */}
       <button className="block sm:hidden" onClick={openModal}>
