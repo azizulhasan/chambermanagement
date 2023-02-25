@@ -2,16 +2,9 @@ import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { database } from "../../../../database";
 
-const navigation = [
-  { name: "Home", href: "#", current: true },
-  { name: "About Us", href: "#aboutus", current: false },
-  { name: "Services", href: "#services", current: false },
-  { name: "Team", href: "#team", current: false },
-  { name: "Contact", href: "#contact", current: false },
-  { name: "Login", href: "/login", current: false },
-  { name: "User Dashboard", href: "/user-panel", current: false },
-];
+const { topMenus } = database;
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -90,18 +83,22 @@ export default function MenuBar() {
             }`}
           >
             <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
-              {navigation?.map((item) => (
+              {topMenus?.map((item) => (
                 <li
                   key={item.name}
-                  className={classNames(
-                    item.current
-                      ? "bg-themeColor text-white"
-                      : "text-black hover:bg-themeColor hover:!text-white",
-                    "px-3 py-2 text-sm font-medium cursor-pointer"
-                  )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  <Link to={item.href}>{item.name}</Link>
+                  <a
+                    href={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-themeColor text-white"
+                        : "text-black hover:bg-themeColor hover:!text-white",
+                      "px-3 py-2 text-sm font-medium cursor-pointer"
+                    )}
+                  >
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -141,7 +138,7 @@ export default function MenuBar() {
     //             </div>
     //             <div className="hidden sm:ml-auto sm:block">
     //               <div className="flex space-x-4">
-    //                 {navigation.map((item) => (
+    //                 {topMenus.map((item) => (
     //                   <a
     //                     key={item.name}
     //                     href={item.href}
@@ -162,7 +159,7 @@ export default function MenuBar() {
 
     //       <Disclosure.Panel className="sm:hidden">
     //         <div className="space-y-1 px-2 pt-2 pb-3">
-    //           {navigation.map((item) => (
+    //           {topMenus.map((item) => (
     //             <Disclosure.Button
     //               key={item.name}
     //               as="a"

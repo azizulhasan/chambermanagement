@@ -76,7 +76,7 @@ const HealthSerivces = ({ id = "carouselData" }) => {
     <>
       <div id={id} className=" my-10">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-          Health CarouselData
+          Health Services
         </h1>
         <Carousel
           autoPlay={false}

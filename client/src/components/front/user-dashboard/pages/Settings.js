@@ -38,7 +38,7 @@ const Settings = () => {
           </div>
         </div>
         <div>
-          <button className="border px-4 py-1 hover:bg-gray-100 rounded-md">
+          <button className="border px-4 py-1 text-white bg-themeColor rounded-md">
             Change Password
           </button>
         </div>

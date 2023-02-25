@@ -14,11 +14,13 @@ export const database = {
     companyTitle: "Mind To Heart",
   },
   topMenus: [
-    { name: "Home", link: "/home" },
-    { name: "About Us", link: "/about" },
-    { name: "Services", link: "/services" },
-    { name: "Team", link: "/team" },
-    { name: "Contact", link: "/contact" },
+    { name: "Home", href: "#", current: true },
+    { name: "About Us", href: "#aboutus", current: false },
+    { name: "Services", href: "#services", current: false },
+    { name: "Team", href: "#team", current: false },
+    { name: "Contact", href: "#contact", current: false },
+    { name: "Login", href: "/login", current: false },
+    { name: "User Dashboard", href: "/user-panel", current: false },
   ],
   footerMenus: [
     {
@@ -60,6 +62,34 @@ export const database = {
   pages: {
     home: {
       sections: {
+        hero: {
+          slides: [
+            {
+              img: "./assets/front/images/corousel/hero/1.jpeg",
+              content: "Book An Appointment",
+            },
+            {
+              img: "./assets/front/images/corousel/hero/2.jpeg",
+              content: "Book An Appointment",
+            },
+            {
+              img: "./assets/front/images/corousel/hero/3.jpeg",
+              content: "Book An Appointment",
+            },
+            {
+              img: "./assets/front/images/corousel/hero/4.jpeg",
+              content: "Book An Appointment",
+            },
+            {
+              img: "./assets/front/images/corousel/hero/5.jpeg",
+              content: "Book An Appointment",
+            },
+            {
+              img: "./assets/front/images/corousel/hero/6.jpeg",
+              content: "Book An Appointment",
+            },
+          ],
+        },
         healthProfessionals: {
           carouselData: [
             {
@@ -150,6 +180,84 @@ export const database = {
             },
           },
         },
+        healthServices: {
+          carouselData: [
+            {
+              title: "Psychological Counseling",
+              image: "./assets/front/images/corousel/health-services/1.jpg",
+              slug: "psychologicalCounseling",
+            },
+            {
+              title: "Corporate Service",
+              image: "./assets/front/images/corousel/health-services/2.jpg",
+              slug: "corporateService",
+            },
+            {
+              title: "Child Development",
+              image: "./assets/front/images/corousel/health-services/3.jpg",
+              slug: "childDevelopment",
+            },
+            {
+              title: "Psychological Counseling",
+              image: "./assets/front/images/corousel/health-services/1.jpg",
+              slug: "psychologicalCounseling",
+            },
+            {
+              title: "Corporate Service",
+              image: "./assets/front/images/corousel/health-services/2.jpg",
+              slug: "corporateService",
+            },
+            {
+              title: "Child Development",
+              image: "./assets/front/images/corousel/health-services/3.jpg",
+              slug: "childDevelopment",
+            },
+          ],
+          serviceDetailsData: {
+            psychologicalCounseling: {
+              slogan: "Counseling for Everyone",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
+              details: getDummyServiceDetails(),
+            },
+            corporateService: {
+              slogan: "About MindToHeart for Corporates",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
+              details: getDummyServiceDetails(),
+            },
+            childDevelopment: {
+              slogan:
+                "If The World Is A Stage, Remember Our Children Are Sitting In The Front Row",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
+              details: getDummyServiceDetails(),
+            },
+          },
+        },
+        resources: [
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+          {
+            title: "Sexual Abuse and Trauma",
+            url: "SHKy2AYv16g",
+          },
+        ],
       },
     },
   },

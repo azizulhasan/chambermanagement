@@ -17,6 +17,7 @@ import TopNav from "./sections/TopNav";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollToTop from "../common/partials/ScrollToTop";
 import Resources from "./sections/Resources";
+import YoutubeEmbed from "../common/YoutubeEmbed";
 
 export default function Home({ modalConfig = {} }) {
   const { showModal } = useSelector((state) => state.common);
@@ -27,7 +28,7 @@ export default function Home({ modalConfig = {} }) {
     "/assets/front/css/professional.css",
   ]);
   return (
-    <React.Fragment>
+    <>
       {/* Header Section*/}
       <TopNav />
       <MenuBar />
@@ -67,6 +68,6 @@ export default function Home({ modalConfig = {} }) {
       <div className="hidden grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4"></div>
       <div className="hidden text-center sm:flex sm:justify-between sm:text-left"></div>
       <div className="hidden inline-block text-black underline transition hover:text-white/75"></div>
-    </React.Fragment>
+    </>
   );
 }
