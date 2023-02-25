@@ -1,3 +1,5 @@
+import { Carousel } from "react-bootstrap";
+
 export const database = {
   basic: {
     themeColor: "rgb(103, 147, 75)",
@@ -58,55 +60,93 @@ export const database = {
   pages: {
     home: {
       sections: {
-        healthServices: {
+        healthProfessionals: {
           carouselData: [
             {
-              title: "Psychological Counseling",
-              image: "./assets/front/images/1.jpg",
-              slug: "psychologicalCounseling",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Madadi Hasan",
+              img: "./assets/front/images/corousel/health-professionals/1.jpg",
+              slug: "madadiHasan",
             },
             {
-              title: "Psychological Counseling",
-              image: "./assets/front/images/2.jpg",
-              slug: "psychologicalCounseling",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Kamrul Hasan",
+              img: "./assets/front/images/corousel/health-professionals/2.jpg",
+              slug: "kamrulHasan",
             },
             {
-              title: "Psychological Counseling",
-              image: "./assets/front/images/3.jpg",
-              slug: "psychologicalCounseling",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Imarn Masud",
+              img: "./assets/front/images/corousel/health-professionals/3.jpg",
+              slug: "imranMasud",
             },
             {
-              title: "Corporate Service",
-              image: "./assets/front/images/4.jpg",
-              slug: "corporateService",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Shirajuddin",
+              img: "./assets/front/images/corousel/health-professionals/4.jpg",
+              slug: "shirajuddin",
             },
             {
-              title: "Child Development",
-              image: "./assets/front/images/5.jpg",
-              slug: "childDevelopment",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Saiful Islam",
+              img: "./assets/front/images/corousel/health-professionals/5.jpg",
+              slug: "saifulIslam",
             },
             {
-              title: "Psychological Counseling",
-              image: "./assets/front/images/6.jpg",
-              slug: "psychologicalCounseling",
+              specialist: "PHYCHOLOGIST",
+              name: "Dr. Mr. Siddique Ahmed",
+              img: "./assets/front/images/corousel/health-professionals/6.jpg",
+              slug: "siddiqueAhmed",
             },
           ],
-          serviceDetailsData: {
-            psychologicalCounseling: {
-              slogan: "Counseling for Everyone",
-              image: `${process.env.REACT_APP_URL}/assets/front/images/1.jpg`,
-              details: getDummyServiceDetails(),
+          memberDetailsData: {
+            madadiHasan: {
+              name: "Dr. Mr. Madadi Hasan",
+              degree: "MS (Counselling Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/1.jpg`,
+              designation: "Lead Psychologist, Mind to Heart",
+              about:
+                "My therapeutic passion is work with cases like trauma (Child, Adolescent & Adult), PTSD (posttraumatic stress disorder), Adult Attachment Issues and a Maladaptive Childhood, Acute Stress Disorder (ASD), and several types of anxiety disorders, including generalized anxiety disorder, panic disorder, and various phobia-related disorders, and Couple & Family issues with an impressive success rate. Also, I can help you to deal with your real-life dilemmas & improve your personality with my full skills. Therapeutic Approach: I view my work as an opportunity to help people recognize their strengths and find resources to cope with everyday problems and adversity. And therapy is healing through Acceptance, Compassion, Forgiveness, & Responsibility towards self which I facilitate using the mind-body-spirit approach. My main focus is to create an open, safe and encouraging environment for my clients during their sessions.",
             },
-            corporateService: {
-              slogan: "About MindToHeart for Corporates",
-              image: `${process.env.REACT_APP_URL}/assets/front/images/2.jpg`,
-              details: getDummyServiceDetails(),
+            kamrulHasan: {
+              name: "Dr. Mr. Kamrul Hasan",
+              degree: "MA  (Clinical Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/2.jpg`,
+              designation: "Psychological Counsellor, Mind to Heart",
+              about:
+                "Kamrul holds a master’s degree in Clinical Psychology from Columbia University, and currently serves as a Clinical Research Specialist at the Boston Children’s Hospital (BCH), Harvard Medical School’s teaching hospital. Her research focuses on the effects of early childhood adversity on (Bangladeshi) children’s brain development. She also voluntarily works with the Communication Sciences Lab at the New York State Psychiatric Institute (NYSPI), where she studies mother-infant communication modalities. At the Mind to Heart organization, Navin serves as a part time therapist, available remotely for online sessions.",
             },
-            childDevelopment: {
-              slogan:
-                "If The World Is A Stage, Remember Our Children Are Sitting In The Front Row",
-              image: `${process.env.REACT_APP_URL}/assets/front/images/3.jpg`,
-              details: getDummyServiceDetails(),
+            imranMasud: {
+              name: "Dr. Mr. Imarn Masud",
+              degree: "MS (Clinical Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/3.jpg`,
+              designation: "Psychological Counsellor, Mind to Heart",
+              about:
+                "My professional goal is to help people to overcome their struggles by strengthening existing skills and to gain control over their emotions. I have been working in the field of mental health for more than three years.  My clinical interest lies in mood and anxiety-related disorders. For therapy sessions, I prefer cognitive Behavior therapy, person-centered therapy and mindfulness. I am also skilled in administering different psychometric testing, training, and workshops facilitation on different mental issues, life coaching, and capacity development.",
+            },
+            shirajuddin: {
+              name: "Dr. Mr. Shirajuddin",
+              degree: "MA  (Clinical Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/4.jpg`,
+              designation: "Psychological Counsellor, Mind to Heart",
+              about:
+                "Kamrul holds a master’s degree in Clinical Psychology from Columbia University, and currently serves as a Clinical Research Specialist at the Boston Children’s Hospital (BCH), Harvard Medical School’s teaching hospital. Her research focuses on the effects of early childhood adversity on (Bangladeshi) children’s brain development. She also voluntarily works with the Communication Sciences Lab at the New York State Psychiatric Institute (NYSPI), where she studies mother-infant communication modalities. At the Mind to Heart organization, Navin serves as a part time therapist, available remotely for online sessions.",
+            },
+            saifulIslam: {
+              name: "Dr. Mr. Saiful Islam",
+              degree: "MS (Clinical Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/5.jpg`,
+              designation: "Psychological Counsellor, Mind to Heart",
+              about:
+                "My professional goal is to help people to overcome their struggles by strengthening existing skills and to gain control over their emotions. I have been working in the field of mental health for more than three years.  My clinical interest lies in mood and anxiety-related disorders. For therapy sessions, I prefer cognitive Behavior therapy, person-centered therapy and mindfulness. I am also skilled in administering different psychometric testing, training, and workshops facilitation on different mental issues, life coaching, and capacity development.",
+            },
+            siddiqueAhmed: {
+              name: "Dr. Mr. Siddique Ahmed",
+              degree: "MS (Counselling Psychology)",
+              image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/6.jpg`,
+              designation: "Lead Psychologist, Mind to Heart",
+              about:
+                "My therapeutic passion is work with cases like trauma (Child, Adolescent & Adult), PTSD (posttraumatic stress disorder), Adult Attachment Issues and a Maladaptive Childhood, Acute Stress Disorder (ASD), and several types of anxiety disorders, including generalized anxiety disorder, panic disorder, and various phobia-related disorders, and Couple & Family issues with an impressive success rate. Also, I can help you to deal with your real-life dilemmas & improve your personality with my full skills. Therapeutic Approach: I view my work as an opportunity to help people recognize their strengths and find resources to cope with everyday problems and adversity. And therapy is healing through Acceptance, Compassion, Forgiveness, & Responsibility towards self which I facilitate using the mind-body-spirit approach. My main focus is to create an open, safe and encouraging environment for my clients during their sessions.",
             },
           },
         },
