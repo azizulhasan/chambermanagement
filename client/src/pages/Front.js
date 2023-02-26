@@ -14,6 +14,7 @@ const NotFound = lazy(() =>
   import("../components/front/common/notfound/NotFound")
 );
 const Home = lazy(() => import("../components/front/home/Home"));
+const AboutUs = lazy(() => import("./AboutUs"));
 const ForgotPassword = lazy(() => import("./ForgotPassword"));
 const Appoinment = lazy(() => import("./Appoinment"));
 const UserDashboard = lazy(() =>
@@ -58,6 +59,7 @@ function Front() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/about-us" element={<AboutUs />}></Route>
           <Route path="/appointment" element={<Appoinment />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
