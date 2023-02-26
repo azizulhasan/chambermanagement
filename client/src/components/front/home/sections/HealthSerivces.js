@@ -4,44 +4,11 @@ import { Link } from "react-router-dom";
 import { database } from "../../../../database";
 import { decideTotalSlides, fillArray } from "../../../../utilities/utilities";
 
-// const services = [
-//   {
-//     title: "Psychological Counseling",
-//     image: "./assets/front/images/1.jpg",
-//     slug: "psychologicalCounseling",
-//   },
-//   {
-//     title: "Psychological Counseling",
-//     image: "./assets/front/images/2.jpg",
-//     slug: "psychologicalCounseling",
-//   },
-//   {
-//     title: "Psychological Counseling",
-//     image: "./assets/front/images/3.jpg",
-//     slug: "psychologicalCounseling",
-//   },
-//   {
-//     title: "Corporate Service",
-//     image: "./assets/front/images/4.jpg",
-//     slug: "corporateService",
-//   },
-//   {
-//     title: "Child Development",
-//     image: "./assets/front/images/5.jpg",
-//     slug: "childDevelopment",
-//   },
-//   {
-//     title: "Psychological Counseling",
-//     image: "./assets/front/images/6.jpg",
-//     slug: "psychologicalCounseling",
-//   },
-// ];
-
 const {
   pages: {
     home: {
       sections: {
-        healthServices: { carouselData },
+        healthServices: { title, carouselData },
       },
     },
   },
@@ -76,7 +43,7 @@ const HealthSerivces = ({ id = "carouselData" }) => {
     <>
       <div id={id} className=" my-10">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-          Health Services
+          {title}
         </h1>
         <Carousel
           autoPlay={false}

@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -756,6 +756,11 @@ video {
   margin-bottom: 2.5rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -872,14 +877,6 @@ video {
   margin-top: 2rem;
 }
 
-.-mt-0\.5 {
-  margin-top: -0.125rem;
-}
-
-.-mt-0 {
-  margin-top: -0px;
-}
-
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -952,12 +949,12 @@ video {
   height: 700px;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-16 {
   height: 4rem;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-60 {
@@ -1010,6 +1007,10 @@ video {
   width: fit-content;
 }
 
+.w-5 {
+  width: 1.25rem;
+}
+
 .w-60 {
   width: 15rem;
 }
@@ -1024,10 +1025,6 @@ video {
 
 .w-9 {
   width: 2.25rem;
-}
-
-.w-5 {
-  width: 1.25rem;
 }
 
 .w-auto {
@@ -1272,10 +1269,6 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
-}
-
-.self-start {
-  align-self: flex-start;
 }
 
 .justify-self-center {
@@ -1758,10 +1751,6 @@ video {
 
 .italic {
   font-style: italic;
-}
-
-.not-italic {
-  font-style: normal;
 }
 
 .leading-4 {

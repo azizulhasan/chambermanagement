@@ -10,56 +10,12 @@ const {
   pages: {
     home: {
       sections: {
-        healthProfessionals: { carouselData },
+        healthProfessionals: { title, carouselData },
       },
     },
   },
 } = database;
 
-// const doctorInformations = [
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Mr. Madadi Hasan",
-//     degree: "",
-//     img: "./assets/front/images/corousel/1.jpeg",
-//     slug: "madadiHasan",
-//   },
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Mr. Kamrul Hasan",
-//     degree: "",
-//     img: "./assets/front/images/corousel/2.jpeg",
-//     slug: "kamrulHasan",
-//   },
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Mr. Imarn Masud",
-//     degree: "",
-//     img: "./assets/front/images/corousel/3.jpeg",
-//     slug: "imranMasud",
-//   },
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Khadija Sultana",
-//     degree: "",
-//     img: "./assets/front/images/corousel/4.jpeg",
-//     slug: "khadijaSultana",
-//   },
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Afifa Jahan",
-//     degree: "",
-//     img: "./assets/front/images/corousel/5.jpeg",
-//     slug: "afifaJahan",
-//   },
-//   {
-//     specialist: "PHYCHOLOGIST",
-//     name: "Dr. Afifa Jahan",
-//     degree: "",
-//     img: "./assets/front/images/corousel/6.jpeg",
-//     slug: "afifaJahan",
-//   },
-// ];
 
 let currentIndex = 0;
 
@@ -91,7 +47,7 @@ const Professionals = ({ id = "team" }) => {
   return (
     <div id={id} className=" my-10">
       <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-        Health Professionals
+        {title}
       </h1>
       <Carousel
         autoPlay={false}

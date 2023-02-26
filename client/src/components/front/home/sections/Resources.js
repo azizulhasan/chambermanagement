@@ -7,7 +7,7 @@ import YoutubeEmbed from "../../common/YoutubeEmbed";
 const {
   pages: {
     home: {
-      sections: { resources },
+      sections: { resources: { title, resourceData } },
     },
   },
 } = database;
@@ -27,8 +27,8 @@ const Resources = (id = "resources") => {
 
   useEffect(() => {
     if (itemsInSingleSlide.length) {
-      let slideNumber = Math.ceil(resources.length / itemsInSingleSlide.length);
-      if (resources.length < itemsInSingleSlide.length) {
+      let slideNumber = Math.ceil(resourceData.length / itemsInSingleSlide.length);
+      if (resourceData.length < itemsInSingleSlide.length) {
         setTotalSlides(fillArray(1));
       } else {
         setTotalSlides(fillArray(slideNumber));
@@ -39,7 +39,7 @@ const Resources = (id = "resources") => {
     <>
       <div id={id} className=" my-10">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-          Resources
+          {title}
         </h1>
         <Carousel
           autoPlay={false}
@@ -57,7 +57,7 @@ const Resources = (id = "resources") => {
                   {itemsInSingleSlide.map((index) => {
                     if (i !== 0) {
                       currentIndex = currentIndex + 1;
-                      if (currentIndex >= resources.length) {
+                      if (currentIndex >= resourceData.length) {
                         currentIndex = 0;
                       }
                     } else {
@@ -71,16 +71,16 @@ const Resources = (id = "resources") => {
                       >
                         <div className="bg-themeColor/20 p-0 m-0">
                           <YoutubeEmbed
-                            title={resources[currentIndex].title}
+                            title={resourceData[currentIndex].title}
                             width={perSlideWidth}
                             height={250}
-                            url={resources[currentIndex].url}
+                            url={resourceData[currentIndex].url}
                           />
                         </div>
                         <div className="p-5 w-full">
                           <a href="/#">
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                              {resources[currentIndex].title}
+                              {resourceData[currentIndex].title}
                             </h5>
                           </a>
                         </div>
