@@ -1,25 +1,23 @@
-const Schedules = require("../models/schedules");
-
+const Schedules = require('../models/schedules');
 
 const getAllScedules = async () => {
-  Schedules.find()
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      return err;
-    });
-}
+    Schedules.find()
+        .sort({ createdAt: -1 })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err;
+        });
+};
 /**
  * Display all.
  * @param {Object} req for getting all.
  * @param {Object} res
  */
 const schedules_index = (req, res) => {
-
-  let schedules = getAllScedules() ?? [];
-  res.json({ data: schedules });
+    let schedules = getAllScedules() ?? [];
+    res.json({ data: schedules });
 };
 
 /**
@@ -28,14 +26,14 @@ const schedules_index = (req, res) => {
  * @param {Object} res
  */
 const schedules_details = (req, res) => {
-  const id = req.params.id;
-  Schedules.findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    const id = req.params.id;
+    Schedules.findById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 
 /**
@@ -44,19 +42,19 @@ const schedules_details = (req, res) => {
  * @param {Object} res
  */
 const schedules_create_post = (req, res) => {
-  const schedules = new Schedules({
-    ...req.body,
-  });
-  schedules
-    .save()
-    .then((result) => {
-      let schedules = getAllScedules();
-      console.log(schedules)
-      res.json({ data: schedules });
-    })
-    .catch((err) => {
-      res.json(err);
+    const schedules = new Schedules({
+        ...req.body,
     });
+    schedules
+        .save()
+        .then((result) => {
+            let schedules = getAllScedules();
+            console.log(schedules);
+            res.json({ data: schedules });
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 
 /**
@@ -65,26 +63,26 @@ const schedules_create_post = (req, res) => {
  * @param {Object} res
  */
 const schedules_update_post = (req, res) => {
-  const id = req.params.id;
-  Schedules.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    (err, post) => {
-      if (!err) {
-        let schedules = getAllScedules() ?? [];
-        res.json({ data: schedules });
-      } else {
-        console.log(err);
-      }
-    }
-  );
+    const id = req.params.id;
+    Schedules.findOneAndUpdate(
+        {
+            _id: id,
+        },
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        (err, post) => {
+            if (!err) {
+                let schedules = getAllScedules() ?? [];
+                res.json({ data: schedules });
+            } else {
+                console.log(err);
+            }
+        }
+    );
 };
 /**
  * Delete post
@@ -92,22 +90,22 @@ const schedules_update_post = (req, res) => {
  * @param {*} res
  */
 const schedules_delete_post = (req, res) => {
-  const id = req.params.id;
+    const id = req.params.id;
 
-  Schedules.deleteOne({ _id: id }, function (err) {
-    if (!err) {
-      let schedules = getAllScedules() ?? [];
-      res.json({ data: schedules });
-    } else {
-      res.json({ data: "Something wen wrong" });
-    }
-  });
+    Schedules.deleteOne({ _id: id }, function (err) {
+        if (!err) {
+            let schedules = getAllScedules() ?? [];
+            res.json({ data: schedules });
+        } else {
+            res.json({ data: 'Something wen wrong' });
+        }
+    });
 };
 
 module.exports = {
-  schedules_index,
-  schedules_details,
-  schedules_create_post,
-  schedules_update_post,
-  schedules_delete_post,
+    schedules_index,
+    schedules_details,
+    schedules_create_post,
+    schedules_update_post,
+    schedules_delete_post,
 };

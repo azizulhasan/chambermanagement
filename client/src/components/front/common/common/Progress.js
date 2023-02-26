@@ -1,3 +1,3 @@
 export default function Progress() {
-	return (<div>Progress</div>);
+    return <div>Progress</div>;
 }

@@ -1,4 +1,4 @@
-const Education = require("../models/education");
+const Education = require('../models/education');
 
 /**
  * Display all.
@@ -6,15 +6,15 @@ const Education = require("../models/education");
  * @param {Object} res
  */
 const education_index = (req, res) => {
-  Education.find()
-    .sort({ createdAt: -1 })
+    Education.find()
+        .sort({ createdAt: -1 })
 
-    .then((result) => {
-      res.json({ data: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        .then((result) => {
+            res.json({ data: result });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -23,14 +23,14 @@ const education_index = (req, res) => {
  * @param {Object} res
  */
 const education_details = (req, res) => {
-  const id = req.params.id;
-  Education.findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    const id = req.params.id;
+    Education.findById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 
 /**
@@ -39,25 +39,25 @@ const education_details = (req, res) => {
  * @param {Object} res
  */
 const education_create_post = (req, res) => {
-  const education = new Education({
-    ...req.body,
-  });
-  education
-    .save()
-    .then((result) => {
-      Education.find()
-        .sort({ createdAt: -1 })
-
+    const education = new Education({
+        ...req.body,
+    });
+    education
+        .save()
         .then((result) => {
-          res.json({ data: result });
+            Education.find()
+                .sort({ createdAt: -1 })
+
+                .then((result) => {
+                    res.json({ data: result });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         })
         .catch((err) => {
-          console.log(err);
+            res.json(err);
         });
-    })
-    .catch((err) => {
-      res.json(err);
-    });
 };
 
 /**
@@ -66,33 +66,33 @@ const education_create_post = (req, res) => {
  * @param {Object} res
  */
 const education_update_post = (req, res) => {
-  const id = req.params.id;
-  Education.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    (err, post) => {
-      if (!err) {
-        Education.find()
-          .sort({ createdAt: -1 })
+    const id = req.params.id;
+    Education.findOneAndUpdate(
+        {
+            _id: id,
+        },
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        (err, post) => {
+            if (!err) {
+                Education.find()
+                    .sort({ createdAt: -1 })
 
-          .then((result) => {
-            res.json({ data: result });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log(err);
-      }
-    }
-  );
+                    .then((result) => {
+                        res.json({ data: result });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
+                console.log(err);
+            }
+        }
+    );
 };
 /**
  * Delete post
@@ -100,29 +100,29 @@ const education_update_post = (req, res) => {
  * @param {*} res
  */
 const education_delete_post = (req, res) => {
-  const id = req.params.id;
+    const id = req.params.id;
 
-  console.log(id);
-  Education.deleteOne({ _id: id }, function (err) {
-    if (!err) {
-      Education.find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-          res.json({ data: result });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      res.json({ data: "Something wen wrong" });
-    }
-  });
+    console.log(id);
+    Education.deleteOne({ _id: id }, function (err) {
+        if (!err) {
+            Education.find()
+                .sort({ createdAt: -1 })
+                .then((result) => {
+                    res.json({ data: result });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            res.json({ data: 'Something wen wrong' });
+        }
+    });
 };
 
 module.exports = {
-  education_index,
-  education_details,
-  education_create_post,
-  education_update_post,
-  education_delete_post,
+    education_index,
+    education_details,
+    education_create_post,
+    education_update_post,
+    education_delete_post,
 };

@@ -1,21 +1,24 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const skillSchema = new Schema({
-    section_title:{
-        type:String,
-        required: false
+const skillSchema = new Schema(
+    {
+        section_title: {
+            type: String,
+            required: false,
+        },
+        top_details: {
+            type: String,
+            required: false,
+        },
+        skills: {
+            type: Array,
+            required: true,
+        },
     },
-    top_details:{
-        type:String,
-        required: false
-    },
-    skills:{
-        type: Array,
-        required: true
-    }
-}, {timestamp: true})
+    { timestamp: true }
+);
 
-const Skills = mongoose.model('Skills', skillSchema)
+const Skills = mongoose.model('Skills', skillSchema);
 
-module.exports = Skills
+module.exports = Skills;

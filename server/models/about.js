@@ -1,32 +1,33 @@
-const mongoose = require('mongoose')
-const Schema    = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const aboutSchema = new Schema({
-    section_title:{
-        type:String,
-        required: false
+const aboutSchema = new Schema(
+    {
+        section_title: {
+            type: String,
+            required: false,
+        },
+        top_details: {
+            type: String,
+            required: false,
+        },
+        profession: {
+            type: String,
+            required: true,
+        },
+        details: {
+            type: String,
+            required: true,
+        },
+
+        portfolioImage: {
+            type: String,
+            required: true,
+        },
     },
-    top_details:{
-        type:String,
-        required: false
-    },
-    profession:{
-        type:String,
-        required:true
-    }, 
-    details:{
-        type:String,
-        required:true
-    }, 
-    
-    portfolioImage:{
-        type:String,
-        required: true
-    }, 
-    
-}, { timestamps: true })
+    { timestamps: true }
+);
 
+const About = mongoose.model('About', aboutSchema);
 
-const About = mongoose.model('About', aboutSchema)
-
-module.exports = About
+module.exports = About;

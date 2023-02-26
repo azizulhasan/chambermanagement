@@ -1,3 +1,3 @@
 export default function SearchableSelect() {
-	return (<div>SearchableSelect</div>);
+    return <div>SearchableSelect</div>;
 }

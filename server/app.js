@@ -1,27 +1,25 @@
-const express = require("express");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
-const path = require("path");
+const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
+const path = require('path');
 /**
  * Routes
  */
-const blogRoutes = require("./routes/blogRoutes");
-const heroRoutes = require("./routes/heroRoutes");
-const aboutRoutes = require("./routes/aboutRoutes");
-const skillsRoutes = require("./routes/skillsRoutes");
-const summeryRoutes = require("./routes/summeryRoutes");
-const educationRoutes = require("./routes/educationRoutes");
-const experienceRoutes = require("./routes/experienceRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const contactFormRoutes = require("./routes/contactFormRoutes");
-const usersRoutes = require("./routes/usersRoutes");
-const settingsRoutes = require("./routes/settingsRoutes");
-const servicesRoutes = require("./routes/servicesRoutes");
+const blogRoutes = require('./routes/blogRoutes');
+const heroRoutes = require('./routes/heroRoutes');
+const aboutRoutes = require('./routes/aboutRoutes');
+const skillsRoutes = require('./routes/skillsRoutes');
+const summeryRoutes = require('./routes/summeryRoutes');
+const educationRoutes = require('./routes/educationRoutes');
+const experienceRoutes = require('./routes/experienceRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const contactFormRoutes = require('./routes/contactFormRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+const settingsRoutes = require('./routes/settingsRoutes');
+const servicesRoutes = require('./routes/servicesRoutes');
 const schedulesRoutes = require('./routes/schedulesRoutes');
-
-
 
 // express app
 const app = express();
@@ -31,15 +29,15 @@ app.use(express.json());
 const DB_URL = process.env.DB_URL;
 const PORT = process.env.PORT || 9892;
 mongoose
-  .connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => app.listen(PORT))
-  .catch((err) => console.log(err));
+    .connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => app.listen(PORT))
+    .catch((err) => console.log(err));
 
 // register view engine.
 // app.set("view engine", "ejs");
 
 // middleware & static files folder declare
-app.use(express.static("public"));
+app.use(express.static('public'));
 /**
  * This middleware is used for recognizing request object as string or array.
  * and "express.json()" function recognize request object as json format.
@@ -48,59 +46,58 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * This middleware is used to console errors more elegent way.
  */
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use((req, res, next) => {
-  res.locals.path = req.path;
-  next();
+    res.locals.path = req.path;
+    next();
 });
-
 
 /**
  * Blog routes start
  */
-app.use("/blogs", blogRoutes);
+app.use('/blogs', blogRoutes);
 
 /**
  * Hero Routs
  */
-app.use("/api/hero", heroRoutes);
+app.use('/api/hero', heroRoutes);
 
 /**
  * About Routes
  */
-app.use("/api/about", aboutRoutes);
+app.use('/api/about', aboutRoutes);
 
 /**
  * Skills Routes
  */
-app.use("/api/skills", skillsRoutes);
+app.use('/api/skills', skillsRoutes);
 
 /**
  * Summery Routes
  */
-app.use("/api/summery", summeryRoutes);
+app.use('/api/summery', summeryRoutes);
 
 /**
  * Education Routes
  */
-app.use("/api/education", educationRoutes);
+app.use('/api/education', educationRoutes);
 /**
  * Experience Routes
  */
-app.use("/api/experience", experienceRoutes);
+app.use('/api/experience', experienceRoutes);
 
 /**
  * Experience Routes
  */
-app.use("/api/contact", contactRoutes);
+app.use('/api/contact', contactRoutes);
 /**
  * Contact form Routes
  */
-app.use("/api/contact_form", contactFormRoutes);
+app.use('/api/contact_form', contactFormRoutes);
 /**
  * users Routes
  */
-app.use("/api/users", usersRoutes);
+app.use('/api/users', usersRoutes);
 /**
  * Login Routes
  */
@@ -108,32 +105,28 @@ app.use("/api/users", usersRoutes);
 /**
  * Settings routes
  */
-app.use("/api/settings", settingsRoutes)
+app.use('/api/settings', settingsRoutes);
 
 /**
  * Services routes
  */
-app.use("/api/services", servicesRoutes)
+app.use('/api/services', servicesRoutes);
 
 /**
  * schedules routes
  */
-app.use("/api/schedules", schedulesRoutes)
-
-
-
-
+app.use('/api/schedules', schedulesRoutes);
 
 /**
  * image file url
  */
-app.use("/server/uploads", express.static(__dirname + "/uploads"));
+app.use('/server/uploads', express.static(__dirname + '/uploads'));
 
 // Serve frontend
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
 
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"))
-  );
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+    );
 }

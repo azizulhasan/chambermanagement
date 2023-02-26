@@ -1,13 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getLocalStorage, setLocalStorage, setSessionStorage } from "../utilities/utilities";
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+    getLocalStorage,
+    setLocalStorage,
+    setSessionStorage,
+} from '../utilities/utilities';
 
 export const STATUSES = Object.freeze({
     IDLE: 'idle',
     ERROR: 'error',
-    LOADING: 'loading'
-
-})
+    LOADING: 'loading',
+});
 
 const initialState = {
     users: [],
@@ -16,27 +18,23 @@ const initialState = {
     isModalActive: false,
     USER_HEADERS: [
         {
-            prop: "name",
-            title: "Name",
+            prop: 'name',
+            title: 'Name',
         },
         {
-            prop: "email",
-            title: "Email",
+            prop: 'email',
+            title: 'Email',
         },
         {
-            prop: "phone",
-            title: "Phone",
+            prop: 'phone',
+            title: 'Phone',
         },
         {
-            prop: "image",
-            title: "Image",
+            prop: 'image',
+            title: 'Image',
         },
-
     ],
-    USER_ROLES: [
-        'USER', 'ADMIN', 'DOCTOR'
-    ]
-
+    USER_ROLES: ['USER', 'ADMIN', 'DOCTOR'],
 };
 
 const usersSlice = createSlice({
@@ -48,61 +46,63 @@ const usersSlice = createSlice({
         },
         addUser(state, action) {
             state.isModalActive = true;
-            state.singleUser = {}
-        }
-
+            state.singleUser = {};
+        },
     },
 
     extraReducers: (builder) => {
-
         builder.addCase(registerUser.fulfilled, (state, action) => {
             if (action.payload.status) {
-                window.sessionStorage.setItem('email', action.payload.data.email)
+                window.sessionStorage.setItem(
+                    'email',
+                    action.payload.data.email
+                );
                 alert('Registration Successful.');
-                window.location.href = '/login'
+                window.location.href = '/login';
             } else {
-                alert(action.payload.message)
+                alert(action.payload.message);
             }
-        })
-    }
+        });
+    },
 });
 
 export const { showModal, addUser } = usersSlice.actions;
 
-
 export default usersSlice.reducer;
-
-
 
 // Thunks
 /**
  * Register a user from frontend
  */
 export const registerUser = createAsyncThunk('register', async (payload) => {
-    const res = await fetch(process.env.REACT_APP_API_URL + "/api/users/register",
+    const res = await fetch(
+        process.env.REACT_APP_API_URL + '/api/users/register',
         {
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
             body: payload, // body data type must match "Content-Type" header
-        });
+        }
+    );
     const data = await res.json();
     return data;
-})
+});
 
 /**
  * Login a user
  */
 export const loginUser = createAsyncThunk('login', async (payload) => {
-    const res = await fetch(process.env.REACT_APP_API_URL + "/api/users/login",
+    const res = await fetch(
+        process.env.REACT_APP_API_URL + '/api/users/login',
         {
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
             body: payload, // body data type must match "Content-Type" header
-        });
+        }
+    );
     const data = await res.json();
     return data;
-})
+});

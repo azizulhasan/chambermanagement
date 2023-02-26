@@ -1,4 +1,4 @@
-const ForgotPassword = require("../models/forgotPassword");
+const ForgotPassword = require('../models/forgotPassword');
 // const {sendMail} = require('../mail')
 
 /**
@@ -56,7 +56,6 @@ const contact_form_create_post = (req, res) => {
                 });
 
             // sendMail(req.body)
-
         })
         .catch((err) => {
             res.json(err);
@@ -116,7 +115,7 @@ const contact_form_delete_post = (req, res) => {
                     console.log(err);
                 });
         } else {
-            res.json({ data: "Something wen wrong" });
+            res.json({ data: 'Something wen wrong' });
         }
     });
 };

@@ -1,21 +1,24 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const forgotpasswordSchema = new Schema({
-    email: {
-        type: String,
-        required: true
+const forgotpasswordSchema = new Schema(
+    {
+        email: {
+            type: String,
+            required: true,
+        },
+        timeStart: {
+            type: String,
+            required: false,
+        },
+        timeEnd: {
+            type: String,
+            required: false,
+        },
     },
-    timeStart: {
-        type: String,
-        required: false
-    },
-    timeEnd: {
-        type: String,
-        required: false
-    },
-}, { timestamp: true })
+    { timestamp: true }
+);
 
-const ForgotPassword = mongoose.model('Contact', forgotpasswordSchema)
+const ForgotPassword = mongoose.model('Contact', forgotpasswordSchema);
 
-module.exports = ForgotPassword
+module.exports = ForgotPassword;

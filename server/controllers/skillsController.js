@@ -1,4 +1,4 @@
-const Skills = require("../models/skills");
+const Skills = require('../models/skills');
 
 /**
  * Display all skills content.
@@ -6,15 +6,15 @@ const Skills = require("../models/skills");
  * @param {Object} res
  */
 const skill_index = (req, res) => {
-  Skills.find()
-    .sort({ createdAt: -1 })
+    Skills.find()
+        .sort({ createdAt: -1 })
 
-    .then((result) => {
-      res.json({ data: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        .then((result) => {
+            res.json({ data: result });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -23,14 +23,14 @@ const skill_index = (req, res) => {
  * @param {Object} res
  */
 const skill_details = (req, res) => {
-  const id = req.params.id;
-  Skills.findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    const id = req.params.id;
+    Skills.findById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 /**
  * Save the skill to databse.
@@ -38,19 +38,18 @@ const skill_details = (req, res) => {
  * @param {Object} res
  */
 const skill_create_post = (req, res) => {
-
-  // return;
-  const skills = new Skills({
-    ...req.body,
-  });
-  skills
-    .save()
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
+    // return;
+    const skills = new Skills({
+        ...req.body,
     });
+    skills
+        .save()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -59,32 +58,32 @@ const skill_create_post = (req, res) => {
  * @param {Object} res
  */
 const skill_update_post = (req, res) => {
-  const id = req.params.id;
-  Skills.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: {
-        ...req.body,
-      },
-    },
-    {
-      new: true,
-    },
-    (err, skill) => {
-      if (!err) {
-        res.json(skill);
-      } else {
-        console.log(err);
-      }
-    }
-  );
+    const id = req.params.id;
+    Skills.findOneAndUpdate(
+        {
+            _id: id,
+        },
+        {
+            $set: {
+                ...req.body,
+            },
+        },
+        {
+            new: true,
+        },
+        (err, skill) => {
+            if (!err) {
+                res.json(skill);
+            } else {
+                console.log(err);
+            }
+        }
+    );
 };
 
 module.exports = {
-  skill_index,
-  skill_details,
-  skill_create_post,
-  skill_update_post,
+    skill_index,
+    skill_details,
+    skill_create_post,
+    skill_update_post,
 };

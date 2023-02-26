@@ -1,11 +1,10 @@
-
 /**
- * 
+ *
  * Also see
  * https://www.npmjs.com/package/react-floating-whatsapp
- * 
+ *
  */
-import { FloatingWhatsApp } from 'react-floating-whatsapp'
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 const WhatsAppIcon = () => {
     return (
@@ -15,6 +14,6 @@ const WhatsAppIcon = () => {
             avatar="assets/front/images/mindtoheart_logo.jpg"
             statusMessage="Psychological Wellness Center"
         />
-    )
-}
+    );
+};
 export default WhatsAppIcon;
