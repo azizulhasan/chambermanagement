@@ -13,6 +13,7 @@ export const database = {
         },
         companyLogo: '',
         companyTitle: 'Mind To Heart',
+        tagline: "Psychological Wellness Center",
     },
     topMenus: [
         { name: 'Home', href: '#', current: true },
