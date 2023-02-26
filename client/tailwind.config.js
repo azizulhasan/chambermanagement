@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         themeColor: "rgb(103, 147, 75)",
       },
+      screens: {
+        xs: "400px",
+      },
     },
   },
   plugins: [],

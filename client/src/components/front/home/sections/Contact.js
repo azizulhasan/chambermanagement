@@ -90,26 +90,22 @@ export default function Contact({ id = "contact" }) {
       value === "Address"
         ? "geo-alt"
         : value === "Email"
-          ? "envelope"
-          : value.toLowerCase();
+        ? "envelope"
+        : value.toLowerCase();
 
     return contactData;
   };
 
   return (
-
     <div id={id} className="container my-2 mx-auto w-full">
       <section className="mb-2 text-gray-800 text-center">
         <div className="px-2 py-6 md:px-5">
           <div className="container mx-auto ">
             <div className="grid lg:grid-cols-2 items-center gap-10">
-
               <div className="md:mb-12 lg:mb-0 hidden sm:hidden md:hidden lg:block xl:block">
-                <div
-                  className="map-container relative shadow-lg rounded-lg"
-                >
+                <div className="map-container relative shadow-lg rounded-lg">
                   <iframe
-                    className="w-full"
+                    className="w-full border-slate-200"
                     height="500"
                     id="gmap_canvas"
                     src="https://maps.google.com/maps?q=dhaka,Mind To Heart&t=&z=13&ie=UTF8&iwloc=&output=embed"
@@ -122,8 +118,7 @@ export default function Contact({ id = "contact" }) {
               </div>
 
               <div className="md:mt-12 lg:mt-0 mb-12 lg:mb-0">
-                <div
-                  className="block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14">
+                <div className="block rounded-lg shadow-lg px-6 py-12 md:px-12 ">
                   <h2 className="text-3xl font-bold mb-12">Contact us</h2>
                   <form>
                     <div className="form-group mb-6">
@@ -166,7 +161,7 @@ export default function Contact({ id = "contact" }) {
                     </div>
                     <button
                       type="submit"
-                      className="w-full px-6 py-2.5 bg-themeColor text-white font-bold text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:border focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
+                      className="w-full px-6 py-2.5 bg-themeColor text-white font-bold text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:outline hover:outline-1 hover:outline-gray-100 focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
                     >
                       Send
                     </button>
@@ -175,9 +170,7 @@ export default function Contact({ id = "contact" }) {
               </div>
 
               <div className="md:mb-12 lg:mb-0 sm:block md:block lg:hidden xl:hidden">
-                <div
-                  className="map-container relative shadow-lg rounded-lg"
-                >
+                <div className="map-container relative shadow-lg rounded-lg">
                   <iframe
                     className="w-full"
                     height="500"

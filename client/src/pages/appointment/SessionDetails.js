@@ -19,12 +19,15 @@ export default function SessionDetails() {
     }
     return <div className="flex border py-4 mb-8 ">
         <div className="w-60 ">
+            <label htmlFor="session_name">Session</label>
             <Select defaultValue="0" onChange={onChange} defaultOption="Select Session" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="session_name" name="session_name" />
         </div>
         <div className="w-60">
+            <label htmlFor="doctor_name">Doctor</label>
             <Select defaultValue="0" onChange={onChange} defaultOption="Select Doctor" classes={'border w-60 p-2'} options={['option', 'option-2', 'option-3']} id="doctor_name" name="doctor_name" />
         </div>
         <div className="w-60">
+            <label htmlFor="session_date">Select Date</label>
             <Calendar
                 OnChangeDateCallback={(e) => console.log(e)}
                 ClickWeekNumberCallback={(e) => console.log(e)}
@@ -47,19 +50,21 @@ export default function SessionDetails() {
                 prevLabel={<p className="inline mr-1 p-1 hover:bg-gray-200" >{'<'}</p>}
                 prev2Label={<p className="inline mr-3 p-1 hover:bg-gray-200" >{'<<'}</p>}
 
-                className="m-2 border border-themeColor "
+                className=" mx-2 border border-themeColor "
                 onChange={(e) => getFormValue(e)}
             />
         </div>
         <div className="w-60">
+            <label htmlFor="session_data">Session Time</label>
             <SlotPicker
                 interval={60}
                 from={'07:00'}
-                to={'23:00'}
+                to={'13:00'}
                 unAvailableSlots={['12:00']}
                 lang={'en'}
                 defaultSelectedTime=""
                 onSelectTime={s => addToSelectedArray(s)}
+                classes=""
             />
         </div>
     </div >;

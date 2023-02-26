@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap");
 
+html {
+  scroll-behavior: smooth;
+}
+
 .azh_btn_edit {
   padding: 0.2rem 0.3rem;
 }

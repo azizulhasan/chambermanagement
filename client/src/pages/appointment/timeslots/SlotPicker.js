@@ -25,6 +25,7 @@ export default function SlotPicker({
   selectedSlotColor,
   defaultSelectedTime,
   onSelectTime,
+  classes = "p-5"
 }) {
   const { themeColor } = useSelector(state => state.common)
 
@@ -107,7 +108,7 @@ export default function SlotPicker({
   }
 
   return (
-    <div className="p-5">
+    <div className={classes}>
       <div className={`time-selector-w d-block ${lang == 'ar' && 'sp-rtl'}`}>
         <div className="os-times-w">
           <div className="timeslots">

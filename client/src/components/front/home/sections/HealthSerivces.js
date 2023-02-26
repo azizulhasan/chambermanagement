@@ -1,42 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
+import { database } from "../../../../database";
 import { decideTotalSlides, fillArray } from "../../../../utilities/utilities";
 
-const services = [
-  {
-    title: "Psychological Counseling",
-    image: "./assets/front/images/1.jpg",
-    slug: "psychologicalCounseling",
+const {
+  pages: {
+    home: {
+      sections: {
+        healthServices: { title, carouselData },
+      },
+    },
   },
-  {
-    title: "Psychological Counseling",
-    image: "./assets/front/images/2.jpg",
-    slug: "psychologicalCounseling",
-  },
-  {
-    title: "Psychological Counseling",
-    image: "./assets/front/images/3.jpg",
-    slug: "psychologicalCounseling",
-  },
-  {
-    title: "Corporate Service",
-    image: "./assets/front/images/4.jpg",
-    slug: "corporateService",
-  },
-  {
-    title: "Child Development",
-    image: "./assets/front/images/5.jpg",
-    slug: "childDevelopment",
-  },
-  {
-    title: "Psychological Counseling",
-    image: "./assets/front/images/6.jpg",
-    slug: "psychologicalCounseling",
-  },
-];
+} = database;
+
 let currentIndex = 0;
-const HealthSerivces = ({ id = "services" }) => {
+const HealthSerivces = ({ id = "carouselData" }) => {
   const [perSlideWidth, setPerSlideWith] = useState(100);
   const [itemsInSingleSlide, setItemsInSingleSlide] = useState([]);
   const [totalSlides, setTotalSlides] = useState([]);
@@ -50,8 +29,10 @@ const HealthSerivces = ({ id = "services" }) => {
 
   useEffect(() => {
     if (itemsInSingleSlide.length) {
-      let slideNumber = Math.ceil(services.length / itemsInSingleSlide.length);
-      if (services.length < itemsInSingleSlide.length) {
+      let slideNumber = Math.ceil(
+        carouselData.length / itemsInSingleSlide.length
+      );
+      if (carouselData.length < itemsInSingleSlide.length) {
         setTotalSlides(fillArray(1));
       } else {
         setTotalSlides(fillArray(slideNumber));
@@ -62,7 +43,7 @@ const HealthSerivces = ({ id = "services" }) => {
     <>
       <div id={id} className=" my-10">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-          Health Services
+          {title}
         </h1>
         <Carousel
           autoPlay={false}
@@ -80,7 +61,7 @@ const HealthSerivces = ({ id = "services" }) => {
                   {itemsInSingleSlide.map((index) => {
                     if (i !== 0) {
                       currentIndex = currentIndex + 1;
-                      if (currentIndex >= services.length) {
+                      if (currentIndex >= carouselData.length) {
                         currentIndex = 0;
                       }
                     } else {
@@ -96,20 +77,20 @@ const HealthSerivces = ({ id = "services" }) => {
                           <img
                             style={{ width: perSlideWidth }}
                             className="rounded-t-lg"
-                            src={services[currentIndex].image}
+                            src={carouselData[currentIndex].image}
                             alt=""
                           />
                         </a>
                         <div className="p-5 w-full">
                           <Link
-                            to={`service-details/${services[currentIndex].slug}`}
+                            to={`service-details/${carouselData[currentIndex].slug}`}
                           >
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                              {services[currentIndex].title}
+                              {carouselData[currentIndex].title}
                             </h5>
                           </Link>
                           <Link
-                            to={`service-details/${services[currentIndex].slug}`}
+                            to={`service-details/${carouselData[currentIndex].slug}`}
                             className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-themeColor rounded-lg hover:bg-white hover:text-themeColor focus:ring-4 focus:outline-none focus:ring-themeColor dark:bg-themeColor dark:hover:bg-themeColor dark:focus:ring-themeColor border border-color-themeColor"
                           >
                             Read more

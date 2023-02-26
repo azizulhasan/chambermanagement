@@ -3,52 +3,19 @@
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
+import { database } from "../../../../database";
 import { decideTotalSlides, fillArray } from "../../../../utilities/utilities";
 
-const doctorInformations = [
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Mr. Madadi Hasan",
-    degree: "",
-    img: "./assets/front/images/corousel/1.jpeg",
-    slug: "madadiHasan",
+const {
+  pages: {
+    home: {
+      sections: {
+        healthProfessionals: { title, carouselData },
+      },
+    },
   },
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Mr. Kamrul Hasan",
-    degree: "",
-    img: "./assets/front/images/corousel/2.jpeg",
-    slug: "kamrulHasan",
-  },
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Mr. Imarn Masud",
-    degree: "",
-    img: "./assets/front/images/corousel/3.jpeg",
-    slug: "kamrulHasan",
-  },
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Khadija Sultana",
-    degree: "",
-    img: "./assets/front/images/corousel/4.jpeg",
-    slug: "kamrulHasan",
-  },
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Afifa Jahan",
-    degree: "",
-    img: "./assets/front/images/corousel/5.jpeg",
-    slug: "kamrulHasan",
-  },
-  {
-    specialist: "PHYCHOLOGIST",
-    name: "Dr. Afifa Jahan",
-    degree: "",
-    img: "./assets/front/images/corousel/6.jpeg",
-    slug: "kamrulHasan",
-  },
-];
+} = database;
+
 
 let currentIndex = 0;
 
@@ -67,9 +34,9 @@ const Professionals = ({ id = "team" }) => {
   useEffect(() => {
     if (itemsInSingleSlide.length) {
       let slideNumber = Math.ceil(
-        doctorInformations.length / itemsInSingleSlide.length
+        carouselData.length / itemsInSingleSlide.length
       );
-      if (doctorInformations.length < itemsInSingleSlide.length) {
+      if (carouselData.length < itemsInSingleSlide.length) {
         setTotalSlides(fillArray(1));
       } else {
         setTotalSlides(fillArray(slideNumber));
@@ -80,7 +47,7 @@ const Professionals = ({ id = "team" }) => {
   return (
     <div id={id} className=" my-10">
       <h1 className="text-2xl font-bold tracking-tight text-gray-900 pl-5">
-        Health Professionals
+        {title}
       </h1>
       <Carousel
         autoPlay={false}
@@ -98,7 +65,7 @@ const Professionals = ({ id = "team" }) => {
                 {itemsInSingleSlide.map((index) => {
                   if (i !== 0) {
                     currentIndex = currentIndex + 1;
-                    if (currentIndex >= doctorInformations.length) {
+                    if (currentIndex >= carouselData.length) {
                       currentIndex = 0;
                     }
                   } else {
@@ -113,25 +80,25 @@ const Professionals = ({ id = "team" }) => {
                       ].join(" ")}
                     >
                       <Link
-                        to={`health-professionals/${doctorInformations[currentIndex].slug}`}
+                        to={`health-professionals/${carouselData[currentIndex].slug}`}
                       >
                         <div className="w-fit">
                           <img
                             className="h-60 object-cover rounded-xl z-[1000]"
-                            src={doctorInformations[currentIndex].img}
+                            src={carouselData[currentIndex].img}
                             alt=""
                           />
                         </div>
                       </Link>
                       <div className="p-2">
                         <Link
-                          to={`health-professionals/${doctorInformations[currentIndex].slug}`}
+                          to={`health-professionals/${carouselData[currentIndex].slug}`}
                         >
                           <h2 className="font-bold text-m text-themeColor">
-                            {doctorInformations[currentIndex].specialist}
+                            {carouselData[currentIndex].specialist}
                           </h2>
                           <h2 className="font-bold text-lg mb-2">
-                            {doctorInformations[currentIndex].name}
+                            {carouselData[currentIndex].name}
                           </h2>
                         </Link>
                         <div className="m-2">

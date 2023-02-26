@@ -1,40 +1,25 @@
-import React from "react";
-/**
- * Utilities
- */
-import { addCSS } from "../../../utilities/utilities";
 /**
  * Sections
  */
-import MenuBar from "./sections/MenuBar";
 import Slider from "./sections/Slider";
 import Professionals from "./sections/Professionals";
 import HealthSerivces from "./sections/HealthSerivces";
-import GoogleMap from "./sections/GoogleMap";
 import Contact from "./sections/Contact";
-import Footer from "../common/partials/Footer";
-import TopNav from "./sections/TopNav";
 import { useDispatch, useSelector } from "react-redux";
-import ScrollToTop from "../common/partials/ScrollToTop";
 import Resources from "./sections/Resources";
+import SiteSkeleton from "../common/SiteSkeleton";
 
-export default function Home({ modalConfig = {} }) {
+export default function Home() {
   const { showModal } = useSelector((state) => state.common);
   const dispatch = useDispatch();
-  addCSS([
-    "/assets/front/css/slider.css",
-    "/assets/front/css/carousel.css",
-    "/assets/front/css/professional.css",
-  ]);
   return (
-    <React.Fragment>
-      {/* Header Section*/}
-      <TopNav />
-      <MenuBar />
-      <main id="main">
-        {/* End Header */}
+    <>
+      <SiteSkeleton css={[
+        "/assets/front/css/slider.css",
+        "/assets/front/css/carousel.css",
+        "/assets/front/css/professional.css",
+      ]} >
         {/** Slider Section */}
-
         <Slider />
         {/** End Slider */}
         <Professionals id="team" />
@@ -49,12 +34,7 @@ export default function Home({ modalConfig = {} }) {
         {/** Contact Section */}
         <Contact id="contact" />
         {/** End Contact Section */}
-      </main>
-      {/* End #main */}
-
-      {/** Footer */}
-      <Footer />
-      {/* End Footer */}
+      </SiteSkeleton>
 
       {/* MODAL */}
       <div className="hidden min-h-full relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full sm:w-7/12 sm:w-4/12"></div>
@@ -67,6 +47,6 @@ export default function Home({ modalConfig = {} }) {
       <div className="hidden grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4"></div>
       <div className="hidden text-center sm:flex sm:justify-between sm:text-left"></div>
       <div className="hidden inline-block text-black underline transition hover:text-white/75"></div>
-    </React.Fragment>
+    </>
   );
 }
