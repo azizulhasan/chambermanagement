@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import { useParams } from "react-router-dom";
+import Footer from "../components/front/common/partials/Footer";
 import MenuBar from "../components/front/home/sections/MenuBar";
 import TopNav from "../components/front/home/sections/TopNav";
 import { database } from "../database";
@@ -17,47 +18,8 @@ const {
   },
 } = database;
 
-// const details = [
-//   "Psychological Assessment Session",
-//   "Individual Counselling Session",
-//   "Online or distant psychological assessment Session",
-//   "Online or distant counselling Session",
-//   "Couple Session",
-//   "Family Session",
-//   "Group Therapy",
-//   "Trauma Support Group therapy",
-//   "Systemic and family and couple therapy",
-//   "EMDR Based Trauma Therapy",
-//   "Life Coaching",
-//   "Corporate Mindfulness Training",
-//   "Corporate Psychological Wellness Services",
-// ];
-
-// const allServices = {
-//   psychologicalCounseling: {
-//     slogan: "Counseling for Everyone",
-//     image:
-//       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGNvdW5zZWxpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-//     details,
-//   },
-//   corporateService: {
-//     slogan: "About MindToHeart for Corporates",
-//     image:
-//       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGNvdW5zZWxpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-//     details,
-//   },
-//   childDevelopment: {
-//     slogan:
-//       "If The World Is A Stage, Remember Our Children Are Sitting In The Front Row",
-//     image:
-//       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGNvdW5zZWxpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-//     details,
-//   },
-// };
-
 const ServiceDetails = () => {
   const { slug } = useParams();
-  // console.log({ defaultDatabase });
 
   const serviceData = serviceDetailsData[slug];
   if (serviceData) {
@@ -94,6 +56,7 @@ const ServiceDetails = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

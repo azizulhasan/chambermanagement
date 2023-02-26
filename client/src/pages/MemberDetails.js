@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../components/front/common/partials/Footer";
 import MenuBar from "../components/front/home/sections/MenuBar";
 import TopNav from "../components/front/home/sections/TopNav";
 import { database } from "../database";
@@ -51,6 +52,7 @@ const MemberDetails = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

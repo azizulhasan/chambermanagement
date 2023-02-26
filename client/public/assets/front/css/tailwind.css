@@ -1274,6 +1274,10 @@ video {
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
 
+.self-start {
+  align-self: flex-start;
+}
+
 .justify-self-center {
   justify-self: center;
 }

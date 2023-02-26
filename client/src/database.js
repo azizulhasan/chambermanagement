@@ -1,4 +1,5 @@
 import { Carousel } from "react-bootstrap";
+import { MailIcon, PlaceIcon, TelephoneIcon } from "./assets/svg-components";
 
 export const database = {
   basic: {
@@ -22,33 +23,41 @@ export const database = {
     { name: "Login", href: "/login", current: false },
     { name: "User Dashboard", href: "/user-panel", current: false },
   ],
-  footerMenus: [
-    {
-      name: "About",
-      subMenu: [
-        { name: "About Us", link: "/about-us" },
-        { name: "Courses", link: "/courses" },
+  footer: {
+    socialMediaLinks: [
+      { name: "Instagram", link: "/", icon: "fa fa-instagram" },
+      { name: "Facebook", link: "/", icon: "fa fa-facebook" },
+      { name: "LinkedIn", link: "/", icon: "fa fa-linkedin" },
+      { name: "Twitter", link: "/", icon: "fa fa-twitter" },
+    ],
+    menus: {
+      aboutUs: [
+        { name: "Terms of Services", link: "/terms-of-services" },
         { name: "Refund Policy", link: "/refund-policy" },
         { name: "Privacy Policy", link: "/privacy-policy" },
       ],
-    },
-    {
-      name: "Links",
-      subMenu: [
-        { name: "Blogs", link: "/bogs" },
-        { name: "Terms of Service", link: "/terms-services" },
-        { name: "Free Mental Health Tests", link: "/free-mental-health-tests" },
+      ourServices: [
+        { name: "Professionals", link: "/" },
+        {
+          name: "Psychological",
+          link: "/service-details/psychologicalCounseling",
+        },
+        { name: "Corporate", link: "/service-details/corporateService" },
+        {
+          name: "Child Development",
+          link: "/service-details/childDevelopment",
+        },
+      ],
+      contactUs: [
+        { name: "mindtoheart@gmail.com", icon: MailIcon },
+        { name: "01800000000", icon: TelephoneIcon },
+        {
+          name: "House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh",
+          icon: PlaceIcon,
+        },
       ],
     },
-  ],
-  socialIcons: [
-    {
-      type: "facebook",
-      size: 1,
-      color: "",
-      link: "",
-    },
-  ],
+  },
   termsOfService: [
     {
       title: "",
