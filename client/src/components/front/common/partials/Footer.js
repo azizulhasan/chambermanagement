@@ -9,10 +9,13 @@ import { database } from '../../../../database';
 import { addCSS, getData } from '../../../../utilities/utilities';
 
 const {
-    footer: {
-        socialMediaLinks,
-        menus: { aboutUs, ourServices, contactUs },
+    basic: {
+        trademark: {
+            texts: { title, subTitle },
+            logo: { image },
+        },
     },
+    footer: { sectionsOrder, socialMediaLinks, menus },
 } = database;
 
 export default function Footer() {
@@ -45,45 +48,121 @@ export default function Footer() {
             >
                 <div className="mx-auto max-w-screen-xl px-4 pt-8 pb-6 sm:px-6 lg:px-2 lg:pt-5">
                     <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                        <div>
-                            <div className="flex flex-shrink-0 items-center  text-black font-medium">
-                                <img
-                                    className="block h-16 w-auto"
-                                    src="assets/front/images/mindtoheart.ogo.png"
-                                    alt="Mind To Heart"
-                                />
+                        {sectionsOrder.map((section) => {
+                            console.log({ section });
+                            return section === 'Trademark' ? (
                                 <div>
-                                    <div className="font-semibold">
-                                        Mind To Heart
+                                    <div className="flex flex-shrink-0 items-center font-medium text-white">
+                                        <img
+                                            className="block h-16 w-auto"
+                                            src={image}
+                                            alt="Mind To Heart"
+                                        />
+                                        <div>
+                                            <div className="font-semibold">
+                                                {title}
+                                            </div>
+                                            <div className="text-sm">
+                                                {subTitle}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="text-sm">
-                                        Psychological Wellness Center
+
+                                    <div className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
+                                        <div>
+                                            <h4 className="text-2xl font-semibold text-center mb-6 text-white">
+                                                Follow Us
+                                            </h4>
+                                            <div className="icons">
+                                                {socialMediaLinks.map(
+                                                    ({ name, link, icon }) => (
+                                                        <a
+                                                            href={link}
+                                                            className={`icon icon--${name.toLowerCase()}`}
+                                                            key={name}
+                                                        >
+                                                            <i
+                                                                className={icon}
+                                                            ></i>
+                                                        </a>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
-                                <div>
-                                    <h4 className="text-2xl font-semibold text-center mb-6 text-white">
-                                        Follow Us
-                                    </h4>
-                                    <div className="icons">
-                                        {socialMediaLinks.map(
-                                            ({ name, link, icon }) => (
-                                                <a
-                                                    href={link}
-                                                    className={`icon icon--${name.toLowerCase()}`}
-                                                    key={name}
-                                                >
-                                                    <i className={icon}></i>
-                                                </a>
-                                            )
-                                        )}
+                            ) : (
+                                <>
+                                    <div
+                                        className="text-center sm:text-left"
+                                        key={section}
+                                    >
+                                        <p className="text-lg font-medium text-white pb-4 text-capitalize">
+                                            {section}
+                                        </p>
+                                        <nav aria-label="">
+                                            <ul className="space-y-3 text-sm">
+                                                {menus[
+                                                    section
+                                                        .split(' ')
+                                                        .map((word, index) => {
+                                                            return index === 0
+                                                                ? word.toLowerCase()
+                                                                : word;
+                                                        })
+                                                        .join('')
+                                                ].map(
+                                                    ({ name, link, icon }) => {
+                                                        return (
+                                                            <li key={name}>
+                                                                {link ? (
+                                                                    <Link
+                                                                        className="inline-block text-white  transition hover:text-white/75"
+                                                                        to={
+                                                                            link
+                                                                        }
+                                                                    >
+                                                                        {name}
+                                                                    </Link>
+                                                                ) : null}
+                                                                {icon ? (
+                                                                    <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                        {icon()}
+                                                                        <span className="text-white">
+                                                                            {
+                                                                                name
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                ) : null}
+                                                                {link &&
+                                                                icon ? (
+                                                                    <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                        {icon()}
+                                                                        <Link
+                                                                            className="inline-block text-white  transition hover:text-white/75"
+                                                                            to={
+                                                                                link
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                name
+                                                                            }
+                                                                        </Link>
+                                                                    </div>
+                                                                ) : null}
+                                                            </li>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
+                                        </nav>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </>
+                            );
+                        })}
 
+                        {/* 
                         <div className="text-center sm:text-left">
                             <p className="text-lg font-medium text-white pb-4">
                                 About Us
@@ -143,7 +222,7 @@ export default function Footer() {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </footer>

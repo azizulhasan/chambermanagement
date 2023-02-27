@@ -11,8 +11,17 @@ export const database = {
             district: 'Dhaka',
             country: 'Bangladesh',
         },
-        companyLogo: '',
-        companyTitle: 'Mind To Heart',
+        // companyLogo: '',
+        // companyTitle: 'Mind To Heart',
+        trademark: {
+            texts: {
+                title: 'Mind To Heart',
+                subTitle: 'Psychological Wellness Center',
+            },
+            logo: {
+                image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`,
+            },
+        },
     },
     topMenus: [
         { name: 'Home', href: '#', current: true },
@@ -24,6 +33,7 @@ export const database = {
         { name: 'User Dashboard', href: '/user-panel', current: false },
     ],
     footer: {
+        sectionsOrder: ['Trademark', 'About Us', 'Our Services', 'Contact Us'],
         socialMediaLinks: [
             { name: 'Instagram', link: '/', icon: 'fa fa-instagram' },
             { name: 'Facebook', link: '/', icon: 'fa fa-facebook' },
@@ -32,30 +42,38 @@ export const database = {
         ],
         menus: {
             aboutUs: [
-                { name: 'Terms of Services', link: '/terms-of-services' },
-                { name: 'Refund Policy', link: '/refund-policy' },
-                { name: 'Privacy Policy', link: '/privacy-policy' },
+                {
+                    name: 'Terms of Services',
+                    link: '/terms-of-services',
+                    icon: null,
+                },
+                { name: 'Refund Policy', link: '/refund-policy', icon: null },
+                { name: 'Privacy Policy', link: '/privacy-policy', icon: null },
             ],
             ourServices: [
-                { name: 'Professionals', link: '/' },
+                { name: 'Professionals', link: '/', icon: null },
                 {
                     name: 'Psychological',
                     link: '/service-details/psychologicalCounseling',
+                    icon: null,
                 },
                 {
                     name: 'Corporate',
                     link: '/service-details/corporateService',
+                    icon: null,
                 },
                 {
                     name: 'Child Development',
                     link: '/service-details/childDevelopment',
+                    icon: null,
                 },
             ],
             contactUs: [
-                { name: 'mindtoheart@gmail.com', icon: MailIcon },
-                { name: '01800000000', icon: TelephoneIcon },
+                { name: 'mindtoheart@gmail.com', link: null, icon: MailIcon },
+                { name: '01800000000', link: null, icon: TelephoneIcon },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
+                    link: null,
                     icon: PlaceIcon,
                 },
             ],
