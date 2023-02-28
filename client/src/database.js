@@ -69,8 +69,12 @@ export const database = {
                 },
             ],
             contactUs: [
-                { name: 'mindtoheart@gmail.com', link: null, icon: MailIcon },
-                { name: '01800000000', link: null, icon: TelephoneIcon },
+                {
+                    name: 'mindtoheart.bd@gmail.com',
+                    link: null,
+                    icon: MailIcon,
+                },
+                { name: '+8801715769060', link: null, icon: TelephoneIcon },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,

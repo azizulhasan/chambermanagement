@@ -30,6 +30,16 @@ export default function Footer() {
         backgroundImageOpacity: '',
         icons: [],
     });
+
+    const divider = sectionsOrder.length;
+
+    const sectionWidth =
+        '[&>*]:w-full sm:[&>*]:max-w-[33%] md:[&>*]:max-w-[' +
+        Math.floor(100 / divider) +
+        '%] md:[&>*]:px-4';
+
+    console.log({ sectionWidth });
+
     useEffect(() => {
         /**
          * Get data from and display to table.
@@ -47,12 +57,16 @@ export default function Footer() {
                 className="bg-themeColor w-full pt-5"
             >
                 <div className="mx-auto max-w-screen-xl px-4 pt-8 pb-6 sm:px-6 lg:px-2 lg:pt-5">
-                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+                    <div
+                        className={`flex  justify-center flex-wrap gap-12 md:gap-0 md:flex-row sm:justify-around ${sectionWidth}`}
+                    >
                         {sectionsOrder.map((section) => {
-                            console.log({ section });
                             return section === 'Trademark' ? (
-                                <div>
-                                    <div className="flex flex-shrink-0 items-center font-medium text-white">
+                                <div
+                                    key={section}
+                                    className=" flex flex-col md:items-start justify-center"
+                                >
+                                    <div className="flex flex-shrink-0 justify-center items-center font-medium text-white">
                                         <img
                                             className="block h-16 w-auto"
                                             src={image}

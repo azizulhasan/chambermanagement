@@ -115,13 +115,13 @@ const Professionals = ({ id = 'team' }) => {
                                                     </h2>
                                                 </Link>
                                                 <div className="m-2">
-                                                    <a
+                                                    <Link
                                                         role="button"
-                                                        href="/"
+                                                        to="/appointment"
                                                         className="text-white bg-themeColor px-3 py-1 flex flex-nowrap rounded-md hover:bg-themeColor"
                                                     >
                                                         Book An Appointment
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>

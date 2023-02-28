@@ -7,6 +7,7 @@ import TermsOfServices from '../components/front/common/policy/TermsOfServices';
 import { addCSS } from '../utilities/utilities';
 import MemberDetails from './MemberDetails';
 import ServiceDetails from './ServiceDetails';
+import PrivateOutlet from '../components/front/common/PrivateOutlet';
 
 const Login = lazy(() => import('./Login'));
 const Register = lazy(() => import('./Register'));
@@ -84,13 +85,15 @@ function Front() {
                         element={<ServiceDetails />}
                     ></Route>
                     <Route
-                        path="/user-panel/*"
-                        element={<UserDashboard />}
-                    ></Route>
-                    <Route
                         path="/terms-of-services"
                         element={<TermsOfServices />}
                     ></Route>
+                    <Route path="/*" element={<PrivateOutlet />}>
+                        <Route
+                            path="user-panel/*"
+                            element={<UserDashboard />}
+                        ></Route>
+                    </Route>
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>

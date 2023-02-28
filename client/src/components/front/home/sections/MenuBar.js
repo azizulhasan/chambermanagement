@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { database } from '../../../../database';
+import { authenTicateUser, logout } from '../../../../utilities/utilities';
 
 const { topMenus } = database;
 
@@ -12,6 +13,10 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
+    const auth = authenTicateUser();
+
+    const hiddenMenus = !auth ? ['User Dashboard'] : ['Login'];
+
     return (
         <nav className="w-full bg-white shadow">
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
@@ -83,26 +88,43 @@ export default function MenuBar() {
                         }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
-                            {topMenus?.map((item) => (
-                                <li
-                                    key={item.name}
-                                    aria-current={
-                                        item.current ? 'page' : undefined
-                                    }
-                                >
-                                    <a
-                                        href={item.href}
-                                        className={classNames(
-                                            item.current
-                                                ? 'bg-themeColor text-white'
-                                                : 'text-black hover:bg-themeColor hover:!text-white',
-                                            'px-3 py-2 text-sm font-medium cursor-pointer'
-                                        )}
+                            {topMenus?.map((item) => {
+                                if (hiddenMenus.includes(item.name)) {
+                                    return null;
+                                }
+
+                                return (
+                                    <li
+                                        key={item.name}
+                                        aria-current={
+                                            item.current ? 'page' : undefined
+                                        }
                                     >
-                                        {item.name}
-                                    </a>
+                                        <a
+                                            href={item.href}
+                                            className={classNames(
+                                                item.current
+                                                    ? 'bg-themeColor text-white'
+                                                    : 'text-black hover:bg-themeColor hover:!text-white',
+                                                'px-3 py-2 text-sm font-medium cursor-pointer'
+                                            )}
+                                        >
+                                            {item.name}
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                            {auth && (
+                                <li>
+                                    <button
+                                        className=" text-black'
+                                                     hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
+                                        onClick={() => logout()}
+                                    >
+                                        Logout
+                                    </button>
                                 </li>
-                            ))}
+                            )}
                         </ul>
                     </div>
                 </div>
