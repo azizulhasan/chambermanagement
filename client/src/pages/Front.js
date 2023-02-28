@@ -4,10 +4,11 @@ import Loader from '../components/front/common/Loader';
 import RefundPolicy from '../components/front/common/policy/RefundPolicy';
 import PrivacyPolicy from '../components/front/common/policy/PrivacyPolicy';
 import TermsOfServices from '../components/front/common/policy/TermsOfServices';
-import { addCSS } from '../utilities/utilities';
+import { addCSS, authenTicateUser, getRgisteredUser } from '../utilities/utilities';
 import MemberDetails from './MemberDetails';
 import ServiceDetails from './ServiceDetails';
 import PrivateOutlet from '../components/front/common/PrivateOutlet';
+
 
 const Login = lazy(() => import('./Login'));
 const Register = lazy(() => import('./Register'));

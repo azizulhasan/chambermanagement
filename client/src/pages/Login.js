@@ -152,7 +152,7 @@ export default function Login() {
                                                 </div>
                                                 <div className="ml-3 text-sm">
                                                     <label
-                                                        for="remember_me"
+                                                        htmlFor="remember_me"
                                                         className="text-gray-500 dark:text-gray-300"
                                                     >
                                                         Remember me

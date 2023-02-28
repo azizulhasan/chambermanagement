@@ -20,16 +20,6 @@ const {
 
 export default function Footer() {
     addCSS(['/assets/front/css/footer.css']);
-    const [hero, setHero] = useState({
-        _id: '',
-        title: '',
-        profession: '',
-        social_icon_name: '',
-        social_icon_url: '',
-        backgroundImage: '',
-        backgroundImageOpacity: '',
-        icons: [],
-    });
 
     const divider = sectionsOrder.length;
 
@@ -38,18 +28,6 @@ export default function Footer() {
         Math.floor(100 / divider) +
         '%] md:[&>*]:px-4';
 
-    console.log({ sectionWidth });
-
-    useEffect(() => {
-        /**
-         * Get data from and display to table.
-         */
-        getData(process.env.REACT_APP_API_URL + '/api/hero').then((res) => {
-            if (res.data.length) {
-                setHero(res.data[0]);
-            }
-        });
-    }, []);
     return (
         <div>
             <footer
@@ -60,10 +38,10 @@ export default function Footer() {
                     <div
                         className={`flex  justify-center flex-wrap gap-12 md:gap-0 md:flex-row sm:justify-around ${sectionWidth}`}
                     >
-                        {sectionsOrder.map((section) => {
+                        {sectionsOrder.map((section, index) => {
                             return section === 'Trademark' ? (
                                 <div
-                                    key={section}
+                                    key={index}
                                     className=" flex flex-col md:items-start justify-center"
                                 >
                                     <div className="flex flex-shrink-0 justify-center items-center font-medium text-white">
@@ -89,11 +67,11 @@ export default function Footer() {
                                             </h4>
                                             <div className="icons">
                                                 {socialMediaLinks.map(
-                                                    ({ name, link, icon }) => (
+                                                    ({ name, link, icon }, i) => (
                                                         <a
                                                             href={link}
                                                             className={`icon icon--${name.toLowerCase()}`}
-                                                            key={name}
+                                                            key={i}
                                                         >
                                                             <i
                                                                 className={icon}
@@ -106,137 +84,73 @@ export default function Footer() {
                                     </div>
                                 </div>
                             ) : (
-                                <>
-                                    <div
-                                        className="text-center sm:text-left"
-                                        key={section}
-                                    >
-                                        <p className="text-lg font-medium text-white pb-4 text-capitalize">
-                                            {section}
-                                        </p>
-                                        <nav aria-label="">
-                                            <ul className="space-y-3 text-sm">
-                                                {menus[
-                                                    section
-                                                        .split(' ')
-                                                        .map((word, index) => {
-                                                            return index === 0
-                                                                ? word.toLowerCase()
-                                                                : word;
-                                                        })
-                                                        .join('')
-                                                ].map(
-                                                    ({ name, link, icon }) => {
-                                                        return (
-                                                            <li key={name}>
-                                                                {link ? (
+                                <div
+                                    className="text-center sm:text-left"
+                                    key={index}
+                                >
+                                    <p className="text-lg font-medium text-white pb-4 text-capitalize">
+                                        {section}
+                                    </p>
+                                    <nav aria-label="">
+                                        <ul className="space-y-3 text-sm">
+                                            {menus[
+                                                section
+                                                    .split(' ')
+                                                    .map((word, index) => {
+                                                        return index === 0
+                                                            ? word.toLowerCase()
+                                                            : word;
+                                                    })
+                                                    .join('')
+                                            ].map(
+                                                ({ name, link, icon }) => {
+                                                    return (
+                                                        <li key={name}>
+                                                            {link ? (
+                                                                <Link
+                                                                    className="inline-block text-white  transition hover:text-white/75"
+                                                                    to={
+                                                                        link
+                                                                    }
+                                                                >
+                                                                    {name}
+                                                                </Link>
+                                                            ) : null}
+                                                            {icon ? (
+                                                                <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                    {icon()}
+                                                                    <span className="text-white">
+                                                                        {
+                                                                            name
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            ) : null}
+                                                            {link &&
+                                                                icon ? (
+                                                                <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                    {icon()}
                                                                     <Link
                                                                         className="inline-block text-white  transition hover:text-white/75"
                                                                         to={
                                                                             link
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {
+                                                                            name
+                                                                        }
                                                                     </Link>
-                                                                ) : null}
-                                                                {icon ? (
-                                                                    <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                        {icon()}
-                                                                        <span className="text-white">
-                                                                            {
-                                                                                name
-                                                                            }
-                                                                        </span>
-                                                                    </div>
-                                                                ) : null}
-                                                                {link &&
-                                                                icon ? (
-                                                                    <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                        {icon()}
-                                                                        <Link
-                                                                            className="inline-block text-white  transition hover:text-white/75"
-                                                                            to={
-                                                                                link
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                name
-                                                                            }
-                                                                        </Link>
-                                                                    </div>
-                                                                ) : null}
-                                                            </li>
-                                                        );
-                                                    }
-                                                )}
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </>
+                                                                </div>
+                                                            ) : null}
+                                                        </li>
+                                                    );
+                                                }
+                                            )}
+                                        </ul>
+                                    </nav>
+                                </div>
                             );
                         })}
-
-                        {/* 
-                        <div className="text-center sm:text-left">
-                            <p className="text-lg font-medium text-white pb-4">
-                                About Us
-                            </p>
-                            <nav aria-label="Footer About Nav">
-                                <ul className="space-y-3 text-sm">
-                                    {aboutUs.map(({ name, link }) => (
-                                        <li key={name}>
-                                            <Link
-                                                className="inline-block text-white  transition hover:text-white/75"
-                                                to={link}
-                                            >
-                                                {name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-                        </div>
-
-                        <div className="text-center sm:text-left">
-                            <p className="text-lg font-medium text-white pb-4">
-                                Our Services
-                            </p>
-
-                            <nav aria-label="Footer Services Nav">
-                                <ul className="space-y-3 text-sm">
-                                    {ourServices.map(({ name, link }) => (
-                                        <li key={name}>
-                                            <Link
-                                                className="text-white transition hover:text-white/75"
-                                                to={link}
-                                            >
-                                                {name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-                        </div>
-
-                        <div className="text-center sm:text-left">
-                            <p className="text-lg font-medium text-white pb-4">
-                                Contact Us
-                            </p>
-
-                            <ul className="space-y-3 text-sm">
-                                {contactUs.map(({ name, icon }) => (
-                                    <li
-                                        key={name}
-                                        className="flex items-start justify-center gap-1.5 sm:justify-start"
-                                    >
-                                        {icon()}
-                                        <span className="text-white">
-                                            {name}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div> */}
                     </div>
                 </div>
             </footer>

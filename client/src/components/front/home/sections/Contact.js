@@ -12,6 +12,7 @@ import {
     getFormattedDate,
 } from '../../../../utilities/utilities';
 import submitContactForm from '../../../../utilities/validate';
+import GoogleMap from './GoogleMap';
 export default function Contact({ id = 'contact' }) {
     const [contact, setContact] = useState({
         _id: '',
@@ -93,8 +94,8 @@ export default function Contact({ id = 'contact' }) {
             value === 'Address'
                 ? 'geo-alt'
                 : value === 'Email'
-                ? 'envelope'
-                : value.toLowerCase();
+                    ? 'envelope'
+                    : value.toLowerCase();
 
         return contactData;
     };
@@ -106,18 +107,7 @@ export default function Contact({ id = 'contact' }) {
                     <div className="container mx-auto ">
                         <div className="grid lg:grid-cols-2 items-center gap-10">
                             <div className="md:mb-12 lg:mb-0 hidden sm:hidden md:hidden lg:block xl:block">
-                                <div className="map-container relative shadow-lg rounded-lg">
-                                    <iframe
-                                        className="w-full border-slate-200"
-                                        height="500"
-                                        id="gmap_canvas"
-                                        src="https://maps.google.com/maps?q=dhaka,Mind To Heart&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                        frameBorder="0"
-                                        scrolling="no"
-                                        marginHeight="0"
-                                        marginWidth="0"
-                                    ></iframe>
-                                </div>
+                                <GoogleMap />
                             </div>
 
                             <div className="md:mt-12 lg:mt-0 mb-12 lg:mb-0">
@@ -175,21 +165,7 @@ export default function Contact({ id = 'contact' }) {
                                     </form>
                                 </div>
                             </div>
-
-                            <div className="md:mb-12 lg:mb-0 sm:block md:block lg:hidden xl:hidden">
-                                <div className="map-container relative shadow-lg rounded-lg">
-                                    <iframe
-                                        className="w-full"
-                                        height="500"
-                                        id="gmap_canvas"
-                                        src="https://maps.google.com/maps?q=dhaka,Mind To Heart&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                        frameBorder="0"
-                                        scrolling="no"
-                                        marginHeight="0"
-                                        marginWidth="0"
-                                    ></iframe>
-                                </div>
-                            </div>
+                            <GoogleMap />
                         </div>
                     </div>
                 </div>
