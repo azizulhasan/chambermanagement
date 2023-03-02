@@ -4,7 +4,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { FaRegEnvelope } from 'react-icons/fa';
 import { MdLockOutline } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import loginImage from '../assets/login/login_page.PNG';
 import { loginUser } from '../store/usersSlice';
@@ -16,12 +16,12 @@ import {
     addCSS,
     getLocalStorage,
     getSessionStorage,
+    redirectUser,
     setLocalStorage,
 } from '../utilities/utilities';
 
 export default function Login() {
     //#region Hooks
-    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -29,24 +29,23 @@ export default function Login() {
     } = useForm();
     const captchaRef = useRef(null);
     const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(state => state.users)
     //#endregion
 
     //#region useEffect
     useEffect(() => {
         // const Auth = {
-        //   session: getSessionStorage()["user"],
-        //   storage: getLocalStorage()["user"],
+        //     session: getSessionStorage()["user"],
+        //     storage: getLocalStorage()["user"],
         // };
         // if (Auth.session !== undefined || Auth.storage !== undefined) {
-        //   window.location.href = process.env.REACT_APP_URL + "/dashboard";
+        //     window.location.href = process.env.REACT_APP_URL + "/dashboard";
         // }
-
-        const sessionAuth = getSessionStorage()['user'];
-        const localAuth = getLocalStorage()['user'];
-        if (sessionAuth || localAuth) {
-            navigate('/dashboard');
+        console.log(loggedInUser)
+        if (loggedInUser !== undefined) {
+            redirectUser(loggedInUser)
         }
-    }, [navigate]);
+    }, [loggedInUser]);
     //#endregion
 
     //#region Events

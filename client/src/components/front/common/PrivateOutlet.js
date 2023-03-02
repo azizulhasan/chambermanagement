@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import { authenTicateUser } from '../../../utilities/utilities';
 
 const PrivateOutlet = () => {
-    const auth = authenTicateUser();
-    return !auth ? <Navigate to="/login" /> : <Outlet />;
+    const { loggedInUser } = useSelector(state => state.users)
+    useEffect(() => {
+        console.log(loggedInUser)
+    }, [])
+    return loggedInUser === undefined ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PrivateOutlet;

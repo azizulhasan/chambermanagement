@@ -403,22 +403,34 @@ export const getRgisteredUser = () => {
     };
 };
 
-export const authenTicateUser = () => {
-    const Auth = getRgisteredUser();
+export const authenTicateUser = (loggedInUser) => {
 
-    if (!Auth.session && !Auth.storage) {
+    if (!loggedInUser) return false;
+
+    if (!loggedInUser.session && !loggedInUser.storage) {
         return false;
     }
 
     return true;
 };
 
+
+export const isAdmin = (loggedInUser) => {
+    if (loggedInUser) {
+        return loggedInUser.userRole === 'ADMIN'
+    } else if (loggedInUser.storage) {
+        return loggedInUser.userRole === 'ADMIN'
+    }
+
+    return false;
+}
+
 export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-        ? window.localStorage.getItem('user')['storage']
-        : '';
+            ? window.localStorage.getItem('user')['storage']
+            : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -505,7 +517,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-        [textareaIndex].getAttribute('id');
+    [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 
@@ -1109,4 +1121,17 @@ export function getUrl(endpoint) {
     }
 
     return url;
+}
+
+
+export const redirectUser = (user) => {
+    if (user) {
+        if (user.hasOwnProperty('userRole') && user.userRole === 'ADMIN') {
+            window.location.href = process.env.REACT_APP_URL + "/dashboard";
+        } else {
+            window.location.href = process.env.REACT_APP_URL + "/user-panel";
+        }
+    } else {
+        window.location.href = process.env.REACT_APP_URL;
+    }
 }

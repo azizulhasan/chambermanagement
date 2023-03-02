@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useJwt } from 'react-jwt';
 
@@ -10,6 +10,8 @@ import {
     getComponentName,
     authenTicateUser,
     getRgisteredUser,
+    isAdmin,
+    redirectUser,
 } from '../utilities/utilities';
 
 /**
@@ -37,14 +39,13 @@ import Schedules from '../components/dashboard/schedules/Schedules';
 import Contact from '../components/dashboard/portfolio/contact/Contact';
 import Settings from '../components/dashboard/settings/Settings';
 
+import { useSelector } from 'react-redux';
+
 export default function Dashboard() {
     const [componentName, setComponentName] = useState(getComponentName());
-    let tokenObj = getRgisteredUser();
-    const accessToken = tokenObj.schedule
-        ? tokenObj.schedule.accessToken
-        : null || tokenObj.storage
-        ? tokenObj.storage.accessToken
-        : null;
+    const { loggedInUser } = useSelector(state => state.users)
+    console.log(loggedInUser)
+    const accessToken = loggedInUser ? loggedInUser.accessToken : null;
 
     const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
 
@@ -58,9 +59,9 @@ export default function Dashboard() {
         }).observe(document, { subtree: true, childList: true });
     }, [componentName]);
 
-    if (!authenTicateUser()) {
-        window.location.href = '/login';
-    } else {
+    if (!authenTicateUser(loggedInUser)) {
+        redirectUser(loggedInUser)
+    } else if (isAdmin(loggedInUser)) {
         return (
             <Router>
                 <ToastContainer
@@ -138,5 +139,7 @@ export default function Dashboard() {
                 </div>
             </Router>
         );
+    } else {
+        window.location.href = process.env.REACT_APP_URL + "/user-panel";
     }
 }

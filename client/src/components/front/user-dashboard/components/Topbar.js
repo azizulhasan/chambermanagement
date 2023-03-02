@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../../../../utilities/utilities';
+import { logOut } from '../../../../store/usersSlice';
+import { redirectUser } from '../../../../utilities/utilities';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Modal from './Modal';
 import Navbar from './Sidebar';
@@ -9,7 +11,8 @@ const Topbar = () => {
     const [open, setOpen] = useState(false);
     const [render, setRender] = useState(false);
     const { width } = useWindowDimensions();
-
+    const { loggedInUser } = useSelector(state => state.users)
+    const dispatch = useDispatch();
     const openModal = () => {
         !render && setRender(true);
         setOpen(true);
@@ -24,6 +27,16 @@ const Topbar = () => {
             closeModal();
         }
     }, [open, width]);
+
+    const userLogout = (e) => {
+        e.preventDefault();
+        alert('Are you sure?');
+        dispatch(logOut())
+    }
+
+    useEffect(() => {
+        redirectUser(loggedInUser)
+    }, [loggedInUser])
 
     return (
         <div className="h-full flex items-center justify-between px-4  drop-shadow-md border-b border-gray-400/20 backdrop-blur">
@@ -51,7 +64,7 @@ const Topbar = () => {
                     role="button"
                     className=" text-black'
                                                      hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
-                    onClick={() => logout()}
+                    onClick={(e) => userLogout(e)}
                 >
                     Logout
                 </Link>
@@ -65,9 +78,8 @@ const Topbar = () => {
                 <Modal
                     open={open}
                     closeModal={closeModal}
-                    stylingClasses={`${
-                        open ? 'open-sidebar' : 'close-sidebar'
-                    }`}
+                    stylingClasses={`${open ? 'open-sidebar' : 'close-sidebar'
+                        }`}
                 >
                     <Navbar closeModal={closeModal} />
                 </Modal>
