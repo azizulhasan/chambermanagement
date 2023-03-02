@@ -13,9 +13,9 @@ export default function GeneralLayout({ children, css = [], js = [] }) {
     addCSS(css);
     addScripts(js);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo(0, 0);
+    // }, []);
 
     return (
         <div className="flex flex-col">
