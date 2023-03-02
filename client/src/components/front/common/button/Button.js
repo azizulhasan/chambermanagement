@@ -1,5 +1,6 @@
+import { getPrefixedClassNames } from '../../../../utilities/utilities';
 import ButtonGroup from './ButtonGroup';
-import { getPrefixedClassNames } from '../../utilities/utilities';
+// import { getPrefixedClassNames } from '../../utilities/utilities';
 
 let buttonId = 1;
 export default function Button({
@@ -11,6 +12,8 @@ export default function Button({
     iconPosition = 'after',
     style = {},
     addBgColor = true,
+    modifierClasses = '',
+    type = 'button',
 }) {
     const buttons = {
         buttonOne: ' rounded px-2 py-1.5 text-xs ',
@@ -42,10 +45,10 @@ export default function Button({
             id={buttonStyle + '-' + buttonId++}
             className={getPrefixedClassNames(
                 getClassNames(buttonStyle),
-                'ctx-'
+                'ctx-' + ` ${modifierClasses}`
             )}
             onClick={onClick}
-            type="button"
+            type={type}
             style={style}
         >
             {iconPosition === 'after' ? (

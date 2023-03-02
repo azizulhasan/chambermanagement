@@ -3,6 +3,7 @@ const GoogleMap = () => {
         <div className="mapouter">
             <div className="gmap_canvas map-container relative shadow-lg rounded-lg">
                 <iframe
+                    title="Mind to Heart Location"
                     width="100%"
                     height="500"
                     id="gmap_canvas"

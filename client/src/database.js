@@ -24,7 +24,7 @@ export const database = {
         },
     },
     topMenus: [
-        { name: 'Home', href: '#', current: true },
+        { name: 'Home', href: '/', current: true },
         { name: 'About Us', href: '/about-us', current: false },
         { name: 'Services', href: '#services', current: false },
         { name: 'Team', href: '#team', current: false },

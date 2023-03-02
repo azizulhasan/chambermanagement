@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from '../components/front/common/common/Container';
-import SiteSkeleton from '../components/front/common/SiteSkeleton';
+import GeneralLayout from '../components/front/common/GeneralLayout';
 import { database } from '../database';
 
 const {
@@ -13,7 +13,7 @@ const {
 
 const AboutUs = () => {
     return (
-        <SiteSkeleton>
+        <GeneralLayout>
             <Container>
                 <h1 className="text-5xl font-bold text-center m-10">
                     About Us
@@ -36,7 +36,7 @@ const AboutUs = () => {
 
                 {/* <image src={bannerImage} /> */}
             </Container>
-        </SiteSkeleton>
+        </GeneralLayout>
     );
 };
 

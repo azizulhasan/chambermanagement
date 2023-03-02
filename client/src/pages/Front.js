@@ -4,11 +4,12 @@ import Loader from '../components/front/common/Loader';
 import RefundPolicy from '../components/front/common/policy/RefundPolicy';
 import PrivacyPolicy from '../components/front/common/policy/PrivacyPolicy';
 import TermsOfServices from '../components/front/common/policy/TermsOfServices';
-import { addCSS, authenTicateUser, getRgisteredUser } from '../utilities/utilities';
-import MemberDetails from './MemberDetails';
-import ServiceDetails from './ServiceDetails';
+import {
+    addCSS,
+    authenTicateUser,
+    getRgisteredUser,
+} from '../utilities/utilities';
 import PrivateOutlet from '../components/front/common/PrivateOutlet';
-
 
 const Login = lazy(() => import('./Login'));
 const Register = lazy(() => import('./Register'));
@@ -17,6 +18,8 @@ const NotFound = lazy(() =>
 );
 const Home = lazy(() => import('../components/front/home/Home'));
 const AboutUs = lazy(() => import('./AboutUs'));
+const MemberDetails = lazy(() => import('./MemberDetails'));
+const ServiceDetails = lazy(() => import('./ServiceDetails'));
 const ForgotPassword = lazy(() => import('./ForgotPassword'));
 const Appoinment = lazy(() => import('./Appoinment'));
 const UserDashboard = lazy(() =>
@@ -60,40 +63,34 @@ function Front() {
         <Router>
             <Suspense fallback={<Loader />}>
                 <Routes>
-                    <Route path="/" element={<Home />}></Route>
-                    <Route path="/about-us" element={<AboutUs />}></Route>
-                    <Route path="/appointment" element={<Appoinment />}></Route>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/appointment" element={<Appoinment />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route
                         path="/forgotpassword"
                         element={<ForgotPassword />}
-                    ></Route>
-                    <Route
-                        path="/refund-policy"
-                        element={<RefundPolicy />}
-                    ></Route>
-                    <Route
-                        path="/privacy-policy"
-                        element={<PrivacyPolicy />}
-                    ></Route>
+                    />
+                    <Route path="/refund-policy" element={<RefundPolicy />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route
                         path="/health-professionals/:slug"
                         element={<MemberDetails />}
-                    ></Route>
+                    />
                     <Route
                         path="/service-details/:slug"
                         element={<ServiceDetails />}
-                    ></Route>
+                    />
                     <Route
                         path="/terms-of-services"
                         element={<TermsOfServices />}
-                    ></Route>
+                    />
                     <Route path="/*" element={<PrivateOutlet />}>
                         <Route
                             path="user-panel/*"
                             element={<UserDashboard />}
-                        ></Route>
+                        />
                     </Route>
                     <Route path="*" element={<NotFound />} />;
                 </Routes>

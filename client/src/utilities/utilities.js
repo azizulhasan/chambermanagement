@@ -424,7 +424,7 @@ export const logout = () => {
     window.localStorage.removeItem('user');
     window.sessionStorage.removeItem('user');
 
-    window.location.href = process.env.REACT_APP_URL + '/login';
+    window.location.href = process.env.REACT_APP_URL + '/';
 };
 
 export const hideMenuOnScroll = () => {

@@ -21,12 +21,11 @@ const {
 export default function Footer() {
     addCSS(['/assets/front/css/footer.css']);
 
-    const divider = sectionsOrder.length;
+    const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth =
-        '[&>*]:w-full sm:[&>*]:max-w-[33%] md:[&>*]:max-w-[' +
-        Math.floor(100 / divider) +
-        '%] md:[&>*]:px-4';
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
+        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+    } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -42,9 +41,9 @@ export default function Footer() {
                             return section === 'Trademark' ? (
                                 <div
                                     key={index}
-                                    className=" flex flex-col md:items-start justify-center"
+                                    className="flex flex-col md:items-start justify-center"
                                 >
-                                    <div className="flex flex-shrink-0 justify-center items-center font-medium text-white">
+                                    <div className="flex flex-shrink-0 justify-center items-center font-medium text-white gap-2 ">
                                         <img
                                             className="block h-16 w-auto"
                                             src={image}
@@ -67,7 +66,10 @@ export default function Footer() {
                                             </h4>
                                             <div className="icons">
                                                 {socialMediaLinks.map(
-                                                    ({ name, link, icon }, i) => (
+                                                    (
+                                                        { name, link, icon },
+                                                        i
+                                                    ) => (
                                                         <a
                                                             href={link}
                                                             className={`icon icon--${name.toLowerCase()}`}
@@ -102,50 +104,39 @@ export default function Footer() {
                                                             : word;
                                                     })
                                                     .join('')
-                                            ].map(
-                                                ({ name, link, icon }) => {
-                                                    return (
-                                                        <li key={name}>
-                                                            {link ? (
+                                            ].map(({ name, link, icon }) => {
+                                                return (
+                                                    <li key={name}>
+                                                        {link ? (
+                                                            <Link
+                                                                className="inline-block text-white  transition hover:text-white/75"
+                                                                to={link}
+                                                            >
+                                                                {name}
+                                                            </Link>
+                                                        ) : null}
+                                                        {icon ? (
+                                                            <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                {icon()}
+                                                                <span className="text-white">
+                                                                    {name}
+                                                                </span>
+                                                            </div>
+                                                        ) : null}
+                                                        {link && icon ? (
+                                                            <div className="flex items-start justify-center gap-1.5 sm:justify-start">
+                                                                {icon()}
                                                                 <Link
                                                                     className="inline-block text-white  transition hover:text-white/75"
-                                                                    to={
-                                                                        link
-                                                                    }
+                                                                    to={link}
                                                                 >
                                                                     {name}
                                                                 </Link>
-                                                            ) : null}
-                                                            {icon ? (
-                                                                <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                    {icon()}
-                                                                    <span className="text-white">
-                                                                        {
-                                                                            name
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                            ) : null}
-                                                            {link &&
-                                                                icon ? (
-                                                                <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                    {icon()}
-                                                                    <Link
-                                                                        className="inline-block text-white  transition hover:text-white/75"
-                                                                        to={
-                                                                            link
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            name
-                                                                        }
-                                                                    </Link>
-                                                                </div>
-                                                            ) : null}
-                                                        </li>
-                                                    );
-                                                }
-                                            )}
+                                                            </div>
+                                                        ) : null}
+                                                    </li>
+                                                );
+                                            })}
                                         </ul>
                                     </nav>
                                 </div>

@@ -12,6 +12,7 @@ import {
     getFormattedDate,
 } from '../../../../utilities/utilities';
 import submitContactForm from '../../../../utilities/validate';
+import Button from '../../common/button/Button';
 import GoogleMap from './GoogleMap';
 export default function Contact({ id = 'contact' }) {
     const [contact, setContact] = useState({
@@ -94,8 +95,8 @@ export default function Contact({ id = 'contact' }) {
             value === 'Address'
                 ? 'geo-alt'
                 : value === 'Email'
-                    ? 'envelope'
-                    : value.toLowerCase();
+                ? 'envelope'
+                : value.toLowerCase();
 
         return contactData;
     };
@@ -106,7 +107,7 @@ export default function Contact({ id = 'contact' }) {
                 <div className="px-2 py-6 md:px-5">
                     <div className="container mx-auto ">
                         <div className="grid lg:grid-cols-2 items-center gap-10">
-                            <div className="md:mb-12 lg:mb-0 hidden sm:hidden md:hidden lg:block xl:block">
+                            <div className=" hidden lg:block">
                                 <GoogleMap />
                             </div>
 
@@ -156,16 +157,19 @@ export default function Contact({ id = 'contact' }) {
                                                 Send me a copy of this message
                                             </label>
                                         </div>
+
                                         <button
                                             type="submit"
-                                            className="w-full px-6 py-2.5 bg-themeColor text-white font-bold text-xs leading-tight uppercase rounded shadow-md hover:bg-white hover:shadow-lg hover:text-themeColor hover:outline hover:outline-1 hover:outline-gray-100 focus:bg-themeColor focus:shadow-lg focus:outline-none focus:ring-0 active:bg-themeColor active:shadow-lg transition duration-150 ease-in-out"
+                                            className="w-full px-3 py-2 text-sm font-medium text-center text-white bg-themeColor rounded-lg hover:bg-white hover:text-themeColor focus:ring-4 focus:outline-none focus:ring-themeColor dark:bg-themeColor dark:hover:bg-themeColor dark:focus:ring-themeColor border border-color-themeColor"
                                         >
                                             Send
                                         </button>
                                     </form>
                                 </div>
                             </div>
-                            <GoogleMap />
+                            <div className="mb-12 lg:hidden">
+                                <GoogleMap />
+                            </div>
                         </div>
                     </div>
                 </div>

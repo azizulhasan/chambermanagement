@@ -118,7 +118,7 @@ const Professionals = ({ id = 'team' }) => {
                                                     <Link
                                                         role="button"
                                                         to="/appointment"
-                                                        className="text-white bg-themeColor px-3 py-1 flex flex-nowrap rounded-md hover:bg-themeColor"
+                                                        className="text-white bg-themeColor px-3 py-1 flex justify-center rounded-md hover:bg-themeColor"
                                                     >
                                                         Book An Appointment
                                                     </Link>

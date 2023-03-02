@@ -74,9 +74,11 @@ const HealthSerivces = ({ id = 'carouselData' }) => {
                                             <div
                                                 style={{ width: perSlideWidth }}
                                                 key={currentIndex}
-                                                className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-white hover:shadow-2xl mr-2"
+                                                className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-white hover:shadow-2xl mr-2 flex flex-col justify-between"
                                             >
-                                                <a href="/#">
+                                                <Link
+                                                    to={`service-details/${carouselData[currentIndex].slug}`}
+                                                >
                                                     <img
                                                         style={{
                                                             width: perSlideWidth,
@@ -89,12 +91,12 @@ const HealthSerivces = ({ id = 'carouselData' }) => {
                                                         }
                                                         alt=""
                                                     />
-                                                </a>
+                                                </Link>
                                                 <div className="p-5 w-full">
                                                     <Link
                                                         to={`service-details/${carouselData[currentIndex].slug}`}
                                                     >
-                                                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                        <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                                                             {
                                                                 carouselData[
                                                                     currentIndex

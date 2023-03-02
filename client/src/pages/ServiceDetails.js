@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import GeneralLayout from '../components/front/common/GeneralLayout';
 import Footer from '../components/front/common/partials/Footer';
 import MenuBar from '../components/front/home/sections/MenuBar';
 import TopNav from '../components/front/home/sections/TopNav';
@@ -24,9 +25,7 @@ const ServiceDetails = () => {
     const serviceData = serviceDetailsData[slug];
     if (serviceData) {
         return (
-            <>
-                <TopNav />
-                <MenuBar />
+            <GeneralLayout>
                 <div className="px-4 my-20 max-w-7xl mx-auto md:px-8 flex flex-col gap-10 md:gap-20">
                     <h1 className="text-3xl font-semibold text-center">
                         {serviceData.slogan}
@@ -53,14 +52,16 @@ const ServiceDetails = () => {
                                     </li>
                                 ))}
                             </ul>
-                            <button className="w-fit bg-themeColor text-white px-6 py-3 rounded-md">
+                            <Link
+                                to="/appointment"
+                                className="w-fit bg-themeColor text-white px-6 py-3 rounded-md"
+                            >
                                 Book an Appointment
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
-                <Footer />
-            </>
+            </GeneralLayout>
         );
     }
     return <NotFound />;

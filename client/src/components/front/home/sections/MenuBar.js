@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
@@ -21,8 +21,8 @@ export default function MenuBar() {
         <nav className="w-full bg-white shadow">
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
-                    <a
-                        href="/"
+                    <Link
+                        to="/"
                         className="flex flex-shrink-0 items-center  text-black font-medium"
                     >
                         <img
@@ -42,7 +42,7 @@ export default function MenuBar() {
                             alt="Mind To Heart"
                         />
                         Mind To Heart
-                    </a>
+                    </Link>
                     <div className="md:hidden">
                         <button
                             className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
@@ -94,35 +94,50 @@ export default function MenuBar() {
                                 }
 
                                 return (
-                                    <li
-                                        key={item.name}
-                                        aria-current={
-                                            item.current ? 'page' : undefined
-                                        }
-                                    >
-                                        <a
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current
-                                                    ? 'bg-themeColor text-white'
-                                                    : 'text-black hover:bg-themeColor hover:!text-white',
-                                                'px-3 py-2 text-sm font-medium cursor-pointer'
-                                            )}
-                                        >
-                                            {item.name}
-                                        </a>
+                                    <li key={item.name}>
+                                        {!item.href.includes('#') ? (
+                                            <Link
+                                                to={item.href}
+                                                aria-current={
+                                                    item.current
+                                                        ? 'page'
+                                                        : undefined
+                                                }
+                                                className={classNames(
+                                                    item.current
+                                                        ? 'bg-themeColor text-white'
+                                                        : 'text-black hover:bg-themeColor hover:!text-white',
+                                                    'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                )}
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        ) : (
+                                            <a
+                                                href={item.href}
+                                                className={classNames(
+                                                    item.current
+                                                        ? 'bg-themeColor text-white'
+                                                        : 'text-black hover:bg-themeColor hover:!text-white',
+                                                    'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                )}
+                                            >
+                                                {item.name}
+                                            </a>
+                                        )}
                                     </li>
                                 );
                             })}
                             {auth && (
                                 <li>
-                                    <button
+                                    <Link
+                                        role="button"
                                         className=" text-black'
                                                      hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
                                         onClick={() => logout()}
                                     >
                                         Logout
-                                    </button>
+                                    </Link>
                                 </li>
                             )}
                         </ul>
@@ -130,77 +145,5 @@ export default function MenuBar() {
                 </div>
             </div>
         </nav>
-        // <Disclosure as="nav" className="bg-white">
-        //   {({ open }) => (
-        //     <>
-        //       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        //         <div className="relative flex h-16 items-center justify-between">
-        //           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        //             {/* Mobile menu button*/}
-        //             <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-        //               <span className="sr-only">Open main menu</span>
-        //               {open ? (
-        //                 <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-        //               ) : (
-        //                 <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-        //               )}
-        //             </Disclosure.Button>
-        //           </div>
-        //           <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
-        //             <div className="flex flex-shrink-0 items-center  text-black font-medium">
-        //               <img
-        //                 className="block h-10 w-auto lg:hidden"
-        //                 src="assets/front/images/mindtoheart.ogo.png"
-        //                 alt="Mind To Heart"
-        //               />
-        //               <img
-        //                 className="hidden h-8 w-auto lg:block"
-        //                 src="assets/front/images/mindtoheart.ogo.png"
-        //                 alt="Mind To Heart"
-        //               />
-        //               Mind To Heart
-        //             </div>
-        //             <div className="hidden sm:ml-auto sm:block">
-        //               <div className="flex space-x-4">
-        //                 {topMenus.map((item) => (
-        //                   <a
-        //                     key={item.name}
-        //                     href={item.href}
-        //                     className={classNames(
-        //                       item.current ? 'bg-themeColor text-white' : 'text-black hover:bg-themeColor hover:!text-white',
-        //                       'px-3 py-2 text-sm font-medium'
-        //                     )}
-        //                     aria-current={item.current ? 'page' : undefined}
-        //                   >
-        //                     {item.name}
-        //                   </a>
-        //                 ))}
-        //               </div>
-        //             </div>
-        //           </div>
-        //         </div>
-        //       </div>
-
-        //       <Disclosure.Panel className="sm:hidden">
-        //         <div className="space-y-1 px-2 pt-2 pb-3">
-        //           {topMenus.map((item) => (
-        //             <Disclosure.Button
-        //               key={item.name}
-        //               as="a"
-        //               href={item.href}
-        //               className={classNames(
-        //                 item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-        //                 'block px-3 py-2 rounded-md text-base font-medium'
-        //               )}
-        //               aria-current={item.current ? 'page' : undefined}
-        //             >
-        //               {item.name}
-        //             </Disclosure.Button>
-        //           ))}
-        //         </div>
-        //       </Disclosure.Panel>
-        //     </>
-        //   )}
-        // </Disclosure>
     );
 }

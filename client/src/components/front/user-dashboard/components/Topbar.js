@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { logout } from '../../../../utilities/utilities';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Modal from './Modal';
-import Navbar from './Navbar';
+import Navbar from './Sidebar';
 
 const Topbar = () => {
     const [open, setOpen] = useState(false);
@@ -45,9 +46,20 @@ const Topbar = () => {
                 </div>
             </Link>
             {/* </Link> */}
-            <button className="block sm:hidden" onClick={openModal}>
-                <i className="uil uil-bars"></i>
-            </button>
+            <div className="flex gap-1">
+                <Link
+                    role="button"
+                    className=" text-black'
+                                                     hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
+                    onClick={() => logout()}
+                >
+                    Logout
+                </Link>
+
+                <button className="block sm:hidden" onClick={openModal}>
+                    <i className="uil uil-bars"></i>
+                </button>
+            </div>
 
             {render && (
                 <Modal
