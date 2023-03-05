@@ -1,6 +1,11 @@
-import { endpoints } from './data';
+import { removeFromDashboardCSSAssets, removeFromDashboardJsAssets, removeFromFrontCSSAssets, removeFromFrontJsAssets } from './data';
 import { cancelConfirm, getSwalOptions, ctxSwal } from './sweetAlert';
 import { FormValue } from './FormValue';
+
+
+
+
+
 
 const getAllScripts = () => {
     let allScripts = Object.values(document.getElementsByTagName('script'));
@@ -27,7 +32,7 @@ export const addScripts = (scripts) => {
          * Else add with the url orgin
          */
         if (script.slice(0, 4) !== 'http') {
-            script = window.location.origin + script;
+            script = process.env.REACT_APP_URL + script;
         }
         if (!scriptArr.includes(script) && !currentScripts.includes(scripts)) {
             currentScripts.push(script);
@@ -52,6 +57,7 @@ const getAllCSSFiles = () => {
  */
 export const addCSS = (css) => {
     let previousCSSFiles = getAllCSSFiles();
+    removeCSSFromDOM()
     let currentCSSFiles = [];
     [...css].forEach((script) => {
         let tag = document.createElement('link');
@@ -73,6 +79,51 @@ export const addCSS = (css) => {
         }
     });
 };
+
+
+export function removeCSSFromDOM() {
+    let cssFilesArr = getAllCSSFiles();
+    // removeFromFrontCSSAssets
+    // removeFromDashboardCSSAssets
+    console.log(cssFilesArr)
+    let pathArr = window.location.pathname;
+    let arr = []
+    if (pathArr.includes('dashboard')) {
+        cssFilesArr.map(cssFile => {
+            if (!removeFromDashboardCSSAssets.includes(cssFile)) {
+                arr.push(cssFile)
+            } else {
+                let link = document.querySelector('link[href="' + cssFile.replace(process.env.REACT_APP_URL, '') + '"]')
+                console.log(link)
+                if (link) link.remove();
+            }
+        })
+    } else {
+        cssFilesArr.map(cssFile => {
+            if (!removeFromFrontCSSAssets.includes(cssFile)) {
+                arr.push(cssFile)
+            } else {
+                // .replace(process.env.REACT_APP_URL, '')
+                let link = document.querySelector('link[href="' + cssFile + '"]')
+                console.log(link)
+                if (link) link.remove();
+            }
+        })
+    }
+    // console.log(arr)
+}
+
+export function removeJsFromDOM() {
+    let jsFiles = getAllScripts();
+    // removeFromFrontJsAssets
+    // removeFromDashboardJsAssets
+    // console.log(jsFiles)
+
+    let pathArr = window.location.pathname;
+
+    // if (!pathArr.includes('dashboard')) {}
+
+}
 
 /**
  * Post data method.
@@ -548,6 +599,12 @@ export function fillArray(length) {
     }
     return data;
 }
+
+
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //																						 //
@@ -1071,23 +1128,23 @@ export function dragEnd(
  * @param payload
  * @returns {Promise<*[]>}
  */
-export const fetchOptions = async (payload) => {
-    if (!payload.options.length) {
-        return [];
-    }
-    let currentPayload = {};
-    currentPayload.config = payload.config;
-    let optionsArr = [];
-    for (let i = 0; i < payload.options.length; i++) {
-        let optionName = payload.options[i];
-        currentPayload.endpoint =
-            endpoints.dropdownOptions + '/?type=' + optionName;
-        let result = await fetchData(currentPayload);
-        optionsArr[optionName] = result.data;
-    }
+// export const fetchOptions = async (payload) => {
+//     if (!payload.options.length) {
+//         return [];
+//     }
+//     let currentPayload = {};
+//     currentPayload.config = payload.config;
+//     let optionsArr = [];
+//     for (let i = 0; i < payload.options.length; i++) {
+//         let optionName = payload.options[i];
+//         currentPayload.endpoint =
+//             endpoints.dropdownOptions + '/?type=' + optionName;
+//         let result = await fetchData(currentPayload);
+//         optionsArr[optionName] = result.data;
+//     }
 
-    return optionsArr;
-};
+//     return optionsArr;
+// };
 /**
  * Method supports 	GET, POST, PUT, DELETE, UPDATE AND ALL METHODS
  * @param payload

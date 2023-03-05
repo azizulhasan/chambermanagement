@@ -17,6 +17,8 @@ import {
     getRgisteredUser,
     isAdmin,
     redirectUser,
+    removeJsFromDOM,
+    removeCSSFromDOM,
 } from '../utilities/utilities';
 
 /**
@@ -49,7 +51,6 @@ import { useSelector } from 'react-redux';
 export default function Dashboard() {
     const [componentName, setComponentName] = useState(getComponentName());
     const { loggedInUser } = useSelector((state) => state.users);
-    console.log(loggedInUser);
     const accessToken = loggedInUser ? loggedInUser.accessToken : null;
     const navigate = useNavigate();
 
@@ -65,15 +66,19 @@ export default function Dashboard() {
         }).observe(document, { subtree: true, childList: true });
     }, [componentName]);
 
-    addCSS([
-        '/assets/dashboard/css/styles.css',
-        '/assets/dashboard/css/custom.css',
-    ]);
-    addScripts([
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
-        '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
-        '/assets/dashboard/js/scripts.js',
-    ]);
+
+
+    useEffect(() => {
+        addCSS([
+            '/assets/dashboard/css/styles.css',
+            '/assets/dashboard/css/custom.css',
+        ]);
+        addScripts([
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
+            '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+            '/assets/dashboard/js/scripts.js',
+        ]);
+    }, [])
 
     return (
         <>
