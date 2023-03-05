@@ -7,7 +7,7 @@ const AdminPrivateOutlet = () => {
     return loggedInUser.accessToken && loggedInUser.userRole === 'ADMIN' ? (
         <Outlet />
     ) : (
-        <Navigate to="/" />
+        <Navigate to="/login" />
     );
 };
 

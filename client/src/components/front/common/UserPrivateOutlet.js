@@ -9,7 +9,7 @@ const UserPrivateOutlet = () => {
             loggedInUser.userRole === 'DOCTOR') ? (
         <Outlet />
     ) : (
-        <Navigate to="/" />
+        <Navigate to="/login" />
     );
 };
 
