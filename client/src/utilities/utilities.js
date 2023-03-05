@@ -416,13 +416,7 @@ export const authenTicateUser = (loggedInUser) => {
 
 
 export const isAdmin = (loggedInUser) => {
-    if (loggedInUser) {
-        return loggedInUser.userRole === 'ADMIN'
-    } else if (loggedInUser.storage) {
-        return loggedInUser.userRole === 'ADMIN'
-    }
-
-    return false;
+    return loggedInUser !== undefined && loggedInUser.userRole === 'ADMIN'
 }
 
 export const getUserName = () => {

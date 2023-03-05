@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logOut } from '../../../../store/usersSlice';
-import { redirectUser } from '../../../../utilities/utilities';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Modal from './Modal';
 import Navbar from './Sidebar';
@@ -33,10 +32,6 @@ const Topbar = () => {
         alert('Are you sure?');
         dispatch(logOut())
     }
-
-    useEffect(() => {
-        redirectUser(loggedInUser)
-    }, [loggedInUser])
 
     return (
         <div className="h-full flex items-center justify-between px-4  drop-shadow-md border-b border-gray-400/20 backdrop-blur">

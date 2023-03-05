@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { database } from '../../../../database';
 import { authenTicateUser, logout } from '../../../../utilities/utilities';
+import { useSelector } from 'react-redux';
 
 const { topMenus } = database;
 
@@ -13,9 +14,10 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
-    const auth = authenTicateUser();
 
-    const hiddenMenus = !auth ? ['User Dashboard'] : ['Login'];
+    const { loggedInUser } = useSelector(state => state.users)
+
+    const hiddenMenus = loggedInUser === undefined ? ['/user-panel'] : ['/login'];
 
     return (
         <nav className="w-full bg-white shadow">
@@ -83,13 +85,12 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
-                            navbar ? 'block' : 'hidden'
-                        }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
+                            }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {
-                                if (hiddenMenus.includes(item.name)) {
+                                if (hiddenMenus.includes(item.href)) {
                                     return null;
                                 }
 
@@ -113,8 +114,8 @@ export default function MenuBar() {
                                                 {item.name}
                                             </Link>
                                         ) : (
-                                            <a
-                                                href={item.href}
+                                            <Link
+                                                to={item.href}
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-themeColor text-white'
@@ -123,12 +124,12 @@ export default function MenuBar() {
                                                 )}
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         )}
                                     </li>
                                 );
                             })}
-                            {auth && (
+                            {loggedInUser && (
                                 <li>
                                     <Link
                                         role="button"

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { FaRegEnvelope } from 'react-icons/fa';
 import { MdLockOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../assets/login/login_page.PNG';
 import { loginUser } from '../store/usersSlice';
 /**
@@ -30,7 +30,8 @@ export default function Login() {
     const captchaRef = useRef(null);
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(state => state.users)
-    //#endregion
+    const navigate = useNavigate();
+
 
     //#region useEffect
     useEffect(() => {
@@ -41,9 +42,10 @@ export default function Login() {
         // if (Auth.session !== undefined || Auth.storage !== undefined) {
         //     window.location.href = process.env.REACT_APP_URL + "/dashboard";
         // }
-        console.log(loggedInUser)
-        if (loggedInUser !== undefined) {
-            redirectUser(loggedInUser)
+        if (loggedInUser !== undefined && loggedInUser.userRole === 'ADMIN') {
+            navigate('/dashboard')
+        } else if (loggedInUser !== undefined && (loggedInUser.userRole === 'USER' || loggedInUser.userRole === 'DOCTOR')) {
+            navigate('/user-panel')
         }
     }, [loggedInUser]);
     //#endregion
@@ -158,12 +160,12 @@ export default function Login() {
                                                     </label>
                                                 </div>
                                             </div>
-                                            <a
-                                                href="/forgotpassword"
+                                            <Link
+                                                to="/forgotpassword"
                                                 className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                             >
                                                 Forgot password?
-                                            </a>
+                                            </Link>
                                         </div>
                                         <ReCAPTCHA
                                             className="mt-2 items-center"
@@ -182,12 +184,12 @@ export default function Login() {
 
                                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                             Don’t have an account yet?{' '}
-                                            <a
-                                                href="/register"
+                                            <Link
+                                                to="/register"
                                                 className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                             >
                                                 Sign up
-                                            </a>
+                                            </Link>
                                         </p>
                                     </div>
                                 </form>

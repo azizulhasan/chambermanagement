@@ -7,7 +7,7 @@ const PrivateOutlet = () => {
     const { loggedInUser } = useSelector(state => state.users)
     useEffect(() => {
         console.log(loggedInUser)
-    }, [])
+    }, [loggedInUser])
     return loggedInUser === undefined ? <Navigate to="/" /> : <Outlet />;
 };
 

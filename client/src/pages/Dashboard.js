@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useJwt } from 'react-jwt';
-
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     addScripts,
@@ -46,6 +46,7 @@ export default function Dashboard() {
     const { loggedInUser } = useSelector(state => state.users)
     console.log(loggedInUser)
     const accessToken = loggedInUser ? loggedInUser.accessToken : null;
+    const navigate = useNavigate();
 
     const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
 
@@ -59,87 +60,102 @@ export default function Dashboard() {
         }).observe(document, { subtree: true, childList: true });
     }, [componentName]);
 
-    if (!authenTicateUser(loggedInUser)) {
-        redirectUser(loggedInUser)
-    } else if (isAdmin(loggedInUser)) {
-        return (
-            <Router>
-                <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
-                <DashboardTopNav />
-                <div id="layoutSidenav">
-                    <DashboardSideNav />
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div className="container-fluid px-4">
-                                <h1 className="mt-4">Dashboard</h1>
-                                <ol className="breadcrumb mb-4">
-                                    <li className="breadcrumb-item active">
-                                        Dashboard {componentName}
-                                    </li>
-                                </ol>
-                                <Routes>
-                                    <Route
-                                        path="/dashboard"
-                                        element={<DashboardContent />}
-                                    />
-                                    <Route
-                                        path="/dashboard/mail"
-                                        element={<Mail />}
-                                    />
-                                    <Route
-                                        path="/dashboard/services"
-                                        element={<Services />}
-                                    />
-                                    <Route
-                                        path="/dashboard/users"
-                                        element={<Users />}
-                                    />
-                                    <Route
-                                        path="/dashboard/schedules"
-                                        element={<Schedules />}
-                                    />
-                                    <Route
-                                        path="/dashboard/contact"
-                                        element={<Contact />}
-                                    />
-                                    <Route
-                                        path="/dashboard/settings"
-                                        element={<Settings />}
-                                    />
-                                </Routes>
-                            </div>
-                        </main>
-                        <footer className="py-4 mt-auto footer_bg">
-                            <div className="container-fluid px-4">
-                                <div className="d-flex align-items-center justify-content-between small">
-                                    <div className="text-muted">
-                                        Copyright &copy;{' '}
-                                        <a
-                                            href="http://azizulhasan.com/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Azizul Hasan
-                                        </a>
-                                    </div>
+    useEffect(() => {
+        if (loggedInUser && !isAdmin(loggedInUser)) {
+            navigate('/user-panel')
+        } else if (loggedInUser === undefined) {
+            navigate('/')
+        }
+
+    }, [loggedInUser])
+
+
+    addCSS([
+        '/assets/dashboard/css/styles.css',
+        '/assets/dashboard/css/custom.css',
+    ]);
+    addScripts([
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
+        '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+        '/assets/dashboard/js/scripts.js',
+    ]);
+
+
+    return (
+        <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            <DashboardTopNav />
+            <div id="layoutSidenav">
+                <DashboardSideNav />
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div className="container-fluid px-4">
+                            <h1 className="mt-4">Dashboard</h1>
+                            <ol className="breadcrumb mb-4">
+                                <li className="breadcrumb-item active">
+                                    Dashboard {componentName}
+                                </li>
+                            </ol>
+                            <Routes>
+                                <Route
+                                    path="/dashboard"
+                                    element={<DashboardContent />}
+                                />
+                                <Route
+                                    path="/dashboard/mail"
+                                    element={<Mail />}
+                                />
+                                <Route
+                                    path="/dashboard/services"
+                                    element={<Services />}
+                                />
+                                <Route
+                                    path="/dashboard/users"
+                                    element={<Users />}
+                                />
+                                <Route
+                                    path="/dashboard/schedules"
+                                    element={<Schedules />}
+                                />
+                                <Route
+                                    path="/dashboard/contact"
+                                    element={<Contact />}
+                                />
+                                <Route
+                                    path="/dashboard/settings"
+                                    element={<Settings />}
+                                />
+                            </Routes>
+                        </div>
+                    </main>
+                    <footer className="py-4 mt-auto footer_bg">
+                        <div className="container-fluid px-4">
+                            <div className="d-flex align-items-center justify-content-between small">
+                                <div className="text-muted">
+                                    Copyright &copy;{' '}
+                                    <a
+                                        href="http://azizulhasan.com/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Azizul Hasan
+                                    </a>
                                 </div>
                             </div>
-                        </footer>
-                    </div>
+                        </div>
+                    </footer>
                 </div>
-            </Router>
-        );
-    } else {
-        window.location.href = process.env.REACT_APP_URL + "/user-panel";
-    }
+            </div>
+        </>
+    );
 }

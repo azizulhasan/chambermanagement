@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { logout } from '../../../utilities/utilities';
+import { logOut } from '../../../store/usersSlice';
+import { useDispatch } from 'react-redux';
 
 export default function DashboardTopNav() {
+
+    const dispatch = useDispatch();
+    const userLogout = (e) => {
+        e.preventDefault();
+        alert('Are you sure?');
+        dispatch(logOut())
+    }
     return (
         <nav className="sb-topnav navbar navbar-expand topnav_bg">
             {/* <!-- Navbar Brand--> */}
@@ -69,7 +77,7 @@ export default function DashboardTopNav() {
                         <li>
                             <a
                                 className="dropdown-item"
-                                onClick={(e) => logout()}
+                                onClick={(e) => userLogout(e)}
                                 href="#!"
                             >
                                 Logout
