@@ -4,8 +4,6 @@ import Loader from './components/front/common/Loader';
 import RefundPolicy from './components/front/common/policy/RefundPolicy';
 import PrivacyPolicy from './components/front/common/policy/PrivacyPolicy';
 import TermsOfServices from './components/front/common/policy/TermsOfServices';
-import PrivateOutlet from './components/front/common/PrivateOutlet';
-
 
 /**
  * pages
@@ -13,13 +11,15 @@ import PrivateOutlet from './components/front/common/PrivateOutlet';
 import Dashboard from './pages/Dashboard';
 import Front from './pages/Front';
 import {
-    addCSS, addScripts,
+    addCSS,
+    addScripts,
     authenTicateUser,
     getRgisteredUser,
 } from './utilities/utilities';
 
 import { useSelector } from 'react-redux';
-
+import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
+import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -32,11 +32,7 @@ const MemberDetails = lazy(() => import('./pages/MemberDetails'));
 const ServiceDetails = lazy(() => import('./pages/ServiceDetails'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const Appoinment = lazy(() => import('./pages/Appoinment'));
-const UserDashboard = lazy(() =>
-    import('./components/front/user-dashboard/UserDashboard')
-);
-
-
+const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 
 export default function App() {
     let pathArr = window.location.pathname;
@@ -57,14 +53,12 @@ export default function App() {
     //     return <Dashboard />;
     // }
 
-
     addCSS(['/assets/front/css/tailwind.css']);
 
-
-    const { loggedInUser } = useSelector(state => state.users)
+    const { loggedInUser } = useSelector((state) => state.users);
     useEffect(() => {
-        console.log('user', loggedInUser)
-    }, [])
+        console.log('user', loggedInUser);
+    }, []);
 
     return (
         <Router>
@@ -93,19 +87,18 @@ export default function App() {
                         path="/terms-of-services"
                         element={<TermsOfServices />}
                     />
-                    <Route path="/*" element={<PrivateOutlet />}>
+                    <Route path="/*" element={<AdminPrivateOutlet />}>
+                        <Route path="dashboard/*" element={<Dashboard />} />
+                    </Route>
+                    <Route path="/*" element={<UserPrivateOutlet />}>
                         <Route
                             path="user-panel/*"
                             element={<UserDashboard />}
-                        />
-                        <Route
-                            path="dashboard/*"
-                            element={<Dashboard />}
                         />
                     </Route>
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>
         </Router>
-    )
+    );
 }

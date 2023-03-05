@@ -4,17 +4,16 @@ import { logOut } from '../../../store/usersSlice';
 import { useDispatch } from 'react-redux';
 
 export default function DashboardTopNav() {
-
     const dispatch = useDispatch();
     const userLogout = (e) => {
         e.preventDefault();
         alert('Are you sure?');
-        dispatch(logOut())
-    }
+        dispatch(logOut());
+    };
     return (
         <nav className="sb-topnav navbar navbar-expand topnav_bg">
             {/* <!-- Navbar Brand--> */}
-            <Link className="navbar-brand ps-3" to="/dashboard">
+            <Link className="navbar-brand ps-3" to="/">
                 {process.env.REACT_APP_WEBSITE_NAME}
             </Link>
             {/* <!-- Sidebar Toggle--> */}

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, redirect } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    redirect,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useJwt } from 'react-jwt';
 import { useNavigate } from 'react-router-dom';
@@ -43,8 +48,8 @@ import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
     const [componentName, setComponentName] = useState(getComponentName());
-    const { loggedInUser } = useSelector(state => state.users)
-    console.log(loggedInUser)
+    const { loggedInUser } = useSelector((state) => state.users);
+    console.log(loggedInUser);
     const accessToken = loggedInUser ? loggedInUser.accessToken : null;
     const navigate = useNavigate();
 
@@ -60,16 +65,6 @@ export default function Dashboard() {
         }).observe(document, { subtree: true, childList: true });
     }, [componentName]);
 
-    useEffect(() => {
-        if (loggedInUser && !isAdmin(loggedInUser)) {
-            navigate('/user-panel')
-        } else if (loggedInUser === undefined) {
-            navigate('/')
-        }
-
-    }, [loggedInUser])
-
-
     addCSS([
         '/assets/dashboard/css/styles.css',
         '/assets/dashboard/css/custom.css',
@@ -79,7 +74,6 @@ export default function Dashboard() {
         '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
         '/assets/dashboard/js/scripts.js',
     ]);
-
 
     return (
         <>
@@ -108,33 +102,18 @@ export default function Dashboard() {
                             </ol>
                             <Routes>
                                 <Route
-                                    path="/dashboard"
+                                    path="/"
                                     element={<DashboardContent />}
                                 />
+                                <Route path="mail" element={<Mail />} />
+                                <Route path="services" element={<Services />} />
+                                <Route path="users" element={<Users />} />
                                 <Route
-                                    path="/dashboard/mail"
-                                    element={<Mail />}
-                                />
-                                <Route
-                                    path="/dashboard/services"
-                                    element={<Services />}
-                                />
-                                <Route
-                                    path="/dashboard/users"
-                                    element={<Users />}
-                                />
-                                <Route
-                                    path="/dashboard/schedules"
+                                    path="schedules"
                                     element={<Schedules />}
                                 />
-                                <Route
-                                    path="/dashboard/contact"
-                                    element={<Contact />}
-                                />
-                                <Route
-                                    path="/dashboard/settings"
-                                    element={<Settings />}
-                                />
+                                <Route path="contact" element={<Contact />} />
+                                <Route path="settings" element={<Settings />} />
                             </Routes>
                         </div>
                     </main>

@@ -10,8 +10,15 @@ export const STATUSES = Object.freeze({
     IDLE: 'idle',
     ERROR: 'error',
     LOADING: 'loading',
-    loggedInUser: {}
 });
+
+const userInitialState = {
+    accessToken: null,
+    id: null,
+    name: null,
+    refreshToken: null,
+    userRole: null,
+};
 
 const initialState = {
     users: [],
@@ -37,6 +44,7 @@ const initialState = {
         },
     ],
     USER_ROLES: ['USER', 'ADMIN', 'DOCTOR'],
+    loggedInUser: userInitialState,
 };
 
 const usersSlice = createSlice({
@@ -49,6 +57,9 @@ const usersSlice = createSlice({
         addUser(state, action) {
             state.isModalActive = true;
             state.singleUser = {};
+        },
+        logOut(state) {
+            state.loggedInUser = userInitialState;
         },
     },
 
@@ -76,7 +87,8 @@ const usersSlice = createSlice({
                 } else {
                     setSessionStorage({ user: registeredUser });
                 }
-                state.loggedInUser = action.payload.data
+                console.log({ dataFromLoginUserAddCase: action.payload.data });
+                state.loggedInUser = action.payload.data;
             } else {
                 alert(action.payload.message);
             }
@@ -113,17 +125,10 @@ const usersSlice = createSlice({
             state.users = action.payload;
             state.isModalActive = false;
         });
-        builder.addCase(logOut.pending, (state, action) => {
-            state.users = 'loggingout';
-
-        }).addCase(logOut.fulfilled, (state, action) => {
-            state.loggedInUser = {}
-        });
-
     },
 });
 
-export const { showModal, addUser } = usersSlice.actions;
+export const { showModal, addUser, logOut } = usersSlice.actions;
 
 export default usersSlice.reducer;
 
@@ -161,6 +166,7 @@ export const loginUser = createAsyncThunk('login', async (payload) => {
         }
     );
     const data = await res.json();
+    console.log({ fromLoginUserFunction: data });
     return data;
 });
 
@@ -242,11 +248,4 @@ export const updateUser = createAsyncThunk('updateUser', async (payload) => {
         ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
     }
     return data.data;
-});
-
-/**
- * Update users details
- */
-export const logOut = createAsyncThunk('logOut', async (payload) => {
-    return await payload;
 });

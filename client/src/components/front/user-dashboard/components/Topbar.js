@@ -10,7 +10,7 @@ const Topbar = () => {
     const [open, setOpen] = useState(false);
     const [render, setRender] = useState(false);
     const { width } = useWindowDimensions();
-    const { loggedInUser } = useSelector(state => state.users)
+    const { loggedInUser } = useSelector((state) => state.users);
     const dispatch = useDispatch();
     const openModal = () => {
         !render && setRender(true);
@@ -30,8 +30,9 @@ const Topbar = () => {
     const userLogout = (e) => {
         e.preventDefault();
         alert('Are you sure?');
-        dispatch(logOut())
-    }
+        console.log('after are you sure');
+        dispatch(logOut());
+    };
 
     return (
         <div className="h-full flex items-center justify-between px-4  drop-shadow-md border-b border-gray-400/20 backdrop-blur">
@@ -54,11 +55,10 @@ const Topbar = () => {
                 </div>
             </Link>
             {/* </Link> */}
-            <div className="flex gap-1">
+            <div className="flex gap-2.5">
                 <Link
                     role="button"
-                    className=" text-black'
-                                                     hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
+                    className=" text-black hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
                     onClick={(e) => userLogout(e)}
                 >
                     Logout
@@ -73,8 +73,9 @@ const Topbar = () => {
                 <Modal
                     open={open}
                     closeModal={closeModal}
-                    stylingClasses={`${open ? 'open-sidebar' : 'close-sidebar'
-                        }`}
+                    stylingClasses={`${
+                        open ? 'open-sidebar' : 'close-sidebar'
+                    }`}
                 >
                     <Navbar closeModal={closeModal} />
                 </Modal>

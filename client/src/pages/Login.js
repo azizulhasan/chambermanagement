@@ -29,9 +29,8 @@ export default function Login() {
     } = useForm();
     const captchaRef = useRef(null);
     const dispatch = useDispatch();
-    const { loggedInUser } = useSelector(state => state.users)
+    const { loggedInUser } = useSelector((state) => state.users);
     const navigate = useNavigate();
-
 
     //#region useEffect
     useEffect(() => {
@@ -42,12 +41,10 @@ export default function Login() {
         // if (Auth.session !== undefined || Auth.storage !== undefined) {
         //     window.location.href = process.env.REACT_APP_URL + "/dashboard";
         // }
-        if (loggedInUser !== undefined && loggedInUser.userRole === 'ADMIN') {
-            navigate('/dashboard')
-        } else if (loggedInUser !== undefined && (loggedInUser.userRole === 'USER' || loggedInUser.userRole === 'DOCTOR')) {
-            navigate('/user-panel')
+        if (loggedInUser.accessToken) {
+            navigate('/');
         }
-    }, [loggedInUser]);
+    }, [loggedInUser.accessToken]);
     //#endregion
 
     //#region Events

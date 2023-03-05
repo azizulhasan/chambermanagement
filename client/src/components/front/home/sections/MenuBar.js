@@ -14,10 +14,30 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [userRole, setUserRole] = useState('');
+    const [hiddenMenus, setHiddenMenus] = useState([]);
 
-    const { loggedInUser } = useSelector(state => state.users)
+    const { loggedInUser } = useSelector((state) => state.users);
 
-    const hiddenMenus = loggedInUser === undefined ? ['/user-panel'] : ['/login'];
+    useEffect(() => {
+        if (loggedInUser.accessToken) {
+            setIsUserLoggedIn(true);
+            setUserRole(loggedInUser.userRole);
+        }
+    }, [loggedInUser.accessToken, loggedInUser]);
+
+    useEffect(() => {
+        if (isUserLoggedIn) {
+            if (userRole === 'ADMIN') {
+                setHiddenMenus(['/user-panel', '/login']);
+            } else if (userRole === 'USER' || userRole === 'DOCTOR') {
+                setHiddenMenus(['/dashboard', '/login']);
+            }
+        } else {
+            setHiddenMenus(['/dashboard', '/user-panel']);
+        }
+    }, [isUserLoggedIn, userRole]);
 
     return (
         <nav className="w-full bg-white shadow">
@@ -85,8 +105,9 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
-                            }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
+                            navbar ? 'block' : 'hidden'
+                        }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {
@@ -129,7 +150,7 @@ export default function MenuBar() {
                                     </li>
                                 );
                             })}
-                            {loggedInUser && (
+                            {isUserLoggedIn && (
                                 <li>
                                     <Link
                                         role="button"

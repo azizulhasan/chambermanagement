@@ -30,6 +30,7 @@ export const database = {
         { name: 'Team', href: '#team', current: false },
         { name: 'Contact', href: '#contact', current: false },
         { name: 'Login', href: '/login', current: false },
+        { name: 'Dashboard', href: '/dashboard', current: false },
         { name: 'User Dashboard', href: '/user-panel', current: false },
     ],
     footer: {

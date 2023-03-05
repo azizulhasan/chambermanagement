@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1265,6 +1265,10 @@ video {
 
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-2\.5 {
+  gap: 0.625rem;
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {

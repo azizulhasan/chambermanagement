@@ -9,7 +9,7 @@ import {
     authenTicateUser,
     getRgisteredUser,
 } from '../utilities/utilities';
-import PrivateOutlet from '../components/front/common/PrivateOutlet';
+import PrivateOutlet from '../components/front/common/UserPrivateOutlet';
 
 const Login = lazy(() => import('./Login'));
 const Register = lazy(() => import('./Register'));
@@ -22,9 +22,7 @@ const MemberDetails = lazy(() => import('./MemberDetails'));
 const ServiceDetails = lazy(() => import('./ServiceDetails'));
 const ForgotPassword = lazy(() => import('./ForgotPassword'));
 const Appoinment = lazy(() => import('./Appoinment'));
-const UserDashboard = lazy(() =>
-    import('../components/front/user-dashboard/UserDashboard')
-);
+const UserDashboard = lazy(() => import('./UserDashboard'));
 
 function Front() {
     addCSS(['/assets/front/css/tailwind.css']);

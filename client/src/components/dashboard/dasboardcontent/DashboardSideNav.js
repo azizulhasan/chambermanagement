@@ -9,12 +9,6 @@ export default function DashboardSideNav() {
                 <div className="sb-sidenav-menu">
                     <div className="nav">
                         <div className="sb-sidenav-menu-heading">Core</div>
-                        <a className="nav-link" href={process.env.REACT_APP_URL} target="_blank">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-user-alt"></i>
-                            </div>
-                            Front
-                        </a>
                         <Link className="nav-link" to="/dashboard/mail">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-envelope"></i>
