@@ -1,14 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../store/usersSlice';
 import { useDispatch } from 'react-redux';
 
 export default function DashboardTopNav() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const userLogout = (e) => {
         e.preventDefault();
         alert('Are you sure?');
         dispatch(logOut());
+        navigate('/');
     };
     return (
         <nav className="sb-topnav navbar navbar-expand topnav_bg">

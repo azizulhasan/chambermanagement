@@ -1,11 +1,14 @@
-import { removeFromDashboardCSSAssets, removeFromDashboardJsAssets, removeFromFrontCSSAssets, removeFromFrontJsAssets } from './data';
+import {
+    days,
+    months,
+    options,
+    removeFromDashboardCSSAssets,
+    removeFromDashboardJsAssets,
+    removeFromFrontCSSAssets,
+    removeFromFrontJsAssets,
+} from './data';
 import { cancelConfirm, getSwalOptions, ctxSwal } from './sweetAlert';
 import { FormValue } from './FormValue';
-
-
-
-
-
 
 const getAllScripts = () => {
     let allScripts = Object.values(document.getElementsByTagName('script'));
@@ -57,7 +60,7 @@ const getAllCSSFiles = () => {
  */
 export const addCSS = (css) => {
     let previousCSSFiles = getAllCSSFiles();
-    removeCSSFromDOM()
+    removeCSSFromDOM();
     let currentCSSFiles = [];
     [...css].forEach((script) => {
         let tag = document.createElement('link');
@@ -80,35 +83,40 @@ export const addCSS = (css) => {
     });
 };
 
-
 export function removeCSSFromDOM() {
     let cssFilesArr = getAllCSSFiles();
     // removeFromFrontCSSAssets
     // removeFromDashboardCSSAssets
-    console.log(cssFilesArr)
+    console.log(cssFilesArr);
     let pathArr = window.location.pathname;
-    let arr = []
+    let arr = [];
     if (pathArr.includes('dashboard')) {
-        cssFilesArr.map(cssFile => {
+        cssFilesArr.map((cssFile) => {
             if (!removeFromDashboardCSSAssets.includes(cssFile)) {
-                arr.push(cssFile)
+                arr.push(cssFile);
             } else {
-                let link = document.querySelector('link[href="' + cssFile.replace(process.env.REACT_APP_URL, '') + '"]')
-                console.log(link)
+                let link = document.querySelector(
+                    'link[href="' +
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
+                );
+                console.log(link);
                 if (link) link.remove();
             }
-        })
+        });
     } else {
-        cssFilesArr.map(cssFile => {
+        cssFilesArr.map((cssFile) => {
             if (!removeFromFrontCSSAssets.includes(cssFile)) {
-                arr.push(cssFile)
+                arr.push(cssFile);
             } else {
                 // .replace(process.env.REACT_APP_URL, '')
-                let link = document.querySelector('link[href="' + cssFile + '"]')
-                console.log(link)
+                let link = document.querySelector(
+                    'link[href="' + cssFile + '"]'
+                );
+                console.log(link);
                 if (link) link.remove();
             }
-        })
+        });
     }
     // console.log(arr)
 }
@@ -122,7 +130,6 @@ export function removeJsFromDOM() {
     let pathArr = window.location.pathname;
 
     // if (!pathArr.includes('dashboard')) {}
-
 }
 
 /**
@@ -267,12 +274,6 @@ var errorCallback = function (error) {
             errorMessage = 'Timeout';
     }
     console.log(errorMessage);
-};
-
-var options = {
-    enableHighAccuracy: true,
-    timeout: 3000,
-    maximumAge: 0,
 };
 
 /**
@@ -455,7 +456,6 @@ export const getRgisteredUser = () => {
 };
 
 export const authenTicateUser = (loggedInUser) => {
-
     if (!loggedInUser) return false;
 
     if (!loggedInUser.session && !loggedInUser.storage) {
@@ -465,17 +465,16 @@ export const authenTicateUser = (loggedInUser) => {
     return true;
 };
 
-
 export const isAdmin = (loggedInUser) => {
-    return loggedInUser !== undefined && loggedInUser.userRole === 'ADMIN'
-}
+    return loggedInUser !== undefined && loggedInUser.userRole === 'ADMIN';
+};
 
 export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-            ? window.localStorage.getItem('user')['storage']
-            : '';
+        ? window.localStorage.getItem('user')['storage']
+        : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -500,29 +499,6 @@ export const hideMenuOnScroll = () => {
 };
 
 export const getFormattedDate = () => {
-    var months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-    ];
-    var days = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ];
     var d = new Date();
     var day = days[d.getDay()];
     var hr = d.getHours();
@@ -562,7 +538,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-    [textareaIndex].getAttribute('id');
+        [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 
@@ -599,12 +575,6 @@ export function fillArray(length) {
     }
     return data;
 }
-
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //																						 //
@@ -1174,15 +1144,14 @@ export function getUrl(endpoint) {
     return url;
 }
 
-
 export const redirectUser = (user) => {
     if (user) {
         if (user.hasOwnProperty('userRole') && user.userRole === 'ADMIN') {
-            window.location.href = process.env.REACT_APP_URL + "/dashboard";
+            window.location.href = process.env.REACT_APP_URL + '/dashboard';
         } else {
-            window.location.href = process.env.REACT_APP_URL + "/user-panel";
+            window.location.href = process.env.REACT_APP_URL + '/user-panel';
         }
     } else {
         window.location.href = process.env.REACT_APP_URL;
     }
-}
+};

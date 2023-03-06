@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../../store/usersSlice';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Modal from './Modal';
@@ -11,6 +11,7 @@ const Topbar = () => {
     const [render, setRender] = useState(false);
     const { width } = useWindowDimensions();
     const { loggedInUser } = useSelector((state) => state.users);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const openModal = () => {
         !render && setRender(true);
@@ -32,6 +33,7 @@ const Topbar = () => {
         alert('Are you sure?');
         console.log('after are you sure');
         dispatch(logOut());
+        navigate('/');
     };
 
     return (

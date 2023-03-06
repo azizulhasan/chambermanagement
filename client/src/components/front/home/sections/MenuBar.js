@@ -1,10 +1,8 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { database } from '../../../../database';
-import { authenTicateUser, logout } from '../../../../utilities/utilities';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../../../../store/usersSlice';
 
 const { topMenus } = database;
 
@@ -14,30 +12,33 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-    const [userRole, setUserRole] = useState('');
     const [hiddenMenus, setHiddenMenus] = useState([]);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { loggedInUser } = useSelector((state) => state.users);
 
-    useEffect(() => {
-        if (loggedInUser.accessToken) {
-            setIsUserLoggedIn(true);
-            setUserRole(loggedInUser.userRole);
-        }
-    }, [loggedInUser.accessToken, loggedInUser]);
+    const userLogout = (e) => {
+        e.preventDefault();
+        alert('Are you sure?');
+        dispatch(logOut());
+        navigate('/');
+    };
 
     useEffect(() => {
-        if (isUserLoggedIn) {
-            if (userRole === 'ADMIN') {
+        if (loggedInUser.accessToken) {
+            if (loggedInUser.userRole === 'ADMIN') {
                 setHiddenMenus(['/user-panel', '/login']);
-            } else if (userRole === 'USER' || userRole === 'DOCTOR') {
+            } else if (
+                loggedInUser.userRole === 'USER' ||
+                loggedInUser.userRole === 'DOCTOR'
+            ) {
                 setHiddenMenus(['/dashboard', '/login']);
             }
         } else {
             setHiddenMenus(['/dashboard', '/user-panel']);
         }
-    }, [isUserLoggedIn, userRole]);
+    }, [loggedInUser.accessToken, loggedInUser]);
 
     return (
         <nav className="w-full bg-white shadow">
@@ -150,13 +151,13 @@ export default function MenuBar() {
                                     </li>
                                 );
                             })}
-                            {isUserLoggedIn && (
+                            {loggedInUser.accessToken && (
                                 <li>
                                     <Link
                                         role="button"
                                         className=" text-black'
                                                      hover:text-white hover:bg-themeColor px-3 py-2 text-sm font-medium cursor-pointer"
-                                        onClick={() => logout()}
+                                        onClick={(e) => userLogout(e)}
                                     >
                                         Logout
                                     </Link>
