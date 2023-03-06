@@ -52,7 +52,7 @@ const Resources = (id = 'resources') => {
                     infiniteLoop={true}
                     stopOnHover={true}
                     showThumbs={false}
-                    className="presentation-mode professional pt-3 px-5"
+                    className="presentation-mode professional pt-3"
                 >
                     {totalSlides.length &&
                         totalSlides.map((i) => {

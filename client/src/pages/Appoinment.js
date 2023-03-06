@@ -1,9 +1,9 @@
-import GeneralLayout from '../components/front/common/GeneralLayout';
+import SiteSkeleton from '../components/front/common/SiteSkeleton';
 import ModalContent from './appointment/ModalContent';
 
 export default function Appoinment() {
     return (
-        <GeneralLayout
+        <SiteSkeleton
             css={[
                 '/assets/front/css/tailwind.css',
                 '/assets/front/css/carousel.css',
@@ -11,6 +11,6 @@ export default function Appoinment() {
             ]}
         >
             <ModalContent />
-        </GeneralLayout>
+        </SiteSkeleton>
     );
 }

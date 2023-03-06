@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import GeneralLayout from '../components/front/common/GeneralLayout';
 import Footer from '../components/front/common/partials/Footer';
+import SiteSkeleton from '../components/front/common/SiteSkeleton';
 import MenuBar from '../components/front/home/sections/MenuBar';
 import TopNav from '../components/front/home/sections/TopNav';
 import { database } from '../database';
@@ -25,7 +25,7 @@ const ServiceDetails = () => {
     const serviceData = serviceDetailsData[slug];
     if (serviceData) {
         return (
-            <GeneralLayout>
+            <SiteSkeleton>
                 <div className="px-4 my-20 max-w-7xl mx-auto md:px-8 flex flex-col gap-10 md:gap-20">
                     <h1 className="text-3xl font-semibold text-center">
                         {serviceData.slogan}
@@ -61,7 +61,7 @@ const ServiceDetails = () => {
                         </div>
                     </div>
                 </div>
-            </GeneralLayout>
+            </SiteSkeleton>
         );
     }
     return <NotFound />;

@@ -35,7 +35,6 @@ const Appoinment = lazy(() => import('./pages/Appoinment'));
 const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 
 export default function App() {
-
     addCSS(['/assets/front/css/tailwind.css']);
 
     const { loggedInUser } = useSelector((state) => state.users);
@@ -70,10 +69,10 @@ export default function App() {
                         path="/terms-of-services"
                         element={<TermsOfServices />}
                     />
-                    <Route path="/*" element={<AdminPrivateOutlet />}>
+                    <Route path="/" element={<AdminPrivateOutlet />}>
                         <Route path="dashboard/*" element={<Dashboard />} />
                     </Route>
-                    <Route path="/*" element={<UserPrivateOutlet />}>
+                    <Route path="/" element={<UserPrivateOutlet />}>
                         <Route
                             path="user-panel/*"
                             element={<UserDashboard />}

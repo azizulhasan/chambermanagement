@@ -55,18 +55,19 @@ export default function Home() {
                 {/** Slider Section */}
                 <Slider />
                 {/** End Slider */}
-                <Professionals id="team" />
-                {/* <Skills /> */}
+                <div className="wrapper">
+                    <Professionals id="team" />
+                    {/* <Skills /> */}
 
-                {/** Healteh Service Section */}
-                <HealthSerivces id="services" />
-                {/** End Health Service */}
-
-                <Resources />
-                {/* <GoogleMap /> */}
-                {/** Contact Section */}
-                <Contact id="contact" />
-                {/** End Contact Section */}
+                    {/** Healteh Service Section */}
+                    <HealthSerivces id="services" />
+                    {/** End Health Service */}
+                    <Resources />
+                    {/* <GoogleMap /> */}
+                    {/** Contact Section */}
+                    <Contact id="contact" />
+                    {/** End Contact Section */}
+                </div>
             </SiteSkeleton>
 
             {/* MODAL */}
@@ -81,18 +82,10 @@ export default function Home() {
             <div className="hidden text-center sm:flex sm:justify-between sm:text-left"></div>
             <div className="hidden inline-block text-black underline transition hover:text-white/75"></div>
 
-            {
-                /*ADD PREFIX TO EVERY CLASS*/
-            }
-            {
-                /*in your editor (i used phpstorm ctrl+shift+f for find and replace in all files of a specific folder):*/
-            }
-            {
-                /*find  : (?<=class=["'][^"']*)([0-9a-zA-Z_-]+\s*)(?=[^"']*["'])*/
-            }
-            {
-                /*replace : tw-$1*/
-            }
+            {/*ADD PREFIX TO EVERY CLASS*/}
+            {/*in your editor (i used phpstorm ctrl+shift+f for find and replace in all files of a specific folder):*/}
+            {/*find  : (?<=class=["'][^"']*)([0-9a-zA-Z_-]+\s*)(?=[^"']*["'])*/}
+            {/*replace : tw-$1*/}
         </>
     );
 }

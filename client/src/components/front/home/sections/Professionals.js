@@ -55,7 +55,7 @@ const Professionals = ({ id = 'team' }) => {
                 infiniteLoop={true}
                 stopOnHover={true}
                 showThumbs={false}
-                className="presentation-mode professional pt-3 px-5"
+                className="presentation-mode professional pt-3"
             >
                 {totalSlides.length &&
                     totalSlides.map((i) => {
@@ -83,9 +83,9 @@ const Professionals = ({ id = 'team' }) => {
                                             <Link
                                                 to={`health-professionals/${carouselData[currentIndex].slug}`}
                                             >
-                                                <div className="w-fit">
+                                                <div className="w-full">
                                                     <img
-                                                        className="h-60 object-cover rounded-xl z-[1000]"
+                                                        className="w-full h-64 sm:h-60 object-cover rounded-xl z-[1000]"
                                                         src={
                                                             carouselData[
                                                                 currentIndex

@@ -1,7 +1,7 @@
 const GoogleMap = () => {
     return (
         <div className="mapouter">
-            <div className="gmap_canvas map-container relative shadow-lg rounded-lg">
+            <div className="gmap_canvas map-container relative shadow-lg rounded-lg h-full">
                 <iframe
                     title="Mind to Heart Location"
                     width="100%"
