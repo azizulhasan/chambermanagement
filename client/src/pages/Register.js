@@ -39,17 +39,17 @@ export default function Register() {
     //#endregion
 
     //#region useEffect
-    useEffect(() => {
-        const Auth = {
-            session: getSessionStorage()['user'],
-            storage: getLocalStorage()['user'],
-        };
-        console.log({ ...Auth });
-        if (Auth.session !== undefined || Auth.storage !== undefined) {
-            // window.location.href = process.env.REACT_APP_URL + "/dashboard";
-            navigate('/dashboard');
-        }
-    }, [navigate]);
+    // useEffect(() => {
+    //     const Auth = {
+    //         session: getSessionStorage()['user'],
+    //         storage: getLocalStorage()['user'],
+    //     };
+    //     console.log({ ...Auth });
+    //     if (Auth.session !== undefined || Auth.storage !== undefined) {
+    //~ window.location.href = process.env.REACT_APP_URL + "/dashboard";
+    //         navigate('/dashboard');
+    //     }
+    // }, [navigate]);
     //#endregion
 
     //#region Events
