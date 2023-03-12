@@ -87,7 +87,6 @@ export function removeCSSFromDOM() {
     let cssFilesArr = getAllCSSFiles();
     // removeFromFrontCSSAssets
     // removeFromDashboardCSSAssets
-    console.log(cssFilesArr);
     let pathArr = window.location.pathname;
     let arr = [];
     if (pathArr.includes('dashboard')) {
@@ -97,10 +96,9 @@ export function removeCSSFromDOM() {
             } else {
                 let link = document.querySelector(
                     'link[href="' +
-                        cssFile.replace(process.env.REACT_APP_URL, '') +
-                        '"]'
+                    cssFile.replace(process.env.REACT_APP_URL, '') +
+                    '"]'
                 );
-                console.log(link);
                 if (link) link.remove();
             }
         });
@@ -113,12 +111,10 @@ export function removeCSSFromDOM() {
                 let link = document.querySelector(
                     'link[href="' + cssFile + '"]'
                 );
-                console.log(link);
                 if (link) link.remove();
             }
         });
     }
-    // console.log(arr)
 }
 
 export function removeJsFromDOM() {
@@ -473,8 +469,8 @@ export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-        ? window.localStorage.getItem('user')['storage']
-        : '';
+            ? window.localStorage.getItem('user')['storage']
+            : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -538,7 +534,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-        [textareaIndex].getAttribute('id');
+    [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 

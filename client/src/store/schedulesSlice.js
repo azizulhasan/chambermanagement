@@ -106,9 +106,9 @@ let schedulesSlice = createSlice({
         });
 
         builder.addCase(saveSchedule.fulfilled, (state, action) => {
-            console.log(action);
-            // state.schedules = action.payload
-            // state.isModalActive = false;
+            console.log(action.payload.data);
+            state.schedules = action.payload
+            state.isModalActive = false;
         });
 
         builder.addCase(updateSchedule.fulfilled, (state, action) => {

@@ -50,6 +50,9 @@ export default function SchedulesModal() {
 
     useEffect(() => {
         dispatch(fetchUsers());
+    }, []);
+    useEffect(() => {
+        console.log(singleSchedule)
     }, [singleSchedule]);
 
     /**
@@ -66,27 +69,28 @@ export default function SchedulesModal() {
         let form = new FormData(e.target);
         let data = {};
         for (let [key, value] of form.entries()) {
+            data[key] = value;
+            console.log(key, value)
             if (key === '' || value === '') {
-                if (key === 'search_name_input') {
-                    continue;
-                } else {
+                if (key !== 'search_name_input') {
                     alert('Please fill the value of : ' + key);
                     return;
                 }
             }
         }
 
-        // if (!singleSchedule.timeSlots.length) {
-        //   alert("Please fill Time slots");
-        // }
+        if (!singleSchedule.timeSlots.length) {
+            alert("Please fill Time slots");
+        }
 
         /**
     ` * format form data.
     */
-        let formData = new FormData();
-        // for( data of formData.values()){
-        //   console.log(data)
+        // let formData = new FormData();
+        // for (data of formData.values()) {
+        //     console.log(data)
         // }
+
 
         /**
          * Update data if "_id" exists. else save form data.

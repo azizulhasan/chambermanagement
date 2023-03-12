@@ -1,14 +1,17 @@
 const Schedules = require('../models/schedules');
 
 const getAllScedules = async () => {
-    Schedules.find()
+    let schedules;
+    await Schedules.find()
         .sort({ createdAt: -1 })
         .then((result) => {
-            return result;
+            schedules = result;
         })
         .catch((err) => {
             return err;
         });
+
+    return schedules;
 };
 /**
  * Display all.
@@ -42,14 +45,14 @@ const schedules_details = (req, res) => {
  * @param {Object} res
  */
 const schedules_create_post = (req, res) => {
-    const schedules = new Schedules({
+    const schedule = new Schedules({
         ...req.body,
     });
-    schedules
+    schedule
         .save()
-        .then((result) => {
-            let schedules = getAllScedules();
-            console.log(schedules);
+        .then(async (result) => {
+            let schedules = await getAllScedules();
+            console.log(result);
             res.json({ data: schedules });
         })
         .catch((err) => {
