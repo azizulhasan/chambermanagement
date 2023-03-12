@@ -1,30 +1,32 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const schedulesSchema = new Schema({
-    branch: {
-        type: String,
-        required: true
+const schedulesSchema = new Schema(
+    {
+        branch: {
+            type: String,
+            required: true,
+        },
+        user: {
+            type: String,
+            required: true,
+        },
+        perSessionLength: {
+            type: Number,
+            required: true,
+        },
+        offDay: {
+            type: Array,
+            required: true,
+            default: [],
+        },
+        timeSlots: {
+            type: Array,
+            required: true,
+            default: [],
+        },
     },
-    user: {
-        type: String,
-        required: true
-    },
-    perSessionLength: {
-        type: Number,
-        required: true
-    },
-    offDay: {
-        type: Array,
-        required: true,
-        default: []
-    },
-    timeSlots: {
-        type: Array,
-        required: true,
-        default: []
-    },
-}, { timestamps: true })
+    { timestamps: true }
+);
 
-
-module.exports = mongoose.model('Schedules', schedulesSchema)
+module.exports = mongoose.model('Schedules', schedulesSchema);

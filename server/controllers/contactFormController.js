@@ -1,4 +1,4 @@
-const ContactForm = require("../models/contact_form");
+const ContactForm = require('../models/contact_form');
 // const {sendMail} = require('../mail')
 
 /**
@@ -7,14 +7,14 @@ const ContactForm = require("../models/contact_form");
  * @param {Object} res
  */
 const contact_form_index = (req, res) => {
-  ContactForm.find()
-    .sort({_id: -1})
-    .then((result) => {
-      res.json({ data: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    ContactForm.find()
+        .sort({ _id: -1 })
+        .then((result) => {
+            res.json({ data: result });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -23,14 +23,14 @@ const contact_form_index = (req, res) => {
  * @param {Object} res
  */
 const contact_form_details = (req, res) => {
-  const id = req.params.id;
-  ContactForm.findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    const id = req.params.id;
+    ContactForm.findById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 
 /**
@@ -39,28 +39,27 @@ const contact_form_details = (req, res) => {
  * @param {Object} res
  */
 const contact_form_create_post = (req, res) => {
-  const contact_form = new ContactForm({
-    ...req.body,
-  });
-  contact_form
-    .save()
-    .then((result) => {
-      ContactForm.find()
-        .sort({ createdAt: -1 })
-
+    const contact_form = new ContactForm({
+        ...req.body,
+    });
+    contact_form
+        .save()
         .then((result) => {
-          res.json({ data: result });
+            ContactForm.find()
+                .sort({ createdAt: -1 })
+
+                .then((result) => {
+                    res.json({ data: result });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            // sendMail(req.body)
         })
         .catch((err) => {
-          console.log(err);
+            res.json(err);
         });
-        
-        // sendMail(req.body)
-
-    })
-    .catch((err) => {
-      res.json(err);
-    });
 };
 
 /**
@@ -69,33 +68,33 @@ const contact_form_create_post = (req, res) => {
  * @param {Object} res
  */
 const contact_form_update_post = (req, res) => {
-  const id = req.params.id;
-  ContactForm.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    (err, post) => {
-      if (!err) {
-        ContactForm.find()
-          .sort({ createdAt: -1 })
+    const id = req.params.id;
+    ContactForm.findOneAndUpdate(
+        {
+            _id: id,
+        },
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        (err, post) => {
+            if (!err) {
+                ContactForm.find()
+                    .sort({ createdAt: -1 })
 
-          .then((result) => {
-            res.json({ data: result });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log(err);
-      }
-    }
-  );
+                    .then((result) => {
+                        res.json({ data: result });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
+                console.log(err);
+            }
+        }
+    );
 };
 /**
  * Delete post
@@ -103,28 +102,28 @@ const contact_form_update_post = (req, res) => {
  * @param {*} res
  */
 const contact_form_delete_post = (req, res) => {
-  const id = req.params.id;
+    const id = req.params.id;
 
-  ContactForm.deleteOne({ _id: id }, function (err) {
-    if (!err) {
-      ContactForm.find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-          res.json({ data: result });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      res.json({ data: "Something wen wrong" });
-    }
-  });
+    ContactForm.deleteOne({ _id: id }, function (err) {
+        if (!err) {
+            ContactForm.find()
+                .sort({ createdAt: -1 })
+                .then((result) => {
+                    res.json({ data: result });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            res.json({ data: 'Something wen wrong' });
+        }
+    });
 };
 
 module.exports = {
-  contact_form_index,
-  contact_form_details,
-  contact_form_create_post,
-  contact_form_update_post,
-  contact_form_delete_post,
+    contact_form_index,
+    contact_form_details,
+    contact_form_create_post,
+    contact_form_update_post,
+    contact_form_delete_post,
 };

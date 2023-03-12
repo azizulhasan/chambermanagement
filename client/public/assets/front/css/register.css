@@ -1,4 +1,4 @@
-.error{
+.error {
     position: relative;
     left: 0;
     top: 0;
@@ -7,18 +7,18 @@
     font-family: 'Righteous', cursive;
     color: #ff0000;
 }
-.image-height{
+.image-height {
     height: 540px;
     width: 400px;
-  }
+}
 
-  @media only screen and (max-width: 640px) {
+@media only screen and (max-width: 640px) {
     /* For tablets and mobile: */
     .h-image {
-      display: none;
+        display: none;
     }
-    .image-height{
+    .image-height {
         height: 300px;
         margin-top: -50px;
     }
-  }
+}

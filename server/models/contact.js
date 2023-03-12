@@ -1,21 +1,24 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const contactSchema = new Schema({
-    section_title:{
-        type:String,
-        required: false
+const contactSchema = new Schema(
+    {
+        section_title: {
+            type: String,
+            required: false,
+        },
+        subjects: {
+            type: String,
+            required: true,
+        },
+        contacts: {
+            type: Array,
+            required: true,
+        },
     },
-    subjects:{
-        type: String,
-        required: true
-    },
-    contacts:{
-        type: Array,
-        required: true
-    }
-}, {timestamp: true})
+    { timestamp: true }
+);
 
-const Contact = mongoose.model('Contact', contactSchema)
+const Contact = mongoose.model('Contact', contactSchema);
 
-module.exports = Contact
+module.exports = Contact;

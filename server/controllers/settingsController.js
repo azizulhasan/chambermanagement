@@ -1,4 +1,4 @@
-const Settings = require("../models/settings");
+const Settings = require('../models/settings');
 
 /**
  * Display all settings content.
@@ -6,15 +6,15 @@ const Settings = require("../models/settings");
  * @param {Object} res
  */
 const settings_index = (req, res) => {
-  Settings.find()
-    .sort({ createdAt: -1 })
+    Settings.find()
+        .sort({ createdAt: -1 })
 
-    .then((result) => {
-      res.json({ data: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        .then((result) => {
+            res.json({ data: result });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -23,14 +23,14 @@ const settings_index = (req, res) => {
  * @param {Object} res
  */
 const settings_details = (req, res) => {
-  const id = req.params.id;
-  Settings.findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    const id = req.params.id;
+    Settings.findById(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 /**
  * Save the setting to databse.
@@ -38,19 +38,18 @@ const settings_details = (req, res) => {
  * @param {Object} res
  */
 const settings_create_post = (req, res) => {
-
-  // return;
-  const settings = new Settings({
-    ...req.body,
-  });
-  settings
-    .save()
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
+    // return;
+    const settings = new Settings({
+        ...req.body,
     });
+    settings
+        .save()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 /**
@@ -59,64 +58,60 @@ const settings_create_post = (req, res) => {
  * @param {Object} res
  */
 const settings_update_post = (req, res) => {
-  const id = req.params.id;
-  Settings.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: {
-        ...req.body,
-      },
-    },
-    {
-      new: true,
-    },
-    (err, setting) => {
-      if (!err) {
-        res.json(setting);
-      } else {
-        console.log(err);
-      }
-    }
-  );
+    const id = req.params.id;
+    Settings.findOneAndUpdate(
+        {
+            _id: id,
+        },
+        {
+            $set: {
+                ...req.body,
+            },
+        },
+        {
+            new: true,
+        },
+        (err, setting) => {
+            if (!err) {
+                res.json(setting);
+            } else {
+                console.log(err);
+            }
+        }
+    );
 };
-
-
 
 /**
  * login to dashboard.
  * @param {Object} req login save request.
  * @param {Object} res
  */
- const login_to_dashboard = (req, res) => {
-  
-  Settings.find().sort({ _id: -1 })
-    .then((result) => {
-      if (result.length) {
-        if (
-          req.body.email === result[0].email &&
-          req.body.password === result[0].password
-        ) {
-          res.json({ data: true });
-        }else{
-          res.json({ data: false });
-        }
-      }else{
-        res.json({ data: false });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const login_to_dashboard = (req, res) => {
+    Settings.find()
+        .sort({ _id: -1 })
+        .then((result) => {
+            if (result.length) {
+                if (
+                    req.body.email === result[0].email &&
+                    req.body.password === result[0].password
+                ) {
+                    res.json({ data: true });
+                } else {
+                    res.json({ data: false });
+                }
+            } else {
+                res.json({ data: false });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
-
-
 module.exports = {
-  settings_index,
-  settings_details,
-  settings_create_post,
-  settings_update_post,
-  login_to_dashboard
+    settings_index,
+    settings_details,
+    settings_create_post,
+    settings_update_post,
+    login_to_dashboard,
 };

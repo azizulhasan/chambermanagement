@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+@layer components {
+    .wrapper {
+        @apply px-4 max-w-7xl mx-auto;
+    }
+}
+
+* {
     font-family: serif;
 }
