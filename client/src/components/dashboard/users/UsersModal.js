@@ -101,6 +101,7 @@ export default function UsersModal() {
          */
         if (data._id !== undefined) {
             formData.append('id', data._id);
+            console.log({ formData });
             dispatch(updateUser(formData));
         } else {
             dispatch(saveUser(formData));

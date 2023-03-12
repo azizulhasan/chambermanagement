@@ -118,14 +118,28 @@ export default function MenuBar() {
 
                                 return (
                                     <li key={item.name}>
-                                        {!item.href.includes('#') ? (
+                                        {!item.href.includes('#') &&
+                                            !item.href.includes('/login') && (
+                                                <Link
+                                                    to={item.href}
+                                                    aria-current={
+                                                        item.current
+                                                            ? 'page'
+                                                            : undefined
+                                                    }
+                                                    className={classNames(
+                                                        item.current
+                                                            ? 'bg-themeColor text-white'
+                                                            : 'text-black hover:bg-themeColor hover:!text-white',
+                                                        'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                    )}
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            )}
+                                        {item.href.includes('#') && (
                                             <Link
                                                 to={item.href}
-                                                aria-current={
-                                                    item.current
-                                                        ? 'page'
-                                                        : undefined
-                                                }
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-themeColor text-white'
@@ -135,9 +149,10 @@ export default function MenuBar() {
                                             >
                                                 {item.name}
                                             </Link>
-                                        ) : (
-                                            <Link
-                                                to={item.href}
+                                        )}
+                                        {item.href.includes('/login') && (
+                                            <a
+                                                href={item.href}
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-themeColor text-white'
@@ -146,7 +161,7 @@ export default function MenuBar() {
                                                 )}
                                             >
                                                 {item.name}
-                                            </Link>
+                                            </a>
                                         )}
                                     </li>
                                 );

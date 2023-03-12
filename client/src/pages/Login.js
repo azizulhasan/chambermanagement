@@ -12,13 +12,7 @@ import { loginUser } from '../store/usersSlice';
  *
  * utilities
  */
-import {
-    addCSS,
-    getLocalStorage,
-    getSessionStorage,
-    redirectUser,
-    setLocalStorage,
-} from '../utilities/utilities';
+import { addCSS, setLocalStorage } from '../utilities/utilities';
 
 export default function Login() {
     //#region Hooks
@@ -34,17 +28,10 @@ export default function Login() {
 
     //#region useEffect
     useEffect(() => {
-        // const Auth = {
-        //     session: getSessionStorage()["user"],
-        //     storage: getLocalStorage()["user"],
-        // };
-        // if (Auth.session !== undefined || Auth.storage !== undefined) {
-        //     window.location.href = process.env.REACT_APP_URL + "/dashboard";
-        // }
         if (loggedInUser.accessToken) {
             navigate('/');
         }
-    }, [loggedInUser.accessToken]);
+    }, [loggedInUser.accessToken, navigate]);
     //#endregion
 
     //#region Events
@@ -181,12 +168,12 @@ export default function Login() {
 
                                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                             Don’t have an account yet?{' '}
-                                            <Link
-                                                to="/register"
+                                            <a
+                                                href="/register"
                                                 className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                             >
                                                 Sign up
-                                            </Link>
+                                            </a>
                                         </p>
                                     </div>
                                 </form>

@@ -110,16 +110,17 @@ const uploads = uploadImage();
  * @param {Object} res
  */
 const register_user_from_dashboard = (req, res) => {
-    uploads(req, res, (err) => {
+    uploads(req, res, async (err) => {
         if (err) {
             console.log(err);
         } else {
+            const hashedPassword = await bcrypt.hash(req.body.phone, 10);
             const users = new Users({
                 ...req.body,
                 ...{
                     image:
                         process.env.UPLOAD_FOLDER_URL + '/' + req.file.filename,
-                    password: req.body.phone,
+                    password: hashedPassword,
                 },
             });
             users
