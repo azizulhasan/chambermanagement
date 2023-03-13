@@ -33,20 +33,24 @@ let initialState = {
     isModalActive: false,
     SCHEDULE_HEADERS: [
         {
-            prop: 'name',
-            title: 'Name',
+            prop: 'branch',
+            title: 'Branch',
         },
         {
-            prop: 'email',
-            title: 'Email',
+            prop: 'user',
+            title: 'Consultant',
         },
         {
-            prop: 'phone',
-            title: 'Phone',
+            prop: 'perSessionLength',
+            title: 'Session Length',
         },
         {
-            prop: 'image',
-            title: 'Image',
+            prop: 'offDay',
+            title: 'Off Day',
+        },
+        {
+            prop: 'updatedAt',
+            title: 'Last Updated',
         },
     ],
     SCHEDULE_ROLES: ['SCHEDULE', 'ADMIN', 'DOCTOR'],
@@ -107,7 +111,7 @@ let schedulesSlice = createSlice({
 
         builder.addCase(saveSchedule.fulfilled, (state, action) => {
             console.log(action.payload.data);
-            state.schedules = action.payload
+            state.schedules = action.payload;
             state.isModalActive = false;
         });
 

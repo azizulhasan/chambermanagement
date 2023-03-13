@@ -1,25 +1,17 @@
 const Schedules = require('../models/schedules');
 
-const getAllScedules = async () => {
-    let schedules;
-    await Schedules.find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-            schedules = result;
-        })
-        .catch((err) => {
-            return err;
-        });
-
-    return schedules;
-};
 /**
  * Display all.
  * @param {Object} req for getting all.
  * @param {Object} res
  */
-const schedules_index = (req, res) => {
-    let schedules = getAllScedules() ?? [];
+const schedules_index = async (req, res) => {
+    let schedules = [];
+    try {
+        schedules = await Schedules.find().sort({ createdAt: -1 });
+    } catch (err) {
+        res.json(err);
+    }
     res.json({ data: schedules });
 };
 

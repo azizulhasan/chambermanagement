@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1005,6 +1005,10 @@ video {
 
 .min-h-full {
   min-height: 100%;
+}
+
+.min-h-\[70px\] {
+  min-height: 70px;
 }
 
 .w-full {

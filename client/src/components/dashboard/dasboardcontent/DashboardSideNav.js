@@ -9,6 +9,12 @@ export default function DashboardSideNav() {
                 <div className="sb-sidenav-menu">
                     <div className="nav">
                         <div className="sb-sidenav-menu-heading">Core</div>
+                        <Link className="nav-link" to="/dashboard">
+                            <div className="sb-nav-link-icon">
+                                <i className="fas fa-envelope"></i>
+                            </div>
+                            Dashboard
+                        </Link>
                         <Link className="nav-link" to="/dashboard/mail">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-envelope"></i>

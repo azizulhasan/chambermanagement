@@ -19,6 +19,8 @@ export default function Schedules() {
         (state) => state.schedules
     );
 
+    console.log({ schedules, SCHEDULE_HEADERS });
+
     useEffect(() => {
         dispatch(fetchSchedules());
         console.log(schedules);
@@ -63,26 +65,11 @@ export default function Schedules() {
                 </thead>
                 <tbody>
                     {schedules.length &&
+                        SCHEDULE_HEADERS.length &&
                         schedules.map((schedule, index) => (
                             <tr key={index}>
-                                {Object.keys(schedule).map((key) => {
-                                    if (
-                                        key === 'name' ||
-                                        key === 'email' ||
-                                        key === 'phone' ||
-                                        key === 'image'
-                                    ) {
-                                        return (
-                                            <td
-                                                key={key}
-                                                dangerouslySetInnerHTML={{
-                                                    __html: schedule[key],
-                                                }}
-                                            ></td>
-                                        );
-                                    } else {
-                                        return null;
-                                    }
+                                {SCHEDULE_HEADERS.map(({ prop }, key) => {
+                                    return <td key={key}>{schedule[prop]}</td>;
                                 })}
                                 <td>
                                     <Button

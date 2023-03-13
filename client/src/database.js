@@ -22,6 +22,7 @@ export const database = {
                 image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`,
             },
         },
+        userRoles: ['USER', 'DOCTOR', 'ADMIN'],
     },
     topMenus: [
         { name: 'Home', href: '/', current: true },
