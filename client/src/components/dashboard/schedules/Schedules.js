@@ -18,15 +18,12 @@ export default function Schedules() {
     const { schedules, SCHEDULE_HEADERS } = useSelector(
         (state) => state.schedules
     );
-
-    console.log({ schedules, SCHEDULE_HEADERS });
-
     useEffect(() => {
         dispatch(fetchSchedules());
-        console.log(schedules);
-    }, [dispatch]);
+        addCSS(['/assets/dashboard/css/schedules.css']);
 
-    addCSS(['/assets/dashboard/css/schedules.css']);
+    }, []);
+
 
     /**
      *

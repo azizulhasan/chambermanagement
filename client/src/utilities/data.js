@@ -1,5 +1,5 @@
 export const removeFromFrontCSSAssets = [
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+    // 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
     process.env.REACT_APP_URL + '/assets/dashboard/css/styles.css',
     process.env.REACT_APP_URL + '/assets/dashboard/css/custom.css',
 ];
@@ -7,7 +7,7 @@ export const removeFromFrontCSSAssets = [
 export const removeFromFrontJsAssets = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
     process.env.REACT_APP_URL +
-        '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+    '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
     process.env.REACT_APP_URL + '/assets/dashboard/js/scripts.js',
 ];
 

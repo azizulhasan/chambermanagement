@@ -82,16 +82,6 @@ export default function SchedulesModal() {
         if (!singleSchedule.timeSlots.length) {
             alert("Please fill Time slots");
         }
-
-        /**
-    ` * format form data.
-    */
-        // let formData = new FormData();
-        // for (data of formData.values()) {
-        //     console.log(data)
-        // }
-
-
         /**
          * Update data if "_id" exists. else save form data.
          */

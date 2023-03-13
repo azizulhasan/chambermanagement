@@ -41,7 +41,7 @@ export default function MenuBar() {
                 setHiddenMenus(['/dashboard', '/login']);
             }
         } else {
-            setHiddenMenus(['/dashboard', '/user-panel']);
+            setHiddenMenus(['/user-panel']);
         }
     }, [loggedInUser.accessToken, loggedInUser, rendered]);
 
@@ -115,9 +115,8 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
-                            navbar ? 'block' : 'hidden'
-                        }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
+                            }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {

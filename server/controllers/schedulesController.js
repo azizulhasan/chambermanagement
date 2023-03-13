@@ -1,17 +1,17 @@
 const Schedules = require('../models/schedules');
 
+
+const getAllScedules = async () => {
+    return await Schedules.find().sort({ createdAt: -1 });
+}
 /**
  * Display all.
  * @param {Object} req for getting all.
  * @param {Object} res
  */
 const schedules_index = async (req, res) => {
-    let schedules = [];
-    try {
-        schedules = await Schedules.find().sort({ createdAt: -1 });
-    } catch (err) {
-        res.json(err);
-    }
+    let schedules = await getAllScedules();
+
     res.json({ data: schedules });
 };
 
@@ -44,7 +44,6 @@ const schedules_create_post = (req, res) => {
         .save()
         .then(async (result) => {
             let schedules = await getAllScedules();
-            console.log(result);
             res.json({ data: schedules });
         })
         .catch((err) => {
@@ -69,9 +68,9 @@ const schedules_update_post = (req, res) => {
         {
             new: true,
         },
-        (err, post) => {
+        async (err, post) => {
             if (!err) {
-                let schedules = getAllScedules() ?? [];
+                let schedules = await getAllScedules() ?? [];
                 res.json({ data: schedules });
             } else {
                 console.log(err);
@@ -87,9 +86,9 @@ const schedules_update_post = (req, res) => {
 const schedules_delete_post = (req, res) => {
     const id = req.params.id;
 
-    Schedules.deleteOne({ _id: id }, function (err) {
+    Schedules.deleteOne({ _id: id }, async function (err) {
         if (!err) {
-            let schedules = getAllScedules() ?? [];
+            let schedules = await getAllScedules() ?? [];
             res.json({ data: schedules });
         } else {
             res.json({ data: 'Something wen wrong' });

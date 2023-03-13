@@ -25,6 +25,7 @@ const getAllScripts = () => {
  */
 export const addScripts = (scripts) => {
     let scriptArr = getAllScripts();
+    removeJsFromDOM(scriptArr)
     let currentScripts = [];
     [...scripts].forEach((script) => {
         let tag = document.createElement('script');
@@ -60,7 +61,7 @@ const getAllCSSFiles = () => {
  */
 export const addCSS = (css) => {
     let previousCSSFiles = getAllCSSFiles();
-    removeCSSFromDOM();
+    removeCSSFromDOM(previousCSSFiles);
     let currentCSSFiles = [];
     [...css].forEach((script) => {
         let tag = document.createElement('link');
@@ -83,10 +84,7 @@ export const addCSS = (css) => {
     });
 };
 
-export function removeCSSFromDOM() {
-    let cssFilesArr = getAllCSSFiles();
-    // removeFromFrontCSSAssets
-    // removeFromDashboardCSSAssets
+export function removeCSSFromDOM(cssFilesArr) {
     let pathArr = window.location.pathname;
     let arr = [];
     if (pathArr.includes('dashboard')) {
@@ -117,15 +115,34 @@ export function removeCSSFromDOM() {
     }
 }
 
-export function removeJsFromDOM() {
-    let jsFiles = getAllScripts();
-    // removeFromFrontJsAssets
-    // removeFromDashboardJsAssets
-    // console.log(jsFiles)
+export function removeJsFromDOM(jsFiles) {
 
     let pathArr = window.location.pathname;
-
-    // if (!pathArr.includes('dashboard')) {}
+    let arr = [];
+    if (pathArr.includes('dashboard')) {
+        jsFiles.map((jsFile) => {
+            if (!removeFromDashboardJsAssets.includes(jsFile)) {
+                arr.push(jsFile);
+            } else {
+                let script = document.querySelector(
+                    'script[src="' + jsFile + '"]'
+                );
+                if (script) script.remove();
+            }
+        });
+    } else {
+        jsFiles.map((jsFile) => {
+            if (!removeFromFrontJsAssets.includes(jsFile)) {
+                arr.push(jsFile);
+            } else {
+                // .replace(process.env.REACT_APP_URL, '')
+                let script = document.querySelector(
+                    'script[src="' + jsFile + '"]'
+                );
+                if (script) script.remove();
+            }
+        });
+    }
 }
 
 /**

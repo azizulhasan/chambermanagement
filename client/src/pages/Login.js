@@ -54,7 +54,10 @@ export default function Login() {
     //#endregion
 
     //#region Custom Function
-    addCSS(['/assets/front/css/login.css']);
+    addCSS([
+        '/assets/front/css/login.css',
+        '/assets/front/css/tailwind.css',
+    ]);
     //#endregion
 
     return (

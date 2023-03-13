@@ -9,6 +9,7 @@ import Contact from './sections/Contact';
 import { useDispatch, useSelector } from 'react-redux';
 import Resources from './sections/Resources';
 import SiteSkeleton from '../common/SiteSkeleton';
+import { addCSS } from '../../../utilities/utilities';
 
 export default function Home() {
     const { showModal } = useSelector((state) => state.common);
@@ -43,6 +44,7 @@ export default function Home() {
             }
         });
     }, []);
+
     return (
         <>
             <SiteSkeleton
@@ -50,6 +52,7 @@ export default function Home() {
                     '/assets/front/css/slider.css',
                     '/assets/front/css/carousel.css',
                     '/assets/front/css/professional.css',
+                    '/assets/front/css/tailwind.css',
                 ]}
             >
                 {/** Slider Section */}

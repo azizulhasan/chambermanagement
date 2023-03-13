@@ -69,16 +69,26 @@ export default function Dashboard() {
 
 
     useEffect(() => {
-        addCSS([
-            '/assets/dashboard/css/styles.css',
-            '/assets/dashboard/css/custom.css',
-        ]);
-        addScripts([
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
-            '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
-            '/assets/dashboard/js/scripts.js',
-        ]);
+        // addCSS([
+        //     '/assets/dashboard/css/styles.css',
+        //     '/assets/dashboard/css/custom.css',
+        // ]);
+        // addScripts([
+        //     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
+        //     '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+        //     '/assets/dashboard/js/scripts.js',
+        // ]);
     }, [])
+
+    addCSS([
+        '/assets/dashboard/css/styles.css',
+        '/assets/dashboard/css/custom.css',
+    ]);
+    addScripts([
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
+        '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+        '/assets/dashboard/js/scripts.js',
+    ]);
 
     return (
         <>
