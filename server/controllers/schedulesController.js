@@ -1,9 +1,8 @@
 const Schedules = require('../models/schedules');
 
-
 const getAllScedules = async () => {
     return await Schedules.find().sort({ createdAt: -1 });
-}
+};
 /**
  * Display all.
  * @param {Object} req for getting all.
@@ -22,6 +21,7 @@ const schedules_index = async (req, res) => {
  */
 const schedules_details = (req, res) => {
     const id = req.params.id;
+    console.log({ id });
     Schedules.findById(id)
         .then((result) => {
             res.json(result);
@@ -57,6 +57,7 @@ const schedules_create_post = (req, res) => {
  * @param {Object} res
  */
 const schedules_update_post = (req, res) => {
+    console.log({ req });
     const id = req.params.id;
     Schedules.findOneAndUpdate(
         {
@@ -70,7 +71,7 @@ const schedules_update_post = (req, res) => {
         },
         async (err, post) => {
             if (!err) {
-                let schedules = await getAllScedules() ?? [];
+                let schedules = (await getAllScedules()) ?? [];
                 res.json({ data: schedules });
             } else {
                 console.log(err);
@@ -88,7 +89,7 @@ const schedules_delete_post = (req, res) => {
 
     Schedules.deleteOne({ _id: id }, async function (err) {
         if (!err) {
-            let schedules = await getAllScedules() ?? [];
+            let schedules = (await getAllScedules()) ?? [];
             res.json({ data: schedules });
         } else {
             res.json({ data: 'Something wen wrong' });

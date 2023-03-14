@@ -51,9 +51,14 @@ export default function SchedulesModal() {
     useEffect(() => {
         dispatch(fetchUsers());
     }, []);
+
     useEffect(() => {
-        console.log(singleSchedule)
-    }, [singleSchedule]);
+        console.log(singleSchedule);
+        if (singleSchedule._id) {
+            dispatch(showModal(true));
+            setSchedule(singleSchedule);
+        }
+    }, [singleSchedule, dispatch]);
 
     /**
      * Handle schedules content form submission
@@ -70,7 +75,7 @@ export default function SchedulesModal() {
         let data = {};
         for (let [key, value] of form.entries()) {
             data[key] = value;
-            console.log(key, value)
+            console.log(key, value);
             if (key === '' || value === '') {
                 if (key !== 'search_name_input') {
                     alert('Please fill the value of : ' + key);
@@ -80,17 +85,22 @@ export default function SchedulesModal() {
         }
 
         if (!singleSchedule.timeSlots.length) {
-            alert("Please fill Time slots");
+            alert('Please fill Time slots');
         }
         /**
          * Update data if "_id" exists. else save form data.
          */
+
+        console.log({ sID94: data._id });
         if (data._id !== undefined) {
+            console.log({ sID96: data._id });
             dispatch(updateSchedule([data._id, singleSchedule]));
         } else {
             dispatch(saveSchedule(singleSchedule));
         }
     };
+
+    console.log({ isModalActive });
 
     const scheduleAdd = () => {
         dispatch(addSchedule());

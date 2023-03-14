@@ -12,18 +12,19 @@ import { useDispatch, useSelector } from 'react-redux';
  */
 import SchedulesModal from './SchedulesModal';
 import { addCSS } from '../../../utilities/utilities';
+import { convertUTCDateToLocalDate } from '../../../utilities/timeUtilities';
+import { fetchSingleUser } from '../../../store/usersSlice';
 
 export default function Schedules() {
     const dispatch = useDispatch();
     const { schedules, SCHEDULE_HEADERS } = useSelector(
         (state) => state.schedules
     );
+    const { singleUser } = useSelector((state) => state.users);
     useEffect(() => {
         dispatch(fetchSchedules());
         addCSS(['/assets/dashboard/css/schedules.css']);
-
     }, []);
-
 
     /**
      *
@@ -63,36 +64,73 @@ export default function Schedules() {
                 <tbody>
                     {schedules.length &&
                         SCHEDULE_HEADERS.length &&
-                        schedules.map((schedule, index) => (
-                            <tr key={index}>
-                                {SCHEDULE_HEADERS.map(({ prop }, key) => {
-                                    return <td key={key}>{schedule[prop]}</td>;
-                                })}
-                                <td>
-                                    <Button
-                                        className="mr-2"
-                                        bsPrefix="azh_btn azh_btn_edit"
-                                        onClick={(e) =>
-                                            dispatch(
-                                                fetchSingleSchedule(
+                        schedules.map((schedule, index) => {
+                            return (
+                                <tr key={index}>
+                                    {SCHEDULE_HEADERS.map(({ prop }, key) => {
+                                        let date = convertUTCDateToLocalDate(
+                                            new Date(schedule['updatedAt'])
+                                        ).toLocaleString();
+
+                                        let value =
+                                            prop === 'updatedAt'
+                                                ? date
+                                                : schedule[prop];
+
+                                        if (Array.isArray(value)) {
+                                            return (
+                                                <td key={key}>
+                                                    {value.map(
+                                                        (offDay, index) => (
+                                                            <span key={offDay}>
+                                                                {offDay}
+                                                                {index <
+                                                                    value.length -
+                                                                        1 &&
+                                                                    ', '}
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </td>
+                                            );
+                                        }
+
+                                        return (
+                                            <td key={key}>
+                                                {value}
+                                                {prop === 'perSessionLength' &&
+                                                    ' mins'}
+                                            </td>
+                                        );
+                                    })}
+                                    <td>
+                                        <Button
+                                            className="mr-2"
+                                            bsPrefix="azh_btn azh_btn_edit"
+                                            onClick={(e) =>
+                                                dispatch(
+                                                    fetchSingleSchedule(
+                                                        schedules[index]['_id']
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <i className="fas fa-edit"></i>
+                                        </Button>
+                                        <Button
+                                            bsPrefix="azh_btn azh_btn_edit"
+                                            onClick={(e) =>
+                                                deleteData(
                                                     schedules[index]['_id']
                                                 )
-                                            )
-                                        }
-                                    >
-                                        <i className="fas fa-edit"></i>
-                                    </Button>
-                                    <Button
-                                        bsPrefix="azh_btn azh_btn_edit"
-                                        onClick={(e) =>
-                                            deleteData(schedules[index]['_id'])
-                                        }
-                                    >
-                                        <i className="fas fa-trash-alt"></i>
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
+                                            }
+                                        >
+                                            <i className="fas fa-trash-alt"></i>
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                 </tbody>
             </Table>
         </React.Fragment>

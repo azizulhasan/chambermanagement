@@ -4,6 +4,7 @@ import {
     setLocalStorage,
     setSessionStorage,
 } from '../utilities/utilities';
+import { fetchSingleUser } from './usersSlice';
 
 export const STATUSES = Object.freeze({
     IDLE: 'idle',
@@ -37,7 +38,7 @@ let initialState = {
             title: 'Branch',
         },
         {
-            prop: 'user',
+            prop: 'consultantName',
             title: 'Consultant',
         },
         {
@@ -127,6 +128,17 @@ export let { showModal, addSchedule, updateScheduleState } =
 
 export default schedulesSlice.reducer;
 
+async function addConsultantName(data) {
+    for (let i = 0; i < data.data.length; i++) {
+        const consultantId = data.data[i].user;
+        const consultant = await fetch(
+            process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
+        );
+        const consultantData = await consultant.json();
+        data.data[i].consultantName = consultantData.name;
+    }
+}
+
 // Thunks
 
 /**
@@ -136,7 +148,17 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
     const data = await res.json();
 
-    console.log(data);
+    await addConsultantName(data);
+
+    // for (let i = 0; i < data.data.length; i++) {
+    //     const consultantId = data.data[i].user;
+    //     const consultant = await fetch(
+    //         process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
+    //     );
+    //     const consultantData = await consultant.json();
+    //     data.data[i].consultantName = consultantData.name;
+    // }
+
     return data.data;
 });
 /**
@@ -145,11 +167,14 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
 export const fetchSingleSchedule = createAsyncThunk(
     'schedules/singleSchedule',
     async (payload) => {
+        console.log({ payload });
         const id = payload;
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${id}`
         );
         const data = await res.json();
+
+        console.log({ data });
 
         return data;
     }
@@ -192,6 +217,8 @@ export const saveSchedule = createAsyncThunk(
         );
         const data = await res.json();
 
+        await addConsultantName(data);
+
         return data.data;
     }
 );
@@ -201,11 +228,12 @@ export const saveSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
+        console.log(payload[1]);
         const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/schedules',
+            process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
             {
                 method: 'PUT',
-                body: payload,
+                body: payload[1],
             }
         );
         const data = await res.json();
@@ -214,6 +242,8 @@ export const updateSchedule = createAsyncThunk(
                 i
             ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
+        await addConsultantName(data);
+
         return data.data;
     }
 );
