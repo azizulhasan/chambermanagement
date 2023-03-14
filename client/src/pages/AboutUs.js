@@ -13,7 +13,9 @@ const {
 
 const AboutUs = () => {
     return (
-        <SiteSkeleton>
+        <SiteSkeleton css={[
+            '/assets/front/css/tailwind.css',
+        ]}>
             <Container>
                 <h1 className="text-5xl font-bold text-center m-10">
                     About Us

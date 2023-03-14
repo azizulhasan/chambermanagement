@@ -6,9 +6,10 @@ export const removeFromFrontCSSAssets = [
 
 export const removeFromFrontJsAssets = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js',
-    process.env.REACT_APP_URL +
-    '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
+    process.env.REACT_APP_URL + '/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js',
     process.env.REACT_APP_URL + '/assets/dashboard/js/scripts.js',
+
+    "http://localhost:3000/assets/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"
 ];
 
 export const removeFromDashboardCSSAssets = [

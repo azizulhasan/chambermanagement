@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { database } from '../../../../database';
-
-/**
- *
- * Utilities
- */
-import { addCSS, getData } from '../../../../utilities/utilities';
-
 const {
     basic: {
         trademark: {
@@ -19,13 +12,11 @@ const {
 } = database;
 
 export default function Footer() {
-    addCSS(['/assets/front/css/footer.css']);
 
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
-        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-    } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+        } md:[&>*]:p-4 `;
 
     return (
         <div>

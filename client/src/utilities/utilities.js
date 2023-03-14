@@ -25,7 +25,6 @@ const getAllScripts = () => {
  */
 export const addScripts = (scripts) => {
     let scriptArr = getAllScripts();
-    removeJsFromDOM(scriptArr)
     let currentScripts = [];
     [...scripts].forEach((script) => {
         let tag = document.createElement('script');
@@ -43,6 +42,8 @@ export const addScripts = (scripts) => {
             document.body.appendChild(tag);
         }
     });
+    removeJsFromDOM(scriptArr)
+
 };
 
 const getAllCSSFiles = () => {
@@ -61,7 +62,6 @@ const getAllCSSFiles = () => {
  */
 export const addCSS = (css) => {
     let previousCSSFiles = getAllCSSFiles();
-    removeCSSFromDOM(previousCSSFiles);
     let currentCSSFiles = [];
     [...css].forEach((script) => {
         let tag = document.createElement('link');
@@ -82,6 +82,8 @@ export const addCSS = (css) => {
             currentCSSFiles.push(script);
         }
     });
+    removeCSSFromDOM(previousCSSFiles);
+
 };
 
 export function removeCSSFromDOM(cssFilesArr) {
@@ -107,7 +109,7 @@ export function removeCSSFromDOM(cssFilesArr) {
             } else {
                 // .replace(process.env.REACT_APP_URL, '')
                 let link = document.querySelector(
-                    'link[href="' + cssFile + '"]'
+                    'link[href="' + cssFile.replace(process.env.REACT_APP_URL, '') + '"]'
                 );
                 if (link) link.remove();
             }
@@ -132,12 +134,13 @@ export function removeJsFromDOM(jsFiles) {
         });
     } else {
         jsFiles.map((jsFile) => {
+
             if (!removeFromFrontJsAssets.includes(jsFile)) {
                 arr.push(jsFile);
             } else {
                 // .replace(process.env.REACT_APP_URL, '')
                 let script = document.querySelector(
-                    'script[src="' + jsFile + '"]'
+                    'script[src="' + jsFile.replace(process.env.REACT_APP_URL, '') + '"]'
                 );
                 if (script) script.remove();
             }
