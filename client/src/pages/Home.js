@@ -1,22 +1,32 @@
 import { useEffect, lazy, Suspense, useState, Component } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCSS } from '../../../utilities/utilities';
-import Loader from '../common/Loader';
+import { addCSS } from '../utilities/utilities';
+import Loader from '../components/front/common/Loader';
 //Sections
-const Slider = lazy(() => import('./sections/Slider'));
-const Professionals = lazy(() => import('./sections/Professionals'));
-const HealthSerivces = lazy(() => import('./sections/HealthSerivces'));
-const Contact = lazy(() => import('./sections/Contact'));
-const Resources = lazy(() => import('./sections/Resources'));
-const SiteSkeleton = lazy(() => import('../common/SiteSkeleton'));
+const Slider = lazy(() => import('../components/front/home/sections/Slider'));
+const Professionals = lazy(() =>
+    import('../components/front/home/sections/Professionals')
+);
+const HealthSerivces = lazy(() =>
+    import('../components/front/home/sections/HealthSerivces')
+);
+const Contact = lazy(() => import('../components/front/home/sections/Contact'));
+const Resources = lazy(() =>
+    import('../components/front/home/sections/Resources')
+);
+const SiteSkeleton = lazy(() =>
+    import('../components/front/common/SiteSkeleton')
+);
 
-const lazyComponents = [{
-    compoent: <Professionals />,
-    id: "team",
-}]
+const lazyComponents = [
+    {
+        compoent: <Professionals />,
+        id: 'team',
+    },
+];
 
 export default function Home() {
-    const [displaCompoents, setDisplaCompoents] = useState({})
+    const [displaCompoents, setDisplaCompoents] = useState({});
     const { showModal } = useSelector((state) => state.common);
     const dispatch = useDispatch();
     // Similar to componentDidMount and componentDidUpdate:
@@ -52,22 +62,22 @@ export default function Home() {
 
     useEffect(() => {
         window.addEventListener('scroll', function () {
-            let data = JSON.parse(JSON.stringify(displaCompoents))
+            let data = JSON.parse(JSON.stringify(displaCompoents));
             if (window.scrollY > 900) {
                 data.contact = true;
-                setDisplaCompoents(data)
+                setDisplaCompoents(data);
             } else if (window.scrollY > 700) {
                 data.resourse = true;
-                setDisplaCompoents(data)
+                setDisplaCompoents(data);
             } else if (window.scrollY > 500) {
                 data.healthService = true;
-                setDisplaCompoents(data)
+                setDisplaCompoents(data);
             } else if (window.scrollY > 200) {
                 data.professional = true;
-                setDisplaCompoents(data)
+                setDisplaCompoents(data);
             }
-        })
-    }, [displaCompoents])
+        });
+    }, [displaCompoents]);
 
     return (
         <>
@@ -85,26 +95,27 @@ export default function Home() {
                     <Slider />
                     {/** End Slider */}
                     <div className="wrapper">
-
-                        {
-                            displaCompoents.hasOwnProperty('professional') && displaCompoents.professional && <Professionals id={'team'} />
-                        }
+                        {displaCompoents.hasOwnProperty('professional') &&
+                            displaCompoents.professional && (
+                                <Professionals id={'team'} />
+                            )}
 
                         {/** Healteh Service Section */}
-                        {
-                            displaCompoents.hasOwnProperty('healthService') && displaCompoents.healthService && <HealthSerivces id={'healthService'} />
-                        }
+                        {displaCompoents.hasOwnProperty('healthService') &&
+                            displaCompoents.healthService && (
+                                <HealthSerivces id={'healthService'} />
+                            )}
                         {/** Resource */}
-                        {
-                            displaCompoents.hasOwnProperty('resource') && displaCompoents.resource && <Resources id={'resources'} />
-                        }
+                        {displaCompoents.hasOwnProperty('resource') &&
+                            displaCompoents.resource && (
+                                <Resources id={'resources'} />
+                            )}
 
                         {/** Contact Section */}
-                        {
-                            displaCompoents.hasOwnProperty('contact') && displaCompoents.contact && <Contact id={'contact'} />
-                        }
-
-
+                        {displaCompoents.hasOwnProperty('contact') &&
+                            displaCompoents.contact && (
+                                <Contact id={'contact'} />
+                            )}
                     </div>
                 </SiteSkeleton>
 

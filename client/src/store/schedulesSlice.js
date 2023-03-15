@@ -232,8 +232,11 @@ export const updateSchedule = createAsyncThunk(
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
             {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 method: 'PUT',
-                body: payload[1],
+                body: JSON.stringify(payload[1]),
             }
         );
         const data = await res.json();

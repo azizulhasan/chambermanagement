@@ -12,11 +12,11 @@ const {
 } = database;
 
 export default function Footer() {
-
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-        } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
+        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+    } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -66,9 +66,7 @@ export default function Footer() {
                                                             className={`icon icon--${name.toLowerCase()}`}
                                                             key={i}
                                                         >
-                                                            <i
-                                                                className={icon}
-                                                            ></i>
+                                                            {icon}
                                                         </a>
                                                     )
                                                 )}

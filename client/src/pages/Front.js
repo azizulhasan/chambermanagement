@@ -16,7 +16,7 @@ const Register = lazy(() => import('./Register'));
 const NotFound = lazy(() =>
     import('../components/front/common/notfound/NotFound')
 );
-const Home = lazy(() => import('../components/front/home/Home'));
+const Home = lazy(() => import('./Home'));
 const AboutUs = lazy(() => import('./AboutUs'));
 const MemberDetails = lazy(() => import('./MemberDetails'));
 const ServiceDetails = lazy(() => import('./ServiceDetails'));

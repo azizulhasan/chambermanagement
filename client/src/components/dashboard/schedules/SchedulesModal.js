@@ -31,7 +31,10 @@ export default function SchedulesModal() {
     const [field, setField] = useState(() => []);
     const [selectedTime, setSelectedTime] = useState([]);
     const [lang, setLang] = useState('en');
+    const [isUpdateMode, setIsUpdateMode] = useState(false);
     const interval = 60;
+
+    console.log({ singleSchedule });
 
     const dispatch = useDispatch();
     /**
@@ -49,6 +52,9 @@ export default function SchedulesModal() {
     };
 
     useEffect(() => {
+        if (singleSchedule._id) {
+            setIsUpdateMode(true);
+        }
         dispatch(fetchUsers());
     }, []);
 
@@ -167,9 +173,13 @@ export default function SchedulesModal() {
                             <Form.Select
                                 name="user"
                                 onChange={handleChange}
-                                defaultValue={'0'}
+                                defaultValue={singleSchedule.user}
                             >
-                                <option value={'0'}>Select Consultant</option>
+                                {!isUpdateMode && (
+                                    <option value={'0'}>
+                                        Select Consultant
+                                    </option>
+                                )}
                                 {users.length &&
                                     users.map((user, i) =>
                                         user.userRole === 'DOCTOR' ? (

@@ -12,3 +12,32 @@ html {
     padding: 0.2rem 0.3rem;
     margin-left: 20px;
 }
+
+/* svg related classes */
+.st0 {
+    fill: url(#SVGID_1_);
+}
+.st1 {
+    fill: #ffffff;
+}
+.cls-1 {
+    fill: #ffffff;
+}
+
+.st0-dashboard {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+}
+
+.st0-services {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+}

@@ -1,11 +1,24 @@
 import { Carousel } from 'react-bootstrap';
-import { MailIcon, PlaceIcon, TelephoneIcon } from './assets/svg-components';
+import {
+    Delete,
+    Edit,
+    Facebook,
+    Instagram,
+    LinkedIn,
+    MailIcon,
+    PlaceIcon,
+    TelephoneIcon,
+    Trash,
+    Twitter,
+} from './assets/svg-components';
 
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
-        phone: '+8801715769060',
-        email: 'mindtoheart.bd@gmail.com',
+        contacts: {
+            phone: { number: '+8801715769060', icon: TelephoneIcon },
+            email: { address: '+8801715769060', icon: MailIcon },
+        },
         companyAddress: {
             area: 'House #00, Road# 00, Dhanmondi,',
             district: 'Dhaka',
@@ -37,10 +50,10 @@ export const database = {
     footer: {
         sectionsOrder: ['Trademark', 'About Us', 'Our Services', 'Contact Us'],
         socialMediaLinks: [
-            { name: 'Instagram', link: '/', icon: 'fa fa-instagram' },
-            { name: 'Facebook', link: '/', icon: 'fa fa-facebook' },
-            { name: 'LinkedIn', link: '/', icon: 'fa fa-linkedin' },
-            { name: 'Twitter', link: '/', icon: 'fa fa-twitter' },
+            { name: 'Instagram', link: '/', icon: Instagram },
+            { name: 'Facebook', link: '/', icon: Facebook },
+            { name: 'LinkedIn', link: '/', icon: LinkedIn },
+            { name: 'Twitter', link: '/', icon: Twitter },
         ],
         menus: {
             aboutUs: [
