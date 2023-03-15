@@ -61,19 +61,24 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
+        setTimeout(() => {
+            let data = JSON.parse(JSON.stringify(displaCompoents));
+            data.professional = true;
+            setDisplaCompoents(data);
+        }, 500)
+    }, [])
+
+    useEffect(() => {
         window.addEventListener('scroll', function () {
             let data = JSON.parse(JSON.stringify(displaCompoents));
-            if (window.scrollY > 900) {
+            if (window.scrollY > 600) {
                 data.contact = true;
                 setDisplaCompoents(data);
-            } else if (window.scrollY > 700) {
-                data.resourse = true;
+            } else if (window.scrollY > 300) {
+                data.resource = true;
                 setDisplaCompoents(data);
-            } else if (window.scrollY > 500) {
+            } else if (window.scrollY > 100) {
                 data.healthService = true;
-                setDisplaCompoents(data);
-            } else if (window.scrollY > 200) {
-                data.professional = true;
                 setDisplaCompoents(data);
             }
         });
@@ -108,7 +113,7 @@ export default function Home() {
                         {/** Resource */}
                         {displaCompoents.hasOwnProperty('resource') &&
                             displaCompoents.resource && (
-                                <Resources id={'resources'} />
+                                <Resources id={'resource'} />
                             )}
 
                         {/** Contact Section */}

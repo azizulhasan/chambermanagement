@@ -1,22 +1,20 @@
-import { Carousel } from 'react-bootstrap';
+import { PhoneArrowUpRight } from './assets/atlasIcons/atlasIconsSolid';
+
 import {
-    Delete,
-    Edit,
     Facebook,
     Instagram,
     LinkedIn,
     MailIcon,
     PlaceIcon,
-    TelephoneIcon,
-    Trash,
     Twitter,
 } from './assets/svg-components';
+
 
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
         contacts: {
-            phone: { number: '+8801715769060', icon: TelephoneIcon },
+            phone: { number: '+8801715769060', icon: PhoneArrowUpRight },
             email: { address: '+8801715769060', icon: MailIcon },
         },
         companyAddress: {
@@ -89,7 +87,7 @@ export const database = {
                     link: null,
                     icon: MailIcon,
                 },
-                { name: '+8801715769060', link: null, icon: TelephoneIcon },
+                { name: '+8801715769060', link: null, icon: PhoneArrowUpRight },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,
