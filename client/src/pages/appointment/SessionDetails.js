@@ -42,10 +42,8 @@ export default function SessionDetails() {
     };
 
     const clickWeekNumber = (e) => {
-        console.log(e);
+        // console.log(e);
     };
-
-
     useEffect(() => {
         console.log(date)
     }, [date])
