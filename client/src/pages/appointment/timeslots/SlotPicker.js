@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TimeSlot from './TimeSlot';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
 
@@ -26,6 +26,7 @@ export default function SlotPicker({
     defaultSelectedTime,
     onSelectTime,
     classes = 'p-5',
+    timeSlots = []
 }) {
     const { themeColor } = useSelector((state) => state.common);
 
@@ -58,7 +59,6 @@ export default function SlotPicker({
     let [selectedTime, setSelectedTime] = useState([
         defaultSelectedTime || undefined,
     ]);
-    const dispatch = useDispatch();
 
     const handleSelection = (data) => {
         let slots = [];
@@ -66,55 +66,19 @@ export default function SlotPicker({
             slots = selectedTime.filter(
                 (item) => item !== data.format('HH:mm')
             );
-            setSelectedTime(slots);
         } else {
             slots = [data.format('HH:mm')].concat(selectedTime);
-            setSelectedTime(slots);
         }
         slots = slots.filter((item) => item != undefined);
-        // dispatch(updateScheduleState(slots))
+        setSelectedTime(slots[0]);
         onSelectTime(data);
     };
-
-    const currTime = dayjs().format('HH:mm');
-    const timeSlots = [
-        dayjs()
-            .set('h', Number.parseInt(startsAt.split(':')[0]))
-            .set('m', Number.parseInt(startsAt.split(':')[1])),
-    ];
-
-    // `i` is just to not cause an infinity loop, if sth went wrong
-    let limit = 100;
-    let timeAt = startsAt;
-    // console.log(timeAt, endsAt);
-    // console.log(
-    //   dayjs(`2001-01-01 ${timeAt}`, 'YYYY-MM-DD HH:mm'),
-    //   dayjs(`2001-01-01 ${endsAt}`, 'YYYY-MM-DD HH:mm')
-    // );
-
-    while (
-        dayjs(`2001-01-01 ${timeAt}`, 'YYYY-MM-DD HH:mm').isBefore(
-            dayjs(`2001-01-01 ${endsAt}`, 'YYYY-MM-DD HH:mm')
-        ) &&
-        limit > 0
-    ) {
-        let t = dayjs()
-            .set('h', Number.parseInt(timeAt.split(':')[0]))
-            .set('m', Number.parseInt(timeAt.split(':')[1]))
-            .add(interval, 'm');
-
-        timeSlots.push(t);
-
-        timeAt = t.format('HH:mm');
-        limit--;
-    }
 
     return (
         <div className={classes}>
             <div
-                className={`time-selector-w d-block ${
-                    lang == 'ar' && 'sp-rtl'
-                }`}
+                className={`time-selector-w d-block ${lang == 'ar' && 'sp-rtl'
+                    }`}
             >
                 <div className="os-times-w">
                     <div className="timeslots">

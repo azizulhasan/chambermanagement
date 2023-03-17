@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Select from '../../components/front/common/form/Select';
+import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import SlotPicker from './timeslots/SlotPicker';
 import { amOrPm } from '../../utilities/timeUtilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
+import Select from '../../components/front/common/form/Select';
 
 export default function SessionDetails() {
     const [date, setDate] = useState(null);
@@ -13,9 +14,14 @@ export default function SessionDetails() {
     const [doctors, setDoctors] = useState([])
     const [specialities, setSpecialities] = useState([])
     const [filteredDoctors, setFilteredDoctors] = useState([])
+    const [filteredSchedule, setFilteredSchedule] = useState({
+        timeSlots: [],
+        perSessionLength: 60,
+
+    })
+    const [timeSlots, setTimeSlots] = useState([])
     const [offDays, setOffDays] = useState([])
     const ref = React.useRef();
-
     const dispatch = useDispatch();
     const { schedules, singleSchedule, isModalActive, options } = useSelector(
         (state) => state.schedules
@@ -39,15 +45,9 @@ export default function SessionDetails() {
         setFilteredDoctors(data)
     }, [users]);
 
-
-    const getFormValue = (e) => {
-        // console.log(e);
-    };
-
-
     const addToSelectedArray = (slot) => {
         let from = slot.format('hh:mm') + amOrPm(slot);
-        let to = slot.add(60, 'm').format('hh:mm') + amOrPm(slot);
+        let to = slot.add(filteredSchedule.perSessionLength, 'm').format('hh:mm') + amOrPm(slot);
     };
 
     const onChange = (e) => {
@@ -60,13 +60,11 @@ export default function SessionDetails() {
             let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
                 setOffDays(filteredSchedule[0].offDay)
+                setFilteredSchedule(filteredSchedule[0])
             }
         }
     };
 
-    const clickWeekNumber = (e) => {
-        // console.log(e);
-    };
     useEffect(() => {
         let dates = document.getElementsByClassName('react-calendar__month-view__days__day')
         Object.values(dates).map(date => {
@@ -88,6 +86,7 @@ export default function SessionDetails() {
     const setSessionDate = (e) => {
         setDate(e)
     }
+
     useEffect(() => {
         if (date !== null) {
             let selectedDay = parseInt(date.getDate());
@@ -104,6 +103,36 @@ export default function SessionDetails() {
         }
     }, [date])
 
+    useEffect(() => {
+        let limit = 100;
+        let startsAt = '00:00'
+        let endsAt = '23:00';
+        let interval = filteredSchedule.perSessionLength
+        let slots = []
+
+        while (
+            dayjs(`2001-01-01 ${startsAt}`, 'YYYY-MM-DD HH:mm').isBefore(
+                dayjs(`2001-01-01 ${endsAt}`, 'YYYY-MM-DD HH:mm')
+            ) &&
+            limit > 0
+        ) {
+            let t = dayjs()
+                .set('h', Number.parseInt(startsAt.split(':')[0]))
+                .set('m', Number.parseInt(startsAt.split(':')[1]))
+                .add(interval, 'm');
+            if (filteredSchedule.timeSlots.length && filteredSchedule.timeSlots.includes(t.format('HH:mm'))) {
+                slots.push(t)
+            }
+            if (filteredSchedule.timeSlots.length < 1) {
+                slots.push(t)
+            }
+
+            startsAt = t.format('HH:mm');
+            limit--;
+        }
+        setTimeSlots(slots)
+    }, [filteredSchedule])
+
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
@@ -116,6 +145,7 @@ export default function SessionDetails() {
                     options={specialities}
                     id="session_name"
                     name="session_name"
+                    required={true}
                 />
             </div>
             <div className="w-60">
@@ -128,6 +158,7 @@ export default function SessionDetails() {
                     options={filteredDoctors}
                     id="doctor_name"
                     name="doctor_name"
+                    required={true}
                 />
             </div>
             <div className="w-72">
@@ -139,37 +170,14 @@ export default function SessionDetails() {
                     // tileContent={({ date, view }) => null}
                     // activeStartDate={new Date(2023, 0, 1)}
                     tileDisabled={({ activeStartDate, date, view }) => {
-                        // unable to select
                         let day = days[date.getDay()]
                         if (offDays.includes(day)) {
-                            // console.log(date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear())
                             return true;
                         }
-
                         return false;
                     }}
                     // defaultActiveStartDate={new Date()}
                     // navigationLabel={({ date, label, locale, view }) => `Current view: ${view}, date: ${date.toLocaleDateString(locale)}`
-                    // }
-                    // nextLabel={
-                    //     <p className="inline ml-1 p-1 hover:bg-gray-200">
-                    //         {'>'}
-                    //     </p>
-                    // }
-                    // next2Label={
-                    //     <p className="inline ml-3 p-1 hover:bg-gray-200">
-                    //         {'>>'}
-                    //     </p>
-                    // }
-                    // prevLabel={
-                    //     <p className="inline mr-1 p-1 hover:bg-gray-200">
-                    //         {'<'}
-                    //     </p>
-                    // }
-                    // prev2Label={
-                    //     <p className="inline mr-3 p-1 hover:bg-gray-200">
-                    //         {'<<'}
-                    //     </p>
                     // }
                     className="mx-2 border border-themeColor session_date"
                     onChange={(e) => setSessionDate(e)}
@@ -183,9 +191,10 @@ export default function SessionDetails() {
             <div className="w-60">
                 <label htmlFor="session_data">Session Time</label>
                 <SlotPicker
-                    interval={60}
+                    interval={filteredSchedule.perSessionLength}
+                    timeSlots={timeSlots}
                     from={'07:00'}
-                    to={'13:00'}
+                    to={'23:00'}
                     unAvailableSlots={['12:00']}
                     lang={'en'}
                     defaultSelectedTime=""
