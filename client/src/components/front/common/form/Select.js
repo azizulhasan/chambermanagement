@@ -37,6 +37,10 @@ export default function Select({
 }
 
 function getGroupDropdown(options, selected) {
+    if (!Object.values(options)[0].hasOwnProperty('optionGroup')) {
+        return getObjectOptions(options, selected)
+    }
+
     return Object.values(options).map((optionGroup, i) => {
         {
             return optionGroup.hasOwnProperty('optionGroup') ? (
@@ -59,17 +63,19 @@ function getGroupDropdown(options, selected) {
 }
 
 function getObjectOptions(options, selected) {
+
     return Object.keys(options).map((key, index) => {
         return (
-            <option key={index} value={key}>
+            <option key={index} value={options[key]._id}>
                 {' '}
-                {options[key]}{' '}
+                {options[key].name}{' '}
             </option>
         );
     });
 }
 
 function getArrayOptions(options, selected) {
+
     return options.map((option, index) => {
         return (
             <option key={index} value={option}>

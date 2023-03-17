@@ -26,9 +26,8 @@ export default function TimeSlot({
         <React.Fragment>
             <div
                 onClick={(e) => handleOnSelect(e)}
-                className={`sp-timeslot p-1 border border-themeColor text-black py-1 rounded-sm my-1  ${
-                    isSelected ? 'selected' : ''
-                } ${isOnTheHour && 'with-tick'}`}
+                className={`sp-timeslot py-1 rounded-sm my-1.5  ${isSelected ? 'selected' : ''
+                    } ${isOnTheHour && 'with-tick'}`}
                 style={
                     isSelected
                         ? { background: selectedSlotColor, color: 'white' }

@@ -8,7 +8,13 @@ import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 
 export default function SessionDetails() {
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(null);
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const [doctors, setDoctors] = useState([])
+    const [specialities, setSpecialities] = useState([])
+    const [filteredDoctors, setFilteredDoctors] = useState([])
+    const [offDays, setOffDays] = useState([])
+    const ref = React.useRef();
 
     const dispatch = useDispatch();
     const { schedules, singleSchedule, isModalActive, options } = useSelector(
@@ -21,16 +27,23 @@ export default function SessionDetails() {
     }, []);
 
     useEffect(() => {
-        // console.log(users)
-        // console.log(schedules);
-    }, [users, schedules]);
-
-
+        let data = users.filter((user, i) => user.userRole === 'DOCTOR');
+        setDoctors(data)
+        let specialities = []
+        data.map(doctor => {
+            if (!specialities.includes(doctor.speciality)) {
+                specialities.push(doctor.speciality)
+            }
+        })
+        setSpecialities(specialities)
+        setFilteredDoctors(data)
+    }, [users]);
 
 
     const getFormValue = (e) => {
         // console.log(e);
     };
+
 
     const addToSelectedArray = (slot) => {
         let from = slot.format('hh:mm') + amOrPm(slot);
@@ -38,15 +51,59 @@ export default function SessionDetails() {
     };
 
     const onChange = (e) => {
-        console.log(e);
+        // console.log(e);
+        if (e.target.name === 'session_name') {
+            let filteredDoctors = doctors.filter(doctor => doctor.speciality === e.target.value)
+            if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
+        }
+        if (e.target.name === 'doctor_name') {
+            let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
+            if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                setOffDays(filteredSchedule[0].offDay)
+            }
+        }
     };
 
     const clickWeekNumber = (e) => {
         // console.log(e);
     };
     useEffect(() => {
-        console.log(date)
+        let dates = document.getElementsByClassName('react-calendar__month-view__days__day')
+        Object.values(dates).map(date => {
+            if (date.hasAttribute('disabled')) {
+                date.classList.add('bg-[#b9b9b9]')
+                // date.classList.add('text-white')
+                date.classList.remove('hover:bg-themeColor')
+                date.classList.remove('hover:text-white')
+
+            } else {
+                date.classList.remove('bg-[#b9b9b9]')
+                date.classList.remove('text-white')
+                date.classList.add('hover:bg-themeColor')
+                date.classList.add('hover:text-white')
+            }
+        })
+    }, [offDays])
+
+    const setSessionDate = (e) => {
+        setDate(e)
+    }
+    useEffect(() => {
+        if (date !== null) {
+            let selectedDay = parseInt(date.getDate());
+            let allDates = document.querySelectorAll('.react-calendar__tile')
+            Object.values(allDates).map(date => {
+                if (parseInt(date.firstChild.innerText) === selectedDay) {
+                    date.classList.add('bg-themeColor')
+                    date.classList.add('text-white')
+                } else {
+                    date.classList.remove('bg-themeColor')
+                    date.classList.remove('text-white')
+                }
+            })
+        }
     }, [date])
+
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
@@ -56,7 +113,7 @@ export default function SessionDetails() {
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
-                    options={['option', 'option-2', 'option-3']}
+                    options={specialities}
                     id="session_name"
                     name="session_name"
                 />
@@ -68,23 +125,29 @@ export default function SessionDetails() {
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Doctor"
                     classes={'border w-60 p-2'}
-                    options={['option', 'option-2', 'option-3']}
+                    options={filteredDoctors}
                     id="doctor_name"
                     name="doctor_name"
                 />
             </div>
-            <div className="w-60">
+            <div className="w-72">
                 <label htmlFor="session_date">Select Date</label>
                 <Calendar
                     // OnChangeDateCallback={(e) => clickWeekNumber(e)}
                     // ClickWeekNumberCallback={(e) => clickWeekNumber(e)}
-                    tileClassName={'p-1.5 hover:text-white hover:bg-themeColor '}
+                    tileClassName={'p-2.5 hover:text-white hover:bg-themeColor '}
                     // tileContent={({ date, view }) => null}
                     // activeStartDate={new Date(2023, 0, 1)}
-                    // tileDisabled={({ activeStartDate, date, view }) => {
-                    //     // unable to select
-                    //     return date.getDay() === 0;
-                    // }}
+                    tileDisabled={({ activeStartDate, date, view }) => {
+                        // unable to select
+                        let day = days[date.getDay()]
+                        if (offDays.includes(day)) {
+                            // console.log(date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear())
+                            return true;
+                        }
+
+                        return false;
+                    }}
                     // defaultActiveStartDate={new Date()}
                     // navigationLabel={({ date, label, locale, view }) => `Current view: ${view}, date: ${date.toLocaleDateString(locale)}`
                     // }
@@ -109,8 +172,12 @@ export default function SessionDetails() {
                     //     </p>
                     // }
                     className="mx-2 border border-themeColor session_date"
-                    onChange={(e) => setDate(e)}
+                    onChange={(e) => setSessionDate(e)}
                     value={date}
+                    // showFixedNumberOfWeeks={true}
+                    showNeighboringMonth={false}
+                    inputRef={ref}
+                    calendarType={'US'}
                 />
             </div>
             <div className="w-60">
@@ -123,7 +190,7 @@ export default function SessionDetails() {
                     lang={'en'}
                     defaultSelectedTime=""
                     onSelectTime={(s) => addToSelectedArray(s)}
-                    classes=""
+                    classes="hover:cursor-pointer"
                 />
             </div>
         </div>

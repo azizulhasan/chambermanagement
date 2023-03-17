@@ -106,3 +106,22 @@
     color:white;
     background-color: rgb(103, 147, 75);
 }
+
+/* Session slots */
+.sp-timeslot{
+    background-color:  #04bb03  /*#8fe286*/;
+    color:white;
+}
+.sp-timeslot:hover{
+    background-color: rgb(103, 147, 75) ;
+}
+/* .react-calendar__month-view__days__day--weekend{
+    color: red;
+} */
+
+
+
+/* #04bb03 */
+
+/* disable color */
+/* #b9b9b9 */
