@@ -148,7 +148,7 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
     const data = await res.json();
 
-    await addConsultantName(data);
+    // await addConsultantName(data);
 
     // for (let i = 0; i < data.data.length; i++) {
     //     const consultantId = data.data[i].user;
@@ -217,7 +217,7 @@ export const saveSchedule = createAsyncThunk(
         );
         const data = await res.json();
 
-        await addConsultantName(data);
+        // await addConsultantName(data);
 
         return data.data;
     }
@@ -245,7 +245,7 @@ export const updateSchedule = createAsyncThunk(
                 i
             ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
-        await addConsultantName(data);
+        // await addConsultantName(data);
 
         return data.data;
     }

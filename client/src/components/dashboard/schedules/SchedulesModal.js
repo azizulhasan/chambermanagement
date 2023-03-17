@@ -7,6 +7,7 @@ import {
     saveSchedule,
     updateSchedule,
     updateScheduleState,
+    fetchSchedules,
 } from '../../../store/schedulesSlice';
 import { fetchUsers } from '../../../store/usersSlice';
 
@@ -22,6 +23,18 @@ import SlotPicker from './timeslots/SlotPicker';
  */
 
 export default function SchedulesModal() {
+
+
+    const dispatch = useDispatch();
+    const { schedules } = useSelector(
+        (state) => state.schedules
+    );
+    const { singleUser } = useSelector((state) => state.users);
+    useEffect(() => {
+        dispatch(fetchSchedules());
+    }, []);
+
+
     const { singleSchedule, isModalActive, options } = useSelector(
         (state) => state.schedules
     );
@@ -34,9 +47,6 @@ export default function SchedulesModal() {
     const [isUpdateMode, setIsUpdateMode] = useState(false);
     const interval = 60;
 
-    console.log({ singleSchedule });
-
-    const dispatch = useDispatch();
     /**
      * Handle content change value.
      * @param {event} e
@@ -59,7 +69,6 @@ export default function SchedulesModal() {
     }, []);
 
     useEffect(() => {
-        console.log(singleSchedule);
         if (singleSchedule._id) {
             dispatch(showModal(true));
             setSchedule(singleSchedule);
@@ -81,7 +90,6 @@ export default function SchedulesModal() {
         let data = {};
         for (let [key, value] of form.entries()) {
             data[key] = value;
-            console.log(key, value);
             if (key === '' || value === '') {
                 if (key !== 'search_name_input') {
                     alert('Please fill the value of : ' + key);
@@ -97,7 +105,6 @@ export default function SchedulesModal() {
          * Update data if "_id" exists. else save form data.
          */
 
-        console.log({ sID94: data._id });
         if (data._id !== undefined) {
             console.log({ sID96: data._id });
             dispatch(updateSchedule([data._id, singleSchedule]));
@@ -106,7 +113,6 @@ export default function SchedulesModal() {
         }
     };
 
-    console.log({ isModalActive });
 
     const scheduleAdd = () => {
         dispatch(addSchedule());
