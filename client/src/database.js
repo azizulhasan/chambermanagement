@@ -1,11 +1,22 @@
-import { Carousel } from 'react-bootstrap';
-import { MailIcon, PlaceIcon, TelephoneIcon } from './assets/svg-components';
+import { PhoneArrowUpRight } from './assets/atlasIcons/atlasIconsSolid';
+
+import {
+    Facebook,
+    Instagram,
+    LinkedIn,
+    MailIcon,
+    PlaceIcon,
+    Twitter,
+} from './assets/svg-components';
+
 
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
-        phone: '+8801715769060',
-        email: 'mindtoheart.bd@gmail.com',
+        contacts: {
+            phone: { number: '+8801715769060', icon: PhoneArrowUpRight },
+            email: { address: '+8801715769060', icon: MailIcon },
+        },
         companyAddress: {
             area: 'House #00, Road# 00, Dhanmondi,',
             district: 'Dhaka',
@@ -22,6 +33,7 @@ export const database = {
                 image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`,
             },
         },
+        userRoles: ['USER', 'DOCTOR', 'ADMIN'],
     },
     topMenus: [
         { name: 'Home', href: '/', current: true },
@@ -36,10 +48,10 @@ export const database = {
     footer: {
         sectionsOrder: ['Trademark', 'About Us', 'Our Services', 'Contact Us'],
         socialMediaLinks: [
-            { name: 'Instagram', link: '/', icon: 'fa fa-instagram' },
-            { name: 'Facebook', link: '/', icon: 'fa fa-facebook' },
-            { name: 'LinkedIn', link: '/', icon: 'fa fa-linkedin' },
-            { name: 'Twitter', link: '/', icon: 'fa fa-twitter' },
+            { name: 'Instagram', link: '/', icon: Instagram },
+            { name: 'Facebook', link: '/', icon: Facebook },
+            { name: 'LinkedIn', link: '/', icon: LinkedIn },
+            { name: 'Twitter', link: '/', icon: Twitter },
         ],
         menus: {
             aboutUs: [
@@ -75,7 +87,7 @@ export const database = {
                     link: null,
                     icon: MailIcon,
                 },
-                { name: '+8801715769060', link: null, icon: TelephoneIcon },
+                { name: '+8801715769060', link: null, icon: PhoneArrowUpRight },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,

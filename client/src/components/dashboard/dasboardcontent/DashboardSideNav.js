@@ -1,5 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+    Dashboard,
+    Mail,
+    OpenBook,
+    Schedules,
+    Services,
+    Settings,
+    Users,
+} from '../../../assets/svg-components';
 import { getUserName } from '../../../utilities/utilities';
 
 export default function DashboardSideNav() {
@@ -8,28 +17,34 @@ export default function DashboardSideNav() {
             <nav className="sb-sidenav accordion" id="sidenavAccordion">
                 <div className="sb-sidenav-menu">
                     <div className="nav">
-                        <div className="sb-sidenav-menu-heading">Core</div>
+                        <div className="sb-sidenav-menu-heading ">Core</div>
+                        <Link className="nav-link" to="/dashboard">
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Dashboard}
+                            </div>
+                            Dashboard
+                        </Link>
                         <Link className="nav-link" to="/dashboard/mail">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Mail}
                             </div>
                             Mail
                         </Link>
                         <Link className="nav-link" to="/dashboard/services">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Services}
                             </div>
                             Services
                         </Link>
                         <Link className="nav-link" to="/dashboard/users">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Users}
                             </div>
                             Users
                         </Link>
                         <Link className="nav-link" to="/dashboard/schedules">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Schedules}
                             </div>
                             Schedules
                         </Link>
@@ -43,8 +58,8 @@ export default function DashboardSideNav() {
                             aria-expanded="false"
                             aria-controls="collapsePages"
                         >
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-book-open"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {OpenBook}
                             </div>
                             Portfolio
                             <div className="sb-sidenav-collapse-arrow">
@@ -160,8 +175,8 @@ export default function DashboardSideNav() {
             </div> */}
                         {/* Settings menu */}
                         <Link className="nav-link" to="/dashboard/settings">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-wrench"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                {Settings}
                             </div>
                             Settings
                         </Link>

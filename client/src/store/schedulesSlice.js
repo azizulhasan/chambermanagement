@@ -4,6 +4,7 @@ import {
     setLocalStorage,
     setSessionStorage,
 } from '../utilities/utilities';
+import { fetchSingleUser } from './usersSlice';
 
 export const STATUSES = Object.freeze({
     IDLE: 'idle',
@@ -33,20 +34,24 @@ let initialState = {
     isModalActive: false,
     SCHEDULE_HEADERS: [
         {
-            prop: 'name',
-            title: 'Name',
+            prop: 'branch',
+            title: 'Branch',
         },
         {
-            prop: 'email',
-            title: 'Email',
+            prop: 'consultantName',
+            title: 'Consultant',
         },
         {
-            prop: 'phone',
-            title: 'Phone',
+            prop: 'perSessionLength',
+            title: 'Session Length',
         },
         {
-            prop: 'image',
-            title: 'Image',
+            prop: 'offDay',
+            title: 'Off Day',
+        },
+        {
+            prop: 'updatedAt',
+            title: 'Last Updated',
         },
     ],
     SCHEDULE_ROLES: ['SCHEDULE', 'ADMIN', 'DOCTOR'],
@@ -106,9 +111,9 @@ let schedulesSlice = createSlice({
         });
 
         builder.addCase(saveSchedule.fulfilled, (state, action) => {
-            console.log(action);
-            // state.schedules = action.payload
-            // state.isModalActive = false;
+            console.log(action.payload.data);
+            state.schedules = action.payload;
+            state.isModalActive = false;
         });
 
         builder.addCase(updateSchedule.fulfilled, (state, action) => {
@@ -123,6 +128,17 @@ export let { showModal, addSchedule, updateScheduleState } =
 
 export default schedulesSlice.reducer;
 
+async function addConsultantName(data) {
+    for (let i = 0; i < data.data.length; i++) {
+        const consultantId = data.data[i].user;
+        const consultant = await fetch(
+            process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
+        );
+        const consultantData = await consultant.json();
+        data.data[i].consultantName = consultantData.name;
+    }
+}
+
 // Thunks
 
 /**
@@ -132,7 +148,17 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
     const data = await res.json();
 
-    console.log(data);
+    // await addConsultantName(data);
+
+    // for (let i = 0; i < data.data.length; i++) {
+    //     const consultantId = data.data[i].user;
+    //     const consultant = await fetch(
+    //         process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
+    //     );
+    //     const consultantData = await consultant.json();
+    //     data.data[i].consultantName = consultantData.name;
+    // }
+
     return data.data;
 });
 /**
@@ -141,11 +167,14 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
 export const fetchSingleSchedule = createAsyncThunk(
     'schedules/singleSchedule',
     async (payload) => {
+        console.log({ payload });
         const id = payload;
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${id}`
         );
         const data = await res.json();
+
+        console.log({ data });
 
         return data;
     }
@@ -188,6 +217,8 @@ export const saveSchedule = createAsyncThunk(
         );
         const data = await res.json();
 
+        // await addConsultantName(data);
+
         return data.data;
     }
 );
@@ -197,11 +228,15 @@ export const saveSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
+        console.log(payload[1]);
         const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/schedules',
+            process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
             {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 method: 'PUT',
-                body: payload,
+                body: JSON.stringify(payload[1]),
             }
         );
         const data = await res.json();
@@ -210,6 +245,8 @@ export const updateSchedule = createAsyncThunk(
                 i
             ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
+        // await addConsultantName(data);
+
         return data.data;
     }
 );

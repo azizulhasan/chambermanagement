@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { database } from '../../../../database';
-
-/**
- *
- * Utilities
- */
-import { addCSS, getData } from '../../../../utilities/utilities';
-
 const {
     basic: {
         trademark: {
@@ -19,8 +12,6 @@ const {
 } = database;
 
 export default function Footer() {
-    addCSS(['/assets/front/css/footer.css']);
-
     const sectionsCount = sectionsOrder.length;
 
     const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
@@ -75,9 +66,7 @@ export default function Footer() {
                                                             className={`icon icon--${name.toLowerCase()}`}
                                                             key={i}
                                                         >
-                                                            <i
-                                                                className={icon}
-                                                            ></i>
+                                                            {icon}
                                                         </a>
                                                     )
                                                 )}

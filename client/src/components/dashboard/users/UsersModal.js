@@ -12,6 +12,11 @@ import { Editor } from '@tinymce/tinymce-react';
 
 import { getIframeContent, previewImage } from './UsersHooks';
 import { sliceComponentName } from '../../../utilities/utilities';
+import { database } from '../../../database';
+
+const {
+    basic: { userRoles },
+} = database;
 /**
  * Css
  */
@@ -20,7 +25,6 @@ export default function UsersModal() {
     const { singleUser, isModalActive, USER_ROLES } = useSelector(
         (state) => state.users
     );
-
     const [user, setUser] = useState(() => singleUser);
 
     const dispatch = useDispatch();
@@ -101,6 +105,7 @@ export default function UsersModal() {
          */
         if (data._id !== undefined) {
             formData.append('id', data._id);
+            console.log({ formData });
             dispatch(updateUser(formData));
         } else {
             dispatch(saveUser(formData));
@@ -178,9 +183,11 @@ export default function UsersModal() {
                             <Form.Select
                                 name="userRole"
                                 onChange={handleChange}
-                                defaultValue={user.userRole}
+                                defaultValue={singleUser.userRole}
                             >
-                                <option value="0">Select A Role</option>
+                                {!userRoles.includes(singleUser.userRole) && (
+                                    <option>Select A Role</option>
+                                )}
                                 {USER_ROLES.length &&
                                     USER_ROLES.map((role, index) => {
                                         return (

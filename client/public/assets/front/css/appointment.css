@@ -47,3 +47,62 @@
 .appointment .carousel .slide .legend a {
     color: white;
 }
+
+
+/* Customize data */
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
+    float: right;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
+    margin-left: 15px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
+    float: left;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
+    margin-right: 15px ;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+
+/* date */
+.react-calendar__navigation__label{
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__label:hover{
+    padding-left: 7px;
+    padding-right: 7px;
+    color:white;
+    background-color: rgb(103, 147, 75);
+}

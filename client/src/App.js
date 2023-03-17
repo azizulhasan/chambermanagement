@@ -26,7 +26,7 @@ const Register = lazy(() => import('./pages/Register'));
 const NotFound = lazy(() =>
     import('./components/front/common/notfound/NotFound')
 );
-const Home = lazy(() => import('./components/front/home/Home'));
+const Home = lazy(() => import('./pages/Home'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const MemberDetails = lazy(() => import('./pages/MemberDetails'));
 const ServiceDetails = lazy(() => import('./pages/ServiceDetails'));
@@ -35,12 +35,8 @@ const Appoinment = lazy(() => import('./pages/Appoinment'));
 const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 
 export default function App() {
-    addCSS(['/assets/front/css/tailwind.css']);
-
     const { loggedInUser } = useSelector((state) => state.users);
-    useEffect(() => {
-        console.log('user', loggedInUser);
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <Router>
@@ -69,15 +65,13 @@ export default function App() {
                         path="/terms-of-services"
                         element={<TermsOfServices />}
                     />
-                    <Route path="/" element={<AdminPrivateOutlet />}>
-                        <Route path="dashboard/*" element={<Dashboard />} />
-                    </Route>
-                    <Route path="/" element={<UserPrivateOutlet />}>
-                        <Route
-                            path="user-panel/*"
-                            element={<UserDashboard />}
-                        />
-                    </Route>
+                    {/*//TODO: This route path must applied after session and locale storage issue fixed. */}
+                    {/* <Route path="/" element={<AdminPrivateOutlet />}> */}
+                    <Route path="dashboard/*" element={<Dashboard />} />
+                    {/* </Route> */}
+                    {/* <Route path="/" element={<UserPrivateOutlet />}> */}
+                    <Route path="user-panel/*" element={<UserDashboard />} />
+                    {/* </Route> */}
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>

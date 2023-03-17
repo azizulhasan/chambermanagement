@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../store/usersSlice';
 import { useDispatch } from 'react-redux';
+import { Menu, User } from '../../../assets/svg-components';
 
 export default function DashboardTopNav() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function DashboardTopNav() {
                 id="sidebarToggle"
                 href="#!"
             >
-                <i className="fas fa-bars"></i>
+                {Menu}
             </button>
             {/* <!-- Navbar Search--> */}
             <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
@@ -57,7 +58,7 @@ export default function DashboardTopNav() {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        <i className="fas fa-user fa-fw"></i>
+                        {User}
                     </a>
                     <ul
                         className="dropdown-menu dropdown-menu-end"

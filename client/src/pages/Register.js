@@ -71,7 +71,10 @@ export default function Register() {
     //#endregion
 
     //#region Custom Functions
-    addCSS(['/assets/front/css/register.css']);
+    addCSS([
+        '/assets/front/css/register.css',
+        '/assets/front/css/tailwind.css',
+    ]);
     //#endregion
 
     return (

@@ -1,22 +1,16 @@
 const Schedules = require('../models/schedules');
 
 const getAllScedules = async () => {
-    Schedules.find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err;
-        });
+    return await Schedules.find().sort({ createdAt: -1 });
 };
 /**
  * Display all.
  * @param {Object} req for getting all.
  * @param {Object} res
  */
-const schedules_index = (req, res) => {
-    let schedules = getAllScedules() ?? [];
+const schedules_index = async (req, res) => {
+    let schedules = await getAllScedules();
+
     res.json({ data: schedules });
 };
 
@@ -27,6 +21,7 @@ const schedules_index = (req, res) => {
  */
 const schedules_details = (req, res) => {
     const id = req.params.id;
+    console.log({ id });
     Schedules.findById(id)
         .then((result) => {
             res.json(result);
@@ -42,14 +37,13 @@ const schedules_details = (req, res) => {
  * @param {Object} res
  */
 const schedules_create_post = (req, res) => {
-    const schedules = new Schedules({
+    const schedule = new Schedules({
         ...req.body,
     });
-    schedules
+    schedule
         .save()
-        .then((result) => {
-            let schedules = getAllScedules();
-            console.log(schedules);
+        .then(async (result) => {
+            let schedules = await getAllScedules();
             res.json({ data: schedules });
         })
         .catch((err) => {
@@ -63,6 +57,7 @@ const schedules_create_post = (req, res) => {
  * @param {Object} res
  */
 const schedules_update_post = (req, res) => {
+    console.log({ req });
     const id = req.params.id;
     Schedules.findOneAndUpdate(
         {
@@ -74,9 +69,9 @@ const schedules_update_post = (req, res) => {
         {
             new: true,
         },
-        (err, post) => {
+        async (err, post) => {
             if (!err) {
-                let schedules = getAllScedules() ?? [];
+                let schedules = (await getAllScedules()) ?? [];
                 res.json({ data: schedules });
             } else {
                 console.log(err);
@@ -92,9 +87,9 @@ const schedules_update_post = (req, res) => {
 const schedules_delete_post = (req, res) => {
     const id = req.params.id;
 
-    Schedules.deleteOne({ _id: id }, function (err) {
+    Schedules.deleteOne({ _id: id }, async function (err) {
         if (!err) {
-            let schedules = getAllScedules() ?? [];
+            let schedules = (await getAllScedules()) ?? [];
             res.json({ data: schedules });
         } else {
             res.json({ data: 'Something wen wrong' });
