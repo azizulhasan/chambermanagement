@@ -1103,6 +1103,21 @@ export function dragEnd(
     return dynamicAttribute;
 }
 
+export const jsonParse = (data) => {
+    return JSON.parse(JSON.stringify(data))
+}
+
+export const addToImutableObject = (key, value, obj = {}) => {
+    let data = jsonParse(obj)
+
+    if (key && value) {
+        data[key] = value;
+        return data;
+    }
+
+    return data;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //																						 //
 // START DATABASE RELATED WORK															 //
@@ -1152,7 +1167,7 @@ export const fetchData = async (payload) => {
  * @returns {string}
  */
 export function getUrl(endpoint) {
-    let url = window.location.origin + '/';
+    let url = process.env.REACT_APP_API_URL;
     if (endpoint) {
         url += endpoint;
     }

@@ -166,7 +166,6 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
 export const fetchSingleSchedule = createAsyncThunk(
     'schedules/singleSchedule',
     async (payload) => {
-        console.log({ payload });
         const id = payload;
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${id}`
@@ -227,7 +226,6 @@ export const saveSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
-        console.log(payload[1]);
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
             {

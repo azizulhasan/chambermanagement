@@ -48,6 +48,10 @@
     color: white;
 }
 
+.appointment div div.slider-wrapper.axis-horizontal{
+    padding-bottom: 30px;
+}
+
 
 /* Customize data */
 .react-calendar__navigation__arrow.react-calendar__navigation__next2-button{

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+    fetchData,
     getLocalStorage,
     setLocalStorage,
     setSessionStorage,
@@ -12,8 +13,25 @@ export const STATUSES = Object.freeze({
 });
 
 let initialState = {
-    schedules: [],
-    options: [
+    userSchedules: [],
+    registerUserSchedule: {
+        1: {
+            session_name: '',
+            doctor_name: '',
+            session_date: '',
+            session_time: '',
+        },
+        2: {
+            name: '',
+            email: '',
+            phone: '',
+        },
+        3: {
+            paymentWay: ''
+        }
+    },
+    currentSlide: {},
+    days: [
         'Saturday',
         'Sunday',
         'Monday',
@@ -22,7 +40,7 @@ let initialState = {
         'Thursday',
         'Friday',
     ],
-    singleSchedule: {
+    singleUserSchedules: {
         branch: '',
         perSessionLength: 60,
         offDay: [],
@@ -30,34 +48,10 @@ let initialState = {
         user: '',
     },
     status: STATUSES.IDLE,
-    isModalActive: false,
-    SCHEDULE_HEADERS: [
-        {
-            prop: 'branch',
-            title: 'Branch',
-        },
-        {
-            prop: 'consultantName',
-            title: 'Consultant',
-        },
-        {
-            prop: 'perSessionLength',
-            title: 'Session Length',
-        },
-        {
-            prop: 'offDay',
-            title: 'Off Day',
-        },
-        {
-            prop: 'updatedAt',
-            title: 'Last Updated',
-        },
-    ],
-    SCHEDULE_ROLES: ['SCHEDULE', 'ADMIN', 'DOCTOR'],
 };
 
-let userSchedule = createSlice({
-    name: 'userSchedule',
+let userSchedules = createSlice({
+    name: 'userSchedules',
     initialState,
     reducers: {
         showModal(state, action) {
@@ -119,13 +113,17 @@ let userSchedule = createSlice({
             state.schedules = action.payload;
             state.isModalActive = false;
         });
+        builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
+            state.currentSlide = action.payload;
+        });
+
     },
 });
 
 export let { showModal, addSchedule, updateScheduleState } =
-    userSchedule.actions;
+    userSchedules.actions;
 
-export default userSchedule.reducer;
+export default userSchedules.reducer;
 
 async function addConsultantName(data) {
     for (let i = 0; i < data.data.length; i++) {
@@ -204,30 +202,14 @@ export const deleteSchedule = createAsyncThunk(
 export const saveSchedule = createAsyncThunk(
     'saveSchedule',
     async (payload) => {
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/schedules',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-                body: JSON.stringify(payload),
-            }
-        );
-        const data = await res.json();
-
-        // await addConsultantName(data);
-
-        return data.data;
+        return fetchData(payload)
     }
 );
-/**
- * Update schedules details
- */
+
+//Update schedules details
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
-        console.log(payload[1]);
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
             {
@@ -249,3 +231,8 @@ export const updateSchedule = createAsyncThunk(
         return data.data;
     }
 );
+
+// update current slide
+export const updateCurrentSlide = createAsyncThunk('updateCurrentSlide', (payload) => {
+    return payload
+})
