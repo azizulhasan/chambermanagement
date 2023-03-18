@@ -56,8 +56,8 @@ let initialState = {
     SCHEDULE_ROLES: ['SCHEDULE', 'ADMIN', 'DOCTOR'],
 };
 
-let schedulesSlice = createSlice({
-    name: 'schedules',
+let userSchedule = createSlice({
+    name: 'userSchedule',
     initialState,
     reducers: {
         showModal(state, action) {
@@ -123,9 +123,9 @@ let schedulesSlice = createSlice({
 });
 
 export let { showModal, addSchedule, updateScheduleState } =
-    schedulesSlice.actions;
+    userSchedule.actions;
 
-export default schedulesSlice.reducer;
+export default userSchedule.reducer;
 
 async function addConsultantName(data) {
     for (let i = 0; i < data.data.length; i++) {
