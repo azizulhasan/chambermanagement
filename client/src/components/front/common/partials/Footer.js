@@ -93,7 +93,12 @@ export default function Footer() {
                                                             : word;
                                                     })
                                                     .join('')
-                                            ].map(({ name, link, icon }) => {
+                                            ].map(({ name, link, Icon }) => {
+                                                console.log({
+                                                    name,
+                                                    link,
+                                                    Icon,
+                                                });
                                                 return (
                                                     <li key={name}>
                                                         {link ? (
@@ -104,17 +109,18 @@ export default function Footer() {
                                                                 {name}
                                                             </Link>
                                                         ) : null}
-                                                        {icon ? (
+                                                        {Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                {icon()}
+                                                                <Icon fill="#fff" />
                                                                 <span className="text-white">
                                                                     {name}
                                                                 </span>
                                                             </div>
                                                         ) : null}
-                                                        {link && icon ? (
+                                                        {link &&
+                                                        Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                {icon()}
+                                                                <Icon fill="#fff" />
                                                                 <Link
                                                                     className="inline-block text-white  transition hover:text-white/75"
                                                                     to={link}

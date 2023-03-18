@@ -14,9 +14,11 @@ import SchedulesModal from './SchedulesModal';
 import { addCSS } from '../../../utilities/utilities';
 import { convertUTCDateToLocalDate } from '../../../utilities/timeUtilities';
 import { fetchSingleUser } from '../../../store/usersSlice';
-import { database } from '../../../database';
+import { AdminDashboardIcons, database } from '../../../database';
 import { Link } from 'react-router-dom';
-import { Edit, Trash } from '../../../assets/svg-components';
+// import { Edit, Trash } from '../../../assets/svg-components';
+
+const { Edit, Trash } = AdminDashboardIcons;
 
 export default function Schedules() {
     const dispatch = useDispatch();
@@ -121,12 +123,15 @@ export default function Schedules() {
                                             <i className="fas fa-edit"></i>
                                         </Button> */}
                                         <Button
+                                            style={{
+                                                width: '30px',
+                                                height: '30px',
+                                                display: 'inline-flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                            }}
                                             className="mr-2"
                                             bsPrefix="azh_btn azh_btn_edit"
-                                            style={{
-                                                width: '40px',
-                                                height: '40px',
-                                            }}
                                             onClick={(e) =>
                                                 dispatch(
                                                     fetchSingleSchedule(
@@ -135,21 +140,24 @@ export default function Schedules() {
                                                 )
                                             }
                                         >
-                                            {Edit}
+                                            <Edit />
                                         </Button>
                                         <Button
-                                            bsPrefix="azh_btn azh_btn_trash"
                                             style={{
-                                                width: '40px',
-                                                height: '40px',
+                                                width: '30px',
+                                                height: '30px',
+                                                display: 'inline-flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
                                             }}
+                                            bsPrefix="azh_btn azh_btn_trash"
                                             onClick={(e) =>
                                                 deleteData(
                                                     schedules[index]['_id']
                                                 )
                                             }
                                         >
-                                            {Trash}
+                                            <Trash />
                                         </Button>
                                     </td>
                                 </tr>

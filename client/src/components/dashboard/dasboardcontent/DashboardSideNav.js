@@ -9,7 +9,19 @@ import {
     Settings,
     Users,
 } from '../../../assets/svg-components';
+import { AdminDashboardIcons } from '../../../database';
 import { getUserName } from '../../../utilities/utilities';
+
+const {
+    Dashboard: DashboardIcon,
+    Mail: MailIcon,
+    Services: ServicesIcon,
+    Users: UsersIcon,
+    Schedules: SchedulesIcon,
+    BookOpen,
+    Settings: SettingsIcon,
+    ArrowDown,
+} = AdminDashboardIcons;
 
 export default function DashboardSideNav() {
     return (
@@ -20,31 +32,31 @@ export default function DashboardSideNav() {
                         <div className="sb-sidenav-menu-heading ">Core</div>
                         <Link className="nav-link" to="/dashboard">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Dashboard}
+                                <DashboardIcon />
                             </div>
                             Dashboard
                         </Link>
                         <Link className="nav-link" to="/dashboard/mail">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Mail}
+                                <MailIcon />
                             </div>
                             Mail
                         </Link>
                         <Link className="nav-link" to="/dashboard/services">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Services}
+                                <ServicesIcon />
                             </div>
                             Services
                         </Link>
                         <Link className="nav-link" to="/dashboard/users">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Users}
+                                <UsersIcon />
                             </div>
                             Users
                         </Link>
                         <Link className="nav-link" to="/dashboard/schedules">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Schedules}
+                                <SchedulesIcon />
                             </div>
                             Schedules
                         </Link>
@@ -59,11 +71,20 @@ export default function DashboardSideNav() {
                             aria-controls="collapsePages"
                         >
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {OpenBook}
+                                <BookOpen />
                             </div>
                             Portfolio
-                            <div className="sb-sidenav-collapse-arrow">
-                                <i className="fas fa-angle-down"></i>
+                            <div
+                                style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    display: 'inline-flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                                className="sb-sidenav-collapse-arrow"
+                            >
+                                <ArrowDown stroke="#fff" />
                             </div>
                         </a>
                         <div
@@ -100,8 +121,17 @@ export default function DashboardSideNav() {
                                     aria-controls="pagesCollapseAuth"
                                 >
                                     Resume
-                                    <div className="sb-sidenav-collapse-arrow">
-                                        <i className="fas fa-angle-down"></i>
+                                    <div
+                                        style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            display: 'inline-flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                        className="sb-sidenav-collapse-arrow"
+                                    >
+                                        <ArrowDown stroke="#fff" />
                                     </div>
                                 </a>
                                 <div
@@ -176,7 +206,7 @@ export default function DashboardSideNav() {
                         {/* Settings menu */}
                         <Link className="nav-link" to="/dashboard/settings">
                             <div style={{ width: '20px', marginRight: '8px' }}>
-                                {Settings}
+                                <SettingsIcon />
                             </div>
                             Settings
                         </Link>

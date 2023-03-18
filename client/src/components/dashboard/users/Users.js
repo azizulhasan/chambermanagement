@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
  */
 import UsersModal from './UsersModal';
 import { addCSS } from '../../../utilities/utilities';
+import { AdminDashboardIcons } from '../../../database';
+
+const { Edit, Trash } = AdminDashboardIcons;
 
 export default function Users() {
     const dispatch = useDispatch();
@@ -82,6 +85,13 @@ export default function Users() {
                                 })}
                                 <td>
                                     <Button
+                                        style={{
+                                            width: '30px',
+                                            height: '30px',
+                                            display: 'inline-flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
                                         className="mr-2"
                                         bsPrefix="azh_btn azh_btn_edit"
                                         onClick={(e) =>
@@ -92,15 +102,22 @@ export default function Users() {
                                             )
                                         }
                                     >
-                                        <i className="fas fa-edit"></i>
+                                        <Edit />
                                     </Button>
                                     <Button
+                                        style={{
+                                            width: '30px',
+                                            height: '30px',
+                                            display: 'inline-flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
                                         bsPrefix="azh_btn azh_btn_edit"
                                         onClick={(e) =>
                                             deleteData(users[index]['_id'])
                                         }
                                     >
-                                        <i className="fas fa-trash-alt"></i>
+                                        <Trash />
                                     </Button>
                                 </td>
                             </tr>

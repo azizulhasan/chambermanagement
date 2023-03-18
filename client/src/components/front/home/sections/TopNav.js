@@ -3,8 +3,8 @@ import { database } from '../../../../database';
 const {
     basic: {
         contacts: {
-            phone: { number, icon: phoneIcon },
-            email: { address, icon: emailIcon },
+            phone: { number, Icon: PhoneIcon },
+            email: { address, Icon: EmailIcon },
         },
     },
 } = database;
@@ -14,8 +14,8 @@ export default function TopNav() {
         <nav className="bg-themeColor">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-center text-white py-1 gap-3">
-                    <div className="flex gap-1">
-                        {phoneIcon()}
+                    <div className="flex gap-1 items-center">
+                        <PhoneIcon />
                         <a
                             href={`callto:${number}`}
                             className="hover:text-white"
@@ -23,8 +23,8 @@ export default function TopNav() {
                             {number}
                         </a>
                     </div>
-                    <div className="flex gap-1">
-                        {emailIcon()}
+                    <div className="flex gap-1 items-center">
+                        <EmailIcon />
                         <a
                             href={`mailto:${address}`}
                             className="hover:text-white"

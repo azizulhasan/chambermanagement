@@ -1,21 +1,35 @@
-import { PhoneArrowUpRight } from './assets/atlasIcons/atlasIconsSolid';
+import {
+    PhoneArrowUpRight,
+    MapPin,
+    Settings,
+    Menu,
+} from './assets/atlasIcons/AtlasIconsSolid';
+import {
+    Mail,
+    Dashboard,
+    Services,
+    Users,
+    Schedules,
+    BookOpen,
+    User,
+    ArrowDown,
+    Edit,
+    Trash,
+} from './assets/atlasIcons/AtlasIconsOutlined';
 
 import {
     Facebook,
     Instagram,
     LinkedIn,
-    MailIcon,
-    PlaceIcon,
     Twitter,
 } from './assets/svg-components';
-
 
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
         contacts: {
-            phone: { number: '+8801715769060', icon: PhoneArrowUpRight },
-            email: { address: '+8801715769060', icon: MailIcon },
+            phone: { number: '+8801715769060', Icon: PhoneArrowUpRight },
+            email: { address: '+8801715769060', Icon: Mail },
         },
         companyAddress: {
             area: 'House #00, Road# 00, Dhanmondi,',
@@ -85,13 +99,13 @@ export const database = {
                 {
                     name: 'mindtoheart.bd@gmail.com',
                     link: null,
-                    icon: MailIcon,
+                    icon: Mail,
                 },
-                { name: '+8801715769060', link: null, icon: PhoneArrowUpRight },
+                { name: '+8801715769060', link: null, Icon: PhoneArrowUpRight },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,
-                    icon: PlaceIcon,
+                    icon: MapPin,
                 },
             ],
         },
@@ -340,6 +354,34 @@ export const database = {
         },
     },
 };
+
+export const AdminDashboardIcons = {
+    Dashboard,
+    Mail,
+    Services,
+    Users,
+    Schedules,
+    BookOpen,
+    Settings,
+    Menu,
+    User,
+    ArrowDown,
+    Edit,
+    Trash,
+};
+
+export const UserPanelMenus = [
+    {
+        name: 'Schedule',
+        link: 'schedule',
+        Icon: Schedules,
+    },
+    {
+        name: 'Settings',
+        link: 'settings',
+        Icon: Settings,
+    },
+];
 
 function getDummyServiceDetails() {
     return [
