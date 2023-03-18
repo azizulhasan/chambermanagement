@@ -403,6 +403,38 @@ export const getSessionStorage = (keys = []) => {
 
     return sessionData;
 };
+
+export const saveSessionData = (sessionKey = 'test', data = null) => {
+    let prevData = window.sessionStorage.getItem(sessionKey)
+    let newData = null
+    let typeofData = Array.isArray(data) ? 'array' : typeof data === 'object' ? 'object' : 'all';
+    switch (typeofData) {
+        case 'object':
+            if (prevData && prevData !== undefined) {
+                prevData = JSON.parse(prevData)
+                newData = {
+                    ...data,
+                    ...prevData
+                }
+            } else {
+                newData = data
+            }
+            newData = JSON.stringify(newData)
+            break;
+        case 'array':
+            if (prevData && prevData !== undefined) {
+                prevData = JSON.parse(prevData)
+                newData = prevData.concat(data)
+            } else {
+                newData = data
+            }
+            newData = JSON.stringify(newData)
+            break;
+        default:
+            newData = data
+    }
+    window.sessionStorage.setItem(sessionKey, newData);
+}
 /**
  * Set localStorage
  * @param {object} data data object with key and value

@@ -8,7 +8,7 @@ import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import { updateCurrentSlide } from '../../store/userScheduleSlice';
 import Select from '../../components/front/common/form/Select';
-import { addToImutableObject, getSessionStorage } from '../../utilities/utilities';
+import { addToImutableObject, getSessionStorage, saveSessionData, setSessionStorage } from '../../utilities/utilities';
 
 export default function SessionDetails() {
     const [date, setDate] = useState(null);
@@ -119,11 +119,12 @@ export default function SessionDetails() {
         let to = slot.add(filteredSchedule.perSessionLength, 'm').format('hh:mm') + amOrPm(slot);
         let data = addToImutableObject('session_time', from + "-" + to, currentSlide)
         dispatch(updateCurrentSlide(data))
+        saveSessionData('registerUserSchedule', { session_time: from + "-" + to })
+
     };
 
     const onChange = (e, currentSlide) => {
         let data = addToImutableObject(e.target.name, e.target.value, currentSlide)
-        let sessionData = getSessionStorage(['registerUserSchedule'])
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(doctor => doctor.speciality === e.target.value)
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
@@ -136,15 +137,14 @@ export default function SessionDetails() {
             }
         }
         dispatch(updateCurrentSlide(data))
-        console.log(sessionData)
-        // setSessionDate({ registerUserSchedule : {}})
-
+        saveSessionData('registerUserSchedule', { [e.target.name]: e.target.value })
     };
 
     const setSessionDate = (date) => {
         setDate(date)
         let data = addToImutableObject('session_date', date, currentSlide)
         dispatch(updateCurrentSlide(data))
+        saveSessionData('registerUserSchedule', { session_date: date })
     }
 
     return (
