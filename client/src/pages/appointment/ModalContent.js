@@ -5,6 +5,7 @@ import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentSlide } from '../../store/userScheduleSlice';
+import { getSessionStorage } from '../../utilities/utilities';
 export default function ModalContent() {
     const slides = [
         {
@@ -17,23 +18,24 @@ export default function ModalContent() {
             component: <PaymentDetails />,
         },
     ];
-    const dispatch = useDispatch();
-    const { registerUserSchedule, currentSlide } = useSelector(state => state.userSchedules)
-    const isCurrentSlideIsValid = (e, callback) => {
+    const { registerUserSchedule } = useSelector(state => state.userSchedules)
+    function isCurrentSlideIsValid(e, callback) {
         let status = document.getElementsByClassName('carousel-status')[0].innerHTML
         let currentPage = parseInt(status.split('of')[0])
         let slideObject = registerUserSchedule[currentPage]
+        let sessionData = getSessionStorage(['registerUserSchedule'])
+        sessionData = sessionData['registerUserSchedule']
+        sessionData = sessionData[currentPage]
         let alertData = []
         Object.keys(slideObject).map(key => {
-            console.log(currentSlide[key])
-            if (!currentSlide.hasOwnProperty(key) || currentSlide[key] === undefined || currentSlide[key] === '' || currentSlide[key] == '0') {
+            console.log(sessionData)
+            if (!sessionData.hasOwnProperty(key) || sessionData[key] === undefined || sessionData[key] === '' || sessionData[key] == '0') {
                 alertData.push(key)
             }
         })
         if (alertData.length) {
             alert('Please fill the value of ' + alertData.join(', '))
         } else {
-            dispatch(updateCurrentSlide({}))
             callback();
         }
     }

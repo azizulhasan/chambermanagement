@@ -381,28 +381,80 @@ export const setSessionStorage = (data) => {
         });
     }
 };
+
+
+export const isValidJSON = (str) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 /**
  *
  * @param {array} keys session storage keys is array.
  */
 export const getSessionStorage = (keys = []) => {
     let sessionData = {};
-    if (typeof keys === 'array' && keys.length) {
+    if (Array.isArray(keys) && keys.length) {
         for (let i = 0; i < keys.length; i++) {
-            sessionData[keys[i]] = window.sessionStorage.getItem(keys[i]);
+            let data = window.sessionStorage.getItem(keys[i]);
+            if (data !== null && isValidJSON(data)) {
+                sessionData[keys[i]] = JSON.parse(data)
+            } else if (data !== null) {
+                sessionData[keys[i]] = data;
+                console.log({ else: data })
+            }
         }
     } else {
         let session = window.sessionStorage;
         for (let key in session) {
             let keyData = window.sessionStorage.getItem(key);
-            if (keyData) {
+            if (keyData !== null && isValidJSON(keyData)) {
+                sessionData[key] = JSON.parse(keyData)
+            } else if (keyData !== null) {
                 sessionData[key] = keyData;
             }
         }
     }
-
     return sessionData;
+
 };
+
+
+/**
+ *
+ * @param {array} keys session storage keys is array.
+ */
+// export const getSessionStorage = (keys = []) => {
+//     let sessionData = {};
+//     if (typeof keys === 'array' && keys.length) {
+//         for (let i = 0; i < keys.length; i++) {
+//             let data = window.sessionStorage.getItem(keys[i]);
+//             if (isValidJSON(data)) {
+//                 sessionData[keys[i]] = JSON.parse(data)
+//             } else {
+//                 sessionData[keys[i]] = data;
+//             }
+//         }
+//     } else {
+//         let session = window.sessionStorage;
+//         for (let key in session) {
+//             let keyData = window.sessionStorage.getItem(key);
+//             console.log(keyData)
+//             if (isValidJSON(keyData)) {
+//                 sessionData[key] = JSON.parse(keyData)
+//             } else if (keyData) {
+//                 sessionData[key] = keyData;
+//             }
+//         }
+//     }
+//     return sessionData;
+
+// };
+
+
 
 export const saveSessionData = (sessionKey = 'test', data = null) => {
     let prevData = window.sessionStorage.getItem(sessionKey)
@@ -410,16 +462,7 @@ export const saveSessionData = (sessionKey = 'test', data = null) => {
     let typeofData = Array.isArray(data) ? 'array' : typeof data === 'object' ? 'object' : 'all';
     switch (typeofData) {
         case 'object':
-            if (prevData && prevData !== undefined) {
-                prevData = JSON.parse(prevData)
-                newData = {
-                    ...data,
-                    ...prevData
-                }
-            } else {
-                newData = data
-            }
-            newData = JSON.stringify(newData)
+            newData = JSON.stringify(data)
             break;
         case 'array':
             if (prevData && prevData !== undefined) {

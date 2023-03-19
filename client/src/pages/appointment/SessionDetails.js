@@ -15,6 +15,8 @@ export default function SessionDetails() {
     const [doctors, setDoctors] = useState([])
     const [specialities, setSpecialities] = useState([])
     const [filteredDoctors, setFilteredDoctors] = useState([])
+    const [sessionData, setSessionData] = useState({})
+
     const [filteredSchedule, setFilteredSchedule] = useState({
         timeSlots: [],
         perSessionLength: 60,
@@ -28,12 +30,23 @@ export default function SessionDetails() {
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
-    const { days, currentSlide } = useSelector((state) => state.userSchedules);
+    const { days, currentSlide, registerUserSchedule } = useSelector((state) => state.userSchedules);
 
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
+        let sessionData = getSessionStorage(['registerUserSchedule'])
+
+        if (!Object.keys(sessionData).length) {
+            saveSessionData('registerUserSchedule', registerUserSchedule)
+            setSessionData(registerUserSchedule[1])
+        } else {
+            setSessionData(sessionData['registerUserSchedule'][1])
+        }
     }, []);
+    useEffect(() => {
+        console.log(sessionData)
+    }, [sessionData])
 
     useEffect(() => {
         let data = users.filter((user, i) => user.userRole === 'DOCTOR');
@@ -67,6 +80,9 @@ export default function SessionDetails() {
         })
     }, [offDays])
 
+    useEffect(() => {
+        if (sessionData.session_date) setDate(new Date(sessionData.session_date))
+    }, [sessionData])
 
     useEffect(() => {
         if (date !== null) {
@@ -119,7 +135,7 @@ export default function SessionDetails() {
         let to = slot.add(filteredSchedule.perSessionLength, 'm').format('hh:mm') + amOrPm(slot);
         let data = addToImutableObject('session_time', from + "-" + to, currentSlide)
         dispatch(updateCurrentSlide(data))
-        saveSessionData('registerUserSchedule', { session_time: from + "-" + to })
+        prepareScheduleSessionData('session_time', from + "-" + to)
 
     };
 
@@ -137,15 +153,30 @@ export default function SessionDetails() {
             }
         }
         dispatch(updateCurrentSlide(data))
-        saveSessionData('registerUserSchedule', { [e.target.name]: e.target.value })
+        prepareScheduleSessionData(e.target.name, e.target.value)
     };
 
     const setSessionDate = (date) => {
         setDate(date)
         let data = addToImutableObject('session_date', date, currentSlide)
         dispatch(updateCurrentSlide(data))
-        saveSessionData('registerUserSchedule', { session_date: date })
+        prepareScheduleSessionData('session_date', date)
+
     }
+
+    function prepareScheduleSessionData(key, value, pageNumber = 1, sessionKey = 'registerUserSchedule') {
+        let sessionData = getSessionStorage([sessionKey])
+        if (pageNumber && key && value) {
+            Object.keys(sessionData[sessionKey][pageNumber]).map(currentKey => {
+                if (currentKey == key) {
+                    sessionData[sessionKey][pageNumber][key] = value
+                }
+            })
+        }
+        setSessionData(sessionData[sessionKey][1])
+        saveSessionData(sessionKey, sessionData[sessionKey])
+    }
+
 
     return (
         <div className="flex border py-4 mb-8 ">
@@ -157,6 +188,7 @@ export default function SessionDetails() {
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
                     options={specialities}
+                    selected={sessionData.session_name}
                     id="session_name"
                     name="session_name"
                     required={true}
@@ -173,6 +205,7 @@ export default function SessionDetails() {
                     id="doctor_name"
                     name="doctor_name"
                     required={true}
+                    selected={sessionData.doctor_name}
                 />
             </div>
             <div className="w-72">
