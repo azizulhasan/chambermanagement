@@ -1,14 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-    Dashboard,
-    Mail,
-    OpenBook,
-    Schedules,
-    Services,
-    Settings,
-    Users,
-} from '../../../assets/svg-components';
 import { AdminDashboardIcons } from '../../../database';
 import { getUserName } from '../../../utilities/utilities';
 

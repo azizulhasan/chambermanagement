@@ -14,9 +14,8 @@ const {
 export default function Footer() {
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
-        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-    } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+        } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -58,7 +57,7 @@ export default function Footer() {
                                             <div className="icons">
                                                 {socialMediaLinks.map(
                                                     (
-                                                        { name, link, icon },
+                                                        { name, link, Icon },
                                                         i
                                                     ) => (
                                                         <a
@@ -66,7 +65,7 @@ export default function Footer() {
                                                             className={`icon icon--${name.toLowerCase()}`}
                                                             key={i}
                                                         >
-                                                            {icon}
+                                                            <Icon />
                                                         </a>
                                                     )
                                                 )}
@@ -94,11 +93,6 @@ export default function Footer() {
                                                     })
                                                     .join('')
                                             ].map(({ name, link, Icon }) => {
-                                                console.log({
-                                                    name,
-                                                    link,
-                                                    Icon,
-                                                });
                                                 return (
                                                     <li key={name}>
                                                         {link ? (
@@ -109,7 +103,7 @@ export default function Footer() {
                                                                 {name}
                                                             </Link>
                                                         ) : null}
-                                                        {Icon != null ? (
+                                                        {!link && Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <span className="text-white">
@@ -118,7 +112,7 @@ export default function Footer() {
                                                             </div>
                                                         ) : null}
                                                         {link &&
-                                                        Icon != null ? (
+                                                            Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <Link

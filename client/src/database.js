@@ -15,14 +15,12 @@ import {
     ArrowDown,
     Edit,
     Trash,
-} from './assets/atlasIcons/AtlasIconsOutlined';
-
-import {
     Facebook,
     Instagram,
     LinkedIn,
     Twitter,
-} from './assets/svg-components';
+} from './assets/atlasIcons/AtlasIconsSolid';
+
 
 export const database = {
     basic: {
@@ -62,10 +60,10 @@ export const database = {
     footer: {
         sectionsOrder: ['Trademark', 'About Us', 'Our Services', 'Contact Us'],
         socialMediaLinks: [
-            { name: 'Instagram', link: '/', icon: Instagram },
-            { name: 'Facebook', link: '/', icon: Facebook },
-            { name: 'LinkedIn', link: '/', icon: LinkedIn },
-            { name: 'Twitter', link: '/', icon: Twitter },
+            { name: 'Instagram', link: '/', Icon: Instagram },
+            { name: 'Facebook', link: '/', Icon: Facebook },
+            { name: 'LinkedIn', link: '/', Icon: LinkedIn },
+            { name: 'Twitter', link: '/', Icon: Twitter },
         ],
         menus: {
             aboutUs: [

@@ -12,6 +12,12 @@ import User from './solid/User';
 import ArrowDown from './solid/ArrowDown';
 import Edit from './solid/Edit';
 import Trash from './solid/Trash';
+import Facebook from './solid/Facebook';
+import Instagram from './solid/Instagram';
+import LinkedIn from './solid/LinkedIn';
+import Twitter from './solid/Twitter';
+
+
 
 /**
  * All solid icons  are copied as jsx format
@@ -32,4 +38,8 @@ export {
     ArrowDown,
     Edit,
     Trash,
+    Twitter,
+    Facebook,
+    LinkedIn,
+    Instagram
 };
