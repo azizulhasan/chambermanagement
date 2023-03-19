@@ -1,5 +1,5 @@
-import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { lazy, Suspense, useLayoutEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Loader from './components/front/common/Loader';
 import RefundPolicy from './components/front/common/policy/RefundPolicy';
 import PrivacyPolicy from './components/front/common/policy/PrivacyPolicy';
@@ -9,17 +9,6 @@ import TermsOfServices from './components/front/common/policy/TermsOfServices';
  * pages
  */
 import Dashboard from './pages/Dashboard';
-import Front from './pages/Front';
-import {
-    addCSS,
-    addScripts,
-    authenTicateUser,
-    getRgisteredUser,
-} from './utilities/utilities';
-
-import { useSelector } from 'react-redux';
-import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
-import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -35,11 +24,17 @@ const Appoinment = lazy(() => import('./pages/Appoinment'));
 const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 
 export default function App() {
-    const { loggedInUser } = useSelector((state) => state.users);
-    useEffect(() => {}, []);
+    const location = useLocation();
+    useLayoutEffect(() => {
+        document.documentElement.scrollTo({
+            top: 0,
+            bottom: 0,
+            behavior: 'instant',
+        });
+    }, [location.pathname]);
 
     return (
-        <Router>
+        <>
             <Suspense fallback={<Loader />}>
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -75,6 +70,6 @@ export default function App() {
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>
-        </Router>
+        </>
     );
 }
