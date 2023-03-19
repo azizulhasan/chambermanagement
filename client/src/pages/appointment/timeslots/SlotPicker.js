@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TimeSlot from './TimeSlot';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -23,10 +23,10 @@ export default function SlotPicker({
     to, // 20:00
     lang,
     selectedSlotColor,
-    defaultSelectedTime,
     onSelectTime,
     classes = 'p-5',
-    timeSlots = []
+    timeSlots = [],
+    defaultSelectedTime = [],
 }) {
     const { themeColor } = useSelector((state) => state.common);
 
@@ -55,10 +55,10 @@ export default function SlotPicker({
             'SlotPicker Error: hours value is between 00-23, and minutes is between 00-59'
         );
     }
-
-    let [selectedTime, setSelectedTime] = useState([
-        defaultSelectedTime || undefined,
-    ]);
+    let [selectedTime, setSelectedTime] = useState(defaultSelectedTime);
+    useEffect(() => {
+        setSelectedTime(defaultSelectedTime)
+    }, [defaultSelectedTime])
 
     const handleSelection = (data) => {
         let slots = [];
@@ -70,8 +70,8 @@ export default function SlotPicker({
             slots = [data.format('HH:mm')].concat(selectedTime);
         }
         slots = slots.filter((item) => item != undefined);
-        setSelectedTime(slots[0]);
-        onSelectTime(data);
+        setSelectedTime([slots[0]]);
+        onSelectTime(data.format('HH:mm'));
     };
 
     return (
@@ -92,6 +92,7 @@ export default function SlotPicker({
                                 isSelected={selectedTime.includes(
                                     slot.format('HH:mm')
                                 )}
+                                timeSlots={selectedTime}
                                 onSelect={handleSelection}
                             />
                         ))}

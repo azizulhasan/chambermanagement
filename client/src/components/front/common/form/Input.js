@@ -13,6 +13,7 @@ export default function Input({
     onBlur = null,
     onChange = null,
     toolTip = '',
+    validate = null
 }) {
     return toolTip ? (
         <>
@@ -40,6 +41,7 @@ export default function Input({
                     )}
                     onChange={onChange && onChange}
                     onBlur={onBlur && onBlur}
+                    {...{ validate }}
                 />
                 <ToolTip title={toolTip} />
             </div>

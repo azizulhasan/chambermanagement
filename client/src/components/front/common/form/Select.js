@@ -19,7 +19,7 @@ export default function Select({
             name={name}
             onChange={onChange && onChange}
             autoComplete="on"
-            defaultValue={defaultValue}
+            value={value}
             required={required}
             className={classNames(
                 'ctx-block ctx-rounded-md  !ctx-border-gray-300 ctx-shadow-sm focus:!ctx-border-gray-900  sm:ctx-text-sm ',
@@ -66,7 +66,7 @@ function getObjectOptions(options, selected) {
 
     return Object.keys(options).map((key, index) => {
         return (
-            <option key={index} selected={options[key]._id === selected} value={options[key]._id}>
+            <option key={index} value={options[key]._id}>
                 {' '}
                 {options[key].name}{' '}
             </option>
@@ -78,7 +78,7 @@ function getArrayOptions(options, selected) {
 
     return options.map((option, index) => {
         return (
-            <option key={index} selected={option === selected} value={option}>
+            <option key={index} value={option}>
                 {' '}
                 {option}{' '}
             </option>

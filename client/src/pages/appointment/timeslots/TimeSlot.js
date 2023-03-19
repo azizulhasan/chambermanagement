@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import langText from './lang';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -15,6 +15,7 @@ export default function TimeSlot({
     selectedSlotColor,
     isSelected,
     onSelect,
+    timeSlots,
 }) {
     const isOnTheHour = slot.get('m') === 0; // e.g: 01:00 is, while 01:05 is not ¯\_(ツ)_/¯
     const langData = langText[lang];
@@ -22,6 +23,9 @@ export default function TimeSlot({
         e.preventDefault();
         onSelect(slot);
     };
+    useEffect(() => {
+        console.log(timeSlots, slot.format('HH:mm'))
+    }, [timeSlots])
     return (
         <React.Fragment>
             <div

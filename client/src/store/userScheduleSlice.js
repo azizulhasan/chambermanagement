@@ -27,7 +27,7 @@ let initialState = {
             phone: '',
         },
         3: {
-            paymentWay: ''
+            paymentMethod: ''
         }
     },
     currentSlide: {},

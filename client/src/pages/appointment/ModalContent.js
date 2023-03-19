@@ -24,11 +24,14 @@ export default function ModalContent() {
         let currentPage = parseInt(status.split('of')[0])
         let slideObject = registerUserSchedule[currentPage]
         let sessionData = getSessionStorage(['registerUserSchedule'])
-        sessionData = sessionData['registerUserSchedule']
-        sessionData = sessionData[currentPage]
+        if (sessionData === undefined) {
+            alert('Please fill the value of session_name, doctor_name, session_date, session_time.')
+        } else {
+            sessionData = sessionData['registerUserSchedule']
+            sessionData = sessionData[currentPage]
+        }
         let alertData = []
         Object.keys(slideObject).map(key => {
-            console.log(sessionData)
             if (!sessionData.hasOwnProperty(key) || sessionData[key] === undefined || sessionData[key] === '' || sessionData[key] == '0') {
                 alertData.push(key)
             }
