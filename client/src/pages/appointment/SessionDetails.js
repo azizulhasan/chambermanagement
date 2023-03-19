@@ -114,8 +114,8 @@ export default function SessionDetails() {
 
     useEffect(() => {
         if (sessionData.session_date) setDate(new Date(sessionData.session_date))
-        if (sessionData.doctor_name !== undefined) {
-            let filteredSchedule = schedules.filter(schedule => schedule.user === sessionData.doctor_name)
+        if (sessionData.doctor_id !== undefined) {
+            let filteredSchedule = schedules.filter(schedule => schedule.user === sessionData.doctor_id)
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
                 setOffDays(filteredSchedule[0].offDay)
                 setFilteredSchedule(filteredSchedule[0])
@@ -149,7 +149,7 @@ export default function SessionDetails() {
             let filteredDoctors = doctors.filter(doctor => doctor.speciality === e.target.value)
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
         }
-        if (e.target.name === 'doctor_name') {
+        if (e.target.name === 'doctor_id') {
             let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
                 setOffDays(filteredSchedule[0].offDay)
@@ -194,16 +194,16 @@ export default function SessionDetails() {
                 />
             </div>
             <div className="w-60">
-                <label htmlFor="doctor_name">Doctor</label>
+                <label htmlFor="doctor_id">Doctor</label>
                 <Select
                     onChange={(e) => onChange(e, currentSlide)}
                     defaultOption="Select Doctor"
                     classes={'border w-60 p-2'}
                     options={filteredDoctors}
-                    id="doctor_name"
-                    name="doctor_name"
+                    id="doctor_id"
+                    name="doctor_id"
                     required={true}
-                    value={sessionData.doctor_name ? sessionData.doctor_name : '0'}
+                    value={sessionData.doctor_id ? sessionData.doctor_id : '0'}
                 />
             </div>
             <div className="w-72">

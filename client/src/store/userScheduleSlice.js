@@ -17,7 +17,7 @@ let initialState = {
     registerUserSchedule: {
         1: {
             session_name: '',
-            doctor_name: '',
+            doctor_id: '',
             session_date: '',
             session_time: '',
         },
@@ -103,7 +103,7 @@ let userSchedules = createSlice({
             state.schedules = action.payload;
         });
 
-        builder.addCase(saveSchedule.fulfilled, (state, action) => {
+        builder.addCase(saveUserSchedule.fulfilled, (state, action) => {
             console.log(action.payload.data);
             state.schedules = action.payload;
             state.isModalActive = false;
@@ -199,8 +199,8 @@ export const deleteSchedule = createAsyncThunk(
 /**
  * Add a schedule from dashboard.
  */
-export const saveSchedule = createAsyncThunk(
-    'saveSchedule',
+export const saveUserSchedule = createAsyncThunk(
+    'saveUserSchedule',
     async (payload) => {
         return fetchData(payload)
     }

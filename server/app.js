@@ -20,6 +20,8 @@ const usersRoutes = require('./routes/usersRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
 const schedulesRoutes = require('./routes/schedulesRoutes');
+const userSchedulesRoutes = require('./routes/userSchedulesRoutes');
+
 
 // express app
 const app = express();
@@ -116,6 +118,12 @@ app.use('/api/services', servicesRoutes);
  * schedules routes
  */
 app.use('/api/schedules', schedulesRoutes);
+
+/**
+ * User Schedule routes
+ */
+app.use('/api/userSchedule', userSchedulesRoutes);
+
 
 /**
  * image file url

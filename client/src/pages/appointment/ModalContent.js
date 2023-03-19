@@ -4,7 +4,7 @@ import SessionDetails from './SessionDetails';
 import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateCurrentSlide } from '../../store/userScheduleSlice';
+import { saveUserSchedule } from '../../store/userScheduleSlice';
 import { getSessionStorage } from '../../utilities/utilities';
 export default function ModalContent() {
     const slides = [
@@ -19,13 +19,14 @@ export default function ModalContent() {
         },
     ];
     const { registerUserSchedule } = useSelector(state => state.userSchedules)
+    const dispatch = useDispatch();
     function isCurrentSlideIsValid(e, callback) {
         let status = document.getElementsByClassName('carousel-status')[0].innerHTML
         let currentPage = parseInt(status.split('of')[0])
         let slideObject = registerUserSchedule[currentPage]
         let sessionData = getSessionStorage(['registerUserSchedule'])
         if (sessionData === undefined) {
-            alert('Please fill the value of session_name, doctor_name, session_date, session_time.')
+            alert('Please fill the value of session_name, doctor_id, session_date, session_time.')
         } else {
             sessionData = sessionData['registerUserSchedule']
             sessionData = sessionData[currentPage]
@@ -39,8 +40,34 @@ export default function ModalContent() {
         if (alertData.length) {
             alert('Please fill the value of ' + alertData.join(', '))
         } else {
+            let data = getSessionStorage(['registerUserSchedule'])
+            data = data['registerUserSchedule']
+            let isLastPage = parseInt(status.split('of')[1]) === currentPage
+            data = prepareDataForSave(data)
+            console.log(isLastPage, data)
+            if (isLastPage) {
+                dispatch(saveUserSchedule({
+                    endpoint: "/api/userSchedule",
+                    config: {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                    }
+                }))
+            }
             callback();
         }
+    }
+    function prepareDataForSave(data) {
+        let databaseData = {}
+        Object.keys(data).map(pageNumber => {
+            Object.keys(data[pageNumber]).map(key => {
+                databaseData[key] = data[pageNumber][key]
+            })
+        })
+        return databaseData;
     }
 
     return (
