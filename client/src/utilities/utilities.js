@@ -1232,7 +1232,6 @@ export const fetchData = async (payload) => {
     config = {
         ...config,
     };
-    console.log(url, config)
     const data = await fetch(url, config);
     return await data.json();
 };

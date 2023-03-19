@@ -23,9 +23,7 @@ export default function TimeSlot({
         e.preventDefault();
         onSelect(slot);
     };
-    useEffect(() => {
-        console.log(timeSlots, slot.format('HH:mm'))
-    }, [timeSlots])
+
     return (
         <React.Fragment>
             <div

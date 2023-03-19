@@ -44,7 +44,6 @@ export default function ModalContent() {
             data = data['registerUserSchedule']
             let isLastPage = parseInt(status.split('of')[1]) === currentPage
             data = prepareDataForSave(data)
-            console.log(isLastPage, data)
             if (isLastPage) {
                 dispatch(saveUserSchedule({
                     endpoint: "/api/userSchedule",
