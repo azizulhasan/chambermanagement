@@ -92,8 +92,8 @@ export default function SlotPicker({
                                 isSelected={selectedTime.includes(
                                     slot.format('HH:mm')
                                 )}
-                                timeSlots={selectedTime}
                                 onSelect={handleSelection}
+                                disabled={disabledSlots.includes(slot.format('HH:mm'))}
                             />
                         ))}
                     </div>

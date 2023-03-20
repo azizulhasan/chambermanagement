@@ -27,9 +27,9 @@ export default function PatientDetails() {
         prepareScheduleSessionData(e.target.name, e.target.value)
     };
 
-    function prepareScheduleSessionData(key, value, pageNumber = pageNo, sessionKey = 'registerUserSchedule') {
+    function prepareScheduleSessionData(key, value = '', pageNumber = pageNo, sessionKey = 'registerUserSchedule') {
         let sessionData = getSessionStorage([sessionKey])
-        if (pageNumber && key && value) {
+        if (pageNumber && key) {
             Object.keys(sessionData[sessionKey][pageNumber]).map(currentKey => {
                 if (currentKey == key) {
                     sessionData[sessionKey][pageNumber][key] = value

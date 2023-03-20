@@ -6,7 +6,7 @@ import { amOrPm } from '../../utilities/timeUtilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
-import { updateCurrentSlide } from '../../store/userScheduleSlice';
+import { fetchDoctorSchedules, updateCurrentSlide } from '../../store/userScheduleSlice';
 import Select from '../../components/front/common/form/Select';
 import { addToImutableObject, getSessionStorage, saveSessionData, setSessionStorage } from '../../utilities/utilities';
 
@@ -14,24 +14,29 @@ export default function SessionDetails() {
     const pageNo = 1
 
     const [date, setDate] = useState(null);
+    const [currentDateString, setCurrentDateString] = useState(new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate());
+
+
     const [doctors, setDoctors] = useState([])
     const [specialities, setSpecialities] = useState([])
     const [filteredDoctors, setFilteredDoctors] = useState([])
     const [sessionData, setSessionData] = useState({})
     const [defaultSelectedTime, setDefaultSelectedTime] = useState([])
+    const [unAvailableSlots, setUnAvailableSlots] = useState([])
     const [filteredSchedule, setFilteredSchedule] = useState({
         timeSlots: [],
         perSessionLength: 60,
     })
     const [timeSlots, setTimeSlots] = useState([])
     const [offDays, setOffDays] = useState([])
+    const [offDates, setOffDates] = useState([])
     const ref = React.useRef();
     const dispatch = useDispatch();
     const { schedules, singleSchedule, isModalActive, options } = useSelector(
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
-    const { days, currentSlide, registerUserSchedule } = useSelector((state) => state.userSchedules);
+    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } = useSelector((state) => state.userSchedules);
 
     useEffect(() => {
         dispatch(fetchSchedules());
@@ -110,7 +115,7 @@ export default function SessionDetails() {
             }
         })
 
-    }, [offDays])
+    }, [offDates])
 
     useEffect(() => {
         if (sessionData.session_date) setDate(new Date(sessionData.session_date))
@@ -118,6 +123,8 @@ export default function SessionDetails() {
             let filteredSchedule = schedules.filter(schedule => schedule.user === sessionData.doctor_id)
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
                 setOffDays(filteredSchedule[0].offDay)
+                let offDates = getOffDates(filteredSchedule[0].offDay)
+                setOffDates(offDates);
                 setFilteredSchedule(filteredSchedule[0])
             }
         }
@@ -150,8 +157,21 @@ export default function SessionDetails() {
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
         }
         if (e.target.name === 'doctor_id') {
+            if (e.target.value !== '0') {
+                dispatch(fetchDoctorSchedules({
+                    endpoint: '/api/userSchedule/doctorschedules/' + e.target.value,
+                    config: {}
+                }))
+            }
             let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                var firstDay = new Date(y, m, 1);
+                var lastDay = new Date(y, m + 1, 0);
+                // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                // let firstDay = new Date(y, m, 1);
+                // let lastDay = new Date(y, m + 1, 0);
+                console.log(firstDay, lastDay)
                 setOffDays(filteredSchedule[0].offDay)
                 setFilteredSchedule(filteredSchedule[0])
             }
@@ -162,7 +182,44 @@ export default function SessionDetails() {
     const setSessionDate = (date) => {
         setDate(date)
         prepareScheduleSessionData('session_date', date)
+        if (currentDoctorSchedules.length) {
+            let bookedSchedules = [];
+            for (let i = 0; i < currentDoctorSchedules.length; i++) {
+                let session = currentDoctorSchedules[i]
+                let tempDate = new Date(session.session_date)
+                if (tempDate.getDate() === date.getDate()) {
+                    bookedSchedules.push(session.session_time)
+                }
+            }
+            setUnAvailableSlots(bookedSchedules)
+        }
     }
+
+
+    useEffect(() => {
+        let tempOffDates = JSON.parse(JSON.stringify(offDates))
+        let tempObj = {}
+        let currentMonth = new Date().getMonth()
+        if (currentDoctorSchedules.length) {
+            for (let i = 0; i < currentDoctorSchedules.length; i++) {
+                let session = currentDoctorSchedules[i]
+                let tempDate = new Date(session.session_date)
+                if (tempDate.getMonth() === currentMonth) {
+                    if (!tempObj[tempDate.getDate()]) {
+                        tempObj[tempDate.getDate()] = [session.session_time];
+                    } else {
+                        tempObj[tempDate.getDate()].push(session.session_time)
+                    }
+                }
+            }
+            Object.keys(tempObj).map(date => {
+                if (tempObj[date].length === timeSlots.length) {
+                    tempOffDates.push(parseInt(date))
+                }
+            })
+            setOffDates(tempOffDates)
+        }
+    }, [currentDoctorSchedules])
 
     function prepareScheduleSessionData(key, value, pageNumber = pageNo, sessionKey = 'registerUserSchedule') {
         let sessionData = getSessionStorage([sessionKey])
@@ -175,6 +232,33 @@ export default function SessionDetails() {
         }
         setSessionData(sessionData[sessionKey][1])
         saveSessionData(sessionKey, sessionData[sessionKey])
+    }
+
+    function getOffDates(offDays) {
+        let tempDate = new Date(currentDateString)
+        let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth())
+        let offDates = []
+        for (let i = 0; i < allDates.length; i++) {
+            let temp = allDates[i]
+            let day = days[temp.getDay()]
+            if (offDays.includes(day)) {
+                offDates.push(temp.getDate())
+            }
+        }
+        return offDates;
+    }
+
+    function get_all_dates(year, month) {
+        let date = new Date(year, month, 1);
+        let dates = [];
+        let i = 0;
+        while (date.getMonth() === month) {
+            dates.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+            i = i + 1;
+        }
+
+        return dates;
     }
 
 
@@ -209,28 +293,22 @@ export default function SessionDetails() {
             <div className="w-72">
                 <label htmlFor="session_date">Select Date</label>
                 <Calendar
-                    // OnChangeDateCallback={(e) => clickWeekNumber(e)}
-                    // ClickWeekNumberCallback={(e) => clickWeekNumber(e)}
                     tileClassName={'p-2.5 hover:text-white hover:bg-themeColor '}
-                    // tileContent={({ date, view }) => null}
-                    // activeStartDate={new Date(2023, 0, 1)}
                     tileDisabled={({ activeStartDate, date, view }) => {
-                        let day = days[date.getDay()]
-                        if (offDays.includes(day)) {
+                        if (offDates.includes(date.getDate())) {
                             return true;
                         }
                         return false;
                     }}
-                    // defaultActiveStartDate={new Date()}
-                    // navigationLabel={({ date, label, locale, view }) => `Current view: ${view}, date: ${date.toLocaleDateString(locale)}`
-                    // }
                     className="mx-2 border border-themeColor session_date"
                     onChange={(e) => setSessionDate(e)}
                     value={date}
-                    // showFixedNumberOfWeeks={true}
                     showNeighboringMonth={false}
                     inputRef={ref}
                     calendarType={'US'}
+                    onActiveStartDateChange={({ action, activeStartDate, value, view }) => {
+                        setCurrentDateString(activeStartDate.getFullYear() + "-" + (activeStartDate.getMonth() + 1) + "-" + activeStartDate.getDate())
+                    }}
                 />
             </div>
             <div className="w-60">
@@ -239,7 +317,7 @@ export default function SessionDetails() {
                     interval={filteredSchedule.perSessionLength}
                     from={'07:00'}
                     to={'23:00'}
-                    unAvailableSlots={['12:00']}
+                    unAvailableSlots={unAvailableSlots}
                     lang={'en'}
                     defaultSelectedTime={defaultSelectedTime}
                     onSelectTime={(s) => addToSelectedArray(s)}

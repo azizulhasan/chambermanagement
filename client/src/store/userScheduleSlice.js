@@ -32,15 +32,15 @@ let initialState = {
     },
     currentSlide: {},
     days: [
-        'Saturday',
         'Sunday',
         'Monday',
         'Tuesday',
         'Wensday',
         'Thursday',
         'Friday',
+        'Saturday',
     ],
-    singleUserSchedules: {
+    singleUserSchedule: {
         branch: '',
         perSessionLength: 60,
         offDay: [],
@@ -48,6 +48,7 @@ let initialState = {
         user: '',
     },
     status: STATUSES.IDLE,
+    currentDoctorSchedules: [],
 };
 
 let userSchedules = createSlice({
@@ -59,7 +60,7 @@ let userSchedules = createSlice({
         },
         addSchedule(state, action) {
             state.isModalActive = true;
-            state.singleSchedule = {
+            state.singleUserSchedule = {
                 branch: '',
                 perSessionLength: 60,
                 offDay: [],
@@ -67,112 +68,99 @@ let userSchedules = createSlice({
                 user: '',
             };
         },
-        updateScheduleState(state, action) {
+        updateUserSchedulestate(state, action) {
             if (Array.isArray(action.payload)) {
-                state.singleSchedule.timeSlots = action.payload;
+                state.singleUserSchedule.timeSlots = action.payload;
             } else {
                 let name = Object.keys(action.payload)[0];
                 if (name == 'offDay') {
-                    state.singleSchedule[name] = [
+                    state.singleUserSchedule[name] = [
                         ...new Set(action.payload[name]),
                     ];
                 } else {
-                    state.singleSchedule[name] = action.payload[name];
+                    state.singleUserSchedule[name] = action.payload[name];
                 }
             }
         },
     },
 
     extraReducers: (builder) => {
-        builder.addCase(fetchSchedules.pending, (state, action) => {
+        builder.addCase(fetchUserSchedules.pending, (state, action) => {
             state.status = STATUSES.LOADING;
         });
 
-        builder.addCase(fetchSchedules.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+        builder.addCase(fetchUserSchedules.fulfilled, (state, action) => {
+            state.userSchedules = action.payload;
             state.status = STATUSES.IDLE;
         });
-        builder.addCase(fetchSchedules.rejected, (state, action) => {
+        builder.addCase(fetchUserSchedules.rejected, (state, action) => {
             state.status = STATUSES.ERROR;
         });
-        builder.addCase(fetchSingleSchedule.fulfilled, (state, action) => {
-            state.singleSchedule = action.payload;
+        builder.addCase(fetchSingleUserSchedule.fulfilled, (state, action) => {
+            state.singleUserSchedule = action.payload;
         });
 
         builder.addCase(deleteSchedule.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+            state.userSchedules = action.payload;
         });
 
         builder.addCase(saveUserSchedule.fulfilled, (state, action) => {
             console.log(action.payload.data);
-            state.schedules = action.payload;
+            state.userSchedules = action.payload;
             state.isModalActive = false;
         });
 
         builder.addCase(updateSchedule.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+            state.userSchedules = action.payload;
             state.isModalActive = false;
         });
         builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
             state.currentSlide = action.payload;
         });
 
+        builder.addCase(fetchDoctorSchedules.pending, (state, action) => {
+            state.status = false;
+        }).addCase(fetchDoctorSchedules.fulfilled, (state, action) => {
+            state.currentDoctorSchedules = action.payload.data;
+            state.status = true;
+        });
+
     },
 });
 
-export let { showModal, addSchedule, updateScheduleState } =
+export let { showModal, addSchedule, updateUserSchedulestate } =
     userSchedules.actions;
 
 export default userSchedules.reducer;
 
-async function addConsultantName(data) {
-    for (let i = 0; i < data.data.length; i++) {
-        const consultantId = data.data[i].user;
-        const consultant = await fetch(
-            process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
-        );
-        const consultantData = await consultant.json();
-        data.data[i].consultantName = consultantData.name;
-    }
-}
 
 // Thunks
 
 /**
- * Get all schedules in dashboard
+ * Get all userschedules in dashboard
  */
-export const fetchSchedules = createAsyncThunk('schedules', async () => {
-    const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
+export const fetchUserSchedules = createAsyncThunk('userschedules', async () => {
+    const res = await fetch(process.env.REACT_APP_API_URL + '/api/userschedules');
     const data = await res.json();
-
-    // await addConsultantName(data);
-
-    // for (let i = 0; i < data.data.length; i++) {
-    //     const consultantId = data.data[i].user;
-    //     const consultant = await fetch(
-    //         process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
-    //     );
-    //     const consultantData = await consultant.json();
-    //     data.data[i].consultantName = consultantData.name;
-    // }
-
     return data.data;
+});
+/**
+ * Get doctor schedules in appointment page
+ */
+export const fetchDoctorSchedules = createAsyncThunk('fetchDoctorSchedules', async (payload) => {
+    return fetchData(payload)
 });
 /**
  * Get a single schedule.
  */
-export const fetchSingleSchedule = createAsyncThunk(
-    'schedules/singleSchedule',
+export const fetchSingleUserSchedule = createAsyncThunk(
+    'userschedules/singleUserSchedule',
     async (payload) => {
-        console.log({ payload });
         const id = payload;
         const res = await fetch(
-            process.env.REACT_APP_API_URL + `/api/schedules/${id}`
+            process.env.REACT_APP_API_URL + `/api/userschedules/${id}`
         );
         const data = await res.json();
-
-        console.log({ data });
-
         return data;
     }
 );
@@ -183,14 +171,12 @@ export const deleteSchedule = createAsyncThunk(
     'deleteSchedule',
     async (payload) => {
         const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/schedules/' + payload,
+            process.env.REACT_APP_API_URL + '/api/userschedules/' + payload,
             { method: 'DELETE' }
         );
         const data = await res.json();
         for (let i = 0; i < data.data.length; i++) {
-            data.data[
-                i
-            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
+            data.data[i].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
 
         return data.data;
@@ -206,12 +192,12 @@ export const saveUserSchedule = createAsyncThunk(
     }
 );
 
-//Update schedules details
+//Update userschedules details
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
         const res = await fetch(
-            process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
+            process.env.REACT_APP_API_URL + `/api/userschedules/${payload[0]}`,
             {
                 headers: {
                     'Content-Type': 'application/json',

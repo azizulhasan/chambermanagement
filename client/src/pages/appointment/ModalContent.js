@@ -5,7 +5,7 @@ import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserSchedule } from '../../store/userScheduleSlice';
-import { getSessionStorage } from '../../utilities/utilities';
+import { getSessionStorage, saveSessionData } from '../../utilities/utilities';
 export default function ModalContent() {
     const slides = [
         {
@@ -55,6 +55,7 @@ export default function ModalContent() {
                         body: JSON.stringify(data),
                     }
                 }))
+                saveSessionData('registerUserSchedule', registerUserSchedule)
             }
             callback();
         }
