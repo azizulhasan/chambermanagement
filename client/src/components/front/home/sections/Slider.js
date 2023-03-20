@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../../store/commonDataSlice';
 import { useEffect, useState } from 'react';
 import { database } from '../../../../database';
+import { Link } from 'react-router-dom';
 
 const {
     pages: {
@@ -73,12 +74,12 @@ const Slider = () => {
                         return (
                             <div key={item.img}>
                                 <img src={item.img} alt="" />
-                                <a
+                                <Link
                                     className="legend bg-themeColor"
-                                    href="/appointment"
+                                    to="/appointment"
                                 >
                                     {item.content}
-                                </a>
+                                </Link>
                             </div>
                         );
                     })}

@@ -9,10 +9,10 @@ import {
     Twitter,
 } from './assets/svg-components';
 
-
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
+        backgroundColor: 'rgb(250, 250, 255)',
         contacts: {
             phone: { number: '+8801715769060', icon: PhoneArrowUpRight },
             email: { address: '+8801715769060', icon: MailIcon },
