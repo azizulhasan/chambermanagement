@@ -20,6 +20,7 @@ import {
 import { useSelector } from 'react-redux';
 import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
 import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
+import { database } from './database';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -34,9 +35,16 @@ const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const Appoinment = lazy(() => import('./pages/Appoinment'));
 const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 
+const {
+    basic: { backgroundColor },
+} = database;
+
 export default function App() {
     const { loggedInUser } = useSelector((state) => state.users);
     useEffect(() => {}, []);
+
+    document.getElementById('mindtoheart').style.backgroundColor =
+        backgroundColor;
 
     return (
         <Router>
