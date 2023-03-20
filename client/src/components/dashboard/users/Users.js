@@ -112,7 +112,7 @@ export default function Users() {
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                         }}
-                                        bsPrefix="azh_btn azh_btn_edit"
+                                        bsPrefix="azh_btn azh_btn_trash"
                                         onClick={(e) =>
                                             deleteData(users[index]['_id'])
                                         }

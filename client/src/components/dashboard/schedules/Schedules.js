@@ -109,19 +109,6 @@ export default function Schedules() {
                                         );
                                     })}
                                     <td>
-                                        {/* <Button
-                                            className="mr-2"
-                                            bsPrefix="azh_btn azh_btn_edit"
-                                            onClick={(e) =>
-                                                dispatch(
-                                                    fetchSingleSchedule(
-                                                        schedules[index]['_id']
-                                                    )
-                                                )
-                                            }
-                                        >
-                                            <i className="fas fa-edit"></i>
-                                        </Button> */}
                                         <Button
                                             style={{
                                                 width: '30px',
@@ -142,6 +129,7 @@ export default function Schedules() {
                                         >
                                             <Edit />
                                         </Button>
+
                                         <Button
                                             style={{
                                                 width: '30px',

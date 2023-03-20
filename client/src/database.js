@@ -21,7 +21,6 @@ import {
     Twitter,
 } from './assets/atlasIcons/AtlasIconsSolid';
 
-
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
@@ -97,13 +96,13 @@ export const database = {
                 {
                     name: 'mindtoheart.bd@gmail.com',
                     link: null,
-                    icon: Mail,
+                    Icon: Mail,
                 },
                 { name: '+8801715769060', link: null, Icon: PhoneArrowUpRight },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,
-                    icon: MapPin,
+                    Icon: MapPin,
                 },
             ],
         },
