@@ -9,57 +9,74 @@ import {
     TableHeader,
 } from 'react-bs-datatable';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSchedules } from '../../../store/schedulesSlice';
+import { database } from '../../../database';
 import { fetchUserSchedules } from '../../../store/userScheduleSlice';
-import { convertUTCDateToLocalDate } from '../../../utilities/timeUtilities';
 
-// Then, use it in a component.
 export default function DashboardContent() {
     const [body, setBody] = useState([]);
     const [headers, setHeaders] = useState([
-        { prop: 'session_name', title: 'Session' },
-        { prop: 'doctor_name', title: 'Doctor' },
-        { prop: 'patient_details', title: 'Patient Details' },
-        { prop: 'session_time', title: 'Scheduled At' },
-        { prop: 'status', title: 'Status' },
+        { prop: 'session_name', title: 'Session', isFilterable: true },
+        { prop: 'doctor_name', title: 'Doctor', isFilterable: true },
+        {
+            prop: 'patient_details',
+            title: 'Patient',
+            isFilterable: true,
+        },
+        { prop: 'session_time', title: 'Scheduled At', isFilterable: true },
+        { prop: 'status', title: 'Status', isFilterable: true },
     ]);
-    // const schedules = useSelector((state) => state.schedules);
+
     const userSchedules = useSelector((state) => state.userSchedules);
     const dispatch = useDispatch();
 
     console.log({ userSchedules });
 
     useEffect(() => {
-        /**
-         * Get data from and display to table.
-         */
-        // dispatch(fetchSchedules());
         dispatch(fetchUserSchedules());
     }, []);
 
-    // useEffect(() => {
-    //     if (userSchedules.SCHEDULE_HEADERS) {
-    //         setHeaders(userSchedules.SCHEDULE_HEADERS);
-    //         setBody(() => {
-    //             return userSchedules.userSchedules?.map((userSchedule) => {
-    //                 return {
-    //                     session_name: userSchedule.session_name,
-    //                     doctor_name: userSchedule.doctor_name,
-    //                     patient_details: userSchedule.patient_details,
-    //                     session_time: convertUTCDateToLocalDate(
-    //                         new Date(userSchedule.scheduled_at)
-    //                     ).toLocaleString(),
-    //                     status: 'Pending',
-    //                 };
-    //             });
-    //         });
-    //     }
-    // }, [userSchedules]);
+    useEffect(() => {
+        setBody(
+            userSchedules.userSchedules.map((userSchedule) => {
+                let doctor_name = userSchedule.consultantData?.name;
+                let Status = () => (
+                    <span
+                        style={{
+                            padding: '4px 8px',
+                            backgroundColor: `${database.basic.themeColor}`,
+                            opacity: 0.8,
+                            color: 'white',
+                            borderRadius: '4px',
+                        }}
+                    >
+                        Pending
+                    </span>
+                );
+                return {
+                    session_name: userSchedule.session_name,
+                    doctor_name: doctor_name,
+                    patient_details: userSchedule.name,
+                    session_time: userSchedule.session_time,
+                    status: <Status />,
+                };
+            })
+        );
+    }, [userSchedules]);
+
+    if (document.getElementsByClassName('btn-primary')[0]) {
+        document.getElementsByClassName(
+            'btn-primary'
+        )[0].style.backgroundColor = database.basic.themeColor;
+    }
+
+    if (userSchedules.userSchedules.length === 0) {
+        return <span>Loading, Please wait...</span>;
+    }
 
     return (
         <DatatableWrapper
-            body={userSchedules?.dashboardTableBody}
-            headers={userSchedules?.dashboardTableHeaders}
+            body={body}
+            headers={headers}
             paginationOptionsProps={{
                 initialState: {
                     rowsPerPage: 10,
@@ -70,12 +87,12 @@ export default function DashboardContent() {
             <Row className="mb-4 p-2">
                 <Col
                     xs={12}
-                    lg={2}
+                    lg={6}
                     className="d-flex flex-col justify-content-end align-items-start"
                 ></Col>
                 <Col
                     xs={12}
-                    lg={10}
+                    lg={6}
                     className="d-flex flex-col justify-content-end align-items-end"
                 >
                     <Filter />

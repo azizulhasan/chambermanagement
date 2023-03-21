@@ -17,8 +17,6 @@ export const STATUSES = Object.freeze({
 
 let initialState = {
     userSchedules: [],
-    dashboardTableHeaders: [],
-    dashboardTableBody: [],
     registerUserSchedule: {
         1: {
             session_name: '',
@@ -96,52 +94,6 @@ let userSchedules = createSlice({
         builder.addCase(fetchUserSchedules.fulfilled, (state, action) => {
             console.log({ payload: action.payload });
             state.userSchedules = action.payload;
-
-            state.dashboardTableHeaders = [
-                { prop: 'session_name', title: 'Session' },
-                { prop: 'doctor_name', title: 'Doctor' },
-                { prop: 'patient_details', title: 'Patient Details' },
-                { prop: 'session_time', title: 'Scheduled At' },
-                { prop: 'status', title: 'Status' },
-            ];
-            state.dashboardTableBody = action.payload.map((userSchedule) => {
-                let doctor_name = userSchedule.consultantData.name;
-                let PatientDetails = () => (
-                    <span>
-                        {[
-                            { title: 'Name', desc: userSchedule.name },
-                            { title: 'Email', desc: userSchedule.email },
-                            { title: 'Password', desc: userSchedule.phone },
-                        ].map((item) => (
-                            <span key={item}>
-                                {item.title}: {item.desc}
-                                <br />
-                            </span>
-                        ))}
-                    </span>
-                );
-                let Status = () => (
-                    <span
-                        style={{
-                            padding: '4px 8px',
-                            backgroundColor: `${database.basic.themeColor}`,
-                            opacity: 0.8,
-                            color: 'white',
-                            borderRadius: '4px',
-                        }}
-                    >
-                        Pending
-                    </span>
-                );
-                // console.log({ patient_details });
-                return {
-                    session_name: userSchedule.session_name,
-                    doctor_name: doctor_name,
-                    patient_details: <PatientDetails />,
-                    session_time: userSchedule.session_time,
-                    status: <Status />,
-                };
-            });
             state.status = STATUSES.IDLE;
         });
         builder.addCase(fetchUserSchedules.rejected, (state, action) => {
