@@ -106,7 +106,7 @@ export default function Users() {
                                     </Button>
                                     <Button
                                         style={{
-                                            width: '30px',
+                                            width: '45px',
                                             height: '30px',
                                             display: 'inline-flex',
                                             justifyContent: 'center',
