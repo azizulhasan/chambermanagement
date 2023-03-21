@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { convertUTCDateToLocalDate } from '../utilities/timeUtilities';
+import { database } from '.././database';
 import {
+    addUserData,
     fetchData,
     getLocalStorage,
     setLocalStorage,
@@ -14,6 +17,8 @@ export const STATUSES = Object.freeze({
 
 let initialState = {
     userSchedules: [],
+    dashboardTableHeaders: [],
+    dashboardTableBody: [],
     registerUserSchedule: {
         1: {
             session_name: '',
@@ -27,8 +32,8 @@ let initialState = {
             phone: '',
         },
         3: {
-            paymentMethod: ''
-        }
+            paymentMethod: '',
+        },
     },
     currentSlide: {},
     days: [
@@ -84,15 +89,62 @@ let userSchedules = createSlice({
     },
 
     extraReducers: (builder) => {
-        builder.addCase(fetchSchedules.pending, (state, action) => {
+        builder.addCase(fetchUserSchedules.pending, (state, action) => {
             state.status = STATUSES.LOADING;
         });
 
-        builder.addCase(fetchSchedules.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+        builder.addCase(fetchUserSchedules.fulfilled, (state, action) => {
+            console.log({ payload: action.payload });
+            state.userSchedules = action.payload;
+
+            state.dashboardTableHeaders = [
+                { prop: 'session_name', title: 'Session' },
+                { prop: 'doctor_name', title: 'Doctor' },
+                { prop: 'patient_details', title: 'Patient Details' },
+                { prop: 'session_time', title: 'Scheduled At' },
+                { prop: 'status', title: 'Status' },
+            ];
+            state.dashboardTableBody = action.payload.map((userSchedule) => {
+                let doctor_name = userSchedule.consultantData.name;
+                let PatientDetails = () => (
+                    <span>
+                        {[
+                            { title: 'Name', desc: userSchedule.name },
+                            { title: 'Email', desc: userSchedule.email },
+                            { title: 'Password', desc: userSchedule.phone },
+                        ].map((item) => (
+                            <span key={item}>
+                                {item.title}: {item.desc}
+                                <br />
+                            </span>
+                        ))}
+                    </span>
+                );
+                let Status = () => (
+                    <span
+                        style={{
+                            padding: '4px 8px',
+                            backgroundColor: `${database.basic.themeColor}`,
+                            opacity: 0.8,
+                            color: 'white',
+                            borderRadius: '4px',
+                        }}
+                    >
+                        Pending
+                    </span>
+                );
+                // console.log({ patient_details });
+                return {
+                    session_name: userSchedule.session_name,
+                    doctor_name: doctor_name,
+                    patient_details: <PatientDetails />,
+                    session_time: userSchedule.session_time,
+                    status: <Status />,
+                };
+            });
             state.status = STATUSES.IDLE;
         });
-        builder.addCase(fetchSchedules.rejected, (state, action) => {
+        builder.addCase(fetchUserSchedules.rejected, (state, action) => {
             state.status = STATUSES.ERROR;
         });
         builder.addCase(fetchSingleSchedule.fulfilled, (state, action) => {
@@ -116,7 +168,6 @@ let userSchedules = createSlice({
         builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
             state.currentSlide = action.payload;
         });
-
     },
 });
 
@@ -125,36 +176,18 @@ export let { showModal, addSchedule, updateScheduleState } =
 
 export default userSchedules.reducer;
 
-async function addConsultantName(data) {
-    for (let i = 0; i < data.data.length; i++) {
-        const consultantId = data.data[i].user;
-        const consultant = await fetch(
-            process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
-        );
-        const consultantData = await consultant.json();
-        data.data[i].consultantName = consultantData.name;
-    }
-}
-
 // Thunks
 
 /**
  * Get all schedules in dashboard
  */
-export const fetchSchedules = createAsyncThunk('schedules', async () => {
-    const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
+export const fetchUserSchedules = createAsyncThunk('schedules', async () => {
+    const res = await fetch(
+        process.env.REACT_APP_API_URL + '/api/userSchedule'
+    );
     const data = await res.json();
 
-    // await addConsultantName(data);
-
-    // for (let i = 0; i < data.data.length; i++) {
-    //     const consultantId = data.data[i].user;
-    //     const consultant = await fetch(
-    //         process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
-    //     );
-    //     const consultantData = await consultant.json();
-    //     data.data[i].consultantName = consultantData.name;
-    // }
+    await addUserData(data.data, 'doctor_id', 'consultantData');
 
     return data.data;
 });
@@ -202,7 +235,7 @@ export const deleteSchedule = createAsyncThunk(
 export const saveUserSchedule = createAsyncThunk(
     'saveUserSchedule',
     async (payload) => {
-        return fetchData(payload)
+        return fetchData(payload);
     }
 );
 
@@ -233,6 +266,9 @@ export const updateSchedule = createAsyncThunk(
 );
 
 // update current slide
-export const updateCurrentSlide = createAsyncThunk('updateCurrentSlide', (payload) => {
-    return payload
-})
+export const updateCurrentSlide = createAsyncThunk(
+    'updateCurrentSlide',
+    (payload) => {
+        return payload;
+    }
+);

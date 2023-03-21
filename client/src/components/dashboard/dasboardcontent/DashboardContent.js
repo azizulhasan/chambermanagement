@@ -10,54 +10,60 @@ import {
 } from 'react-bs-datatable';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../../store/schedulesSlice';
+import { fetchUserSchedules } from '../../../store/userScheduleSlice';
 import { convertUTCDateToLocalDate } from '../../../utilities/timeUtilities';
 
 // Then, use it in a component.
 export default function DashboardContent() {
     const [body, setBody] = useState([]);
-    const [headers, setHeaders] = useState([]);
-    const schedules = useSelector((state) => state.schedules);
+    const [headers, setHeaders] = useState([
+        { prop: 'session_name', title: 'Session' },
+        { prop: 'doctor_name', title: 'Doctor' },
+        { prop: 'patient_details', title: 'Patient Details' },
+        { prop: 'session_time', title: 'Scheduled At' },
+        { prop: 'status', title: 'Status' },
+    ]);
+    // const schedules = useSelector((state) => state.schedules);
+    const userSchedules = useSelector((state) => state.userSchedules);
     const dispatch = useDispatch();
 
-    console.log({ schedules });
+    console.log({ userSchedules });
 
     useEffect(() => {
         /**
          * Get data from and display to table.
          */
-        dispatch(fetchSchedules());
+        // dispatch(fetchSchedules());
+        dispatch(fetchUserSchedules());
     }, []);
 
-    useEffect(() => {
-        if (schedules.SCHEDULE_HEADERS) {
-            setHeaders(schedules.SCHEDULE_HEADERS);
-            setBody(() => {
-                return schedules.schedules.map((schedule) => {
-                    return {
-                        branch: schedule.branch,
-                        consultantName: schedule.consultantName,
-                        perSessionLength: `${schedule.perSessionLength} mins`,
-                        offDay:
-                            schedule.offDay.length > 1
-                                ? schedule.offDay.join(', ')
-                                : schedule.offDay,
-                        updatedAt: convertUTCDateToLocalDate(
-                            new Date(schedule.updatedAt)
-                        ).toLocaleString(),
-                    };
-                });
-            });
-        }
-    }, [schedules]);
+    // useEffect(() => {
+    //     if (userSchedules.SCHEDULE_HEADERS) {
+    //         setHeaders(userSchedules.SCHEDULE_HEADERS);
+    //         setBody(() => {
+    //             return userSchedules.userSchedules?.map((userSchedule) => {
+    //                 return {
+    //                     session_name: userSchedule.session_name,
+    //                     doctor_name: userSchedule.doctor_name,
+    //                     patient_details: userSchedule.patient_details,
+    //                     session_time: convertUTCDateToLocalDate(
+    //                         new Date(userSchedule.scheduled_at)
+    //                     ).toLocaleString(),
+    //                     status: 'Pending',
+    //                 };
+    //             });
+    //         });
+    //     }
+    // }, [userSchedules]);
 
     return (
         <DatatableWrapper
-            body={body}
-            headers={headers}
+            body={userSchedules?.dashboardTableBody}
+            headers={userSchedules?.dashboardTableHeaders}
             paginationOptionsProps={{
                 initialState: {
                     rowsPerPage: 10,
-                    options: [5, 10, 15, 20],
+                    options: [5, 10, 15, 20, 30, 50, 70, 100],
                 },
             }}
         >
@@ -76,7 +82,7 @@ export default function DashboardContent() {
                 </Col>
             </Row>
             <Table>
-                <TableHeader tableHeaders={schedules.SCHEDULE_HEADERS} />
+                <TableHeader />
                 <TableBody />
             </Table>
             <Row className="mb-2 p-2">
