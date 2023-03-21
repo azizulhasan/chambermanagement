@@ -1,11 +1,33 @@
-import { Carousel } from 'react-bootstrap';
-import { MailIcon, PlaceIcon, TelephoneIcon } from './assets/svg-components';
+import {
+    PhoneArrowUpRight,
+    MapPin,
+    Settings,
+    Menu,
+} from './assets/atlasIcons/AtlasIconsSolid';
+import {
+    Mail,
+    Dashboard,
+    Services,
+    Users,
+    Schedules,
+    BookOpen,
+    User,
+    ArrowDown,
+    Edit,
+    Trash,
+    Facebook,
+    Instagram,
+    LinkedIn,
+    Twitter,
+} from './assets/atlasIcons/AtlasIconsSolid';
 
 export const database = {
     basic: {
         themeColor: 'rgb(103, 147, 75)',
-        phone: '+8801715769060',
-        email: 'mindtoheart.bd@gmail.com',
+        contacts: {
+            phone: { number: '+8801715769060', Icon: PhoneArrowUpRight },
+            email: { address: '+8801715769060', Icon: Mail },
+        },
         companyAddress: {
             area: 'House #00, Road# 00, Dhanmondi,',
             district: 'Dhaka',
@@ -22,6 +44,7 @@ export const database = {
                 image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`,
             },
         },
+        userRoles: ['USER', 'DOCTOR', 'ADMIN'],
     },
     topMenus: [
         { name: 'Home', href: '/', current: true },
@@ -36,10 +59,10 @@ export const database = {
     footer: {
         sectionsOrder: ['Trademark', 'About Us', 'Our Services', 'Contact Us'],
         socialMediaLinks: [
-            { name: 'Instagram', link: '/', icon: 'fa fa-instagram' },
-            { name: 'Facebook', link: '/', icon: 'fa fa-facebook' },
-            { name: 'LinkedIn', link: '/', icon: 'fa fa-linkedin' },
-            { name: 'Twitter', link: '/', icon: 'fa fa-twitter' },
+            { name: 'Instagram', link: '/', Icon: Instagram },
+            { name: 'Facebook', link: '/', Icon: Facebook },
+            { name: 'LinkedIn', link: '/', Icon: LinkedIn },
+            { name: 'Twitter', link: '/', Icon: Twitter },
         ],
         menus: {
             aboutUs: [
@@ -73,13 +96,13 @@ export const database = {
                 {
                     name: 'mindtoheart.bd@gmail.com',
                     link: null,
-                    icon: MailIcon,
+                    Icon: Mail,
                 },
-                { name: '+8801715769060', link: null, icon: TelephoneIcon },
+                { name: '+8801715769060', link: null, Icon: PhoneArrowUpRight },
                 {
                     name: 'House #00, Road# 00, Dhanmondi, Dhaka-1200, Bangladesh',
                     link: null,
-                    icon: PlaceIcon,
+                    Icon: MapPin,
                 },
             ],
         },
@@ -328,6 +351,34 @@ export const database = {
         },
     },
 };
+
+export const AdminDashboardIcons = {
+    Dashboard,
+    Mail,
+    Services,
+    Users,
+    Schedules,
+    BookOpen,
+    Settings,
+    Menu,
+    User,
+    ArrowDown,
+    Edit,
+    Trash,
+};
+
+export const UserPanelMenus = [
+    {
+        name: 'Schedule',
+        link: 'schedule',
+        Icon: Schedules,
+    },
+    {
+        name: 'Settings',
+        link: 'settings',
+        Icon: Settings,
+    },
+];
 
 function getDummyServiceDetails() {
     return [

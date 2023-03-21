@@ -1,6 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AdminDashboardIcons } from '../../../database';
 import { getUserName } from '../../../utilities/utilities';
+
+const {
+    Dashboard: DashboardIcon,
+    Mail: MailIcon,
+    Services: ServicesIcon,
+    Users: UsersIcon,
+    Schedules: SchedulesIcon,
+    BookOpen,
+    Settings: SettingsIcon,
+    ArrowDown,
+} = AdminDashboardIcons;
 
 export default function DashboardSideNav() {
     return (
@@ -8,28 +20,34 @@ export default function DashboardSideNav() {
             <nav className="sb-sidenav accordion" id="sidenavAccordion">
                 <div className="sb-sidenav-menu">
                     <div className="nav">
-                        <div className="sb-sidenav-menu-heading">Core</div>
+                        <div className="sb-sidenav-menu-heading ">Core</div>
+                        <Link className="nav-link" to="/dashboard">
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <DashboardIcon />
+                            </div>
+                            Dashboard
+                        </Link>
                         <Link className="nav-link" to="/dashboard/mail">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <MailIcon />
                             </div>
                             Mail
                         </Link>
                         <Link className="nav-link" to="/dashboard/services">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <ServicesIcon />
                             </div>
                             Services
                         </Link>
                         <Link className="nav-link" to="/dashboard/users">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <UsersIcon />
                             </div>
                             Users
                         </Link>
                         <Link className="nav-link" to="/dashboard/schedules">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-envelope"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <SchedulesIcon />
                             </div>
                             Schedules
                         </Link>
@@ -43,12 +61,21 @@ export default function DashboardSideNav() {
                             aria-expanded="false"
                             aria-controls="collapsePages"
                         >
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-book-open"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <BookOpen />
                             </div>
                             Portfolio
-                            <div className="sb-sidenav-collapse-arrow">
-                                <i className="fas fa-angle-down"></i>
+                            <div
+                                style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    display: 'inline-flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                                className="sb-sidenav-collapse-arrow"
+                            >
+                                <ArrowDown stroke="#fff" />
                             </div>
                         </a>
                         <div
@@ -85,8 +112,17 @@ export default function DashboardSideNav() {
                                     aria-controls="pagesCollapseAuth"
                                 >
                                     Resume
-                                    <div className="sb-sidenav-collapse-arrow">
-                                        <i className="fas fa-angle-down"></i>
+                                    <div
+                                        style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            display: 'inline-flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                        className="sb-sidenav-collapse-arrow"
+                                    >
+                                        <ArrowDown stroke="#fff" />
                                     </div>
                                 </a>
                                 <div
@@ -160,8 +196,8 @@ export default function DashboardSideNav() {
             </div> */}
                         {/* Settings menu */}
                         <Link className="nav-link" to="/dashboard/settings">
-                            <div className="sb-nav-link-icon">
-                                <i className="fas fa-wrench"></i>
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <SettingsIcon />
                             </div>
                             Settings
                         </Link>

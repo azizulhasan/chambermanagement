@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { database } from '../../../../database';
-
-/**
- *
- * Utilities
- */
-import { addCSS, getData } from '../../../../utilities/utilities';
-
 const {
     basic: {
         trademark: {
@@ -19,13 +12,10 @@ const {
 } = database;
 
 export default function Footer() {
-    addCSS(['/assets/front/css/footer.css']);
-
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
-        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-    } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+        } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -67,7 +57,7 @@ export default function Footer() {
                                             <div className="icons">
                                                 {socialMediaLinks.map(
                                                     (
-                                                        { name, link, icon },
+                                                        { name, link, Icon },
                                                         i
                                                     ) => (
                                                         <a
@@ -75,9 +65,7 @@ export default function Footer() {
                                                             className={`icon icon--${name.toLowerCase()}`}
                                                             key={i}
                                                         >
-                                                            <i
-                                                                className={icon}
-                                                            ></i>
+                                                            <Icon />
                                                         </a>
                                                     )
                                                 )}
@@ -104,7 +92,7 @@ export default function Footer() {
                                                             : word;
                                                     })
                                                     .join('')
-                                            ].map(({ name, link, icon }) => {
+                                            ].map(({ name, link, Icon }) => {
                                                 return (
                                                     <li key={name}>
                                                         {link ? (
@@ -115,17 +103,18 @@ export default function Footer() {
                                                                 {name}
                                                             </Link>
                                                         ) : null}
-                                                        {icon ? (
+                                                        {!link && Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                {icon()}
+                                                                <Icon fill="#fff" />
                                                                 <span className="text-white">
                                                                     {name}
                                                                 </span>
                                                             </div>
                                                         ) : null}
-                                                        {link && icon ? (
+                                                        {link &&
+                                                            Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
-                                                                {icon()}
+                                                                <Icon fill="#fff" />
                                                                 <Link
                                                                     className="inline-block text-white  transition hover:text-white/75"
                                                                     to={link}

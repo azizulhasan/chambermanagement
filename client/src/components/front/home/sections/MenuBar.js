@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState, Fragment } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { database } from '../../../../database';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../../../store/usersSlice';
@@ -13,8 +13,10 @@ function classNames(...classes) {
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
     const [hiddenMenus, setHiddenMenus] = useState([]);
+    const [rendered, setRendered] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     const { loggedInUser } = useSelector((state) => state.users);
 
@@ -26,6 +28,9 @@ export default function MenuBar() {
     };
 
     useEffect(() => {
+        if (!rendered) {
+            setRendered(true);
+        }
         if (loggedInUser.accessToken) {
             if (loggedInUser.userRole === 'ADMIN') {
                 setHiddenMenus(['/user-panel', '/login']);
@@ -36,14 +41,18 @@ export default function MenuBar() {
                 setHiddenMenus(['/dashboard', '/login']);
             }
         } else {
-            setHiddenMenus(['/dashboard', '/user-panel']);
+            setHiddenMenus(['/user-panel']);
         }
-    }, [loggedInUser.accessToken, loggedInUser]);
+    }, [loggedInUser.accessToken, loggedInUser, rendered]);
+
+    if (!rendered) {
+        return <></>;
+    }
 
     return (
-        <nav className="w-full bg-white shadow">
-            <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
-                <div className="flex items-center justify-between py-3 md:py-5 md:block">
+        <nav className="w-full bg-white shadow ">
+            <div className="flex justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+                <div className="min-h-[70px] flex items-center justify-between py-3 md:py-5 md:block">
                     <Link
                         to="/"
                         className="flex flex-shrink-0 items-center  text-black font-medium"
@@ -106,9 +115,8 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
-                            navbar ? 'block' : 'hidden'
-                        }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
+                            }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {
@@ -117,38 +125,60 @@ export default function MenuBar() {
                                 }
 
                                 return (
-                                    <li key={item.name}>
-                                        {!item.href.includes('#') ? (
-                                            <Link
-                                                to={item.href}
-                                                aria-current={
-                                                    item.current
-                                                        ? 'page'
-                                                        : undefined
-                                                }
-                                                className={classNames(
-                                                    item.current
-                                                        ? 'bg-themeColor text-white'
-                                                        : 'text-black hover:bg-themeColor hover:!text-white',
-                                                    'px-3 py-2 text-sm font-medium cursor-pointer'
-                                                )}
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        ) : (
-                                            <Link
-                                                to={item.href}
-                                                className={classNames(
-                                                    item.current
-                                                        ? 'bg-themeColor text-white'
-                                                        : 'text-black hover:bg-themeColor hover:!text-white',
-                                                    'px-3 py-2 text-sm font-medium cursor-pointer'
-                                                )}
-                                            >
-                                                {item.name}
-                                            </Link>
+                                    <Fragment key={item.name}>
+                                        {!item.href.includes('#') &&
+                                            !item.href.includes('/login') && (
+                                                <li>
+                                                    <Link
+                                                        to={item.href}
+                                                        aria-current={
+                                                            item.current
+                                                                ? 'page'
+                                                                : undefined
+                                                        }
+                                                        className={classNames(
+                                                            item.current
+                                                                ? 'bg-themeColor text-white'
+                                                                : 'text-black hover:bg-themeColor hover:!text-white',
+                                                            'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                        )}
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                </li>
+                                            )}
+                                        {item.href[0] === '#' &&
+                                            pathname === '/' && (
+                                                <li>
+                                                    <a
+                                                        href={item.href}
+                                                        className={classNames(
+                                                            item.current
+                                                                ? 'bg-themeColor text-white'
+                                                                : 'text-black hover:bg-themeColor hover:!text-white',
+                                                            'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                        )}
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                </li>
+                                            )}
+                                        {item.href.includes('/login') && (
+                                            <li>
+                                                <a
+                                                    href={item.href}
+                                                    className={classNames(
+                                                        item.current
+                                                            ? 'bg-themeColor text-white'
+                                                            : 'text-black hover:bg-themeColor hover:!text-white',
+                                                        'px-3 py-2 text-sm font-medium cursor-pointer'
+                                                    )}
+                                                >
+                                                    {item.name}
+                                                </a>
+                                            </li>
                                         )}
-                                    </li>
+                                    </Fragment>
                                 );
                             })}
                             {loggedInUser.accessToken && (

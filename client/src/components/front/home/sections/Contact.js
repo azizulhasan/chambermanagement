@@ -102,7 +102,7 @@ export default function Contact({ id = 'contact' }) {
     };
 
     return (
-        <div className="flex flex-col-reverse gap-10 sm:flex-row mb-10">
+        <div id={id} className="flex flex-col-reverse gap-10 sm:flex-row mb-10">
             <div className="flex-1">
                 <GoogleMap />
             </div>
