@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import langText from './lang';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -15,6 +15,8 @@ export default function TimeSlot({
     selectedSlotColor,
     isSelected,
     onSelect,
+    disabled,
+    disableColor = '#b9b9b9'
 }) {
     const isOnTheHour = slot.get('m') === 0; // e.g: 01:00 is, while 01:05 is not ¯\_(ツ)_/¯
     const langData = langText[lang];
@@ -22,13 +24,39 @@ export default function TimeSlot({
         e.preventDefault();
         onSelect(slot);
     };
+
     return (
         <React.Fragment>
-            <div
+            {disabled ? <div
+                className={`sp-timeslot cursor-default py-1 rounded-sm my-1.5  ${disabled ? 'selected' : ''
+                    } ${isOnTheHour && 'with-tick'}`}
+                style={
+                    disabled
+                        ? { background: disableColor, color: 'black' }
+                        : {}
+                }
+            >
+                <span
+                    className="sp-label"
+                    style={
+                        isSelected
+                            ? { background: disableColor, color: 'black' }
+                            : {}
+                    }
+                >
+                    {`${slot.format('hh:mm')}${amOrPm(slot)} - `}
+                    {`${slot.add(interval, 'm').format('hh:mm')}${amOrPm(
+                        slot
+                    )}`}
+                </span>
+                <button
+                    disabled={true}
+                    className="radioBtn"
+                ></button>
+            </div> : <div
                 onClick={(e) => handleOnSelect(e)}
-                className={`sp-timeslot p-1 border border-themeColor text-black py-1 rounded-sm my-1  ${
-                    isSelected ? 'selected' : ''
-                } ${isOnTheHour && 'with-tick'}`}
+                className={`sp-timeslot py-1 rounded-sm my-1.5  ${isSelected ? 'selected' : ''
+                    } ${isOnTheHour && 'with-tick'}`}
                 style={
                     isSelected
                         ? { background: selectedSlotColor, color: 'white' }
@@ -52,13 +80,7 @@ export default function TimeSlot({
                     onClick={(e) => handleOnSelect(e)}
                     className="radioBtn"
                 ></button>
-                {/* {isOnTheHour && (
-          <span className="sp-tick">
-            <strong>{`${slot.format('hh')}`}</strong>
-            {amOrPm(slot)}
-          </span>
-        )} */}
-            </div>
+            </div>}
         </React.Fragment>
     );
 }

@@ -48,6 +48,10 @@
     color: white;
 }
 
+.appointment div div.slider-wrapper.axis-horizontal{
+    padding-bottom: 30px;
+}
+
 
 /* Customize data */
 .react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
@@ -106,3 +110,22 @@
     color:white;
     background-color: rgb(103, 147, 75);
 }
+
+/* Session slots */
+.sp-timeslot{
+    background-color:  #04bb03  /*#8fe286*/;
+    color:white;
+}
+.sp-timeslot:hover{
+    background-color: rgb(103, 147, 75) ;
+}
+/* .react-calendar__month-view__days__day--weekend{
+    color: red;
+} */
+
+
+
+/* #04bb03 */
+
+/* disable color */
+/* #b9b9b9 */

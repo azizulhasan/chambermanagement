@@ -42,8 +42,7 @@ export const addScripts = (scripts) => {
             document.body.appendChild(tag);
         }
     });
-    removeJsFromDOM(scriptArr)
-
+    removeJsFromDOM(scriptArr);
 };
 
 const getAllCSSFiles = () => {
@@ -83,7 +82,6 @@ export const addCSS = (css) => {
         }
     });
     removeCSSFromDOM(previousCSSFiles);
-
 };
 
 export function removeCSSFromDOM(cssFilesArr) {
@@ -96,8 +94,8 @@ export function removeCSSFromDOM(cssFilesArr) {
             } else {
                 let link = document.querySelector(
                     'link[href="' +
-                    cssFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -109,7 +107,9 @@ export function removeCSSFromDOM(cssFilesArr) {
             } else {
                 // .replace(process.env.REACT_APP_URL, '')
                 let link = document.querySelector(
-                    'link[href="' + cssFile.replace(process.env.REACT_APP_URL, '') + '"]'
+                    'link[href="' +
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -118,7 +118,6 @@ export function removeCSSFromDOM(cssFilesArr) {
 }
 
 export function removeJsFromDOM(jsFiles) {
-
     let pathArr = window.location.pathname;
     let arr = [];
     if (pathArr.includes('dashboard')) {
@@ -134,13 +133,14 @@ export function removeJsFromDOM(jsFiles) {
         });
     } else {
         jsFiles.map((jsFile) => {
-
             if (!removeFromFrontJsAssets.includes(jsFile)) {
                 arr.push(jsFile);
             } else {
                 // .replace(process.env.REACT_APP_URL, '')
                 let script = document.querySelector(
-                    'script[src="' + jsFile.replace(process.env.REACT_APP_URL, '') + '"]'
+                    'script[src="' +
+                        jsFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (script) script.remove();
             }
@@ -381,27 +381,101 @@ export const setSessionStorage = (data) => {
         });
     }
 };
+
+export const isValidJSON = (str) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+};
 /**
  *
  * @param {array} keys session storage keys is array.
  */
 export const getSessionStorage = (keys = []) => {
     let sessionData = {};
-    if (typeof keys === 'array' && keys.length) {
+    if (Array.isArray(keys) && keys.length) {
         for (let i = 0; i < keys.length; i++) {
-            sessionData[keys[i]] = window.sessionStorage.getItem(keys[i]);
+            let data = window.sessionStorage.getItem(keys[i]);
+            if (data !== null && isValidJSON(data)) {
+                sessionData[keys[i]] = JSON.parse(data);
+            } else if (data !== null) {
+                sessionData[keys[i]] = data;
+                console.log({ else: data });
+            }
         }
     } else {
         let session = window.sessionStorage;
         for (let key in session) {
             let keyData = window.sessionStorage.getItem(key);
-            if (keyData) {
+            if (keyData !== null && isValidJSON(keyData)) {
+                sessionData[key] = JSON.parse(keyData);
+            } else if (keyData !== null) {
                 sessionData[key] = keyData;
             }
         }
     }
-
     return sessionData;
+};
+
+/**
+ *
+ * @param {array} keys session storage keys is array.
+ */
+// export const getSessionStorage = (keys = []) => {
+//     let sessionData = {};
+//     if (typeof keys === 'array' && keys.length) {
+//         for (let i = 0; i < keys.length; i++) {
+//             let data = window.sessionStorage.getItem(keys[i]);
+//             if (isValidJSON(data)) {
+//                 sessionData[keys[i]] = JSON.parse(data)
+//             } else {
+//                 sessionData[keys[i]] = data;
+//             }
+//         }
+//     } else {
+//         let session = window.sessionStorage;
+//         for (let key in session) {
+//             let keyData = window.sessionStorage.getItem(key);
+//             console.log(keyData)
+//             if (isValidJSON(keyData)) {
+//                 sessionData[key] = JSON.parse(keyData)
+//             } else if (keyData) {
+//                 sessionData[key] = keyData;
+//             }
+//         }
+//     }
+//     return sessionData;
+
+// };
+
+export const saveSessionData = (sessionKey = 'test', data = null) => {
+    let prevData = window.sessionStorage.getItem(sessionKey);
+    let newData = null;
+    let typeofData = Array.isArray(data)
+        ? 'array'
+        : typeof data === 'object'
+        ? 'object'
+        : 'all';
+    switch (typeofData) {
+        case 'object':
+            newData = JSON.stringify(data);
+            break;
+        case 'array':
+            if (prevData && prevData !== undefined) {
+                prevData = JSON.parse(prevData);
+                newData = prevData.concat(data);
+            } else {
+                newData = data;
+            }
+            newData = JSON.stringify(newData);
+            break;
+        default:
+            newData = data;
+    }
+    window.sessionStorage.setItem(sessionKey, newData);
 };
 /**
  * Set localStorage
@@ -489,8 +563,8 @@ export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-            ? window.localStorage.getItem('user')['storage']
-            : '';
+        ? window.localStorage.getItem('user')['storage']
+        : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -554,7 +628,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-    [textareaIndex].getAttribute('id');
+        [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 
@@ -1103,6 +1177,21 @@ export function dragEnd(
     return dynamicAttribute;
 }
 
+export const jsonParse = (data) => {
+    return JSON.parse(JSON.stringify(data));
+};
+
+export const addToImutableObject = (key, value, obj = {}) => {
+    let data = jsonParse(obj);
+
+    if (key && value) {
+        data[key] = value;
+        return data;
+    }
+
+    return data;
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //																						 //
 // START DATABASE RELATED WORK															 //
@@ -1152,7 +1241,7 @@ export const fetchData = async (payload) => {
  * @returns {string}
  */
 export function getUrl(endpoint) {
-    let url = window.location.origin + '/';
+    let url = process.env.REACT_APP_API_URL;
     if (endpoint) {
         url += endpoint;
     }
@@ -1171,3 +1260,20 @@ export const redirectUser = (user) => {
         window.location.href = process.env.REACT_APP_URL;
     }
 };
+
+// # The "addUserData" function below takes an array of objects and each of these objects will have user id. Sometimes we will need the details of that user. So we will use this function to retrieve user details from the backend and add them to every objects of that array we recieved.
+// # Below are the arguments we will have to pass when we will invoke this function
+// -> data : arrayOfObjectsIncludingUserIdEach, type - array of objects
+// -> userIdKey : propNameUsedForUserId , type - string
+// -> userDetailsKey :  newPropNameToBeAddedToRecieveUserDetailsData , type - string
+export async function addUserData(data, userIdKey, userDetailsKey) {
+    for (let i = 0; i < data.length; i++) {
+        const userId = data[i][userIdKey];
+        const user = await fetch(
+            process.env.REACT_APP_API_URL + `/api/users/${userId}`
+        );
+        const userData = await user.json();
+        console.log({ userData });
+        data[i][userDetailsKey] = userData;
+    }
+}

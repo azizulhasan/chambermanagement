@@ -1,129 +1,328 @@
 import React, { useEffect, useState } from 'react';
-import Select from '../../components/front/common/form/Select';
+import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import SlotPicker from './timeslots/SlotPicker';
 import { amOrPm } from '../../utilities/timeUtilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
+import { fetchDoctorSchedules, updateCurrentSlide } from '../../store/userScheduleSlice';
+import Select from '../../components/front/common/form/Select';
+import { addToImutableObject, getSessionStorage, saveSessionData, setSessionStorage } from '../../utilities/utilities';
 
 export default function SessionDetails() {
-    const [date, setDate] = useState(new Date());
+    const pageNo = 1
 
+    const [date, setDate] = useState(null);
+    const [currentDateString, setCurrentDateString] = useState(new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate());
+
+
+    const [doctors, setDoctors] = useState([])
+    const [specialities, setSpecialities] = useState([])
+    const [filteredDoctors, setFilteredDoctors] = useState([])
+    const [sessionData, setSessionData] = useState({})
+    const [defaultSelectedTime, setDefaultSelectedTime] = useState([])
+    const [unAvailableSlots, setUnAvailableSlots] = useState([])
+    const [filteredSchedule, setFilteredSchedule] = useState({
+        timeSlots: [],
+        perSessionLength: 60,
+    })
+    const [timeSlots, setTimeSlots] = useState([])
+    const [offDays, setOffDays] = useState([])
+    const [offDates, setOffDates] = useState([])
+    const ref = React.useRef();
     const dispatch = useDispatch();
     const { schedules, singleSchedule, isModalActive, options } = useSelector(
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
+    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } = useSelector((state) => state.userSchedules);
+
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
+        let sessionData = getSessionStorage(['registerUserSchedule'])
+
+        if (!Object.keys(sessionData).length) {
+            saveSessionData('registerUserSchedule', registerUserSchedule)
+            setSessionData(registerUserSchedule[pageNo])
+        } else {
+            setSessionData(sessionData['registerUserSchedule'][pageNo])
+        }
     }, []);
 
     useEffect(() => {
-        // console.log(users)
-        // console.log(schedules);
-    }, [users, schedules]);
+        let data = users.filter((user, i) => user.userRole === 'DOCTOR');
+        setDoctors(data)
+        let specialities = []
+        data.map(doctor => {
+            if (!specialities.includes(doctor.speciality)) {
+                specialities.push(doctor.speciality)
+            }
+        })
+        setSpecialities(specialities)
+        setFilteredDoctors(data)
+    }, [users]);
 
-
-
-
-    const getFormValue = (e) => {
-        // console.log(e);
-    };
-
-    const addToSelectedArray = (slot) => {
-        let from = slot.format('hh:mm') + amOrPm(slot);
-        let to = slot.add(60, 'm').format('hh:mm') + amOrPm(slot);
-    };
-
-    const onChange = (e) => {
-        console.log(e);
-    };
-
-    const clickWeekNumber = (e) => {
-        // console.log(e);
-    };
     useEffect(() => {
-        console.log(date)
+        let limit = 100;
+        let startsAt = '00:00'
+        let endsAt = '23:00';
+        let interval = filteredSchedule.perSessionLength
+        let slots = []
+        let initialSlots = 7;
+        while (
+            dayjs(`2001-01-01 ${startsAt}`, 'YYYY-MM-DD HH:mm').isBefore(
+                dayjs(`2001-01-01 ${endsAt}`, 'YYYY-MM-DD HH:mm')
+            ) &&
+            limit > 0
+        ) {
+            let t = dayjs()
+                .set('h', Number.parseInt(startsAt.split(':')[0]))
+                .set('m', Number.parseInt(startsAt.split(':')[1]))
+                .add(interval, 'm');
+            if (filteredSchedule.timeSlots.length && filteredSchedule.timeSlots.includes(t.format('HH:mm'))) {
+                slots.push(t)
+            }
+            if (filteredSchedule.timeSlots.length < 1) {
+                slots.length <= initialSlots && slots.push(t)
+            }
+
+            startsAt = t.format('HH:mm');
+            limit--;
+        }
+
+        if (sessionData.session_time) {
+            setDefaultSelectedTime([sessionData.session_time])
+        }
+        setTimeSlots(slots)
+    }, [filteredSchedule])
+
+
+    useEffect(() => {
+        let dates = document.getElementsByClassName('react-calendar__month-view__days__day')
+        Object.values(dates).map(date => {
+            if (date.hasAttribute('disabled')) {
+                date.classList.add('bg-[#b9b9b9]')
+                // date.classList.add('text-white')
+                date.classList.remove('hover:bg-themeColor')
+                date.classList.remove('hover:text-white')
+            } else {
+                date.classList.remove('bg-[#b9b9b9]')
+                date.classList.remove('text-white')
+                date.classList.add('hover:bg-themeColor')
+                date.classList.add('hover:text-white')
+            }
+        })
+
+    }, [offDates])
+
+    useEffect(() => {
+        if (sessionData.session_date) setDate(new Date(sessionData.session_date))
+        if (sessionData.doctor_id !== undefined) {
+            let filteredSchedule = schedules.filter(schedule => schedule.user === sessionData.doctor_id)
+            if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                setOffDays(filteredSchedule[0].offDay)
+                let offDates = getOffDates(filteredSchedule[0].offDay)
+                setOffDates(offDates);
+                setFilteredSchedule(filteredSchedule[0])
+            }
+        }
+
+    }, [sessionData, schedules])
+
+    useEffect(() => {
+        if (date !== null) {
+            let selectedDay = parseInt(date.getDate());
+            let allDates = document.querySelectorAll('.react-calendar__tile')
+            Object.values(allDates).map(date => {
+                if (parseInt(date.firstChild.innerText) === selectedDay) {
+                    date.classList.add('bg-themeColor')
+                    date.classList.add('text-white')
+                } else {
+                    date.classList.remove('bg-themeColor')
+                    date.classList.remove('text-white')
+                }
+            })
+        }
     }, [date])
+
+    const addToSelectedArray = (time) => {
+        prepareScheduleSessionData('session_time', time)
+    };
+
+    const onChange = (e, currentSlide) => {
+        if (e.target.name === 'session_name') {
+            let filteredDoctors = doctors.filter(doctor => doctor.speciality === e.target.value)
+            if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
+        }
+        if (e.target.name === 'doctor_id') {
+            if (e.target.value !== '0') {
+                dispatch(fetchDoctorSchedules({
+                    endpoint: '/api/userSchedule/doctorschedules/' + e.target.value,
+                    config: {}
+                }))
+            }
+            let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
+            if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                var firstDay = new Date(y, m, 1);
+                var lastDay = new Date(y, m + 1, 0);
+                // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                // let firstDay = new Date(y, m, 1);
+                // let lastDay = new Date(y, m + 1, 0);
+                console.log(firstDay, lastDay)
+                setOffDays(filteredSchedule[0].offDay)
+                setFilteredSchedule(filteredSchedule[0])
+            }
+        }
+        prepareScheduleSessionData(e.target.name, e.target.value)
+    };
+
+    const setSessionDate = (date) => {
+        setDate(date)
+        prepareScheduleSessionData('session_date', date)
+        if (currentDoctorSchedules.length) {
+            let bookedSchedules = [];
+            for (let i = 0; i < currentDoctorSchedules.length; i++) {
+                let session = currentDoctorSchedules[i]
+                let tempDate = new Date(session.session_date)
+                if (tempDate.getDate() === date.getDate()) {
+                    bookedSchedules.push(session.session_time)
+                }
+            }
+            setUnAvailableSlots(bookedSchedules)
+        }
+    }
+
+
+    useEffect(() => {
+        let tempOffDates = JSON.parse(JSON.stringify(offDates))
+        let tempObj = {}
+        let currentMonth = new Date().getMonth()
+        if (currentDoctorSchedules.length) {
+            for (let i = 0; i < currentDoctorSchedules.length; i++) {
+                let session = currentDoctorSchedules[i]
+                let tempDate = new Date(session.session_date)
+                if (tempDate.getMonth() === currentMonth) {
+                    if (!tempObj[tempDate.getDate()]) {
+                        tempObj[tempDate.getDate()] = [session.session_time];
+                    } else {
+                        tempObj[tempDate.getDate()].push(session.session_time)
+                    }
+                }
+            }
+            Object.keys(tempObj).map(date => {
+                if (tempObj[date].length === timeSlots.length) {
+                    tempOffDates.push(parseInt(date))
+                }
+            })
+            setOffDates(tempOffDates)
+        }
+    }, [currentDoctorSchedules])
+
+    function prepareScheduleSessionData(key, value, pageNumber = pageNo, sessionKey = 'registerUserSchedule') {
+        let sessionData = getSessionStorage([sessionKey])
+        if (pageNumber && key && value) {
+            Object.keys(sessionData[sessionKey][pageNumber]).map(currentKey => {
+                if (currentKey == key) {
+                    sessionData[sessionKey][pageNumber][key] = value
+                }
+            })
+        }
+        setSessionData(sessionData[sessionKey][1])
+        saveSessionData(sessionKey, sessionData[sessionKey])
+    }
+
+    function getOffDates(offDays) {
+        let tempDate = new Date(currentDateString)
+        let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth())
+        let offDates = []
+        for (let i = 0; i < allDates.length; i++) {
+            let temp = allDates[i]
+            let day = days[temp.getDay()]
+            if (offDays.includes(day)) {
+                offDates.push(temp.getDate())
+            }
+        }
+        return offDates;
+    }
+
+    function get_all_dates(year, month) {
+        let date = new Date(year, month, 1);
+        let dates = [];
+        let i = 0;
+        while (date.getMonth() === month) {
+            dates.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+            i = i + 1;
+        }
+
+        return dates;
+    }
+
+
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
-                    defaultValue="0"
-                    onChange={(e) => onChange(e)}
+                    value={sessionData.session_name ? sessionData.session_name : '0'}
+                    onChange={(e) => onChange(e, currentSlide)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
-                    options={['option', 'option-2', 'option-3']}
+                    options={specialities}
                     id="session_name"
                     name="session_name"
+                    required={true}
                 />
             </div>
             <div className="w-60">
-                <label htmlFor="doctor_name">Doctor</label>
+                <label htmlFor="doctor_id">Doctor</label>
                 <Select
-                    defaultValue="0"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => onChange(e, currentSlide)}
                     defaultOption="Select Doctor"
                     classes={'border w-60 p-2'}
-                    options={['option', 'option-2', 'option-3']}
-                    id="doctor_name"
-                    name="doctor_name"
+                    options={filteredDoctors}
+                    id="doctor_id"
+                    name="doctor_id"
+                    required={true}
+                    value={sessionData.doctor_id ? sessionData.doctor_id : '0'}
                 />
             </div>
-            <div className="w-60">
+            <div className="w-72">
                 <label htmlFor="session_date">Select Date</label>
                 <Calendar
-                    // OnChangeDateCallback={(e) => clickWeekNumber(e)}
-                    // ClickWeekNumberCallback={(e) => clickWeekNumber(e)}
-                    tileClassName={'p-1.5 hover:text-white hover:bg-themeColor '}
-                    // tileContent={({ date, view }) => null}
-                    // activeStartDate={new Date(2023, 0, 1)}
-                    // tileDisabled={({ activeStartDate, date, view }) => {
-                    //     // unable to select
-                    //     return date.getDay() === 0;
-                    // }}
-                    // defaultActiveStartDate={new Date()}
-                    // navigationLabel={({ date, label, locale, view }) => `Current view: ${view}, date: ${date.toLocaleDateString(locale)}`
-                    // }
-                    // nextLabel={
-                    //     <p className="inline ml-1 p-1 hover:bg-gray-200">
-                    //         {'>'}
-                    //     </p>
-                    // }
-                    // next2Label={
-                    //     <p className="inline ml-3 p-1 hover:bg-gray-200">
-                    //         {'>>'}
-                    //     </p>
-                    // }
-                    // prevLabel={
-                    //     <p className="inline mr-1 p-1 hover:bg-gray-200">
-                    //         {'<'}
-                    //     </p>
-                    // }
-                    // prev2Label={
-                    //     <p className="inline mr-3 p-1 hover:bg-gray-200">
-                    //         {'<<'}
-                    //     </p>
-                    // }
+                    tileClassName={'p-2.5 hover:text-white hover:bg-themeColor '}
+                    tileDisabled={({ activeStartDate, date, view }) => {
+                        if (offDates.includes(date.getDate())) {
+                            return true;
+                        }
+                        return false;
+                    }}
                     className="mx-2 border border-themeColor session_date"
-                    onChange={(e) => setDate(e)}
+                    onChange={(e) => setSessionDate(e)}
                     value={date}
+                    showNeighboringMonth={false}
+                    inputRef={ref}
+                    calendarType={'US'}
+                    onActiveStartDateChange={({ action, activeStartDate, value, view }) => {
+                        setCurrentDateString(activeStartDate.getFullYear() + "-" + (activeStartDate.getMonth() + 1) + "-" + activeStartDate.getDate())
+                    }}
                 />
             </div>
             <div className="w-60">
-                <label htmlFor="session_data">Session Time</label>
+                <label htmlFor="session_time">Session Time</label>
                 <SlotPicker
-                    interval={60}
+                    interval={filteredSchedule.perSessionLength}
                     from={'07:00'}
-                    to={'13:00'}
-                    unAvailableSlots={['12:00']}
+                    to={'23:00'}
+                    unAvailableSlots={unAvailableSlots}
                     lang={'en'}
-                    defaultSelectedTime=""
+                    defaultSelectedTime={defaultSelectedTime}
                     onSelectTime={(s) => addToSelectedArray(s)}
-                    classes=""
+                    classes="hover:cursor-pointer"
+                    timeSlots={timeSlots}
                 />
             </div>
         </div>
