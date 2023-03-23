@@ -56,6 +56,36 @@ const generateRefreshToken = (user) => {
     );
 };
 
+
+/**
+ * User register from frontend.
+ * @param {Object} req.
+ * @param {Object} res
+ */
+const user_from_schedule = async (req, res) => {
+    const newPassword = await bcrypt.hash(req.body.phone, 10);
+    const user = await Users.findOne({ email: req.body.email });
+    if (user) {
+        res.json({
+            status: true,
+            data: user,
+        });
+    } else {
+        let userData = { ...req.body, ...{ password: newPassword } };
+        let newUser = new Users(userData);
+        newUser
+            .save()
+            .then((result) => {
+                res.json({ status: true, data: result });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+};
+
+
+
 /**
  * User register from frontend.
  * @param {Object} req.
@@ -336,6 +366,7 @@ const delete_user = (req, res) => {
 module.exports = {
     getRefreshToken,
     register_user,
+    user_from_schedule,
     register_user_from_dashboard,
     login_user,
     get_users,

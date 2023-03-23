@@ -29,6 +29,7 @@ let initialState = {
             name: '',
             email: '',
             phone: '',
+            user_id: '',
         },
         3: {
             paymentMethod: '',

@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1297,6 +1297,10 @@ video {
   gap: 0.25rem;
 }
 
+.gap-\[2px\] {
+  gap: 2px;
+}
+
 .gap-2\.5 {
   gap: 0.625rem;
 }
@@ -1315,10 +1319,6 @@ video {
 
 .gap-4 {
   gap: 1rem;
-}
-
-.gap-\[2px\] {
-  gap: 2px;
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1640,14 +1640,14 @@ video {
   padding-right: 0.5rem;
 }
 
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .py-1\.5 {
