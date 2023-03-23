@@ -82,8 +82,7 @@ export default function ModalContent() {
             }
 
 
-            if (isLastPage) {
-                console.log(data)
+            if (currentPage === 3) {
                 dispatch(
                     saveUserSchedule({
                         endpoint: '/api/userSchedule',
