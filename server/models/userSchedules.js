@@ -11,6 +11,14 @@ const userSchedule = new Schema(
             type: String,
             required: true,
         },
+        user_id: {
+            type: String,
+            required: false,
+        },
+        per_session_length: {
+            type: Number,
+            required: false,
+        },
         session_date: {
             type: String,
             required: true,
@@ -25,7 +33,7 @@ const userSchedule = new Schema(
         },
         email: {
             type: String,
-            required: true
+            required: true,
         },
         phone: {
             type: Number,
@@ -34,7 +42,7 @@ const userSchedule = new Schema(
         paymentMethod: {
             type: String,
             required: true,
-        }
+        },
     },
     { timestamps: true }
 );

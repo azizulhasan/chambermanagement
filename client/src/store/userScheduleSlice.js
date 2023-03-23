@@ -23,6 +23,7 @@ let initialState = {
             doctor_id: '',
             session_date: '',
             session_time: '',
+            per_session_length: '',
         },
         2: {
             name: '',

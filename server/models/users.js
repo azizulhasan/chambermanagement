@@ -46,7 +46,7 @@ const usersSchema = new Schema(
         },
         userRole: {
             type: String,
-            required: false,
+            required: true,
             default: 'USER',
         },
     },

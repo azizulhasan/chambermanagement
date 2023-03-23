@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { fetchData } from '../../../utilities/utilities';
 
 const Settings = () => {
-    const [prevPassword, setPrevPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const loggedInUser = useSelector((state) => state.users.loggedInUser);
+
+    console.log({ loggedInUser });
+
+    const fetchUserDetails = async (id) => {
+        try {
+            const { data } = await fetchData({
+                endpoint: `/api/userSchedule/doctorschedules/${id}`,
+            });
+            console.log({ data });
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <div>
@@ -13,33 +26,42 @@ const Settings = () => {
             <div className="p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto text-sm md:text-base flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
                     <div>
-                        Name:
-                        <div className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b">
-                            John Doe
-                        </div>
+                        <label>Name:</label>
+                        <input
+                            type="string"
+                            value="John"
+                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
+                        />
                     </div>
                     <div>
                         Phone:{' '}
-                        <div className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b">
-                            +8801XXXXXXXXX
-                        </div>
+                        <input
+                            type="string"
+                            value="+8801XXXXXXXXX"
+                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
+                        />
                     </div>
                     <div>
                         Email:{' '}
-                        <div className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b">
-                            johndoe@gmail.com
-                        </div>
+                        <input
+                            disabled
+                            type="string"
+                            value="johndoe@gmail.com"
+                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
+                        />
                     </div>
                     <div>
                         Password:{' '}
-                        <div className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b">
-                            ************
-                        </div>
+                        <input
+                            type="string"
+                            value="***********"
+                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
+                        />
                     </div>
                 </div>
                 <div>
                     <button className="border px-4 py-1 text-white bg-themeColor rounded-md">
-                        Change Password
+                        Update
                     </button>
                 </div>
             </div>
