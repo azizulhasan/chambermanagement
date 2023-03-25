@@ -59,8 +59,6 @@ export default function DashboardContent() {
 
     useEffect(() => {
         dispatch(fetchUserSchedules());
-
-        return () => console.log(userSchedules.userSchedules);
     }, []);
 
     // useEffect(() => {
