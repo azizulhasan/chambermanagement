@@ -8,7 +8,10 @@ router.get('/', userSchedulesController.userSchedule_index);
 router.put('/:id', userSchedulesController.userSchedule_update_post);
 router.get('/:id', userSchedulesController.userSchedule_details);
 router.delete('/:id', userSchedulesController.userSchedule_delete_post);
-router.get('/doctorschedules/:doctor_id', userSchedulesController.get_doctor_schedules);
-
+router.get(
+    '/doctorschedules/:doctor_id',
+    userSchedulesController.get_doctor_schedules
+);
+router.get('/userschedules/:id', userSchedulesController.get_user_schedules);
 
 module.exports = router;

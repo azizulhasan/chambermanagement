@@ -23,6 +23,14 @@ const get_doctor_schedules = async (req, res) => {
     res.json({ data: doctorSchedules });
 };
 
+const get_user_schedules = async (req, res) => {
+    const user_id = req.params.id;
+    let userSchedules = await UserSchedule.find({
+        user_id,
+    }).sort({ createdAt: -1 });
+    res.json({ data: userSchedules });
+};
+
 /**
  * Display single userschedule details.
  * @param {Object} req for getting single.
@@ -114,4 +122,5 @@ module.exports = {
     userSchedule_update_post,
     userSchedule_delete_post,
     get_doctor_schedules,
+    get_user_schedules,
 };

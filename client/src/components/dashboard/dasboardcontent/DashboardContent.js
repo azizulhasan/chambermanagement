@@ -59,8 +59,6 @@ export default function DashboardContent() {
 
     useEffect(() => {
         dispatch(fetchUserSchedules());
-
-        return () => console.log(userSchedules.userSchedules);
     }, []);
 
     // useEffect(() => {
@@ -108,7 +106,7 @@ export default function DashboardContent() {
             paginationOptionsProps={{
                 initialState: {
                     rowsPerPage: 10,
-                    options: [1, 5, 10, 15, 20, 30, 50, 70, 100],
+                    options: [5, 10, 15, 20, 30, 50, 70, 100],
                 },
             }}
         >
