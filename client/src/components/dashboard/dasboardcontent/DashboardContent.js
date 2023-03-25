@@ -108,7 +108,7 @@ export default function DashboardContent() {
             paginationOptionsProps={{
                 initialState: {
                     rowsPerPage: 10,
-                    options: [5, 10, 15, 20, 30, 50, 70, 100],
+                    options: [1, 5, 10, 15, 20, 30, 50, 70, 100],
                 },
             }}
         >

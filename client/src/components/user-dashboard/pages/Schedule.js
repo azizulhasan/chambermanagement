@@ -157,6 +157,8 @@ const Schedule = () => {
                 headers={headers}
                 body={body}
                 withFilter
+                withPagination
+                rowsPerPageOptions={[1, 5, 10, 20, 30, 50, 70, 100]}
             />
         </div>
     );

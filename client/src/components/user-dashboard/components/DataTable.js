@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import Pagination from './Pagination';
 
 const DataTable = ({
     title = '',
@@ -6,12 +7,14 @@ const DataTable = ({
     headers,
     body,
     withFilter = false,
+    withPagination = false,
+    rowsPerPageOptions = [5, 10, 20],
 }) => {
     const [filterText, setFilterText] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [indexOfFirstRow, setIndexOfFirstRow] = useState(0);
     const [indexOfLastRow, setIndexOfLastRow] = useState(rowsPerPage);
-    const [prevPage, setPrevPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const filteredBody = body.filter((data) => filterData(data, filterText));
 
     function filterData(data, filterText) {
@@ -45,9 +48,12 @@ const DataTable = ({
         return pageNums;
     }, [pageCount]);
 
+    console.log({ rowsPerPage, indexOfFirstRow, indexOfLastRow });
+
     useEffect(() => {
         setIndexOfFirstRow(0);
         setIndexOfLastRow(rowsPerPage);
+        setCurrentPage(1);
     }, [rowsPerPage]);
 
     return (
@@ -65,7 +71,7 @@ const DataTable = ({
                 <div className="w-64 ml-auto flex mb-4">
                     <input
                         type="text"
-                        placeholder="Filter"
+                        placeholder="Enter text"
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
                         className="w-56 p-1 border border-r-0 border-gray-300 focus:border-themeColor focus:outline-none rounded-l-sm"
@@ -78,7 +84,7 @@ const DataTable = ({
                     </div>
                 </div>
             )}
-            <div className="p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto">
+            <div className="mb-4 p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto">
                 <table className="text-sm md:text-base w-full min-w-min overflow-auto">
                     <thead className="border-b border-gray-300">
                         <tr className="h-10">
@@ -92,73 +98,69 @@ const DataTable = ({
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-                        {filteredBody
-                            .slice(indexOfFirstRow, indexOfLastRow)
-                            .map((data) => (
-                                <tr
-                                    key={crypto.randomUUID()}
-                                    className="border-b border-gray-200/50 h-10"
-                                >
-                                    {headers.map((header) => (
-                                        <td key={crypto.randomUUID()}>
-                                            {data[header.prop]}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                    </tbody>
+                    {filteredBody.length > 0 && (
+                        <tbody>
+                            {filteredBody
+                                .slice(indexOfFirstRow, indexOfLastRow)
+                                .map((data) => (
+                                    <tr
+                                        key={crypto.randomUUID()}
+                                        className="border-b border-gray-200/50 h-10"
+                                    >
+                                        {headers.map((header) => (
+                                            <td key={crypto.randomUUID()}>
+                                                {data[header.prop]}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                        </tbody>
+                    )}
+                    {filteredBody.length === 0 && (
+                        <div className="h-10 flex items-center">
+                            No data to display
+                        </div>
+                    )}
                 </table>
             </div>
-            <label>
-                Rows Per Page
-                <select
-                    value={rowsPerPage}
-                    onChange={(e) => {
-                        setRowsPerPage(e.target.value);
-                    }}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                    <option value={70}>70</option>
-                    <option value={100}>100</option>
-                </select>
-            </label>
-            <div className="flex gap-[2px]">
-                {pageNumbers.map((page) => {
-                    return (
-                        <div
-                            key={page}
-                            className="px-3 py-1 bg-themeColor text-white cursor-pointer"
-                            onClick={() => {
-                                if (prevPage < page) {
-                                    setIndexOfFirstRow(
-                                        (prev) => prev + rowsPerPage
-                                    );
-                                    setIndexOfLastRow(
-                                        (prev) => prev + rowsPerPage
-                                    );
-
-                                    setPrevPage(page);
-                                } else {
-                                    setIndexOfFirstRow(
-                                        (prev) => prev - rowsPerPage
-                                    );
-                                    setIndexOfLastRow(
-                                        (prev) => prev - rowsPerPage
-                                    );
-
-                                    setPrevPage(page);
-                                }
+            {withPagination && (
+                <div className="mb-4">
+                    <label>
+                        Rows Per Page&nbsp;&nbsp;
+                        <select
+                            value={rowsPerPage}
+                            onChange={(e) => {
+                                setRowsPerPage(parseInt(e.target.value));
                             }}
+                            className="h-[26px] min-w-[60px] border focus:outline-none"
                         >
-                            {page}
-                        </div>
-                    );
-                })}
-            </div>
+                            {rowsPerPageOptions.map((option) => (
+                                <option
+                                    value={option}
+                                    key={crypto.randomUUID()}
+                                >
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                </div>
+            )}
+            {/* Pagination */}
+            {withPagination && (
+                <div className="flex justify-end">
+                    <Pagination
+                        {...{
+                            pageNumbers,
+                            currentPage,
+                            setCurrentPage,
+                            setIndexOfFirstRow,
+                            setIndexOfLastRow,
+                            rowsPerPage,
+                        }}
+                    />
+                </div>
+            )}
         </div>
     );
 };
