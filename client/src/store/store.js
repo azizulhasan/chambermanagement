@@ -4,14 +4,19 @@ import usersSlice from './usersSlice';
 import schedulessSlice from './schedulesSlice';
 import commonDataSlice from './commonDataSlice';
 import userSchedules from './userScheduleSlice';
+import paymentSlice from './paymentSlice';
+
 
 const store = configureStore({
     reducer: {
-        services: serviceSlice,
+        services: serviceSlice, // mange services
         users: usersSlice, // manage users and add team members
-        schedules: schedulessSlice, // manage users and add team members
-        common: commonDataSlice, // manage users and add team members
-        userSchedules: userSchedules, // manage users and add team members
+        schedules: schedulessSlice, // manage doctor schedules
+        common: commonDataSlice, // manage common data
+        userSchedules: userSchedules, // manage user schedules
+        payment: paymentSlice, // manage payment
+
+
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
