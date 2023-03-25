@@ -24,8 +24,6 @@ let paymentSlice = createSlice({
     },
 
     extraReducers: (builder) => {
-
-
         builder.addCase(proceed_to_pay.fulfilled, (state, action) => {
             window.open(action.payload.url, '_blank')
         });
