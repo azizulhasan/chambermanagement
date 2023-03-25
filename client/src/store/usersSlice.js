@@ -24,6 +24,7 @@ const loggedInUser = {
 const initialState = {
     users: [],
     singleUser: {},
+    scheduleUser: {},
     status: STATUSES.IDLE,
     isModalActive: false,
     USER_HEADERS: [
@@ -88,7 +89,6 @@ const usersSlice = createSlice({
                 } else {
                     setSessionStorage({ user: registeredUser });
                 }
-                console.log({ dataFromLoginUserAddCase: action.payload.data });
                 state.loggedInUser = action.payload.data;
             } else {
                 alert(action.payload.message);
@@ -121,6 +121,12 @@ const usersSlice = createSlice({
             state.users = action.payload;
             state.isModalActive = false;
         });
+
+        builder.addCase(userFromSchedule.fulfilled, (state, action) => {
+            state.scheduleUser = action.payload.data
+        });
+
+
 
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.users = action.payload;
@@ -236,6 +242,14 @@ export const saveUser = createAsyncThunk('saveUser', async (payload) => {
 
     return data.data;
 });
+
+/**
+ * Add a user from dashboard.
+ */
+export const userFromSchedule = createAsyncThunk('userFromSchedule', async (payload) => {
+    return fetchData(payload)
+});
+
 /**
  * Update users details
  */

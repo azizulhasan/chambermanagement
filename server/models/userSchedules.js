@@ -13,11 +13,11 @@ const userSchedule = new Schema(
         },
         user_id: {
             type: String,
-            required: false,
+            required: true,
         },
         per_session_length: {
             type: Number,
-            required: false,
+            required: true,
         },
         session_date: {
             type: String,
@@ -42,6 +42,11 @@ const userSchedule = new Schema(
         paymentMethod: {
             type: String,
             required: true,
+        },
+        status: {
+            type: String,
+            required: false,
+            default: "Upcomming"
         },
     },
     { timestamps: true }

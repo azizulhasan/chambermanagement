@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Input from '../../components/front/common/form/Input';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSessionStorage, saveSessionData } from '../../utilities/utilities';
+import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
+import { proceed_to_pay } from '../../store/paymentSlice';
 
 export default function PatientDetails() {
     const [sessionData, setSessionData] = useState({})
@@ -32,6 +33,23 @@ export default function PatientDetails() {
         setSessionData(sessionData[sessionKey][pageNo])
         saveSessionData(sessionKey, sessionData[sessionKey])
     }
+
+    const proceedToPay = (e) => {
+        e.preventDefault();
+        let sessionData = getSessionStorage(['registerUserSchedule'])
+        let data = prepareDataForSave(sessionData['registerUserSchedule'])
+        dispatch(proceed_to_pay({
+            endpoint: '/api/payment',
+            config: {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify(data),
+            },
+        }))
+    }
+
     return (
         <div className="flex border justify-between py-4 mb-8 ">
             <div className="w-full col-span-4">
@@ -45,6 +63,7 @@ export default function PatientDetails() {
                     classes={'w-full border p-2'}
                     onChange={(e) => getFormValue(e)}
                 />
+                <button type='button' className='button p-2 bg-themeColor text-white' onClick={(e) => proceedToPay(e)}>Proceed To Pay</button>
             </div>
         </div>
     );

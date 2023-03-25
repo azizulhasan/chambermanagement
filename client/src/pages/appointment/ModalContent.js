@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import SessionDetails from './SessionDetails';
 import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserSchedule } from '../../store/userScheduleSlice';
-import { getSessionStorage, saveSessionData } from '../../utilities/utilities';
-import { saveUser } from '../../store/usersSlice';
+import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
+import { saveUser, userFromSchedule } from '../../store/usersSlice';
+import WelcomeMessage from './WelcomeMessage';
 export default function ModalContent() {
     const slides = [
         {
@@ -18,9 +19,15 @@ export default function ModalContent() {
         {
             component: <PaymentDetails />,
         },
+        {
+            component: <WelcomeMessage />,
+        },
     ];
     const { registerUserSchedule } = useSelector(
         (state) => state.userSchedules
+    );
+    const { scheduleUser } = useSelector(
+        (state) => state.users
     );
     const dispatch = useDispatch();
     function isCurrentSlideIsValid(e, callback) {
@@ -45,7 +52,7 @@ export default function ModalContent() {
                 sessionData[key] === '' ||
                 sessionData[key] == '0'
             ) {
-                alertData.push(key);
+                if (key !== 'user_id') alertData.push(key);
             }
         });
         if (alertData.length) {
@@ -55,7 +62,27 @@ export default function ModalContent() {
             data = data['registerUserSchedule'];
             let isLastPage = parseInt(status.split('of')[1]) === currentPage;
             data = prepareDataForSave(data);
-            if (isLastPage) {
+
+            if (currentPage === 2) {
+                let userData = {
+                    email: data.email,
+                    name: data.name,
+                    phone: data.phone,
+                };
+                dispatch(userFromSchedule({
+                    endpoint: '/api/users/user_from_schedule',
+                    config: {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(userData),
+                    }
+                }));
+            }
+
+
+            if (currentPage === 3) {
                 dispatch(
                     saveUserSchedule({
                         endpoint: '/api/userSchedule',
@@ -71,28 +98,40 @@ export default function ModalContent() {
                 saveSessionData('registerUserSchedule', registerUserSchedule);
             }
 
-            // if (data.paymentMethod) {
-            //     let userData = {
-            //         email: data.email,
-            //         password: data.phone,
-            //         name: data.name,
-            //         phone: data.phone,
-            //     };
-            //     dispatch(saveUser(JSON.stringify(userData)));
-            // }
-
             callback();
         }
+
     }
-    function prepareDataForSave(data) {
-        let databaseData = {};
-        Object.keys(data).map((pageNumber) => {
-            Object.keys(data[pageNumber]).map((key) => {
-                databaseData[key] = data[pageNumber][key];
-            });
-        });
-        return databaseData;
+
+    useEffect(() => {
+        if (scheduleUser.hasOwnProperty('_id')) {
+            prepareScheduleSessionData(
+                'user_id',
+                scheduleUser._id
+            );
+        }
+    }, [scheduleUser])
+
+    function prepareScheduleSessionData(
+        key,
+        value,
+        pageNumber = 2,
+        sessionKey = 'registerUserSchedule'
+    ) {
+        let sessionData = getSessionStorage([sessionKey]);
+        if (pageNumber && key && value) {
+            Object.keys(sessionData[sessionKey][pageNumber]).map(
+                (currentKey) => {
+                    if (currentKey == key) {
+                        sessionData[sessionKey][pageNumber][key] = value;
+                    }
+                }
+            );
+        }
+        saveSessionData(sessionKey, sessionData[sessionKey]);
     }
+
+
 
     return (
         <Carousel

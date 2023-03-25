@@ -24,10 +24,10 @@ export default function SessionDetails() {
     const [date, setDate] = useState(null);
     const [currentDateString, setCurrentDateString] = useState(
         new Date().getFullYear() +
-            '-' +
-            (new Date().getMonth() + 1) +
-            '-' +
-            new Date().getDate()
+        '-' +
+        (new Date().getMonth() + 1) +
+        '-' +
+        new Date().getDate()
     );
 
     const [doctors, setDoctors] = useState([]);
@@ -364,10 +364,10 @@ export default function SessionDetails() {
                     }) => {
                         setCurrentDateString(
                             activeStartDate.getFullYear() +
-                                '-' +
-                                (activeStartDate.getMonth() + 1) +
-                                '-' +
-                                activeStartDate.getDate()
+                            '-' +
+                            (activeStartDate.getMonth() + 1) +
+                            '-' +
+                            activeStartDate.getDate()
                         );
                     }}
                 />

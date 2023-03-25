@@ -132,6 +132,9 @@ export default function Footer() {
                             );
                         })}
                     </div>
+                    <div>
+                        <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img style={{ width: '100%', height: 'auto' }} src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-03.png" /></a>
+                    </div>
                 </div>
             </footer>
         </div>
