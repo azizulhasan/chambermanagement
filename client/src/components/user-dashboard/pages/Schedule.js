@@ -1,116 +1,124 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { fetchData } from '../../../utilities/utilities';
+import DataTable from '../components/DataTable';
 
-const tableHeadings = [
-    'Date',
-    'Session',
-    'Doctor',
-    'Event',
-    'Duration',
-    'Action',
-];
-
-const tableData = [
-    {
-        id: 'nbdicb87wsc394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'nbdicb87wsf5394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'nbdg5b87wsc394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'nbdicb87wg8394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'nbdicb87wsc3e3y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'nbdid387wsc394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-    {
-        id: 'fbdicb87wsc394y',
-        date: 'Feb 18, 2023',
-        session: 'Mental Health',
-        with: 'Dr. Bruno Rodrigues',
-        event: 'Details',
-        duration: '30 mins',
-        action: 'Attend',
-    },
-];
+const Status = ({ status }) => (
+    <a
+        href="https://meet.google.com/fss-jspv-wtw"
+        target="_blank"
+        rel="noreferrer"
+        className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md"
+    >
+        {status}
+    </a>
+);
 
 const Schedule = () => {
+    const [body, setBody] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const loggedInUser = useSelector((state) => state.users.loggedInUser);
+
+    let headers = [];
+
+    if (loggedInUser.userRole === 'USER' || null) {
+        headers = [
+            { prop: 'session', title: 'Session', isFilterable: true },
+            {
+                prop: 'doctor',
+                title: 'Doctor',
+                isFilterable: true,
+            },
+            { prop: 'duration', title: 'Duration', isFilterable: true },
+            { prop: 'date', title: 'Date', isFilterable: true },
+            { prop: 'time', title: 'Time', isFilterable: true },
+            { prop: 'status', title: 'Status' },
+        ];
+    } else if (loggedInUser.userRole === 'DOCTOR') {
+        headers = [
+            { prop: 'session', title: 'Session', isFilterable: true },
+            {
+                prop: 'patient',
+                title: 'Patient',
+                isFilterable: true,
+            },
+            { prop: 'duration', title: 'Duration', isFilterable: true },
+            { prop: 'date', title: 'Date', isFilterable: true },
+            { prop: 'time', title: 'Time', isFilterable: true },
+            { prop: 'status', title: 'Status', isFilterable: true },
+        ];
+    }
+
+    const fetchSchedules = async (id) => {
+        setLoading(true);
+        let endpoint = '';
+        if (loggedInUser.userRole === 'USER' || null) {
+            endpoint = `/api/userSchedule/userschedules/${id}`;
+        } else if (loggedInUser.userRole === 'DOCTOR') {
+            endpoint = `/api/userSchedule/doctorschedules/${id}`;
+        }
+
+        try {
+            const { data } = await fetchData({
+                endpoint,
+            });
+            setLoading(false);
+            if (loggedInUser.userRole === 'USER' || null) {
+                setBody(() =>
+                    data.map((schedule) => {
+                        return {
+                            _id: 'nbdg5b87wsc3946',
+                            session: schedule.session_name,
+                            doctor: schedule.doctor_id,
+                            duration: '',
+                            date: schedule.session_date.slice(0, 10),
+                            time: schedule.session_time,
+                            status: <Status status={schedule.status} />,
+                        };
+                    })
+                );
+            } else if (loggedInUser.userRole === 'DOCTOR') {
+                setBody(() =>
+                    data.map((schedule) => {
+                        return {
+                            _id: 'nbdg5b87wsc3946',
+                            session: schedule.session_name,
+                            patient: schedule.name,
+                            duration: '',
+                            date: schedule.session_date.slice(0, 10),
+                            time: schedule.session_time,
+                            status: <Status status={schedule.status} />,
+                        };
+                    })
+                );
+            }
+        } catch (e) {
+            setLoading(false);
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        fetchSchedules(loggedInUser.id);
+    }, []);
+
+    if (loading) {
+        return <div>Loading, please wait...</div>;
+    } else if (body.length === 0) {
+        return <div>No data found</div>;
+    }
+
     return (
         <div>
-            <h2 className="pb-2 text-lg font-medium">Upcoming Sessions</h2>
-            <div className="p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto">
-                <table className=" text-sm md:text-base w-full min-w-min overflow-auto">
-                    <thead className="border-b border-gray-300">
-                        <tr className="h-10">
-                            {tableHeadings.map((heading) => (
-                                <th className="text-start" key={heading}>
-                                    {heading}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map((data) => (
-                            <tr
-                                key={data.id}
-                                className="border-b border-gray-200/50 h-10"
-                            >
-                                <td>{data.date}</td>
-                                <td>{data.session}</td>
-                                <td>{data.with}</td>
-                                <td>{data.event}</td>
-                                <td>{data.duration}</td>
-                                <td>
-                                    <button className="bg-themeColor drop-shadow-md text-white px-4 rounded-md">
-                                        {data.action}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <DataTable
+                title="Scheduled Sessions"
+                titleUnderlined
+                headers={headers}
+                body={body}
+                withFilter
+                withPagination
+                rowsPerPageOptions={[5, 10, 20, 30, 50, 70, 100]}
+            />
         </div>
     );
 };

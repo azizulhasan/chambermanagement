@@ -23,11 +23,13 @@ let initialState = {
             doctor_id: '',
             session_date: '',
             session_time: '',
+            per_session_length: '',
         },
         2: {
             name: '',
             email: '',
             phone: '',
+            user_id: '',
         },
         3: {
             paymentMethod: '',

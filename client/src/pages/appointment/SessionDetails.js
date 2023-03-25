@@ -6,70 +6,84 @@ import { amOrPm } from '../../utilities/timeUtilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
-import { fetchDoctorSchedules, updateCurrentSlide } from '../../store/userScheduleSlice';
+import {
+    fetchDoctorSchedules,
+    updateCurrentSlide,
+} from '../../store/userScheduleSlice';
 import Select from '../../components/front/common/form/Select';
-import { addToImutableObject, getSessionStorage, saveSessionData, setSessionStorage } from '../../utilities/utilities';
+import {
+    addToImutableObject,
+    getSessionStorage,
+    saveSessionData,
+    setSessionStorage,
+} from '../../utilities/utilities';
 
 export default function SessionDetails() {
-    const pageNo = 1
+    const pageNo = 1;
 
     const [date, setDate] = useState(null);
-    const [currentDateString, setCurrentDateString] = useState(new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate());
+    const [currentDateString, setCurrentDateString] = useState(
+        new Date().getFullYear() +
+        '-' +
+        (new Date().getMonth() + 1) +
+        '-' +
+        new Date().getDate()
+    );
 
-
-    const [doctors, setDoctors] = useState([])
-    const [specialities, setSpecialities] = useState([])
-    const [filteredDoctors, setFilteredDoctors] = useState([])
-    const [sessionData, setSessionData] = useState({})
-    const [defaultSelectedTime, setDefaultSelectedTime] = useState([])
-    const [unAvailableSlots, setUnAvailableSlots] = useState([])
+    const [doctors, setDoctors] = useState([]);
+    const [specialities, setSpecialities] = useState([]);
+    const [filteredDoctors, setFilteredDoctors] = useState([]);
+    const [sessionData, setSessionData] = useState({});
+    const [defaultSelectedTime, setDefaultSelectedTime] = useState([]);
+    const [unAvailableSlots, setUnAvailableSlots] = useState([]);
     const [filteredSchedule, setFilteredSchedule] = useState({
         timeSlots: [],
         perSessionLength: 60,
-    })
-    const [timeSlots, setTimeSlots] = useState([])
-    const [offDays, setOffDays] = useState([])
-    const [offDates, setOffDates] = useState([])
+    });
+    const [timeSlots, setTimeSlots] = useState([]);
+    const [offDays, setOffDays] = useState([]);
+    const [offDates, setOffDates] = useState([]);
     const ref = React.useRef();
     const dispatch = useDispatch();
     const { schedules, singleSchedule, isModalActive, options } = useSelector(
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
-    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } = useSelector((state) => state.userSchedules);
+    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } =
+        useSelector((state) => state.userSchedules);
 
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
-        let sessionData = getSessionStorage(['registerUserSchedule'])
+        let sessionData = getSessionStorage(['registerUserSchedule']);
 
         if (!Object.keys(sessionData).length) {
-            saveSessionData('registerUserSchedule', registerUserSchedule)
-            setSessionData(registerUserSchedule[pageNo])
+            saveSessionData('registerUserSchedule', registerUserSchedule);
+            setSessionData(registerUserSchedule[pageNo]);
         } else {
-            setSessionData(sessionData['registerUserSchedule'][pageNo])
+            setSessionData(sessionData['registerUserSchedule'][pageNo]);
         }
     }, []);
 
     useEffect(() => {
         let data = users.filter((user, i) => user.userRole === 'DOCTOR');
-        setDoctors(data)
-        let specialities = []
-        data.map(doctor => {
+        setDoctors(data);
+        let specialities = [];
+        data.map((doctor) => {
             if (!specialities.includes(doctor.speciality)) {
-                specialities.push(doctor.speciality)
+                specialities.push(doctor.speciality);
             }
-        })
-        setSpecialities(specialities)
-        setFilteredDoctors(data)
+        });
+        setSpecialities(specialities);
+        setFilteredDoctors(data);
     }, [users]);
 
     useEffect(() => {
         let limit = 100;
-        let startsAt = '00:00'
+        let startsAt = '00:00';
         let endsAt = '23:00';
-        let interval = filteredSchedule.perSessionLength
-        let slots = []
+        let interval = filteredSchedule.perSessionLength;
+        let slots = [];
         let initialSlots = 7;
         while (
             dayjs(`2001-01-01 ${startsAt}`, 'YYYY-MM-DD HH:mm').isBefore(
@@ -81,11 +95,14 @@ export default function SessionDetails() {
                 .set('h', Number.parseInt(startsAt.split(':')[0]))
                 .set('m', Number.parseInt(startsAt.split(':')[1]))
                 .add(interval, 'm');
-            if (filteredSchedule.timeSlots.length && filteredSchedule.timeSlots.includes(t.format('HH:mm'))) {
-                slots.push(t)
+            if (
+                filteredSchedule.timeSlots.length &&
+                filteredSchedule.timeSlots.includes(t.format('HH:mm'))
+            ) {
+                slots.push(t);
             }
             if (filteredSchedule.timeSlots.length < 1) {
-                slots.length <= initialSlots && slots.push(t)
+                slots.length <= initialSlots && slots.push(t);
             }
 
             startsAt = t.format('HH:mm');
@@ -93,156 +110,184 @@ export default function SessionDetails() {
         }
 
         if (sessionData.session_time) {
-            setDefaultSelectedTime([sessionData.session_time])
+            setDefaultSelectedTime([sessionData.session_time]);
         }
-        setTimeSlots(slots)
-    }, [filteredSchedule])
-
+        setTimeSlots(slots);
+    }, [filteredSchedule]);
 
     useEffect(() => {
-        let dates = document.getElementsByClassName('react-calendar__month-view__days__day')
-        Object.values(dates).map(date => {
+        let dates = document.getElementsByClassName(
+            'react-calendar__month-view__days__day'
+        );
+        Object.values(dates).map((date) => {
             if (date.hasAttribute('disabled')) {
-                date.classList.add('bg-[#b9b9b9]')
+                date.classList.add('bg-[#b9b9b9]');
                 // date.classList.add('text-white')
-                date.classList.remove('hover:bg-themeColor')
-                date.classList.remove('hover:text-white')
+                date.classList.remove('hover:bg-themeColor');
+                date.classList.remove('hover:text-white');
             } else {
-                date.classList.remove('bg-[#b9b9b9]')
-                date.classList.remove('text-white')
-                date.classList.add('hover:bg-themeColor')
-                date.classList.add('hover:text-white')
+                date.classList.remove('bg-[#b9b9b9]');
+                date.classList.remove('text-white');
+                date.classList.add('hover:bg-themeColor');
+                date.classList.add('hover:text-white');
             }
-        })
-
-    }, [offDates])
+        });
+    }, [offDates]);
 
     useEffect(() => {
-        if (sessionData.session_date) setDate(new Date(sessionData.session_date))
+        if (sessionData.session_date)
+            setDate(new Date(sessionData.session_date));
         if (sessionData.doctor_id !== undefined) {
-            let filteredSchedule = schedules.filter(schedule => schedule.user === sessionData.doctor_id)
+            let filteredSchedule = schedules.filter(
+                (schedule) => schedule.user === sessionData.doctor_id
+            );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                setOffDays(filteredSchedule[0].offDay)
-                let offDates = getOffDates(filteredSchedule[0].offDay)
+                setOffDays(filteredSchedule[0].offDay);
+                let offDates = getOffDates(filteredSchedule[0].offDay);
                 setOffDates(offDates);
-                setFilteredSchedule(filteredSchedule[0])
+                setFilteredSchedule(filteredSchedule[0]);
             }
         }
-
-    }, [sessionData, schedules])
+    }, [sessionData, schedules]);
 
     useEffect(() => {
         if (date !== null) {
             let selectedDay = parseInt(date.getDate());
-            let allDates = document.querySelectorAll('.react-calendar__tile')
-            Object.values(allDates).map(date => {
+            let allDates = document.querySelectorAll('.react-calendar__tile');
+            Object.values(allDates).map((date) => {
                 if (parseInt(date.firstChild.innerText) === selectedDay) {
-                    date.classList.add('bg-themeColor')
-                    date.classList.add('text-white')
+                    date.classList.add('bg-themeColor');
+                    date.classList.add('text-white');
                 } else {
-                    date.classList.remove('bg-themeColor')
-                    date.classList.remove('text-white')
+                    date.classList.remove('bg-themeColor');
+                    date.classList.remove('text-white');
                 }
-            })
+            });
         }
-    }, [date])
+    }, [date]);
 
     const addToSelectedArray = (time) => {
-        prepareScheduleSessionData('session_time', time)
+        prepareScheduleSessionData('session_time', time);
     };
 
     const onChange = (e, currentSlide) => {
         if (e.target.name === 'session_name') {
-            let filteredDoctors = doctors.filter(doctor => doctor.speciality === e.target.value)
-            if (filteredDoctors.length) setFilteredDoctors(filteredDoctors)
+            let filteredDoctors = doctors.filter(
+                (doctor) => doctor.speciality === e.target.value
+            );
+            if (filteredDoctors.length) setFilteredDoctors(filteredDoctors);
         }
         if (e.target.name === 'doctor_id') {
             if (e.target.value !== '0') {
-                dispatch(fetchDoctorSchedules({
-                    endpoint: '/api/userSchedule/doctorschedules/' + e.target.value,
-                    config: {}
-                }))
+                dispatch(
+                    fetchDoctorSchedules({
+                        endpoint:
+                            '/api/userSchedule/doctorschedules/' +
+                            e.target.value,
+                        config: {},
+                    })
+                );
             }
-            let filteredSchedule = schedules.filter(schedule => schedule.user === e.target.value)
+
+            let filteredSchedule = schedules.filter(
+                (schedule) => schedule.user === e.target.value
+            );
+            prepareScheduleSessionData(
+                'per_session_length',
+                filteredSchedule[0].perSessionLength
+            );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+                var date = new Date(),
+                    y = date.getFullYear(),
+                    m = date.getMonth();
                 var firstDay = new Date(y, m, 1);
                 var lastDay = new Date(y, m + 1, 0);
                 // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
                 // let firstDay = new Date(y, m, 1);
                 // let lastDay = new Date(y, m + 1, 0);
-                console.log(firstDay, lastDay)
-                setOffDays(filteredSchedule[0].offDay)
-                setFilteredSchedule(filteredSchedule[0])
+                console.log(firstDay, lastDay);
+
+                setOffDays(filteredSchedule[0].offDay);
+                setFilteredSchedule(filteredSchedule[0]);
             }
         }
-        prepareScheduleSessionData(e.target.name, e.target.value)
+
+        prepareScheduleSessionData(e.target.name, e.target.value);
     };
 
     const setSessionDate = (date) => {
-        setDate(date)
-        prepareScheduleSessionData('session_date', date)
+        setDate(date);
+        prepareScheduleSessionData('session_date', date);
         if (currentDoctorSchedules.length) {
             let bookedSchedules = [];
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
-                let session = currentDoctorSchedules[i]
-                let tempDate = new Date(session.session_date)
+                let session = currentDoctorSchedules[i];
+                let tempDate = new Date(session.session_date);
                 if (tempDate.getDate() === date.getDate()) {
-                    bookedSchedules.push(session.session_time)
+                    bookedSchedules.push(session.session_time);
                 }
             }
-            setUnAvailableSlots(bookedSchedules)
+            setUnAvailableSlots(bookedSchedules);
         }
-    }
-
+    };
 
     useEffect(() => {
-        let tempOffDates = JSON.parse(JSON.stringify(offDates))
-        let tempObj = {}
-        let currentMonth = new Date().getMonth()
+        let tempOffDates = JSON.parse(JSON.stringify(offDates));
+        let tempObj = {};
+        let currentMonth = new Date().getMonth();
         if (currentDoctorSchedules.length) {
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
-                let session = currentDoctorSchedules[i]
-                let tempDate = new Date(session.session_date)
+                let session = currentDoctorSchedules[i];
+                let tempDate = new Date(session.session_date);
                 if (tempDate.getMonth() === currentMonth) {
                     if (!tempObj[tempDate.getDate()]) {
                         tempObj[tempDate.getDate()] = [session.session_time];
                     } else {
-                        tempObj[tempDate.getDate()].push(session.session_time)
+                        tempObj[tempDate.getDate()].push(session.session_time);
                     }
                 }
             }
-            Object.keys(tempObj).map(date => {
+            Object.keys(tempObj).map((date) => {
                 if (tempObj[date].length === timeSlots.length) {
-                    tempOffDates.push(parseInt(date))
+                    tempOffDates.push(parseInt(date));
                 }
-            })
-            setOffDates(tempOffDates)
+            });
+            setOffDates(tempOffDates);
         }
-    }, [currentDoctorSchedules])
+    }, [currentDoctorSchedules]);
 
-    function prepareScheduleSessionData(key, value, pageNumber = pageNo, sessionKey = 'registerUserSchedule') {
-        let sessionData = getSessionStorage([sessionKey])
+    function prepareScheduleSessionData(
+        key,
+        value,
+        pageNumber = pageNo,
+        sessionKey = 'registerUserSchedule'
+    ) {
+        let sessionData = getSessionStorage([sessionKey]);
         if (pageNumber && key && value) {
-            Object.keys(sessionData[sessionKey][pageNumber]).map(currentKey => {
-                if (currentKey == key) {
-                    sessionData[sessionKey][pageNumber][key] = value
+            Object.keys(sessionData[sessionKey][pageNumber]).map(
+                (currentKey) => {
+                    if (currentKey == key) {
+                        sessionData[sessionKey][pageNumber][key] = value;
+                    }
                 }
-            })
+            );
         }
-        setSessionData(sessionData[sessionKey][1])
-        saveSessionData(sessionKey, sessionData[sessionKey])
+        setSessionData(sessionData[sessionKey][1]);
+        saveSessionData(sessionKey, sessionData[sessionKey]);
     }
 
     function getOffDates(offDays) {
-        let tempDate = new Date(currentDateString)
-        let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth())
-        let offDates = []
+        let tempDate = new Date(currentDateString);
+        let allDates = get_all_dates(
+            tempDate.getFullYear(),
+            tempDate.getMonth()
+        );
+        let offDates = [];
         for (let i = 0; i < allDates.length; i++) {
-            let temp = allDates[i]
-            let day = days[temp.getDay()]
+            let temp = allDates[i];
+            let day = days[temp.getDay()];
             if (offDays.includes(day)) {
-                offDates.push(temp.getDate())
+                offDates.push(temp.getDate());
             }
         }
         return offDates;
@@ -261,13 +306,16 @@ export default function SessionDetails() {
         return dates;
     }
 
-
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
-                    value={sessionData.session_name ? sessionData.session_name : '0'}
+                    value={
+                        sessionData.session_name
+                            ? sessionData.session_name
+                            : '0'
+                    }
                     onChange={(e) => onChange(e, currentSlide)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
@@ -293,7 +341,9 @@ export default function SessionDetails() {
             <div className="w-72">
                 <label htmlFor="session_date">Select Date</label>
                 <Calendar
-                    tileClassName={'p-2.5 hover:text-white hover:bg-themeColor '}
+                    tileClassName={
+                        'p-2.5 hover:text-white hover:bg-themeColor '
+                    }
                     tileDisabled={({ activeStartDate, date, view }) => {
                         if (offDates.includes(date.getDate())) {
                             return true;
@@ -306,8 +356,19 @@ export default function SessionDetails() {
                     showNeighboringMonth={false}
                     inputRef={ref}
                     calendarType={'US'}
-                    onActiveStartDateChange={({ action, activeStartDate, value, view }) => {
-                        setCurrentDateString(activeStartDate.getFullYear() + "-" + (activeStartDate.getMonth() + 1) + "-" + activeStartDate.getDate())
+                    onActiveStartDateChange={({
+                        action,
+                        activeStartDate,
+                        value,
+                        view,
+                    }) => {
+                        setCurrentDateString(
+                            activeStartDate.getFullYear() +
+                            '-' +
+                            (activeStartDate.getMonth() + 1) +
+                            '-' +
+                            activeStartDate.getDate()
+                        );
                     }}
                 />
             </div>

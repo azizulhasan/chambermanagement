@@ -3,6 +3,10 @@ import React from 'react';
 const Edit = ({ fill = 'currentColor', className = 'w-4 h-4' }) => {
     return (
         <svg
+            style={{
+                width: '20px',
+                height: '20px',
+            }}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill={fill}

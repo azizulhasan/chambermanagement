@@ -205,7 +205,7 @@ export default function DashboardSideNav() {
                 </div>
                 <div className="sb-sidenav-footer">
                     <div className="small">Logged in as:</div>
-                    {getUserName()}
+                    {/* {getUserName()} */}
                 </div>
             </nav>
         </div>

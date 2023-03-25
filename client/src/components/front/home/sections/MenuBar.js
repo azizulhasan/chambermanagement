@@ -27,27 +27,27 @@ export default function MenuBar() {
         navigate('/');
     };
 
-    useEffect(() => {
-        if (!rendered) {
-            setRendered(true);
-        }
-        if (loggedInUser.accessToken) {
-            if (loggedInUser.userRole === 'ADMIN') {
-                setHiddenMenus(['/user-panel', '/login']);
-            } else if (
-                loggedInUser.userRole === 'USER' ||
-                loggedInUser.userRole === 'DOCTOR'
-            ) {
-                setHiddenMenus(['/dashboard', '/login']);
-            }
-        } else {
-            setHiddenMenus(['/user-panel']);
-        }
-    }, [loggedInUser.accessToken, loggedInUser, rendered]);
+    // useEffect(() => {
+    //     if (!rendered) {
+    //         setRendered(true);
+    //     }
+    //     if (loggedInUser.accessToken) {
+    //         if (loggedInUser.userRole === 'ADMIN') {
+    //             setHiddenMenus(['/user-panel', '/login']);
+    //         } else if (
+    //             loggedInUser.userRole === 'USER' ||
+    //             loggedInUser.userRole === 'DOCTOR'
+    //         ) {
+    //             setHiddenMenus(['/dashboard', '/login']);
+    //         }
+    //     } else {
+    //         setHiddenMenus(['/user-panel']);
+    //     }
+    // }, [loggedInUser.accessToken, loggedInUser, rendered]);
 
-    if (!rendered) {
-        return <></>;
-    }
+    // if (!rendered) {
+    //     return <></>;
+    // }
 
     return (
         <nav className="w-full bg-white shadow ">
@@ -115,8 +115,9 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
-                            }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
+                            navbar ? 'block' : 'hidden'
+                        }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {

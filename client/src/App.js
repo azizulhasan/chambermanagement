@@ -41,14 +41,16 @@ const {
 export default function App() {
     const location = useLocation();
     useLayoutEffect(() => {
-        document.documentElement.scrollTo({
-            top: 0,
-            bottom: 0,
-            behavior: 'instant',
-        });
+        if (location.pathname !== '/') {
+            document.documentElement.scrollTo({
+                top: 0,
+                bottom: 0,
+                behavior: 'instant',
+            });
+        }
     }, [location.pathname]);
 
-    document.getElementById('mindtoheart').style.backgroundColor =
+    document.getElementsByTagName('body')[0].style.backgroundColor =
         backgroundColor;
 
     return (

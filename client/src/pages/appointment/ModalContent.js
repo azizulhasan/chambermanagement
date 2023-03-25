@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import SessionDetails from './SessionDetails';
 import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserSchedule } from '../../store/userScheduleSlice';
-import { getSessionStorage, saveSessionData } from '../../utilities/utilities';
+import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
+import { saveUser, userFromSchedule } from '../../store/usersSlice';
+import WelcomeMessage from './WelcomeMessage';
 export default function ModalContent() {
     const slides = [
         {
@@ -17,58 +19,119 @@ export default function ModalContent() {
         {
             component: <PaymentDetails />,
         },
+        {
+            component: <WelcomeMessage />,
+        },
     ];
-    const { registerUserSchedule } = useSelector(state => state.userSchedules)
+    const { registerUserSchedule } = useSelector(
+        (state) => state.userSchedules
+    );
+    const { scheduleUser } = useSelector(
+        (state) => state.users
+    );
     const dispatch = useDispatch();
     function isCurrentSlideIsValid(e, callback) {
-        let status = document.getElementsByClassName('carousel-status')[0].innerHTML
-        let currentPage = parseInt(status.split('of')[0])
-        let slideObject = registerUserSchedule[currentPage]
-        let sessionData = getSessionStorage(['registerUserSchedule'])
+        let status =
+            document.getElementsByClassName('carousel-status')[0].innerHTML;
+        let currentPage = parseInt(status.split('of')[0]);
+        let slideObject = registerUserSchedule[currentPage];
+        let sessionData = getSessionStorage(['registerUserSchedule']);
         if (sessionData === undefined) {
-            alert('Please fill the value of session_name, doctor_id, session_date, session_time.')
+            alert(
+                'Please fill the value of session_name, doctor_id, session_date, session_time.'
+            );
         } else {
-            sessionData = sessionData['registerUserSchedule']
-            sessionData = sessionData[currentPage]
+            sessionData = sessionData['registerUserSchedule'];
+            sessionData = sessionData[currentPage];
         }
-        let alertData = []
-        Object.keys(slideObject).map(key => {
-            if (!sessionData.hasOwnProperty(key) || sessionData[key] === undefined || sessionData[key] === '' || sessionData[key] == '0') {
-                alertData.push(key)
+        let alertData = [];
+        Object.keys(slideObject).map((key) => {
+            if (
+                !sessionData.hasOwnProperty(key) ||
+                sessionData[key] === undefined ||
+                sessionData[key] === '' ||
+                sessionData[key] == '0'
+            ) {
+                if (key !== 'user_id') alertData.push(key);
             }
-        })
+        });
         if (alertData.length) {
-            alert('Please fill the value of ' + alertData.join(', '))
+            alert('Please fill the value of ' + alertData.join(', '));
         } else {
-            let data = getSessionStorage(['registerUserSchedule'])
-            data = data['registerUserSchedule']
-            let isLastPage = parseInt(status.split('of')[1]) === currentPage
-            data = prepareDataForSave(data)
-            if (isLastPage) {
-                dispatch(saveUserSchedule({
-                    endpoint: "/api/userSchedule",
+            let data = getSessionStorage(['registerUserSchedule']);
+            data = data['registerUserSchedule'];
+            let isLastPage = parseInt(status.split('of')[1]) === currentPage;
+            data = prepareDataForSave(data);
+
+            if (currentPage === 2) {
+                let userData = {
+                    email: data.email,
+                    name: data.name,
+                    phone: data.phone,
+                };
+                dispatch(userFromSchedule({
+                    endpoint: '/api/users/user_from_schedule',
                     config: {
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         method: 'POST',
-                        body: JSON.stringify(data),
+                        body: JSON.stringify(userData),
                     }
-                }))
-                saveSessionData('registerUserSchedule', registerUserSchedule)
+                }));
             }
+
+
+            if (currentPage === 3) {
+                dispatch(
+                    saveUserSchedule({
+                        endpoint: '/api/userSchedule',
+                        config: {
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data),
+                        },
+                    })
+                );
+                saveSessionData('registerUserSchedule', registerUserSchedule);
+            }
+
             callback();
         }
+
     }
-    function prepareDataForSave(data) {
-        let databaseData = {}
-        Object.keys(data).map(pageNumber => {
-            Object.keys(data[pageNumber]).map(key => {
-                databaseData[key] = data[pageNumber][key]
-            })
-        })
-        return databaseData;
+
+    useEffect(() => {
+        if (scheduleUser.hasOwnProperty('_id')) {
+            prepareScheduleSessionData(
+                'user_id',
+                scheduleUser._id
+            );
+        }
+    }, [scheduleUser])
+
+    function prepareScheduleSessionData(
+        key,
+        value,
+        pageNumber = 2,
+        sessionKey = 'registerUserSchedule'
+    ) {
+        let sessionData = getSessionStorage([sessionKey]);
+        if (pageNumber && key && value) {
+            Object.keys(sessionData[sessionKey][pageNumber]).map(
+                (currentKey) => {
+                    if (currentKey == key) {
+                        sessionData[sessionKey][pageNumber][key] = value;
+                    }
+                }
+            );
+        }
+        saveSessionData(sessionKey, sessionData[sessionKey]);
     }
+
+
 
     return (
         <Carousel
@@ -80,8 +143,24 @@ export default function ModalContent() {
             autoFocus={true}
             // showArrows={true}
             showIndicators={false}
-            renderArrowPrev={(hasPrev, label) => <button type='button' className='absolute top-[88%] left-[44%] px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor' onClick={hasPrev}>Back</button>}
-            renderArrowNext={(hasNext, label) => <button type='button' className='absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor' onClick={(e) => isCurrentSlideIsValid(e, hasNext)}>Next</button>}
+            renderArrowPrev={(hasPrev, label) => (
+                <button
+                    type="button"
+                    className="absolute top-[88%] left-[44%] px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                    onClick={hasPrev}
+                >
+                    Back
+                </button>
+            )}
+            renderArrowNext={(hasNext, label) => (
+                <button
+                    type="button"
+                    className="absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                    onClick={(e) => isCurrentSlideIsValid(e, hasNext)}
+                >
+                    Next
+                </button>
+            )}
             className="presentation-mode appointment px-5 my-8"
         >
             {slides.map((item, index) => {

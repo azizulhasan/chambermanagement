@@ -21,6 +21,8 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
 const schedulesRoutes = require('./routes/schedulesRoutes');
 const userSchedulesRoutes = require('./routes/userSchedulesRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+
 
 
 // express app
@@ -123,6 +125,11 @@ app.use('/api/schedules', schedulesRoutes);
  * User Schedule routes
  */
 app.use('/api/userSchedule', userSchedulesRoutes);
+
+/**
+ * Payment Routes
+ */
+app.use('/api/payment', paymentRoutes);
 
 
 /**

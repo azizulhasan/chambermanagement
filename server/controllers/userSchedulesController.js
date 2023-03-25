@@ -14,12 +14,22 @@ const userSchedule_index = async (req, res) => {
     res.json({ data: userschedule });
 };
 
-
 const get_doctor_schedules = async (req, res) => {
+    console.log({ params: req.params.doctor_id });
     const doctor_id = req.params.doctor_id;
-    let doctorSchedules = await UserSchedule.find({ doctor_id: doctor_id }).sort({ createdAt: -1 });
+    let doctorSchedules = await UserSchedule.find({
+        doctor_id: doctor_id,
+    }).sort({ createdAt: -1 });
     res.json({ data: doctorSchedules });
-}
+};
+
+const get_user_schedules = async (req, res) => {
+    const user_id = req.params.user_id;
+    let userSchedules = await UserSchedule.find({
+        user_id,
+    }).sort({ createdAt: -1 });
+    res.json({ data: userSchedules });
+};
 
 /**
  * Display single userschedule details.
@@ -47,7 +57,7 @@ const userSchedule_create_post = (req, res) => {
     const schedule = new UserSchedule({
         ...req.body,
     });
-    console.log(req.body)
+    console.log(req.body);
     schedule
         .save()
         .then(async (result) => {
@@ -112,4 +122,5 @@ module.exports = {
     userSchedule_update_post,
     userSchedule_delete_post,
     get_doctor_schedules,
+    get_user_schedules,
 };

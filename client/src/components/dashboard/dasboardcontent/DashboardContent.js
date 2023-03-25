@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Col, Row, Table } from 'react-bootstrap';
 import {
     DatatableWrapper,
@@ -13,8 +13,12 @@ import { database } from '../../../database';
 import { fetchUserSchedules } from '../../../store/userScheduleSlice';
 
 export default function DashboardContent() {
-    const [body, setBody] = useState([]);
-    const [headers, setHeaders] = useState([
+    const userSchedules = useSelector((state) => state.userSchedules);
+    const dispatch = useDispatch();
+
+    console.log({ userSchedules });
+
+    const headers = [
         { prop: 'session_name', title: 'Session', isFilterable: true },
         { prop: 'doctor_name', title: 'Doctor', isFilterable: true },
         {
@@ -24,19 +28,9 @@ export default function DashboardContent() {
         },
         { prop: 'session_time', title: 'Scheduled At', isFilterable: true },
         { prop: 'status', title: 'Status', isFilterable: true },
-    ]);
-
-    const userSchedules = useSelector((state) => state.userSchedules);
-    const dispatch = useDispatch();
-
-    console.log({ userSchedules });
-
-    useEffect(() => {
-        dispatch(fetchUserSchedules());
-    }, []);
-
-    useEffect(() => {
-        setBody(
+    ];
+    const body = useMemo(
+        () =>
             userSchedules.userSchedules.map((userSchedule) => {
                 let doctor_name = userSchedule.consultantData?.name;
                 let Status = () => (
@@ -59,9 +53,41 @@ export default function DashboardContent() {
                     session_time: userSchedule.session_time,
                     status: <Status />,
                 };
-            })
-        );
-    }, [userSchedules]);
+            }),
+        [userSchedules.userSchedules]
+    );
+
+    useEffect(() => {
+        dispatch(fetchUserSchedules());
+    }, []);
+
+    // useEffect(() => {
+    //     setBody(() =>
+    //         userSchedules.userSchedules.map((userSchedule) => {
+    //             let doctor_name = userSchedule.consultantData?.name;
+    //             let Status = () => (
+    //                 <span
+    //                     style={{
+    //                         padding: '4px 8px',
+    //                         backgroundColor: `${database.basic.themeColor}`,
+    //                         opacity: 0.8,
+    //                         color: 'white',
+    //                         borderRadius: '4px',
+    //                     }}
+    //                 >
+    //                     Pending
+    //                 </span>
+    //             );
+    //             return {
+    //                 session_name: userSchedule.session_name,
+    //                 doctor_name: doctor_name,
+    //                 patient_details: userSchedule.name,
+    //                 session_time: userSchedule.session_time,
+    //                 status: <Status />,
+    //             };
+    //         })
+    //     );
+    // }, [userSchedules]);
 
     if (document.getElementsByClassName('btn-primary')[0]) {
         document.getElementsByClassName(
@@ -69,7 +95,7 @@ export default function DashboardContent() {
         )[0].style.backgroundColor = database.basic.themeColor;
     }
 
-    if (userSchedules.userSchedules.length === 0) {
+    if (body.length === 0) {
         return <span>Loading, Please wait...</span>;
     }
 

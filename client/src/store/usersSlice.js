@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+    fetchData,
     getLocalStorage,
     redirectUser,
     setLocalStorage,
@@ -12,7 +13,7 @@ export const STATUSES = Object.freeze({
     LOADING: 'loading',
 });
 
-const userInitialState = {
+const loggedInUser = {
     accessToken: null,
     id: null,
     name: null,
@@ -23,6 +24,7 @@ const userInitialState = {
 const initialState = {
     users: [],
     singleUser: {},
+    scheduleUser: {},
     status: STATUSES.IDLE,
     isModalActive: false,
     USER_HEADERS: [
@@ -44,7 +46,7 @@ const initialState = {
         },
     ],
     USER_ROLES: ['USER', 'ADMIN', 'DOCTOR'],
-    loggedInUser: userInitialState,
+    loggedInUser,
 };
 
 const usersSlice = createSlice({
@@ -59,7 +61,7 @@ const usersSlice = createSlice({
             state.singleUser = {};
         },
         logOut(state) {
-            state.loggedInUser = userInitialState;
+            state.loggedInUser = loggedInUser;
         },
     },
 
@@ -87,7 +89,6 @@ const usersSlice = createSlice({
                 } else {
                     setSessionStorage({ user: registeredUser });
                 }
-                console.log({ dataFromLoginUserAddCase: action.payload.data });
                 state.loggedInUser = action.payload.data;
             } else {
                 alert(action.payload.message);
@@ -121,6 +122,12 @@ const usersSlice = createSlice({
             state.isModalActive = false;
         });
 
+        builder.addCase(userFromSchedule.fulfilled, (state, action) => {
+            state.scheduleUser = action.payload.data
+        });
+
+
+
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.users = action.payload;
             state.isModalActive = false;
@@ -148,6 +155,7 @@ export const registerUser = createAsyncThunk('register', async (payload) => {
         }
     );
     const data = await res.json();
+
     return data;
 });
 
@@ -166,7 +174,6 @@ export const loginUser = createAsyncThunk('login', async (payload) => {
         }
     );
     const data = await res.json();
-    console.log({ fromLoginUserFunction: data });
     return data;
 });
 
@@ -226,13 +233,23 @@ export const saveUser = createAsyncThunk('saveUser', async (payload) => {
     });
     const data = await res.json();
     for (let i = 0; i < data.data.length; i++) {
-        data.data[
-            i
-        ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
+        if (data.data[i].hasOwnProperty('image')) {
+            data.data[
+                i
+            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
+        }
     }
 
     return data.data;
 });
+
+/**
+ * Add a user from dashboard.
+ */
+export const userFromSchedule = createAsyncThunk('userFromSchedule', async (payload) => {
+    return fetchData(payload)
+});
+
 /**
  * Update users details
  */
