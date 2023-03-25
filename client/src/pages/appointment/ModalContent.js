@@ -5,7 +5,7 @@ import PatientDetails from './PatientDetails';
 import PaymentDetails from './PaymentDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserSchedule } from '../../store/userScheduleSlice';
-import { getSessionStorage, saveSessionData } from '../../utilities/utilities';
+import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
 import { saveUser, userFromSchedule } from '../../store/usersSlice';
 import WelcomeMessage from './WelcomeMessage';
 export default function ModalContent() {
@@ -131,15 +131,7 @@ export default function ModalContent() {
         saveSessionData(sessionKey, sessionData[sessionKey]);
     }
 
-    function prepareDataForSave(data) {
-        let databaseData = {};
-        Object.keys(data).map((pageNumber) => {
-            Object.keys(data[pageNumber]).map((key) => {
-                databaseData[key] = data[pageNumber][key];
-            });
-        });
-        return databaseData;
-    }
+
 
     return (
         <Carousel

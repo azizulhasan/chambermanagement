@@ -477,6 +477,18 @@ export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null
     }
     window.sessionStorage.setItem(sessionKey, newData);
 };
+
+
+export const prepareDataForSave = (data) => {
+    let databaseData = {};
+    Object.keys(data).map((pageNumber) => {
+        Object.keys(data[pageNumber]).map((key) => {
+            databaseData[key] = data[pageNumber][key];
+        });
+    });
+    return databaseData;
+}
+
 /**
  * Set localStorage
  * @param {object} data data object with key and value
@@ -1235,7 +1247,7 @@ export const fetchData = async (payload) => {
         const data = await fetch(url, config);
         return await data.json();
     } catch (e) {
-        console.log(e);
+        console.log(e.get);
     }
 };
 
