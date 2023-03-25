@@ -12,6 +12,9 @@ router.get(
     '/doctorschedules/:doctor_id',
     userSchedulesController.get_doctor_schedules
 );
-router.get('/userschedules/:id', userSchedulesController.get_user_schedules);
+router.get(
+    '/userschedules/:user_id',
+    userSchedulesController.get_user_schedules
+);
 
 module.exports = router;

@@ -49,12 +49,18 @@ const Schedule = () => {
         ];
     }
 
-    const fetchUserSchedules = async (id) => {
+    const fetchSchedules = async (id) => {
         setLoading(true);
+        let endpoint = '';
+        if (loggedInUser.userRole === 'USER' || null) {
+            endpoint = `/api/userSchedule/userschedules/${id}`;
+        } else if (loggedInUser.userRole === 'DOCTOR') {
+            endpoint = `/api/userSchedule/doctorschedules/${id}`;
+        }
 
         try {
             const { data } = await fetchData({
-                endpoint: `/api/userSchedule/userschedules/${id}`,
+                endpoint,
             });
             setLoading(false);
             if (loggedInUser.userRole === 'USER' || null) {
@@ -93,7 +99,7 @@ const Schedule = () => {
     };
 
     useEffect(() => {
-        fetchUserSchedules(loggedInUser.id);
+        fetchSchedules(loggedInUser.id);
     }, []);
 
     if (loading) {

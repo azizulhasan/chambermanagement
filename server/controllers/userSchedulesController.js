@@ -24,7 +24,7 @@ const get_doctor_schedules = async (req, res) => {
 };
 
 const get_user_schedules = async (req, res) => {
-    const user_id = req.params.id;
+    const user_id = req.params.user_id;
     let userSchedules = await UserSchedule.find({
         user_id,
     }).sort({ createdAt: -1 });
