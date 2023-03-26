@@ -4,6 +4,7 @@ import { logOut } from '../../../store/usersSlice';
 import { useDispatch } from 'react-redux';
 // import { Menu, User } from '../../../assets/svg-components';
 import { AdminDashboardIcons } from '../../../database';
+import { ArrowDown } from '../../../assets/atlasIcons/AtlasIconsSolid';
 
 const { Menu, User } = AdminDashboardIcons;
 
@@ -48,11 +49,17 @@ export default function DashboardTopNav() {
                         aria-describedby="btnNavbarSearch"
                     />
                     <button
+                        style={{
+                            width: '45px',
+                            display: 'inline-flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
                         className="btn btn-dark"
                         id="btnNavbarSearch"
                         type="button"
                     >
-                        <i className="fas fa-search text-light"></i>
+                        <ArrowDown />
                     </button>
                 </div>
             </form>
