@@ -7,7 +7,7 @@ export default function PatientDetails() {
         <>
             <div className='w-full col-span-12 pt-10'>
                 {
-                    !isNewSchedule && newSessionNotice && <p>{newSessionNotice}</p>
+                    !isNewSchedule && newSessionNotice && <p>{newSessionNotice}<br /><strong>Please pay for this session through BKASH.</strong></p>
                 }
             </div>
         </>

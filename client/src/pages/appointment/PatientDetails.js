@@ -44,8 +44,7 @@ export default function PatientDetails() {
     }
 
     function getNewSessionNotice(doctorName, date) {
-        return `You selected a booking for Session by ${doctorName} at ${registerUserSchedule[1].session_time}  on ${date}. The price for the service is ৳5,000.00.
-                Please provide your details in the form below to proceed with booking.`
+        return `You selected a booking for Session by ${doctorName} at ${registerUserSchedule[1].session_time}  on ${date}. The price for the service is ৳5,000.00.`
     }
 
     const {
@@ -58,14 +57,11 @@ export default function PatientDetails() {
         let data = prepareScheduleSessionData(e.target.name, e.target.value, 2)
         dispatch(updateRegisterSchedule(data));
     };
-
-
-
     return (
         <>
             <div className='col-span-12 pt-10'>
                 {
-                    !isNewSchedule && newSessionNotice && <p>{newSessionNotice}</p>
+                    !isNewSchedule && newSessionNotice && <p>{newSessionNotice}<br /> <strong>Please provide your details in the form below to proceed with booking.</strong></p>
                 }
             </div>
             <div className="flex justify-between py-4 mb-8 ">
