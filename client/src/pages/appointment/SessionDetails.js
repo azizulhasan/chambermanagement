@@ -50,7 +50,7 @@ export default function SessionDetails() {
     const dispatch = useDispatch();
 
     const { users } = useSelector((state) => state.users);
-    const { currentSlide, registerUserSchedule, currentDoctorSchedules, isNewSchedule, defaultSchedule } =
+    const { registerUserSchedule, currentDoctorSchedules, isNewSchedule, defaultSchedule } =
         useSelector((state) => state.userSchedules);
 
     useEffect(() => {
@@ -78,6 +78,7 @@ export default function SessionDetails() {
         }
         else {
             dispatch(updateRegisterSchedule(sessionData['registerUserSchedule']))
+
         }
     }, []);
 
@@ -187,7 +188,7 @@ export default function SessionDetails() {
         dispatch(updateRegisterSchedule(data));
     };
 
-    const onChange = (e, currentSlide) => {
+    const onChange = (e) => {
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
                 (doctor) => doctor.speciality === e.target.value
@@ -280,7 +281,7 @@ export default function SessionDetails() {
                 <label htmlFor="session_name">Session</label>
                 <Select
                     value={registerUserSchedule[pageNo].session_name ? registerUserSchedule[pageNo].session_name : '0'}
-                    onChange={(e) => onChange(e, currentSlide)}
+                    onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
                     options={specialities}
@@ -292,7 +293,7 @@ export default function SessionDetails() {
             <div className="w-60">
                 <label htmlFor="doctor_id">Doctor</label>
                 <Select
-                    onChange={(e) => onChange(e, currentSlide)}
+                    onChange={(e) => onChange(e)}
                     defaultOption="Select Doctor"
                     classes={'border w-60 p-2'}
                     options={filteredDoctors}

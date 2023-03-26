@@ -6,6 +6,7 @@ import duration from 'dayjs/plugin/duration';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateScheduleState } from '../../../store/schedulesSlice';
+import { amOrPm } from '../../../utilities/timeUtilities';
 
 dayjs.extend(utc);
 dayjs.extend(duration);
@@ -62,16 +63,16 @@ export default function SlotPicker({
 
     const handleSelection = (data) => {
         let slots = [];
-        if (selectedTime.includes(data.format('HH:mm'))) {
+        if (selectedTime.includes(data.format('hh:mm'))) {
             slots = selectedTime.filter(
-                (item) => item !== data.format('HH:mm')
+                (item) => item !== data.format('hh:mm')
             );
         } else {
-            slots = [data.format('HH:mm')].concat(selectedTime);
+            slots = [data.format('hh:mm')].concat(selectedTime);
         }
         slots = slots.filter((item) => item != undefined);
         setSelectedTime([slots[0]]);
-        onSelectTime(data.format('HH:mm'));
+        onSelectTime(data.format('hh:mm') + "" + amOrPm(data));
     };
 
     return (
@@ -90,10 +91,10 @@ export default function SlotPicker({
                                 slot={slot}
                                 key={i}
                                 isSelected={selectedTime.includes(
-                                    slot.format('HH:mm')
+                                    slot.format('hh:mm')
                                 )}
                                 onSelect={handleSelection}
-                                disabled={disabledSlots.includes(slot.format('HH:mm'))}
+                                disabled={disabledSlots.includes(slot.format('hh:mm') + "" + amOrPm(slot))}
                             />
                         ))}
                     </div>

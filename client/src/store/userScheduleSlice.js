@@ -31,6 +31,7 @@ let initialState = {
     currentDoctorSchedules: [],
     frontUserSingleSchedule: {},
     isNewSchedule: true,
+    newSessionNotice: '',
 
 };
 
@@ -105,14 +106,9 @@ let userSchedules = createSlice({
             state.frontUserSingleSchedule = {};
         });
 
-
-        // builder.addCase(updateSchedule.fulfilled, (state, action) => {
-        //     state.userSchedules = action.payload;
-        //     state.isModalActive = false;
-        // });
-        // builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
-        //     state.currentSlide = action.payload;
-        // });
+        builder.addCase(updateNewSessionNotice.fulfilled, (state, action) => {
+            state.newSessionNotice = action.payload;
+        });
 
         builder
             .addCase(fetchDoctorSchedules.pending, (state, action) => {
@@ -258,9 +254,12 @@ export const updateSchedule = createAsyncThunk(
 );
 
 // update current slide
-export const updateCurrentSlide = createAsyncThunk(
-    'updateCurrentSlide',
+export const updateNewSessionNotice = createAsyncThunk(
+    'updateNewSessionNotice',
     (payload) => {
         return payload;
     }
 );
+
+
+

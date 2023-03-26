@@ -13,3 +13,9 @@ export function convertUTCDateToLocalDate(date) {
 
     return newDate;
 }
+
+export const getMonthName = (month) => {
+    let months = ['January', 'February', 'March', 'April', "May", 'June', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+    return months[month]
+}
