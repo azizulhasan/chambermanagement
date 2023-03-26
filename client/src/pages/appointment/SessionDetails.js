@@ -23,7 +23,9 @@ import {
 
 export default function SessionDetails() {
     const pageNo = 1;
-
+    const { schedules } = useSelector(
+        (state) => state.schedules
+    );
     const [date, setDate] = useState(null);
     const [currentDateString, setCurrentDateString] = useState(
         new Date().getFullYear() +
@@ -36,7 +38,6 @@ export default function SessionDetails() {
     const [doctors, setDoctors] = useState([]);
     const [specialities, setSpecialities] = useState([]);
     const [filteredDoctors, setFilteredDoctors] = useState([]);
-    const [sessionData, setSessionData] = useState({});
     const [defaultSelectedTime, setDefaultSelectedTime] = useState([]);
     const [unAvailableSlots, setUnAvailableSlots] = useState([]);
     const [filteredSchedule, setFilteredSchedule] = useState({
@@ -44,27 +45,39 @@ export default function SessionDetails() {
         perSessionLength: 60,
     });
     const [timeSlots, setTimeSlots] = useState([]);
-    const [offDays, setOffDays] = useState([]);
     const [offDates, setOffDates] = useState([]);
     const ref = React.useRef();
     const dispatch = useDispatch();
-    const { schedules, singleSchedule, isModalActive, options } = useSelector(
-        (state) => state.schedules
-    );
+
     const { users } = useSelector((state) => state.users);
-    const { currentSlide, registerUserSchedule, currentDoctorSchedules } =
+    const { currentSlide, registerUserSchedule, currentDoctorSchedules, isNewSchedule, defaultSchedule } =
         useSelector((state) => state.userSchedules);
+
+    useEffect(() => {
+        if (isNewSchedule) {
+            setDate(null)
+            setUnAvailableSlots([])
+            setUnAvailableSlots([])
+            setDefaultSelectedTime([])
+            setOffDates([])
+            let allDates = document.querySelectorAll('.react-calendar__tile');
+            Object.values(allDates).map((date) => {
+                date.classList.remove('bg-themeColor');
+                date.classList.remove('text-white');
+            });
+
+        }
+    }, [isNewSchedule])
 
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
         let sessionData = getSessionStorage(['registerUserSchedule']);
-
         if (!Object.keys(sessionData).length) {
-            saveSessionData('registerUserSchedule', registerUserSchedule);
-            setSessionData(registerUserSchedule[pageNo]);
-        } else {
-            setSessionData(sessionData['registerUserSchedule'][pageNo]);
+            saveSessionData('registerUserSchedule', defaultSchedule);
+        }
+        else {
+            dispatch(updateRegisterSchedule(sessionData['registerUserSchedule']))
         }
     }, []);
 
@@ -145,10 +158,7 @@ export default function SessionDetails() {
                 (schedule) => schedule.user === registerUserSchedule[pageNo].doctor_id
             );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                setOffDays(filteredSchedule[0].offDay);
                 let offDates = getOffDates(filteredSchedule[0].offDay, currentDateString);
-                console.log(offDates, filteredSchedule[0].offDay)
-
                 setOffDates(offDates);
                 setFilteredSchedule(filteredSchedule[0]);
             }
@@ -169,6 +179,7 @@ export default function SessionDetails() {
                 }
             });
         }
+
     }, [date]);
 
     const addToSelectedArray = (time) => {
@@ -212,7 +223,6 @@ export default function SessionDetails() {
                 // let firstDay = new Date(y, m, 1);
                 // let lastDay = new Date(y, m + 1, 0);
 
-                setOffDays(filteredSchedule[0].offDay);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
@@ -264,9 +274,6 @@ export default function SessionDetails() {
     }, [currentDoctorSchedules]);
 
 
-    useEffect(() => {
-        console.log(registerUserSchedule)
-    }, [registerUserSchedule])
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">

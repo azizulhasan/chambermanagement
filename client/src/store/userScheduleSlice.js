@@ -29,7 +29,8 @@ let initialState = {
     },
     status: STATUSES.IDLE,
     currentDoctorSchedules: [],
-    frontUserSingleSchedule: {}
+    frontUserSingleSchedule: {},
+    isNewSchedule: true,
 
 };
 
@@ -84,8 +85,10 @@ let userSchedules = createSlice({
 
         builder.addCase(clearRegisterUserSchedule.fulfilled, (state, action) => {
             state.registerUserSchedule = action.payload;
+            state.isNewSchedule = true;
         });
         builder.addCase(updateRegisterSchedule.fulfilled, (state, action) => {
+            state.isNewSchedule = false;
             state.registerUserSchedule = action.payload;
         });
 
@@ -103,13 +106,13 @@ let userSchedules = createSlice({
         });
 
 
-        builder.addCase(updateSchedule.fulfilled, (state, action) => {
-            state.userSchedules = action.payload;
-            state.isModalActive = false;
-        });
-        builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
-            state.currentSlide = action.payload;
-        });
+        // builder.addCase(updateSchedule.fulfilled, (state, action) => {
+        //     state.userSchedules = action.payload;
+        //     state.isModalActive = false;
+        // });
+        // builder.addCase(updateCurrentSlide.fulfilled, (state, action) => {
+        //     state.currentSlide = action.payload;
+        // });
 
         builder
             .addCase(fetchDoctorSchedules.pending, (state, action) => {

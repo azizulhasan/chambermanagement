@@ -487,7 +487,7 @@ export const prepareScheduleSessionData = (
     sessionKey = 'registerUserSchedule'
 ) => {
     let sessionData = getSessionStorage([sessionKey]);
-    if (pageNumber && key && value) {
+    if (pageNumber && key) {
         Object.keys(sessionData[sessionKey][pageNumber]).map(
             (currentKey) => {
                 if (currentKey == key) {
