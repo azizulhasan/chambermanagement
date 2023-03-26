@@ -52,7 +52,6 @@ export default function PatientDetails() {
                 }
             </div>
             <div className="flex justify-between py-4 mb-8 ">
-
                 <div className=" w-full col-span-4">
                     <Input
                         label={'Patient Name'}

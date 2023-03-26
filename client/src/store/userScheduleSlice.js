@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { convertUTCDateToLocalDate } from '../utilities/timeUtilities';
-import { database } from '.././database';
+import { defaultUserScheduleData } from '.././database';
 import {
     addUserData,
     fetchData,
@@ -9,42 +9,17 @@ import {
     setSessionStorage,
 } from '../utilities/utilities';
 
-export const STATUSES = Object.freeze({
+export const STATUSES = {
     IDLE: 'idle',
     ERROR: 'error',
     LOADING: 'loading',
-});
+}
 
 let initialState = {
     userSchedules: [],
-    registerUserSchedule: {
-        1: {
-            session_name: '',
-            doctor_id: '',
-            session_date: '',
-            session_time: '',
-            per_session_length: '',
-        },
-        2: {
-            name: '',
-            email: '',
-            phone: '',
-            user_id: '',
-        },
-        3: {
-            paymentMethod: '',
-        },
-    },
+    registerUserSchedule: defaultUserScheduleData,
+    defaultSchedule: defaultUserScheduleData,
     currentSlide: {},
-    days: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wensday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ],
     singleUserSchedule: {
         branch: '',
         perSessionLength: 60,
@@ -54,6 +29,8 @@ let initialState = {
     },
     status: STATUSES.IDLE,
     currentDoctorSchedules: [],
+    frontUserSingleSchedule: {}
+
 };
 
 let userSchedules = createSlice({
@@ -95,7 +72,6 @@ let userSchedules = createSlice({
         });
 
         builder.addCase(fetchUserSchedules.fulfilled, (state, action) => {
-            console.log({ payload: action.payload });
             state.userSchedules = action.payload;
             state.status = STATUSES.IDLE;
         });
@@ -106,15 +82,26 @@ let userSchedules = createSlice({
             state.singleUserSchedule = action.payload;
         });
 
+        builder.addCase(clearRegisterUserSchedule.fulfilled, (state, action) => {
+            state.registerUserSchedule = action.payload;
+        });
+        builder.addCase(updateRegisterSchedule.fulfilled, (state, action) => {
+            state.registerUserSchedule = action.payload;
+        });
+
+
+
         builder.addCase(deleteSchedule.fulfilled, (state, action) => {
             state.userSchedules = action.payload;
         });
 
         builder.addCase(saveUserSchedule.fulfilled, (state, action) => {
-            console.log(action.payload.data);
-            state.userSchedules = action.payload;
-            state.isModalActive = false;
+            state.frontUserSingleSchedule = action.payload.data;
         });
+        builder.addCase(clearUserSchedule.fulfilled, (state, action) => {
+            state.frontUserSingleSchedule = {};
+        });
+
 
         builder.addCase(updateSchedule.fulfilled, (state, action) => {
             state.userSchedules = action.payload;
@@ -207,6 +194,39 @@ export const saveUserSchedule = createAsyncThunk(
         return fetchData(payload);
     }
 );
+
+
+/**
+ * clear user single schedule.
+ */
+export const clearUserSchedule = createAsyncThunk(
+    'clearUserSchedule',
+    async (payload) => {
+        return payload;
+    }
+);
+
+/**
+ * clear clearRegisterUserSchedule
+ */
+export const clearRegisterUserSchedule = createAsyncThunk(
+    'clearRegisterUserSchedule',
+    async (payload) => {
+        return payload;
+    }
+);
+
+/**
+ * update updateRegisterSchedule
+ */
+export const updateRegisterSchedule = createAsyncThunk(
+    'updateRegisterSchedule',
+    (payload) => {
+        return payload;
+    }
+);
+
+
 
 //Update userschedules details
 export const updateSchedule = createAsyncThunk(

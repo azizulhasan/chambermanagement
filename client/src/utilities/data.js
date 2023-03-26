@@ -48,11 +48,12 @@ export const months = [
     'Nov',
     'Dec',
 ];
+
 export const days = [
     'Sunday',
     'Monday',
     'Tuesday',
-    'Wednesday',
+    'Wensday',
     'Thursday',
     'Friday',
     'Saturday',

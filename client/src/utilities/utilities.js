@@ -479,6 +479,29 @@ export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null
 };
 
 
+
+export const prepareScheduleSessionData = (
+    key,
+    value,
+    pageNumber = 1,
+    sessionKey = 'registerUserSchedule'
+) => {
+    let sessionData = getSessionStorage([sessionKey]);
+    if (pageNumber && key && value) {
+        Object.keys(sessionData[sessionKey][pageNumber]).map(
+            (currentKey) => {
+                if (currentKey == key) {
+                    sessionData[sessionKey][pageNumber][key] = value;
+                }
+            }
+        );
+    }
+    saveSessionData(sessionKey, sessionData[sessionKey]);
+
+    return sessionData[sessionKey];
+}
+
+
 export const prepareDataForSave = (data) => {
     let databaseData = {};
     Object.keys(data).map((pageNumber) => {
@@ -487,6 +510,44 @@ export const prepareDataForSave = (data) => {
         });
     });
     return databaseData;
+}
+
+/**
+ * get all dates of the month.
+ * @param {*} year 
+ * @param {*} month 
+ * @returns 
+ */
+export const get_all_dates = (year, month) => {
+    let date = new Date(year, month, 1);
+    let dates = [];
+    let i = 0;
+    while (date.getMonth() === month) {
+        dates.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+        i = i + 1;
+    }
+
+    return dates;
+}
+
+
+export const getOffDates = (offDays = [], currentDateString) => {
+    let tempDate = new Date(currentDateString);
+    let allDates = get_all_dates(
+        tempDate.getFullYear(),
+        tempDate.getMonth()
+    );
+
+    let offDates = [];
+    for (let i = 0; i < allDates.length; i++) {
+        let temp = allDates[i];
+        let day = days[temp.getDay()];
+        if (offDays.includes(day)) {
+            offDates.push(temp.getDate());
+        }
+    }
+    return offDates;
 }
 
 /**

@@ -8,6 +8,8 @@ export default function Appoinment() {
                 '/assets/front/css/tailwind.css',
                 '/assets/front/css/carousel.css',
                 '/assets/front/css/appointment.css',
+                '/assets/front/css/footer.css',
+
             ]}
         >
             <ModalContent />

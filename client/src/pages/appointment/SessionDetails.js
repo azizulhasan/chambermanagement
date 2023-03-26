@@ -8,12 +8,15 @@ import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import {
     fetchDoctorSchedules,
-    updateCurrentSlide,
+    updateRegisterSchedule,
 } from '../../store/userScheduleSlice';
 import Select from '../../components/front/common/form/Select';
 import {
     addToImutableObject,
+    getOffDates,
     getSessionStorage,
+    get_all_dates,
+    prepareScheduleSessionData,
     saveSessionData,
     setSessionStorage,
 } from '../../utilities/utilities';
@@ -49,7 +52,7 @@ export default function SessionDetails() {
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
-    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } =
+    const { currentSlide, registerUserSchedule, currentDoctorSchedules } =
         useSelector((state) => state.userSchedules);
 
     useEffect(() => {
@@ -109,8 +112,8 @@ export default function SessionDetails() {
             limit--;
         }
 
-        if (sessionData.session_time) {
-            setDefaultSelectedTime([sessionData.session_time]);
+        if (registerUserSchedule[pageNo].session_time) {
+            setDefaultSelectedTime([registerUserSchedule[pageNo].session_time]);
         }
         setTimeSlots(slots);
     }, [filteredSchedule]);
@@ -135,20 +138,22 @@ export default function SessionDetails() {
     }, [offDates]);
 
     useEffect(() => {
-        if (sessionData.session_date)
-            setDate(new Date(sessionData.session_date));
-        if (sessionData.doctor_id !== undefined) {
+        if (registerUserSchedule[pageNo].session_date)
+            setDate(new Date(registerUserSchedule[pageNo].session_date));
+        if (registerUserSchedule[pageNo].doctor_id) {
             let filteredSchedule = schedules.filter(
-                (schedule) => schedule.user === sessionData.doctor_id
+                (schedule) => schedule.user === registerUserSchedule[pageNo].doctor_id
             );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
                 setOffDays(filteredSchedule[0].offDay);
-                let offDates = getOffDates(filteredSchedule[0].offDay);
+                let offDates = getOffDates(filteredSchedule[0].offDay, currentDateString);
+                console.log(offDates, filteredSchedule[0].offDay)
+
                 setOffDates(offDates);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
-    }, [sessionData, schedules]);
+    }, [registerUserSchedule, schedules]);
 
     useEffect(() => {
         if (date !== null) {
@@ -167,7 +172,8 @@ export default function SessionDetails() {
     }, [date]);
 
     const addToSelectedArray = (time) => {
-        prepareScheduleSessionData('session_time', time);
+        let data = prepareScheduleSessionData('session_time', time);
+        dispatch(updateRegisterSchedule(data));
     };
 
     const onChange = (e, currentSlide) => {
@@ -192,11 +198,11 @@ export default function SessionDetails() {
             let filteredSchedule = schedules.filter(
                 (schedule) => schedule.user === e.target.value
             );
-            prepareScheduleSessionData(
-                'per_session_length',
-                filteredSchedule[0].perSessionLength
-            );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                prepareScheduleSessionData(
+                    'per_session_length',
+                    filteredSchedule[0].perSessionLength
+                );
                 var date = new Date(),
                     y = date.getFullYear(),
                     m = date.getMonth();
@@ -205,19 +211,20 @@ export default function SessionDetails() {
                 // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
                 // let firstDay = new Date(y, m, 1);
                 // let lastDay = new Date(y, m + 1, 0);
-                console.log(firstDay, lastDay);
 
                 setOffDays(filteredSchedule[0].offDay);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
 
-        prepareScheduleSessionData(e.target.name, e.target.value);
+        let data = prepareScheduleSessionData(e.target.name, e.target.value, 1);
+        dispatch(updateRegisterSchedule(data));
     };
 
     const setSessionDate = (date) => {
         setDate(date);
-        prepareScheduleSessionData('session_date', date);
+        let data = prepareScheduleSessionData('session_date', date);
+        dispatch(updateRegisterSchedule(data));
         if (currentDoctorSchedules.length) {
             let bookedSchedules = [];
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
@@ -256,66 +263,16 @@ export default function SessionDetails() {
         }
     }, [currentDoctorSchedules]);
 
-    function prepareScheduleSessionData(
-        key,
-        value,
-        pageNumber = pageNo,
-        sessionKey = 'registerUserSchedule'
-    ) {
-        let sessionData = getSessionStorage([sessionKey]);
-        if (pageNumber && key && value) {
-            Object.keys(sessionData[sessionKey][pageNumber]).map(
-                (currentKey) => {
-                    if (currentKey == key) {
-                        sessionData[sessionKey][pageNumber][key] = value;
-                    }
-                }
-            );
-        }
-        setSessionData(sessionData[sessionKey][1]);
-        saveSessionData(sessionKey, sessionData[sessionKey]);
-    }
 
-    function getOffDates(offDays) {
-        let tempDate = new Date(currentDateString);
-        let allDates = get_all_dates(
-            tempDate.getFullYear(),
-            tempDate.getMonth()
-        );
-        let offDates = [];
-        for (let i = 0; i < allDates.length; i++) {
-            let temp = allDates[i];
-            let day = days[temp.getDay()];
-            if (offDays.includes(day)) {
-                offDates.push(temp.getDate());
-            }
-        }
-        return offDates;
-    }
-
-    function get_all_dates(year, month) {
-        let date = new Date(year, month, 1);
-        let dates = [];
-        let i = 0;
-        while (date.getMonth() === month) {
-            dates.push(new Date(date));
-            date.setDate(date.getDate() + 1);
-            i = i + 1;
-        }
-
-        return dates;
-    }
-
+    useEffect(() => {
+        console.log(registerUserSchedule)
+    }, [registerUserSchedule])
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
-                    value={
-                        sessionData.session_name
-                            ? sessionData.session_name
-                            : '0'
-                    }
+                    value={registerUserSchedule[pageNo].session_name ? registerUserSchedule[pageNo].session_name : '0'}
                     onChange={(e) => onChange(e, currentSlide)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
@@ -335,7 +292,7 @@ export default function SessionDetails() {
                     id="doctor_id"
                     name="doctor_id"
                     required={true}
-                    value={sessionData.doctor_id ? sessionData.doctor_id : '0'}
+                    value={registerUserSchedule[pageNo].doctor_id ? registerUserSchedule[pageNo].doctor_id : '0'}
                 />
             </div>
             <div className="w-72">

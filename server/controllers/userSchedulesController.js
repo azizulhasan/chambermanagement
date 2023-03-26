@@ -15,7 +15,6 @@ const userSchedule_index = async (req, res) => {
 };
 
 const get_doctor_schedules = async (req, res) => {
-    console.log({ params: req.params.doctor_id });
     const doctor_id = req.params.doctor_id;
     let doctorSchedules = await UserSchedule.find({
         doctor_id: doctor_id,
@@ -38,7 +37,6 @@ const get_user_schedules = async (req, res) => {
  */
 const userSchedule_details = (req, res) => {
     const id = req.params.id;
-    console.log({ id });
     UserSchedule.findById(id)
         .then((result) => {
             res.json(result);
@@ -57,17 +55,16 @@ const userSchedule_create_post = (req, res) => {
     const schedule = new UserSchedule({
         ...req.body,
     });
-    console.log(req.body);
     schedule
         .save()
         .then(async (result) => {
-            let userschedule = await getAllScedules();
-            res.json({ data: userschedule });
+            res.json({ data: result });
         })
         .catch((err) => {
             res.json(err);
         });
 };
+
 
 /**
  * Uplate the userschedule to databse.
@@ -75,7 +72,6 @@ const userSchedule_create_post = (req, res) => {
  * @param {Object} res
  */
 const userSchedule_update_post = (req, res) => {
-    console.log({ req });
     const id = req.params.id;
     UserSchedule.findOneAndUpdate(
         {
