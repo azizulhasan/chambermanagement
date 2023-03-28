@@ -20,6 +20,9 @@ import { useSelector } from 'react-redux';
 import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
 import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
 import { database } from './database';
+import PaymentSuccess from './pages/appointment/payment-response/PaymentSuccess';
+import PaymentFail from './pages/appointment/payment-response/PaymentFail';
+import PaymentCancel from './pages/appointment/payment-response/PaymentCancel';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -60,6 +63,17 @@ export default function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about-us" element={<AboutUs />} />
                     <Route path="/appointment" element={<Appoinment />} />
+                    <Route path="/appointment/*">
+                        <Route
+                            path="payment-success"
+                            element={<PaymentSuccess />}
+                        />
+                        <Route path="payment-fail" element={<PaymentFail />} />
+                        <Route
+                            path="payment-cancel"
+                            element={<PaymentCancel />}
+                        />
+                    </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route

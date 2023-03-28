@@ -9,9 +9,9 @@ const Pagination = ({
     rowsPerPage,
 }) => {
     const pageCommonStyle =
-        'px-3 h-full flex items-center cursor-pointer rounded-sm font-semibold';
+        'px-3 h-full flex items-center rounded-sm font-semibold';
     const pageActiveStyle = 'bg-themeColor text-white hover:bg-themeColor ';
-    const pageInactiveStyle = 'hover:bg-themeColor/30 ';
+    const pageInactiveStyle = 'hover:bg-themeColor/30 cursor-pointer';
 
     const arrowCommonStyle =
         'text-3xl px-3 pb-1.5 h-full flex items-center cursor-pointer hover:bg-themeColor/30 rounded-sm';
