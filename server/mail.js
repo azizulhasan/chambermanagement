@@ -61,7 +61,7 @@ const sendMailForgotPassword = (data) => {
     from: credentials.email,
     to: data.email,
     subject: defaultDatabse.basic.companyTitle + ' : Forgot Password',
-    text: `Please <a href="${}" >Click Here</a> for setting password`,
+    text: `Please <a href="asdfasdfasd" >Click Here</a> for setting password`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

@@ -398,3 +398,20 @@ function getDummyServiceDetails() {
         'Corporate Psychological Wellness Services',
     ];
 }
+
+
+export const defaultUserScheduleData = {
+    1: {
+        session_name: '',
+        doctor_id: '',
+        session_date: '',
+        session_time: '',
+        per_session_length: '',
+    },
+    2: {
+        name: '',
+        email: '',
+        phone: '',
+        user_id: '',
+    },
+}

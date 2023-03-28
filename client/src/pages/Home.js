@@ -111,10 +111,10 @@ export default function Home() {
                                 <HealthSerivces id={'healthService'} />
                             )}
                         {/** Resource */}
-                        {displaCompoents.hasOwnProperty('resource') &&
+                        {/* {displaCompoents.hasOwnProperty('resource') &&
                             displaCompoents.resource && (
                                 <Resources id={'resource'} />
-                            )}
+                            )} */}
 
                         {/** Contact Section */}
                         {displaCompoents.hasOwnProperty('contact') &&

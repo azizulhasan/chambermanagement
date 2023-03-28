@@ -8,19 +8,24 @@ import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import {
     fetchDoctorSchedules,
-    updateCurrentSlide,
+    updateRegisterSchedule,
 } from '../../store/userScheduleSlice';
 import Select from '../../components/front/common/form/Select';
 import {
     addToImutableObject,
+    getOffDates,
     getSessionStorage,
+    get_all_dates,
+    prepareScheduleSessionData,
     saveSessionData,
     setSessionStorage,
 } from '../../utilities/utilities';
 
 export default function SessionDetails() {
     const pageNo = 1;
-
+    const { schedules } = useSelector(
+        (state) => state.schedules
+    );
     const [date, setDate] = useState(null);
     const [currentDateString, setCurrentDateString] = useState(
         new Date().getFullYear() +
@@ -33,7 +38,6 @@ export default function SessionDetails() {
     const [doctors, setDoctors] = useState([]);
     const [specialities, setSpecialities] = useState([]);
     const [filteredDoctors, setFilteredDoctors] = useState([]);
-    const [sessionData, setSessionData] = useState({});
     const [defaultSelectedTime, setDefaultSelectedTime] = useState([]);
     const [unAvailableSlots, setUnAvailableSlots] = useState([]);
     const [filteredSchedule, setFilteredSchedule] = useState({
@@ -41,27 +45,40 @@ export default function SessionDetails() {
         perSessionLength: 60,
     });
     const [timeSlots, setTimeSlots] = useState([]);
-    const [offDays, setOffDays] = useState([]);
     const [offDates, setOffDates] = useState([]);
     const ref = React.useRef();
     const dispatch = useDispatch();
-    const { schedules, singleSchedule, isModalActive, options } = useSelector(
-        (state) => state.schedules
-    );
+
     const { users } = useSelector((state) => state.users);
-    const { days, currentSlide, registerUserSchedule, currentDoctorSchedules } =
+    const { registerUserSchedule, currentDoctorSchedules, isNewSchedule, defaultSchedule } =
         useSelector((state) => state.userSchedules);
+
+    useEffect(() => {
+        if (isNewSchedule) {
+            setDate(null)
+            setUnAvailableSlots([])
+            setUnAvailableSlots([])
+            setDefaultSelectedTime([])
+            setOffDates([])
+            let allDates = document.querySelectorAll('.react-calendar__tile');
+            Object.values(allDates).map((date) => {
+                date.classList.remove('bg-themeColor');
+                date.classList.remove('text-white');
+            });
+
+        }
+    }, [isNewSchedule])
 
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
         let sessionData = getSessionStorage(['registerUserSchedule']);
-
         if (!Object.keys(sessionData).length) {
-            saveSessionData('registerUserSchedule', registerUserSchedule);
-            setSessionData(registerUserSchedule[pageNo]);
-        } else {
-            setSessionData(sessionData['registerUserSchedule'][pageNo]);
+            saveSessionData('registerUserSchedule', defaultSchedule);
+        }
+        else {
+            dispatch(updateRegisterSchedule(sessionData['registerUserSchedule']))
+
         }
     }, []);
 
@@ -109,8 +126,8 @@ export default function SessionDetails() {
             limit--;
         }
 
-        if (sessionData.session_time) {
-            setDefaultSelectedTime([sessionData.session_time]);
+        if (registerUserSchedule[pageNo].session_time) {
+            setDefaultSelectedTime([registerUserSchedule[pageNo].session_time]);
         }
         setTimeSlots(slots);
     }, [filteredSchedule]);
@@ -135,20 +152,19 @@ export default function SessionDetails() {
     }, [offDates]);
 
     useEffect(() => {
-        if (sessionData.session_date)
-            setDate(new Date(sessionData.session_date));
-        if (sessionData.doctor_id !== undefined) {
+        if (registerUserSchedule[pageNo].session_date)
+            setDate(new Date(registerUserSchedule[pageNo].session_date));
+        if (registerUserSchedule[pageNo].doctor_id) {
             let filteredSchedule = schedules.filter(
-                (schedule) => schedule.user === sessionData.doctor_id
+                (schedule) => schedule.user === registerUserSchedule[pageNo].doctor_id
             );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                setOffDays(filteredSchedule[0].offDay);
-                let offDates = getOffDates(filteredSchedule[0].offDay);
+                let offDates = getOffDates(filteredSchedule[0].offDay, currentDateString);
                 setOffDates(offDates);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
-    }, [sessionData, schedules]);
+    }, [registerUserSchedule, schedules]);
 
     useEffect(() => {
         if (date !== null) {
@@ -164,13 +180,15 @@ export default function SessionDetails() {
                 }
             });
         }
+
     }, [date]);
 
     const addToSelectedArray = (time) => {
-        prepareScheduleSessionData('session_time', time);
+        let data = prepareScheduleSessionData('session_time', time);
+        dispatch(updateRegisterSchedule(data));
     };
 
-    const onChange = (e, currentSlide) => {
+    const onChange = (e) => {
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
                 (doctor) => doctor.speciality === e.target.value
@@ -192,11 +210,11 @@ export default function SessionDetails() {
             let filteredSchedule = schedules.filter(
                 (schedule) => schedule.user === e.target.value
             );
-            prepareScheduleSessionData(
-                'per_session_length',
-                filteredSchedule[0].perSessionLength
-            );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
+                prepareScheduleSessionData(
+                    'per_session_length',
+                    filteredSchedule[0].perSessionLength
+                );
                 var date = new Date(),
                     y = date.getFullYear(),
                     m = date.getMonth();
@@ -205,19 +223,19 @@ export default function SessionDetails() {
                 // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
                 // let firstDay = new Date(y, m, 1);
                 // let lastDay = new Date(y, m + 1, 0);
-                console.log(firstDay, lastDay);
 
-                setOffDays(filteredSchedule[0].offDay);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
 
-        prepareScheduleSessionData(e.target.name, e.target.value);
+        let data = prepareScheduleSessionData(e.target.name, e.target.value, 1);
+        dispatch(updateRegisterSchedule(data));
     };
 
     const setSessionDate = (date) => {
         setDate(date);
-        prepareScheduleSessionData('session_date', date);
+        let data = prepareScheduleSessionData('session_date', date);
+        dispatch(updateRegisterSchedule(data));
         if (currentDoctorSchedules.length) {
             let bookedSchedules = [];
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
@@ -256,67 +274,14 @@ export default function SessionDetails() {
         }
     }, [currentDoctorSchedules]);
 
-    function prepareScheduleSessionData(
-        key,
-        value,
-        pageNumber = pageNo,
-        sessionKey = 'registerUserSchedule'
-    ) {
-        let sessionData = getSessionStorage([sessionKey]);
-        if (pageNumber && key && value) {
-            Object.keys(sessionData[sessionKey][pageNumber]).map(
-                (currentKey) => {
-                    if (currentKey == key) {
-                        sessionData[sessionKey][pageNumber][key] = value;
-                    }
-                }
-            );
-        }
-        setSessionData(sessionData[sessionKey][1]);
-        saveSessionData(sessionKey, sessionData[sessionKey]);
-    }
-
-    function getOffDates(offDays) {
-        let tempDate = new Date(currentDateString);
-        let allDates = get_all_dates(
-            tempDate.getFullYear(),
-            tempDate.getMonth()
-        );
-        let offDates = [];
-        for (let i = 0; i < allDates.length; i++) {
-            let temp = allDates[i];
-            let day = days[temp.getDay()];
-            if (offDays.includes(day)) {
-                offDates.push(temp.getDate());
-            }
-        }
-        return offDates;
-    }
-
-    function get_all_dates(year, month) {
-        let date = new Date(year, month, 1);
-        let dates = [];
-        let i = 0;
-        while (date.getMonth() === month) {
-            dates.push(new Date(date));
-            date.setDate(date.getDate() + 1);
-            i = i + 1;
-        }
-
-        return dates;
-    }
 
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
-                    value={
-                        sessionData.session_name
-                            ? sessionData.session_name
-                            : '0'
-                    }
-                    onChange={(e) => onChange(e, currentSlide)}
+                    value={registerUserSchedule[pageNo].session_name ? registerUserSchedule[pageNo].session_name : '0'}
+                    onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
                     options={specialities}
@@ -328,14 +293,14 @@ export default function SessionDetails() {
             <div className="w-60">
                 <label htmlFor="doctor_id">Doctor</label>
                 <Select
-                    onChange={(e) => onChange(e, currentSlide)}
+                    onChange={(e) => onChange(e)}
                     defaultOption="Select Doctor"
                     classes={'border w-60 p-2'}
                     options={filteredDoctors}
                     id="doctor_id"
                     name="doctor_id"
                     required={true}
-                    value={sessionData.doctor_id ? sessionData.doctor_id : '0'}
+                    value={registerUserSchedule[pageNo].doctor_id ? registerUserSchedule[pageNo].doctor_id : '0'}
                 />
             </div>
             <div className="w-72">

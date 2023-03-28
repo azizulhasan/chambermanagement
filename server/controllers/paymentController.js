@@ -16,7 +16,8 @@ const proceed_to_pay = (req, res) => {
         email,
         phone,
         user_id,
-        paymentMethod
+        paymentMethod,
+        _id
     } = req.body;
 
     const data = {
@@ -25,7 +26,7 @@ const proceed_to_pay = (req, res) => {
         store_passwd: 'atlas641c8449bb034@ssl', //"qwerty",
         total_amount: "103",
         currency: "BDT",
-        tran_id: 'atlas_' + user_id + '_' + Date.now(),
+        tran_id: 'atlas_' + _id + '_' + Date.now(),
         success_url: "http://localhost:4000/api/payment/success",
         fail_url: "http://localhost:4000/api/payment/fail",
         cancel_url: "http://localhost:4000/api/payment/cancel",
@@ -75,7 +76,6 @@ const proceed_to_pay = (req, res) => {
 
     const sslcommer = new ssl.SslCommerzPayment('atlas641c8449bb034', 'atlas641c8449bb034@ssl', false) //true for live default false for sandbox
     sslcommer.init(data).then(data => {
-        console.log(data)
         res.json({ url: data.GatewayPageURL })
     });
 

@@ -15,11 +15,11 @@ const submitContactForm = (e) => {
                 displayError(thisForm, 'The form action property is not set!');
                 return;
             }
-            thisForm.querySelector('.loading').classList.add('d-block');
+            thisForm.querySelector('.loading').classList.add('block');
             thisForm
                 .querySelector('.error-message')
-                .classList.remove('d-block');
-            thisForm.querySelector('.sent-message').classList.remove('d-block');
+                .classList.remove('block');
+            thisForm.querySelector('.sent-message').classList.remove('block');
 
             let formData = new FormData(thisForm);
             formData.append('date', getFormattedDate());
@@ -49,18 +49,18 @@ function php_email_form_submit(thisForm, action, formData) {
             }
         })
         .then((data) => {
-            thisForm.querySelector('.loading').classList.remove('d-block');
+            thisForm.querySelector('.loading').classList.remove('block');
             if (data.data.length) {
                 thisForm
                     .querySelector('.sent-message')
-                    .classList.add('d-block');
+                    .classList.add('block');
                 thisForm.reset();
             } else {
                 throw new Error(
                     data
                         ? data
                         : 'Form submission failed and no error message returned from: ' +
-                          action
+                        action
                 );
             }
         })
@@ -70,9 +70,9 @@ function php_email_form_submit(thisForm, action, formData) {
 }
 
 function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
+    thisForm.querySelector('.loading').classList.remove('block');
     thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
+    thisForm.querySelector('.error-message').classList.add('block');
 }
 
 export default submitContactForm;

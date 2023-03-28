@@ -41,7 +41,7 @@ const userSchedule = new Schema(
         },
         paymentMethod: {
             type: String,
-            required: true,
+            required: false,
         },
         status: {
             type: String,
