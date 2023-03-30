@@ -12,7 +12,7 @@ import { Editor } from '@tinymce/tinymce-react';
 
 import { getIframeContent, previewImage } from './UsersHooks';
 import { sliceComponentName } from '../../../../utilities/utilities';
-import { database } from '../../../../database';
+import { database } from '../../../../data/database';
 
 const {
     basic: { userRoles },

@@ -6,7 +6,7 @@ import {
     removeFromDashboardJsAssets,
     removeFromFrontCSSAssets,
     removeFromFrontJsAssets,
-} from './data';
+} from '../data/data';
 import { cancelConfirm, getSwalOptions, ctxSwal } from './sweetAlert';
 import { FormValue } from './FormValue';
 
@@ -94,8 +94,8 @@ export function removeCSSFromDOM(cssFilesArr) {
             } else {
                 let link = document.querySelector(
                     'link[href="' +
-                    cssFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -108,8 +108,8 @@ export function removeCSSFromDOM(cssFilesArr) {
                 // .replace(process.env.REACT_APP_URL, '')
                 let link = document.querySelector(
                     'link[href="' +
-                    cssFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -139,8 +139,8 @@ export function removeJsFromDOM(jsFiles) {
                 // .replace(process.env.REACT_APP_URL, '')
                 let script = document.querySelector(
                     'script[src="' +
-                    jsFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        jsFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (script) script.remove();
             }
@@ -451,14 +451,17 @@ export const getSessionStorage = (keys = []) => {
 
 // };
 
-export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null) => {
+export const saveSessionData = (
+    sessionKey = 'registerUserSchedule',
+    data = null
+) => {
     let prevData = window.sessionStorage.getItem(sessionKey);
     let newData = null;
     let typeofData = Array.isArray(data)
         ? 'array'
         : typeof data === 'object'
-            ? 'object'
-            : 'all';
+        ? 'object'
+        : 'all';
     switch (typeofData) {
         case 'object':
             newData = JSON.stringify(data);
@@ -478,8 +481,6 @@ export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null
     window.sessionStorage.setItem(sessionKey, newData);
 };
 
-
-
 export const prepareScheduleSessionData = (
     key,
     value,
@@ -488,19 +489,16 @@ export const prepareScheduleSessionData = (
 ) => {
     let sessionData = getSessionStorage([sessionKey]);
     if (pageNumber && key) {
-        Object.keys(sessionData[sessionKey][pageNumber]).map(
-            (currentKey) => {
-                if (currentKey == key) {
-                    sessionData[sessionKey][pageNumber][key] = value;
-                }
+        Object.keys(sessionData[sessionKey][pageNumber]).map((currentKey) => {
+            if (currentKey == key) {
+                sessionData[sessionKey][pageNumber][key] = value;
             }
-        );
+        });
     }
     saveSessionData(sessionKey, sessionData[sessionKey]);
 
     return sessionData[sessionKey];
-}
-
+};
 
 export const prepareDataForSave = (data) => {
     let databaseData = {};
@@ -510,13 +508,13 @@ export const prepareDataForSave = (data) => {
         });
     });
     return databaseData;
-}
+};
 
 /**
  * get all dates of the month.
- * @param {*} year 
- * @param {*} month 
- * @returns 
+ * @param {*} year
+ * @param {*} month
+ * @returns
  */
 export const get_all_dates = (year, month) => {
     let date = new Date(year, month, 1);
@@ -529,15 +527,11 @@ export const get_all_dates = (year, month) => {
     }
 
     return dates;
-}
-
+};
 
 export const getOffDates = (offDays = [], currentDateString) => {
     let tempDate = new Date(currentDateString);
-    let allDates = get_all_dates(
-        tempDate.getFullYear(),
-        tempDate.getMonth()
-    );
+    let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth());
 
     let offDates = [];
     for (let i = 0; i < allDates.length; i++) {
@@ -548,7 +542,7 @@ export const getOffDates = (offDays = [], currentDateString) => {
         }
     }
     return offDates;
-}
+};
 
 /**
  * Set localStorage
@@ -636,8 +630,8 @@ export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-            ? window.localStorage.getItem('user')['storage']
-            : '';
+        ? window.localStorage.getItem('user')['storage']
+        : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -701,7 +695,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-    [textareaIndex].getAttribute('id');
+        [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 

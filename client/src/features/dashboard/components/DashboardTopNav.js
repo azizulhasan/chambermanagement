@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../store/usersSlice';
 import { useDispatch } from 'react-redux';
 // import { Menu, User } from '../../../assets/svg-components';
-import { AdminDashboardIcons } from '../../../database';
+import { AdminDashboardIcons } from '../../../data/database';
 import { Search } from '../../../assets/atlasIcons/AtlasIconsSolid';
 
 const { Menu, User } = AdminDashboardIcons;

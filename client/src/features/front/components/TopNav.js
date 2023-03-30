@@ -1,4 +1,4 @@
-import { database } from '../../../database';
+import { database } from '../../../data/database';
 
 const {
     basic: {

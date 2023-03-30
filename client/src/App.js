@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useLayoutEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Loader from './components/front/common/Loader';
+import Loader from './components/common/CircleLoader';
 
 /**
  * pages
@@ -16,10 +16,11 @@ import {
 import { useSelector } from 'react-redux';
 import AdminPrivateOutlet from './features/authentication/components/AdminPrivateOutlet';
 import UserPrivateOutlet from './features/authentication/components/UserPrivateOutlet';
-import { database } from './database';
-import RefundPolicy from './features/front/pages/policy/RefundPolicy';
-import PrivacyPolicy from './features/front/pages/policy/PrivacyPolicy';
-import TermsOfServices from './features/front/pages/policy/TermsOfServices';
+
+import RefundPolicy from './pages/RefundPolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfServices from './pages/TermsOfServices';
+import { database } from './data/database';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));

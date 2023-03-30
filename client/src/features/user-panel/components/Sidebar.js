@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserPanelMenus } from '../../../database';
+import { UserPanelMenus } from '../../../data/database';
 
 const menus = UserPanelMenus;
 

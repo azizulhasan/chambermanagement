@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from '../components/common/Container';
-import { database } from '../database';
+import { database } from '../data/database';
 import FrontSkeleton from '../layouts/FrontSkeleton';
 
 const {

@@ -3,7 +3,7 @@ import { Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useDispatch, useSelector } from 'react-redux';
-import { displayNotice } from '../../store/modalSlice';
+import { displayNotice } from '../../store/commonDataSlice';
 
 export default function Notify() {
     const dispatch = useDispatch();

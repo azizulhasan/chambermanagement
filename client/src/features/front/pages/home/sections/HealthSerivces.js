@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
-import { database } from '../../../../../database';
+import { database } from '../../../../../data/database';
 import {
     decideTotalSlides,
     fillArray,

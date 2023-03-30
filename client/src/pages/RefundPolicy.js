@@ -1,5 +1,5 @@
 import React from 'react';
-import FrontSkeleton from '../../../../layouts/FrontSkeleton';
+import FrontSkeleton from '../layouts/FrontSkeleton';
 
 const initialData = {
     title: 'Refund Policy',

@@ -9,7 +9,7 @@ import {
     TableHeader,
 } from 'react-bs-datatable';
 import { useDispatch, useSelector } from 'react-redux';
-import { database } from '../../../../database';
+import { database } from '../../../../data/database';
 import { fetchUserSchedules } from '../../../../store/userScheduleSlice';
 
 export default function Dashboard() {

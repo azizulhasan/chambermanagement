@@ -1,7 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { database } from '../../../database';
+import { database } from '../../../data/database';
 import { logOut } from '../../../store/usersSlice';
 
 const { topMenus } = database;

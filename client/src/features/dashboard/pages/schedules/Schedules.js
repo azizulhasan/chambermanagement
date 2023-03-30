@@ -13,7 +13,7 @@ import SchedulesModal from './SchedulesModal';
 import { addCSS } from '../../../../utilities/utilities';
 import { convertUTCDateToLocalDate } from '../../../../utilities/timeUtilities';
 import { fetchSingleUser } from '../../../../store/usersSlice';
-import { AdminDashboardIcons, database } from '../../../../database';
+import { AdminDashboardIcons, database } from '../../../../data/database';
 import {
     DatatableWrapper,
     Filter,

@@ -1,7 +1,7 @@
 import { useEffect, lazy, Suspense, useState, Component } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCSS } from '../utilities/utilities';
-import Loader from '../components/front/common/Loader';
+import Loader from '../components/common/CircleLoader';
 
 //Sections
 const Slider = lazy(() =>

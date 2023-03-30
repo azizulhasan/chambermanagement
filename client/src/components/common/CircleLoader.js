@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Loader() {
+export default function CircleLoader() {
     return (
         <div className="h-screen flex justify-center items-center ">
             <div role="status">

@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { database } from '../database';
+import { database } from '../data/database';
 import FrontSkeleton from '../layouts/FrontSkeleton';
 const NotFound = lazy(() => import('../components/notfound/NotFound'));
 

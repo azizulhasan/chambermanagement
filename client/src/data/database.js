@@ -3,7 +3,7 @@ import {
     MapPin,
     Settings,
     Menu,
-} from './assets/atlasIcons/AtlasIconsSolid';
+} from '../assets/atlasIcons/AtlasIconsSolid';
 import {
     Mail,
     Dashboard,
@@ -19,7 +19,7 @@ import {
     Instagram,
     LinkedIn,
     Twitter,
-} from './assets/atlasIcons/AtlasIconsSolid';
+} from '../assets/atlasIcons/AtlasIconsSolid';
 
 export const database = {
     basic: {
@@ -399,7 +399,6 @@ function getDummyServiceDetails() {
     ];
 }
 
-
 export const defaultUserScheduleData = {
     1: {
         session_name: '',
@@ -414,4 +413,4 @@ export const defaultUserScheduleData = {
         phone: '',
         user_id: '',
     },
-}
+};

@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
  */
 import UsersModal from './UsersModal';
 import { addCSS } from '../../../../utilities/utilities';
-import { AdminDashboardIcons, database } from '../../../../database';
 import {
     DatatableWrapper,
     Filter,
@@ -21,6 +20,7 @@ import {
     TableBody,
     TableHeader,
 } from 'react-bs-datatable';
+import { AdminDashboardIcons, database } from '../../../../data/database';
 
 const { Edit, Trash } = AdminDashboardIcons;
 

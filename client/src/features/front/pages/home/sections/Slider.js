@@ -7,7 +7,7 @@ import { addCSS } from '../../../../../utilities/utilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../../../store/commonDataSlice';
 import { useEffect, useState } from 'react';
-import { database } from '../../../../../database';
+import { database } from '../../../../../data/database';
 import { Link } from 'react-router-dom';
 
 const {

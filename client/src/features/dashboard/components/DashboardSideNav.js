@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AdminDashboardIcons } from '../../../database';
+import { AdminDashboardIcons } from '../../../data/database';
 import { getUserName } from '../../../utilities/utilities';
 
 const {
