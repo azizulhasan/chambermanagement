@@ -1,4 +1,4 @@
-import { classNames } from '../../../../utilities/utilities';
+import { classNames } from '../../utilities/utilities';
 import ToolTip from '../common/ToolTip';
 
 export default function Input({
@@ -13,7 +13,7 @@ export default function Input({
     onBlur = null,
     onChange = null,
     toolTip = '',
-    validate = null
+    validate = null,
 }) {
     return toolTip ? (
         <>

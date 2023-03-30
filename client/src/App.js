@@ -1,9 +1,6 @@
 import React, { lazy, Suspense, useLayoutEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Loader from './components/front/common/Loader';
-import RefundPolicy from './components/front/common/policy/RefundPolicy';
-import PrivacyPolicy from './components/front/common/policy/PrivacyPolicy';
-import TermsOfServices from './components/front/common/policy/TermsOfServices';
 
 /**
  * pages
@@ -17,15 +14,16 @@ import {
 } from './utilities/utilities';
 
 import { useSelector } from 'react-redux';
-import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
-import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
+import AdminPrivateOutlet from './features/authentication/components/AdminPrivateOutlet';
+import UserPrivateOutlet from './features/authentication/components/UserPrivateOutlet';
 import { database } from './database';
+import RefundPolicy from './features/front/pages/policy/RefundPolicy';
+import PrivacyPolicy from './features/front/pages/policy/PrivacyPolicy';
+import TermsOfServices from './features/front/pages/policy/TermsOfServices';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
-const NotFound = lazy(() =>
-    import('./components/front/common/notfound/NotFound')
-);
+const NotFound = lazy(() => import('./components/notfound/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const MemberDetails = lazy(() => import('./pages/MemberDetails'));

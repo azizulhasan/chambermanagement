@@ -1,9 +1,6 @@
 // Button group Component
 
-import {
-    classNames,
-    getPrefixedClassNames,
-} from '../../../../utilities/utilities';
+import { classNames, getPrefixedClassNames } from '../../utilities/utilities';
 
 // import { classNames, getPrefixedClassNames } from '../../utilities/utilities';
 

@@ -1,13 +1,13 @@
 // https://www.npmjs.com/package/react-responsive-carousel
 
 import { Carousel } from 'react-responsive-carousel';
-import { addCSS } from '../../../../utilities/utilities';
+import { addCSS } from '../../../../../utilities/utilities';
 // onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 
 import { useDispatch, useSelector } from 'react-redux';
-import { openModal } from '../../../../store/commonDataSlice';
+import { openModal } from '../../../../../store/commonDataSlice';
 import { useEffect, useState } from 'react';
-import { database } from '../../../../database';
+import { database } from '../../../../../database';
 import { Link } from 'react-router-dom';
 
 const {

@@ -10,7 +10,7 @@ import {
     fetchDoctorSchedules,
     updateRegisterSchedule,
 } from '../../store/userScheduleSlice';
-import Select from '../../components/front/common/form/Select';
+import Select from '../../components/form/Select';
 import {
     addToImutableObject,
     getOffDates,
@@ -23,16 +23,14 @@ import {
 
 export default function SessionDetails() {
     const pageNo = 1;
-    const { schedules } = useSelector(
-        (state) => state.schedules
-    );
+    const { schedules } = useSelector((state) => state.schedules);
     const [date, setDate] = useState(null);
     const [currentDateString, setCurrentDateString] = useState(
         new Date().getFullYear() +
-        '-' +
-        (new Date().getMonth() + 1) +
-        '-' +
-        new Date().getDate()
+            '-' +
+            (new Date().getMonth() + 1) +
+            '-' +
+            new Date().getDate()
     );
 
     const [doctors, setDoctors] = useState([]);
@@ -50,24 +48,27 @@ export default function SessionDetails() {
     const dispatch = useDispatch();
 
     const { users } = useSelector((state) => state.users);
-    const { registerUserSchedule, currentDoctorSchedules, isNewSchedule, defaultSchedule } =
-        useSelector((state) => state.userSchedules);
+    const {
+        registerUserSchedule,
+        currentDoctorSchedules,
+        isNewSchedule,
+        defaultSchedule,
+    } = useSelector((state) => state.userSchedules);
 
     useEffect(() => {
         if (isNewSchedule) {
-            setDate(null)
-            setUnAvailableSlots([])
-            setUnAvailableSlots([])
-            setDefaultSelectedTime([])
-            setOffDates([])
+            setDate(null);
+            setUnAvailableSlots([]);
+            setUnAvailableSlots([]);
+            setDefaultSelectedTime([]);
+            setOffDates([]);
             let allDates = document.querySelectorAll('.react-calendar__tile');
             Object.values(allDates).map((date) => {
                 date.classList.remove('bg-themeColor');
                 date.classList.remove('text-white');
             });
-
         }
-    }, [isNewSchedule])
+    }, [isNewSchedule]);
 
     useEffect(() => {
         dispatch(fetchSchedules());
@@ -75,10 +76,10 @@ export default function SessionDetails() {
         let sessionData = getSessionStorage(['registerUserSchedule']);
         if (!Object.keys(sessionData).length) {
             saveSessionData('registerUserSchedule', defaultSchedule);
-        }
-        else {
-            dispatch(updateRegisterSchedule(sessionData['registerUserSchedule']))
-
+        } else {
+            dispatch(
+                updateRegisterSchedule(sessionData['registerUserSchedule'])
+            );
         }
     }, []);
 
@@ -156,10 +157,14 @@ export default function SessionDetails() {
             setDate(new Date(registerUserSchedule[pageNo].session_date));
         if (registerUserSchedule[pageNo].doctor_id) {
             let filteredSchedule = schedules.filter(
-                (schedule) => schedule.user === registerUserSchedule[pageNo].doctor_id
+                (schedule) =>
+                    schedule.user === registerUserSchedule[pageNo].doctor_id
             );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                let offDates = getOffDates(filteredSchedule[0].offDay, currentDateString);
+                let offDates = getOffDates(
+                    filteredSchedule[0].offDay,
+                    currentDateString
+                );
                 setOffDates(offDates);
                 setFilteredSchedule(filteredSchedule[0]);
             }
@@ -180,7 +185,6 @@ export default function SessionDetails() {
                 }
             });
         }
-
     }, [date]);
 
     const addToSelectedArray = (time) => {
@@ -274,13 +278,16 @@ export default function SessionDetails() {
         }
     }, [currentDoctorSchedules]);
 
-
     return (
         <div className="flex border py-4 mb-8 ">
             <div className="w-60 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
-                    value={registerUserSchedule[pageNo].session_name ? registerUserSchedule[pageNo].session_name : '0'}
+                    value={
+                        registerUserSchedule[pageNo].session_name
+                            ? registerUserSchedule[pageNo].session_name
+                            : '0'
+                    }
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
                     classes={'border w-60 p-2'}
@@ -300,7 +307,11 @@ export default function SessionDetails() {
                     id="doctor_id"
                     name="doctor_id"
                     required={true}
-                    value={registerUserSchedule[pageNo].doctor_id ? registerUserSchedule[pageNo].doctor_id : '0'}
+                    value={
+                        registerUserSchedule[pageNo].doctor_id
+                            ? registerUserSchedule[pageNo].doctor_id
+                            : '0'
+                    }
                 />
             </div>
             <div className="w-72">
@@ -329,10 +340,10 @@ export default function SessionDetails() {
                     }) => {
                         setCurrentDateString(
                             activeStartDate.getFullYear() +
-                            '-' +
-                            (activeStartDate.getMonth() + 1) +
-                            '-' +
-                            activeStartDate.getDate()
+                                '-' +
+                                (activeStartDate.getMonth() + 1) +
+                                '-' +
+                                activeStartDate.getDate()
                         );
                     }}
                 />

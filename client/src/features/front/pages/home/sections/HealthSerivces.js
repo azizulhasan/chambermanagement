@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
-import { database } from '../../../../database';
-import { decideTotalSlides, fillArray } from '../../../../utilities/utilities';
+import { database } from '../../../../../database';
+import {
+    decideTotalSlides,
+    fillArray,
+} from '../../../../../utilities/utilities';
 
 const {
     pages: {

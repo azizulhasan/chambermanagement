@@ -10,9 +10,8 @@ import {
     setUserAddress,
     hideMenuOnScroll,
     getFormattedDate,
-} from '../../../../utilities/utilities';
-import submitContactForm from '../../../../utilities/validate';
-import Button from '../../common/button/Button';
+} from '../../../../../utilities/utilities';
+import submitContactForm from '../../../../../utilities/validate';
 import GoogleMap from './GoogleMap';
 export default function Contact({ id = 'contact' }) {
     const [contact, setContact] = useState({
@@ -101,8 +100,8 @@ export default function Contact({ id = 'contact' }) {
             value === 'Address'
                 ? 'geo-alt'
                 : value === 'Email'
-                    ? 'envelope'
-                    : value.toLowerCase();
+                ? 'envelope'
+                : value.toLowerCase();
 
         return contactData;
     };

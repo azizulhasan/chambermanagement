@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { database } from '../../../../database';
-import { decideTotalSlides, fillArray } from '../../../../utilities/utilities';
-import YoutubeEmbed from '../../common/YoutubeEmbed';
+import YoutubeEmbed from '../../../../../components/common/YoutubeEmbed';
+import { database } from '../../../../../database';
+import {
+    decideTotalSlides,
+    fillArray,
+} from '../../../../../utilities/utilities';
 
 const {
     pages: {

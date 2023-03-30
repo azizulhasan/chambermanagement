@@ -1,7 +1,5 @@
 import React from 'react';
-import MenuBar from '../../home/sections/MenuBar';
-import TopNav from '../../home/sections/TopNav';
-import Footer from '../partials/Footer';
+import FrontSkeleton from '../../../../layouts/FrontSkeleton';
 
 const initialData = {
     title: 'Privacy Policy',
@@ -21,9 +19,7 @@ const initialData = {
 
 const PrivacyPolicy = () => {
     return (
-        <div>
-            <TopNav />
-            <MenuBar />
+        <FrontSkeleton>
             <div className="md:max-w-screen-sm text-center px-4 sm:px-6 lg:px-8 pt-24 pb-6 mx-auto">
                 <h1 className="text-2xl font-bold md:text-4xl mt-3">
                     {initialData?.title}
@@ -39,9 +35,7 @@ const PrivacyPolicy = () => {
                     ))}
                 </div>
             </div>
-
-            <Footer />
-        </div>
+        </FrontSkeleton>
     );
 };
 

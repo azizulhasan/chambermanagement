@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { database } from '../../../../database';
+import { database } from '../../../database';
 const {
     basic: {
         trademark: {
@@ -14,8 +14,9 @@ const {
 export default function Footer() {
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-        } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
+        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+    } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -103,7 +104,8 @@ export default function Footer() {
                                                                 {name}
                                                             </Link>
                                                         ) : null}
-                                                        {!link && Icon != null ? (
+                                                        {!link &&
+                                                        Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <span className="text-white">
@@ -112,7 +114,7 @@ export default function Footer() {
                                                             </div>
                                                         ) : null}
                                                         {link &&
-                                                            Icon != null ? (
+                                                        Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <Link
@@ -133,7 +135,17 @@ export default function Footer() {
                         })}
                     </div>
                     <div>
-                        <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img style={{ width: '100%', height: 'auto' }} src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-03.png" /></a>
+                        <a
+                            target="_blank"
+                            href="https://www.sslcommerz.com/"
+                            title="SSLCommerz"
+                            alt="SSLCommerz"
+                        >
+                            <img
+                                style={{ width: '100%', height: 'auto' }}
+                                src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-03.png"
+                            />
+                        </a>
                     </div>
                 </div>
             </footer>

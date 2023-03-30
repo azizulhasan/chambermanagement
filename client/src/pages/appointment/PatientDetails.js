@@ -1,50 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from '../../components/front/common/form/Input';
+import Input from '../../components/form/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { prepareScheduleSessionData } from '../../utilities/utilities';
-import { updateRegisterSchedule, updateNewSessionNotice } from '../../store/userScheduleSlice';
+import {
+    updateRegisterSchedule,
+    updateNewSessionNotice,
+} from '../../store/userScheduleSlice';
 import { fetchSingleUser } from '../../store/usersSlice';
-import { convertUTCDateToLocalDate, getMonthName } from '../../utilities/timeUtilities';
+import {
+    convertUTCDateToLocalDate,
+    getMonthName,
+} from '../../utilities/timeUtilities';
 
 export default function PatientDetails() {
-
     const dispatch = useDispatch();
-    const pageNo = 2
-    const { registerUserSchedule, isNewSchedule, newSessionNotice } = useSelector((state) => state.userSchedules);
+    const pageNo = 2;
+    const { registerUserSchedule, isNewSchedule, newSessionNotice } =
+        useSelector((state) => state.userSchedules);
     const { singleUser } = useSelector((state) => state.users);
 
     const getTime = (datetime) => {
-        let date = new Date(datetime)
-        return date.getDate() + " " + getMonthName(date.getMonth()) + " " + date.getFullYear();
-    }
+        let date = new Date(datetime);
+        return (
+            date.getDate() +
+            ' ' +
+            getMonthName(date.getMonth()) +
+            ' ' +
+            date.getFullYear()
+        );
+    };
 
     useEffect(() => {
         if (registerUserSchedule[1].doctor_id) {
-            dispatch(fetchSingleUser(registerUserSchedule[1].doctor_id))
+            dispatch(fetchSingleUser(registerUserSchedule[1].doctor_id));
         }
-    }, [registerUserSchedule])
-
-
+    }, [registerUserSchedule]);
 
     useEffect(() => {
         if (singleUser.hasOwnProperty('name')) {
+            let date = getTime(registerUserSchedule[1].session_date);
 
-            let date = getTime(registerUserSchedule[1].session_date)
-
-            let notice = getNewSessionNotice(singleUser.name, date)
-            dispatch(updateNewSessionNotice(notice))
+            let notice = getNewSessionNotice(singleUser.name, date);
+            dispatch(updateNewSessionNotice(notice));
         }
-    }, [singleUser])
+    }, [singleUser]);
 
     const getDoctorName = (doctor_id, users) => {
         let data = users.filter((user, i) => user._id === doctor_id);
         return data.length ? data[0].name : '';
-    }
+    };
 
     function getNewSessionNotice(doctorName, date) {
-        return `You selected a booking for Session by ${doctorName} at ${registerUserSchedule[1].session_time}  on ${date}. The price for the service is ৳5,000.00.`
+        return `You selected a booking for Session by ${doctorName} at ${registerUserSchedule[1].session_time}  on ${date}. The price for the service is ৳5,000.00.`;
     }
 
     const {
@@ -54,15 +63,22 @@ export default function PatientDetails() {
     } = useForm();
 
     const getFormValue = (e) => {
-        let data = prepareScheduleSessionData(e.target.name, e.target.value, 2)
+        let data = prepareScheduleSessionData(e.target.name, e.target.value, 2);
         dispatch(updateRegisterSchedule(data));
     };
     return (
         <>
-            <div className='col-span-12 pt-10'>
-                {
-                    !isNewSchedule && newSessionNotice && <p>{newSessionNotice}<br /> <strong>Please provide your details in the form below to proceed with booking.</strong></p>
-                }
+            <div className="col-span-12 pt-10">
+                {!isNewSchedule && newSessionNotice && (
+                    <p>
+                        {newSessionNotice}
+                        <br />{' '}
+                        <strong>
+                            Please provide your details in the form below to
+                            proceed with booking.
+                        </strong>
+                    </p>
+                )}
             </div>
             <div className="flex justify-between py-4 mb-8 ">
                 <div className=" w-full col-span-4">
@@ -79,7 +95,7 @@ export default function PatientDetails() {
                 </div>
                 <div className="w-full px-2 col-span-4">
                     <Input
-                        label={"Email ID"}
+                        label={'Email ID'}
                         name="email"
                         type="email"
                         placeholder="Email"
@@ -94,14 +110,12 @@ export default function PatientDetails() {
                         })}
                     />
                     {errors.email && (
-                        <span className="error">
-                            Emai is require.
-                        </span>
+                        <span className="error">Emai is require.</span>
                     )}
                 </div>
                 <div className="w-full col-span-4">
                     <Input
-                        label={"Phone Number"}
+                        label={'Phone Number'}
                         name="phone"
                         type="number"
                         placeholder="Phone number"
@@ -113,6 +127,5 @@ export default function PatientDetails() {
                 </div>
             </div>
         </>
-
     );
 }

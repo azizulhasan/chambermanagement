@@ -1,4 +1,4 @@
-import { classNames } from '../../../../utilities/utilities';
+import { classNames } from '../../utilities/utilities';
 
 export default function Select({
     id,
@@ -38,7 +38,7 @@ export default function Select({
 
 function getGroupDropdown(options, selected) {
     if (!Object.values(options)[0].hasOwnProperty('optionGroup')) {
-        return getObjectOptions(options, selected)
+        return getObjectOptions(options, selected);
     }
 
     return Object.values(options).map((optionGroup, i) => {
@@ -63,7 +63,6 @@ function getGroupDropdown(options, selected) {
 }
 
 function getObjectOptions(options, selected) {
-
     return Object.keys(options).map((key, index) => {
         return (
             <option key={index} value={options[key]._id}>
@@ -75,7 +74,6 @@ function getObjectOptions(options, selected) {
 }
 
 function getArrayOptions(options, selected) {
-
     return options.map((option, index) => {
         return (
             <option key={index} value={option}>

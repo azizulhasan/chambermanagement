@@ -39,7 +39,7 @@ import Settings from '../features/dashboard/pages/settings/Settings';
 // import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
 // import Education from "../components/dashboard/portfolio/resume/education/Education";
 // import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
-import Contact from '../features/dashboard/portfolio/contact/Contact';
+import Contact from '../features/dashboard/pages/portfolio/contact/Contact';
 
 import { useSelector } from 'react-redux';
 import DashboardSkeleton from '../layouts/DashboardSkeleton';

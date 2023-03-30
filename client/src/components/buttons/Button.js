@@ -1,4 +1,4 @@
-import { getPrefixedClassNames } from '../../../../utilities/utilities';
+import { getPrefixedClassNames } from '../../utilities/utilities';
 import ButtonGroup from './ButtonGroup';
 // import { getPrefixedClassNames } from '../../utilities/utilities';
 

@@ -41,7 +41,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "sass": "gulp sass",
-        "tailwind": "npx tailwindcss -i ./src/components/front/home/tailwind.css -o ./public/assets/front/css/tailwind.css -w",
+        "tailwind": "npx tailwindcss -i ./src/styles/tailwind.css -o ./public/assets/front/css/tailwind.css -w",
         "sass:watch": "gulp watch",
         "gulp:tailwind": "gulp tailwind"
     },

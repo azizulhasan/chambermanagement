@@ -1,8 +1,8 @@
 import { useEffect, useState, Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { database } from '../../../../database';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../../../../store/usersSlice';
+import { database } from '../../../database';
+import { logOut } from '../../../store/usersSlice';
 
 const { topMenus } = database;
 
