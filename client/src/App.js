@@ -20,9 +20,6 @@ import { useSelector } from 'react-redux';
 import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
 import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
 import { database } from './database';
-import PaymentSuccess from './pages/appointment/payment-response/PaymentSuccess';
-import PaymentFail from './pages/appointment/payment-response/PaymentFail';
-import PaymentCancel from './pages/appointment/payment-response/PaymentCancel';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -35,7 +32,10 @@ const MemberDetails = lazy(() => import('./pages/MemberDetails'));
 const ServiceDetails = lazy(() => import('./pages/ServiceDetails'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const Appoinment = lazy(() => import('./pages/Appoinment'));
-const UserDashboard = lazy(() => import('./pages/UserDashboard'));
+const UserPanel = lazy(() => import('./pages/UserPanel'));
+const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
+const PaymentFail = lazy(() => import('./pages/PaymentFail'));
+const PaymentCancel = lazy(() => import('./pages/PaymentCancel'));
 
 const {
     basic: { backgroundColor },
@@ -99,7 +99,7 @@ export default function App() {
                     <Route path="dashboard/*" element={<Dashboard />} />
                     {/* </Route> */}
                     {/* <Route path="/" element={<UserPrivateOutlet />}> */}
-                    <Route path="user-panel/*" element={<UserDashboard />} />
+                    <Route path="user-panel/*" element={<UserPanel />} />
                     {/* </Route> */}
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
