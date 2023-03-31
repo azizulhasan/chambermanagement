@@ -1,9 +1,6 @@
 import React, { lazy, Suspense, useLayoutEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Loader from './components/front/common/Loader';
-import RefundPolicy from './components/front/common/policy/RefundPolicy';
-import PrivacyPolicy from './components/front/common/policy/PrivacyPolicy';
-import TermsOfServices from './components/front/common/policy/TermsOfServices';
+import Loader from './components/common/CircleLoader';
 
 /**
  * pages
@@ -17,25 +14,27 @@ import {
 } from './utilities/utilities';
 
 import { useSelector } from 'react-redux';
-import AdminPrivateOutlet from './components/front/common/AdminPrivateOutlet';
-import UserPrivateOutlet from './components/front/common/UserPrivateOutlet';
-import { database } from './database';
-import PaymentSuccess from './pages/appointment/payment-response/PaymentSuccess';
-import PaymentFail from './pages/appointment/payment-response/PaymentFail';
-import PaymentCancel from './pages/appointment/payment-response/PaymentCancel';
+import AdminPrivateOutlet from './features/authentication/components/AdminPrivateOutlet';
+import UserPrivateOutlet from './features/authentication/components/UserPrivateOutlet';
+
+import RefundPolicy from './pages/RefundPolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfServices from './pages/TermsOfServices';
+import { database } from './data/database';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
-const NotFound = lazy(() =>
-    import('./components/front/common/notfound/NotFound')
-);
+const NotFound = lazy(() => import('./components/notfound/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const MemberDetails = lazy(() => import('./pages/MemberDetails'));
 const ServiceDetails = lazy(() => import('./pages/ServiceDetails'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const Appoinment = lazy(() => import('./pages/Appoinment'));
-const UserDashboard = lazy(() => import('./pages/UserDashboard'));
+const UserPanel = lazy(() => import('./pages/UserPanel'));
+const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
+const PaymentFail = lazy(() => import('./pages/PaymentFail'));
+const PaymentCancel = lazy(() => import('./pages/PaymentCancel'));
 
 const {
     basic: { backgroundColor },
@@ -99,7 +98,7 @@ export default function App() {
                     <Route path="dashboard/*" element={<Dashboard />} />
                     {/* </Route> */}
                     {/* <Route path="/" element={<UserPrivateOutlet />}> */}
-                    <Route path="user-panel/*" element={<UserDashboard />} />
+                    <Route path="user-panel/*" element={<UserPanel />} />
                     {/* </Route> */}
                     <Route path="*" element={<NotFound />} />;
                 </Routes>

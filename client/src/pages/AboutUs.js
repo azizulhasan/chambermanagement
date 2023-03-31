@@ -1,7 +1,7 @@
 import React from 'react';
-import Container from '../components/front/common/common/Container';
-import SiteSkeleton from '../components/front/common/SiteSkeleton';
-import { database } from '../database';
+import Container from '../components/common/Container';
+import { database } from '../data/database';
+import FrontSkeleton from '../layouts/FrontSkeleton';
 
 const {
     pages: {
@@ -13,9 +13,7 @@ const {
 
 const AboutUs = () => {
     return (
-        <SiteSkeleton css={[
-            '/assets/front/css/tailwind.css',
-        ]}>
+        <FrontSkeleton css={['/assets/front/css/tailwind.css']}>
             <Container>
                 <h1 className="text-5xl font-bold text-center m-10">
                     About Us
@@ -38,7 +36,7 @@ const AboutUs = () => {
 
                 {/* <image src={bannerImage} /> */}
             </Container>
-        </SiteSkeleton>
+        </FrontSkeleton>
     );
 };
 

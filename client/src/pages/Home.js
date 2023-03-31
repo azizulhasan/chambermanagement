@@ -1,22 +1,25 @@
 import { useEffect, lazy, Suspense, useState, Component } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCSS } from '../utilities/utilities';
-import Loader from '../components/front/common/Loader';
+import Loader from '../components/common/CircleLoader';
+
 //Sections
-const Slider = lazy(() => import('../components/front/home/sections/Slider'));
+const Slider = lazy(() =>
+    import('../features/front/pages/home/sections/Slider')
+);
 const Professionals = lazy(() =>
-    import('../components/front/home/sections/Professionals')
+    import('../features/front/pages/home/sections/Professionals')
 );
 const HealthSerivces = lazy(() =>
-    import('../components/front/home/sections/HealthSerivces')
+    import('../features/front/pages/home/sections/HealthSerivces')
 );
-const Contact = lazy(() => import('../components/front/home/sections/Contact'));
+const Contact = lazy(() =>
+    import('../features/front/pages/home/sections/Contact')
+);
 const Resources = lazy(() =>
-    import('../components/front/home/sections/Resources')
+    import('../features/front/pages/home/sections/Resources')
 );
-const SiteSkeleton = lazy(() =>
-    import('../components/front/common/SiteSkeleton')
-);
+const FrontSkeleton = lazy(() => import('../layouts/FrontSkeleton'));
 
 const lazyComponents = [
     {
@@ -65,8 +68,8 @@ export default function Home() {
             let data = JSON.parse(JSON.stringify(displaCompoents));
             data.professional = true;
             setDisplaCompoents(data);
-        }, 500)
-    }, [])
+        }, 500);
+    }, []);
 
     useEffect(() => {
         window.addEventListener('scroll', function () {
@@ -87,7 +90,7 @@ export default function Home() {
     return (
         <>
             <Suspense fallback={<Loader />}>
-                <SiteSkeleton
+                <FrontSkeleton
                     css={[
                         '/assets/front/css/tailwind.css',
                         '/assets/front/css/slider.css',
@@ -122,7 +125,7 @@ export default function Home() {
                                 <Contact id={'contact'} />
                             )}
                     </div>
-                </SiteSkeleton>
+                </FrontSkeleton>
 
                 {/* MODAL */}
                 <div className="hidden min-h-full relative transform overflow-hidden bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 w-full sm:w-7/12 sm:w-4/12"></div>

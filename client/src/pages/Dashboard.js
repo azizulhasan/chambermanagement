@@ -22,18 +22,14 @@ import {
 } from '../utilities/utilities';
 
 /**
- * Dashboard Components
+ * Admin Dashboard Pages
  */
-import DashboardContent from '../components/dashboard/dasboardcontent/DashboardContent';
-import DashboardTopNav from '../components/dashboard/dasboardcontent/DashboardTopNav';
-import DashboardSideNav from '../components/dashboard/dasboardcontent/DashboardSideNav';
-import Mail from '../components/dashboard/mail/Mail';
-// Service
-import Services from '../components/dashboard/services/Services';
-// Users
-import Users from '../components/dashboard/users/Users';
-// Schedules
-import Schedules from '../components/dashboard/schedules/Schedules';
+import Dashboard from '../features/dashboard/pages/dasboard/Dashboard';
+import Mail from '../features/dashboard/pages/mail/Mail';
+import Services from '../features/dashboard/pages/services/Services';
+import Users from '../features/dashboard/pages/users/Users';
+import Schedules from '../features/dashboard/pages/schedules/Schedules';
+import Settings from '../features/dashboard/pages/settings/Settings';
 /**
  * Portfolio components
  */
@@ -43,12 +39,12 @@ import Schedules from '../components/dashboard/schedules/Schedules';
 // import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
 // import Education from "../components/dashboard/portfolio/resume/education/Education";
 // import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
-import Contact from '../components/dashboard/portfolio/contact/Contact';
-import Settings from '../components/dashboard/settings/Settings';
+import Contact from '../features/dashboard/pages/portfolio/contact/Contact';
 
 import { useSelector } from 'react-redux';
+import DashboardSkeleton from '../layouts/DashboardSkeleton';
 
-export default function Dashboard() {
+export default function AdminDashboard() {
     const [componentName, setComponentName] = useState(getComponentName());
     const { loggedInUser } = useSelector((state) => state.users);
     const accessToken = loggedInUser ? loggedInUser.accessToken : null;
@@ -65,7 +61,6 @@ export default function Dashboard() {
             setComponentName(getComponentName());
         }).observe(document, { subtree: true, childList: true });
     }, [componentName]);
-
 
     addCSS([
         '/assets/dashboard/css/styles.css',
@@ -89,9 +84,7 @@ export default function Dashboard() {
                 draggable
                 pauseOnHover
             />
-            <DashboardTopNav />
-            <div id="layoutSidenav">
-                <DashboardSideNav />
+            <DashboardSkeleton>
                 <div id="layoutSidenav_content">
                     <main>
                         <div className="container-fluid px-4">
@@ -102,10 +95,7 @@ export default function Dashboard() {
                                 </li>
                             </ol>
                             <Routes>
-                                <Route
-                                    path="/"
-                                    element={<DashboardContent />}
-                                />
+                                <Route path="/" element={<Dashboard />} />
                                 <Route path="mail" element={<Mail />} />
                                 <Route path="services" element={<Services />} />
                                 <Route path="users" element={<Users />} />
@@ -135,7 +125,7 @@ export default function Dashboard() {
                         </div>
                     </footer>
                 </div>
-            </div>
+            </DashboardSkeleton>
         </>
     );
 }

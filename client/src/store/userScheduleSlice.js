@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { convertUTCDateToLocalDate } from '../utilities/timeUtilities';
-import { defaultUserScheduleData } from '.././database';
+import { defaultUserScheduleData } from '.././data/database';
 import {
     addUserData,
     fetchData,
@@ -13,7 +13,7 @@ export const STATUSES = {
     IDLE: 'idle',
     ERROR: 'error',
     LOADING: 'loading',
-}
+};
 
 let initialState = {
     userSchedules: [],
@@ -32,7 +32,6 @@ let initialState = {
     frontUserSingleSchedule: {},
     isNewSchedule: true,
     newSessionNotice: '',
-
 };
 
 let userSchedules = createSlice({
@@ -84,16 +83,17 @@ let userSchedules = createSlice({
             state.singleUserSchedule = action.payload;
         });
 
-        builder.addCase(clearRegisterUserSchedule.fulfilled, (state, action) => {
-            state.registerUserSchedule = action.payload;
-            state.isNewSchedule = true;
-        });
+        builder.addCase(
+            clearRegisterUserSchedule.fulfilled,
+            (state, action) => {
+                state.registerUserSchedule = action.payload;
+                state.isNewSchedule = true;
+            }
+        );
         builder.addCase(updateRegisterSchedule.fulfilled, (state, action) => {
             state.isNewSchedule = false;
             state.registerUserSchedule = action.payload;
         });
-
-
 
         builder.addCase(deleteSchedule.fulfilled, (state, action) => {
             state.userSchedules = action.payload;
@@ -194,7 +194,6 @@ export const saveUserSchedule = createAsyncThunk(
     }
 );
 
-
 /**
  * clear user single schedule.
  */
@@ -224,8 +223,6 @@ export const updateRegisterSchedule = createAsyncThunk(
         return payload;
     }
 );
-
-
 
 //Update userschedules details
 export const updateSchedule = createAsyncThunk(
@@ -260,6 +257,3 @@ export const updateNewSessionNotice = createAsyncThunk(
         return payload;
     }
 );
-
-
-

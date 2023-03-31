@@ -6,7 +6,7 @@ import {
     removeFromDashboardJsAssets,
     removeFromFrontCSSAssets,
     removeFromFrontJsAssets,
-} from './data';
+} from '../data/data';
 import { cancelConfirm, getSwalOptions, ctxSwal } from './sweetAlert';
 import { FormValue } from './FormValue';
 
@@ -289,7 +289,6 @@ var errorCallback = function (error) {
         default:
             errorMessage = 'Timeout';
     }
-    console.log(errorMessage);
 };
 
 /**
@@ -335,8 +334,7 @@ function getLocationData(position) {
             userAddress['countryName'] = userData.countryName;
             userAddress['locality'] = userData.locality;
             userAddress['principalSubdivision'] = userData.principalSubdivision;
-            userAddress['city'] =
-                userData.localityInfo.administrative[1].isoName;
+            userAddress['city'] = userData.city
         }
     };
 
@@ -403,7 +401,6 @@ export const getSessionStorage = (keys = []) => {
                 sessionData[keys[i]] = JSON.parse(data);
             } else if (data !== null) {
                 sessionData[keys[i]] = data;
-                console.log({ else: data });
             }
         }
     } else {
@@ -451,7 +448,10 @@ export const getSessionStorage = (keys = []) => {
 
 // };
 
-export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null) => {
+export const saveSessionData = (
+    sessionKey = 'registerUserSchedule',
+    data = null
+) => {
     let prevData = window.sessionStorage.getItem(sessionKey);
     let newData = null;
     let typeofData = Array.isArray(data)
@@ -478,8 +478,6 @@ export const saveSessionData = (sessionKey = 'registerUserSchedule', data = null
     window.sessionStorage.setItem(sessionKey, newData);
 };
 
-
-
 export const prepareScheduleSessionData = (
     key,
     value,
@@ -488,19 +486,16 @@ export const prepareScheduleSessionData = (
 ) => {
     let sessionData = getSessionStorage([sessionKey]);
     if (pageNumber && key) {
-        Object.keys(sessionData[sessionKey][pageNumber]).map(
-            (currentKey) => {
-                if (currentKey == key) {
-                    sessionData[sessionKey][pageNumber][key] = value;
-                }
+        Object.keys(sessionData[sessionKey][pageNumber]).map((currentKey) => {
+            if (currentKey == key) {
+                sessionData[sessionKey][pageNumber][key] = value;
             }
-        );
+        });
     }
     saveSessionData(sessionKey, sessionData[sessionKey]);
 
     return sessionData[sessionKey];
-}
-
+};
 
 export const prepareDataForSave = (data) => {
     let databaseData = {};
@@ -510,13 +505,13 @@ export const prepareDataForSave = (data) => {
         });
     });
     return databaseData;
-}
+};
 
 /**
  * get all dates of the month.
- * @param {*} year 
- * @param {*} month 
- * @returns 
+ * @param {*} year
+ * @param {*} month
+ * @returns
  */
 export const get_all_dates = (year, month) => {
     let date = new Date(year, month, 1);
@@ -529,15 +524,11 @@ export const get_all_dates = (year, month) => {
     }
 
     return dates;
-}
-
+};
 
 export const getOffDates = (offDays = [], currentDateString) => {
     let tempDate = new Date(currentDateString);
-    let allDates = get_all_dates(
-        tempDate.getFullYear(),
-        tempDate.getMonth()
-    );
+    let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth());
 
     let offDates = [];
     for (let i = 0; i < allDates.length; i++) {
@@ -548,7 +539,7 @@ export const getOffDates = (offDays = [], currentDateString) => {
         }
     }
     return offDates;
-}
+};
 
 /**
  * Set localStorage
@@ -1350,7 +1341,6 @@ export async function addUserData(data, userIdKey, userDetailsKey) {
             process.env.REACT_APP_API_URL + `/api/users/${userId}`
         );
         const userData = await user.json();
-        console.log({ userData });
         data[i][userDetailsKey] = userData;
     }
 }

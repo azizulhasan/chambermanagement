@@ -1,13 +1,8 @@
 import React, { lazy } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Footer from '../components/front/common/partials/Footer';
-import SiteSkeleton from '../components/front/common/SiteSkeleton';
-import MenuBar from '../components/front/home/sections/MenuBar';
-import TopNav from '../components/front/home/sections/TopNav';
-import { database } from '../database';
-const NotFound = lazy(() =>
-    import('../components/front/common/notfound/NotFound')
-);
+import { database } from '../data/database';
+import FrontSkeleton from '../layouts/FrontSkeleton';
+const NotFound = lazy(() => import('../components/notfound/NotFound'));
 
 const {
     pages: {
@@ -25,7 +20,7 @@ const MemberDetails = () => {
     const memberData = memberDetailsData[slug];
     if (memberData) {
         return (
-            <SiteSkeleton>
+            <FrontSkeleton>
                 <div className="px-4 my-20 max-w-7xl mx-auto md:px-8 flex flex-col sm:flex-row gap-8">
                     <div className="min-w-fit flex flex-col gap-8">
                         <div className="w-full xs:h-64 xs:w-2/3 sm:w-80 mx-auto relative overflow-hidden rounded-xl">
@@ -71,7 +66,7 @@ const MemberDetails = () => {
                         </div>
                     </div>
                 </div>
-            </SiteSkeleton>
+            </FrontSkeleton>
         );
     }
     return <NotFound />;

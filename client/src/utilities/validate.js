@@ -1,42 +1,32 @@
 import { getUserAddress, getFormattedDate } from './utilities';
 
-const submitContactForm = (e) => {
+const submitContactForm = async (e) => {
     e.preventDefault();
-    let forms = document.querySelectorAll('.php-email-form');
-    forms.forEach(function (e) {
-        e.addEventListener('submit', function (event) {
-            event.preventDefault();
+    let thisForm = new FormData(e.target);
 
-            let thisForm = this;
-
-            let action = process.env.REACT_APP_API_URL + '/api/contact_form';
-
-            if (!action) {
-                displayError(thisForm, 'The form action property is not set!');
-                return;
-            }
-            thisForm.querySelector('.loading').classList.add('block');
-            thisForm
-                .querySelector('.error-message')
-                .classList.remove('block');
-            thisForm.querySelector('.sent-message').classList.remove('block');
-
-            let formData = new FormData(thisForm);
-            formData.append('date', getFormattedDate());
-            php_email_form_submit(thisForm, action, formData);
-        });
-    });
-};
-
-function php_email_form_submit(thisForm, action, formData) {
     let data = {};
-    for (let [key, value] of formData.entries()) {
+    for (let [key, value] of thisForm.entries()) {
         data[key] = value;
     }
+    data.date = getFormattedDate();
     data.address = getUserAddress();
+
+    let action = process.env.REACT_APP_API_URL + '/api/contact_form';
+
+    if (!action) {
+        displayError('The form action property is not set!');
+        return false;
+    }
+    document.querySelector('.loading').classList.remove('hidden');
+    php_email_form_submit(action, data);
+
+    return true;
+};
+
+function php_email_form_submit(action, formData) {
     fetch(action, {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: { 'Content-Type': 'application/json' },
     })
         .then((response) => {
@@ -49,12 +39,16 @@ function php_email_form_submit(thisForm, action, formData) {
             }
         })
         .then((data) => {
-            thisForm.querySelector('.loading').classList.remove('block');
+            document.querySelector('.loading').classList.add('hidden');
             if (data.data.length) {
-                thisForm
+                document
                     .querySelector('.sent-message')
-                    .classList.add('block');
-                thisForm.reset();
+                    .classList.remove('hidden');
+                setTimeout(() => {
+                    document
+                        .querySelector('.sent-message')
+                        .classList.add('hidden');
+                }, 2000)
             } else {
                 throw new Error(
                     data
@@ -65,14 +59,20 @@ function php_email_form_submit(thisForm, action, formData) {
             }
         })
         .catch((error) => {
-            displayError(thisForm, error);
+            displayError(error);
         });
 }
 
-function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('block');
+function displayError(error) {
+    document.querySelector('.loading').classList.add('hidden');
+    document.querySelector('.error-message').innerHTML = error;
+    document.querySelector('.error-message').classList.remove('hidden');
+
+    setTimeout(() => {
+        document
+            .querySelector('.error-message')
+            .classList.add('hidden');
+    }, 2000)
 }
 
 export default submitContactForm;

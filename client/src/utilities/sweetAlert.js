@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import Notify from '../components/front/common/Notify';
+import Notify from '../components/common/Notify';
 
 /**
  *
