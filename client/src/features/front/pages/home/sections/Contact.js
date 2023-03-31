@@ -1,27 +1,17 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
 /**
  *
  * Utilities
  */
 import {
-    getData,
     setUserAddress,
-    hideMenuOnScroll,
     getFormattedDate,
+    getUserAddress,
 } from '../../../../../utilities/utilities';
 import submitContactForm from '../../../../../utilities/validate';
 import GoogleMap from './GoogleMap';
 export default function Contact({ id = 'contact' }) {
-    const [contact, setContact] = useState({
-        _id: '',
-        section_title: '',
-        subjects: '',
-        contacts: [],
-        contact_type: '',
-        contact_type_value: '',
-    });
     const [contactForm, setContactForm] = useState({
         name: '',
         email: '',
@@ -30,47 +20,11 @@ export default function Contact({ id = 'contact' }) {
         message: '',
         date: getFormattedDate(),
     });
+
     useEffect(() => {
-        /**
-         * set user address data
-         */
-        setUserAddress(window.navigator);
-        /**
-         * Hide menu on scroll for submitting contact form
-         * if window.pageYOffset > 1900
-         */
-        // hideMenuOnScroll()
-        /**
-         * Get data from and display to table.
-         */
-        getData(process.env.REACT_APP_API_URL + '/api/contact').then((res) => {
-            if (res.data.length) {
-                setContact(res.data[0]);
-            }
-        });
-    }, []);
+        setUserAddress(window.navigator)
+    }, [])
 
-    /**
-     * Create a subjects object from given string which is seperated by "|"
-     * @param {subjects} subjects
-     * @returns subjectsObj
-     */
-    const setFormSubjects = (subjects) => {
-        let subjectsObj = [];
-        if (subjects.indexOf('|') > 0) {
-            let stringArr = subjects.trim().split('|');
-
-            for (let i = 0; i < stringArr.length; i++) {
-                let key = stringArr[i].trim().replace(/\s/g, '_');
-                subjectsObj[key] = stringArr[i];
-            }
-        } else {
-            let key = subjects.trim().replace(/\s/g, '_');
-            subjectsObj[key] = subjects;
-        }
-
-        return subjectsObj;
-    };
 
     /**
      * Handle content change value.
@@ -87,24 +41,20 @@ export default function Contact({ id = 'contact' }) {
         });
     };
 
-    /**
-     *
-     * @param {contact_type} value
-     * @returns
-     */
-    const setUpContactTypeData = (value) => {
-        let contactData = {};
-        contactData.className = value.toLowerCase();
-        contactData.title = value.charAt(0).toUpperCase() + '' + value.slice(1);
-        contactData.icon =
-            value === 'Address'
-                ? 'geo-alt'
-                : value === 'Email'
-                ? 'envelope'
-                : value.toLowerCase();
 
-        return contactData;
-    };
+    const subForm = async (e) => {
+        let res = await submitContactForm(e)
+        if (res) {
+            setContactForm({
+                name: '',
+                email: '',
+                subject: '',
+                isMailToSender: false,
+                message: '',
+                date: getFormattedDate(),
+            })
+        }
+    }
 
     return (
         <div id={id} className="flex flex-col-reverse gap-10 sm:flex-row mb-10">
@@ -116,7 +66,7 @@ export default function Contact({ id = 'contact' }) {
                 <div className="block rounded-lg shadow-lg px-6 py-12 md:px-12 ">
                     <h2 className="text-3xl font-bold mb-12">Contact us</h2>
                     <form
-                        onSubmit={submitContactForm}
+                        onSubmit={(e) => subForm(e)}
                         className="php-email-form"
                     >
                         <div className="form-group mb-6">
@@ -183,15 +133,15 @@ export default function Contact({ id = 'contact' }) {
                                 Send me a copy of this message
                             </label>
                         </div>
-                        <div className="loading hidden">Loading</div>
-                        <div className="error-message hidden"></div>
-                        <div className="sent-message hidden">
+                        <div className="loading hidden bg-themeColor mb-2  px-2 py-1 text-white">Loading</div>
+                        <div className="error-message hidden  bg-red-500 mb-2 px-2 py-1 text-white"></div>
+                        <div className="sent-message hidden bg-themeColor mb-2 px-2 py-1 text-white">
                             Your message has been sent. Thank you!
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full px-3 py-2 text-sm font-medium text-center text-white bg-themeColor rounded-lg hover:bg-white hover:text-themeColor focus:ring-4 focus:outline-none focus:ring-themeColor dark:bg-themeColor dark:hover:bg-themeColor dark:focus:ring-themeColor border border-color-themeColor"
+                            className="w-full px-3 py-2 text-sm font-medium text-center text-white bg-themeColor rounded-lg hover:bg-white hover:text-themeColor focus:ring-4 focus:outline-none focus:ring-themeColor dark:bg-themeColor dark:hover:bg-themeColor dark:focus:ring-themeColor hover:border hover:border-themeColor"
                         >
                             Send
                         </button>
