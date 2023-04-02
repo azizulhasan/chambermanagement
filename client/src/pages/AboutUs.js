@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '../components/common/Container';
 import { database } from '../data/database';
-import FrontSkeleton from '../layouts/FrontSkeleton';
+import FrontSkeleton from '../layouts/front/FrontSkeleton';
 
 const {
     pages: {

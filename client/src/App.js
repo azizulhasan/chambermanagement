@@ -14,8 +14,8 @@ import {
 } from './utilities/utilities';
 
 import { useSelector } from 'react-redux';
-import AdminPrivateOutlet from './features/authentication/components/AdminPrivateOutlet';
-import UserPrivateOutlet from './features/authentication/components/UserPrivateOutlet';
+import AdminPrivateOutlet from './features/authentication/AdminPrivateOutlet';
+import UserPrivateOutlet from './features/authentication/UserPrivateOutlet';
 
 import RefundPolicy from './pages/RefundPolicy';
 import PrivacyPolicy from './pages/PrivacyPolicy';

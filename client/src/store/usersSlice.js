@@ -123,14 +123,16 @@ const usersSlice = createSlice({
         });
 
         builder.addCase(userFromSchedule.fulfilled, (state, action) => {
-            state.scheduleUser = action.payload.data
+            state.scheduleUser = action.payload.data;
         });
-
-
 
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.users = action.payload;
             state.isModalActive = false;
+        });
+
+        builder.addCase(updateUserFromUserPanel.fulfilled, (state, action) => {
+            state.loggedInUser.name = action.payload.name;
         });
     },
 });
@@ -246,14 +248,18 @@ export const saveUser = createAsyncThunk('saveUser', async (payload) => {
 /**
  * Add a user from dashboard.
  */
-export const userFromSchedule = createAsyncThunk('userFromSchedule', async (payload) => {
-    return fetchData(payload)
-});
+export const userFromSchedule = createAsyncThunk(
+    'userFromSchedule',
+    async (payload) => {
+        return fetchData(payload);
+    }
+);
 
 /**
  * Update users details
  */
 export const updateUser = createAsyncThunk('updateUser', async (payload) => {
+    console.log({ payload });
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/users', {
         method: 'PUT',
         body: payload,
@@ -266,3 +272,22 @@ export const updateUser = createAsyncThunk('updateUser', async (payload) => {
     }
     return data.data;
 });
+
+export const updateUserFromUserPanel = createAsyncThunk(
+    'updateUserFromUserPanel',
+    async (payload) => {
+        const res = await fetch(
+            process.env.REACT_APP_API_URL + '/api/users/from_user_panel',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'PUT',
+                body: payload,
+            }
+        );
+        const data = await res.json();
+
+        return data;
+    }
+);
