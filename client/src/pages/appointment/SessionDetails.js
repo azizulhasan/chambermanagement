@@ -13,7 +13,8 @@ import {
 import Select from '../../components/form/Select';
 import {
     addToImutableObject,
-    getOffDates,
+    getOffDatesFromDays,
+    getOffDatesFromDates,
     getSessionStorage,
     get_all_dates,
     prepareScheduleSessionData,
@@ -27,10 +28,10 @@ export default function SessionDetails() {
     const [date, setDate] = useState(null);
     const [currentDateString, setCurrentDateString] = useState(
         new Date().getFullYear() +
-            '-' +
-            (new Date().getMonth() + 1) +
-            '-' +
-            new Date().getDate()
+        '-' +
+        (new Date().getMonth() + 1) +
+        '-' +
+        new Date().getDate()
     );
 
     const [doctors, setDoctors] = useState([]);
@@ -54,6 +55,7 @@ export default function SessionDetails() {
         isNewSchedule,
         defaultSchedule,
     } = useSelector((state) => state.userSchedules);
+
 
     useEffect(() => {
         if (isNewSchedule) {
@@ -127,6 +129,7 @@ export default function SessionDetails() {
             limit--;
         }
 
+        console.log(registerUserSchedule[pageNo].session_time)
         if (registerUserSchedule[pageNo].session_time) {
             setDefaultSelectedTime([registerUserSchedule[pageNo].session_time]);
         }
@@ -152,6 +155,7 @@ export default function SessionDetails() {
         });
     }, [offDates]);
 
+
     useEffect(() => {
         if (registerUserSchedule[pageNo].session_date)
             setDate(new Date(registerUserSchedule[pageNo].session_date));
@@ -161,11 +165,19 @@ export default function SessionDetails() {
                     schedule.user === registerUserSchedule[pageNo].doctor_id
             );
             if (filteredSchedule.length && filteredSchedule[0].offDay.length) {
-                let offDates = getOffDates(
-                    filteredSchedule[0].offDay,
-                    currentDateString
-                );
-                setOffDates(offDates);
+                let tempOffDates = []
+                if (offDates.length) {
+                    tempOffDates = getOffDatesFromDates(
+                        offDates,
+                        currentDateString
+                    );
+                } else {
+                    tempOffDates = getOffDatesFromDays(
+                        filteredSchedule[0].offDay,
+                        currentDateString
+                    );
+                }
+                setOffDates(tempOffDates);
                 setFilteredSchedule(filteredSchedule[0]);
             }
         }
@@ -219,14 +231,6 @@ export default function SessionDetails() {
                     'per_session_length',
                     filteredSchedule[0].perSessionLength
                 );
-                var date = new Date(),
-                    y = date.getFullYear(),
-                    m = date.getMonth();
-                var firstDay = new Date(y, m, 1);
-                var lastDay = new Date(y, m + 1, 0);
-                // let date = new Date(), y = date.getFullYear(), m = date.getMonth();
-                // let firstDay = new Date(y, m, 1);
-                // let lastDay = new Date(y, m + 1, 0);
 
                 setFilteredSchedule(filteredSchedule[0]);
             }
@@ -245,7 +249,7 @@ export default function SessionDetails() {
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
                 let session = currentDoctorSchedules[i];
                 let tempDate = new Date(session.session_date);
-                if (tempDate.getDate() === date.getDate()) {
+                if (tempDate.getMonth() === date.getMonth() && tempDate.getDate() === date.getDate()) {
                     bookedSchedules.push(session.session_time);
                 }
             }
@@ -257,10 +261,13 @@ export default function SessionDetails() {
         let tempOffDates = JSON.parse(JSON.stringify(offDates));
         let tempObj = {};
         let currentMonth = new Date().getMonth();
+
         if (currentDoctorSchedules.length) {
             for (let i = 0; i < currentDoctorSchedules.length; i++) {
                 let session = currentDoctorSchedules[i];
+
                 let tempDate = new Date(session.session_date);
+
                 if (tempDate.getMonth() === currentMonth) {
                     if (!tempObj[tempDate.getDate()]) {
                         tempObj[tempDate.getDate()] = [session.session_time];
@@ -269,11 +276,13 @@ export default function SessionDetails() {
                     }
                 }
             }
+
             Object.keys(tempObj).map((date) => {
                 if (tempObj[date].length === timeSlots.length) {
                     tempOffDates.push(parseInt(date));
                 }
             });
+
             setOffDates(tempOffDates);
         }
     }, [currentDoctorSchedules]);
@@ -340,10 +349,10 @@ export default function SessionDetails() {
                     }) => {
                         setCurrentDateString(
                             activeStartDate.getFullYear() +
-                                '-' +
-                                (activeStartDate.getMonth() + 1) +
-                                '-' +
-                                activeStartDate.getDate()
+                            '-' +
+                            (activeStartDate.getMonth() + 1) +
+                            '-' +
+                            activeStartDate.getDate()
                         );
                     }}
                 />

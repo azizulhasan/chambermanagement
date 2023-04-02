@@ -1,5 +1,5 @@
 const ContactForm = require('../models/contact_form');
-// const {sendMail} = require('../mail')
+const { sendMail } = require('../mail')
 
 /**
  * Display all.
@@ -55,7 +55,7 @@ const contact_form_create_post = (req, res) => {
                     console.log(err);
                 });
 
-            // sendMail(req.body)
+            sendMail(req.body)
         })
         .catch((err) => {
             res.json(err);

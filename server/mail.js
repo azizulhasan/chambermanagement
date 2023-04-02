@@ -1,6 +1,5 @@
 var nodemailer = require("nodemailer");
 const Settings = require("./models/settings");
-const defaultDatabse = require('../database')
 
 
 /**
@@ -12,6 +11,8 @@ const getData = () => {
     .sort({ createdAt: -1 })
 
     .then((res) => {
+      console.log(res)
+
       credentials.email = res[0].email;
       credentials.password = res[0].password;
     })
@@ -20,6 +21,7 @@ const getData = () => {
     });
 };
 getData()
+console.log(credentials)
 const sendMail = (data) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
@@ -31,7 +33,7 @@ const sendMail = (data) => {
   var mailOptions = {
     from: data.email,
     to: credentials.email,
-    subject: data.subject + " - " + data.email,
+    subject: data.subject,
     text: data.message,
   };
   transporter.sendMail(mailOptions, function (error, info) {
@@ -60,7 +62,7 @@ const sendMailForgotPassword = (data) => {
   var mailOptions = {
     from: credentials.email,
     to: data.email,
-    subject: defaultDatabse.basic.companyTitle + ' : Forgot Password',
+    subject: ' Forgot Password',
     text: `Please <a href="asdfasdfasd" >Click Here</a> for setting password`,
   };
   transporter.sendMail(mailOptions, function (error, info) {

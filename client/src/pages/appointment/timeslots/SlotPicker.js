@@ -62,16 +62,18 @@ export default function SlotPicker({
     }, [defaultSelectedTime])
 
     const handleSelection = (data) => {
-        let slots = [];
-        if (selectedTime.includes(data.format('hh:mm'))) {
-            slots = selectedTime.filter(
-                (item) => item !== data.format('hh:mm')
-            );
-        } else {
-            slots = [data.format('hh:mm')].concat(selectedTime);
-        }
-        slots = slots.filter((item) => item != undefined);
-        setSelectedTime([slots[0]]);
+        // let slots = [];
+        // if (selectedTime.includes(data.format('hh:mm'))) {
+        //     slots = selectedTime.filter(
+        //         (item) => item !== data.format('hh:mm')
+        //     );
+        // } else {
+        //     slots = [data.format('hh:mm')].concat(selectedTime);
+        // }
+
+        // console.log(slots, selectedTime)
+        // let tempSlots = slots.filter((item) => item != undefined);
+        setSelectedTime([data.format('hh:mm') + "" + amOrPm(data)]);
         onSelectTime(data.format('hh:mm') + "" + amOrPm(data));
     };
 
@@ -91,7 +93,7 @@ export default function SlotPicker({
                                 slot={slot}
                                 key={i}
                                 isSelected={selectedTime.includes(
-                                    slot.format('hh:mm')
+                                    slot.format('hh:mm') + "" + amOrPm(slot)
                                 )}
                                 onSelect={handleSelection}
                                 disabled={disabledSlots.includes(slot.format('hh:mm') + "" + amOrPm(slot))}

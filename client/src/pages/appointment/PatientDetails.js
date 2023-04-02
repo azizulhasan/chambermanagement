@@ -3,16 +3,13 @@ import { useForm } from 'react-hook-form';
 
 import Input from '../../components/form/Input';
 import { useDispatch, useSelector } from 'react-redux';
-import { prepareScheduleSessionData } from '../../utilities/utilities';
+import { getFomattedDate, prepareScheduleSessionData } from '../../utilities/utilities';
 import {
     updateRegisterSchedule,
     updateNewSessionNotice,
 } from '../../store/userScheduleSlice';
 import { fetchSingleUser } from '../../store/usersSlice';
-import {
-    convertUTCDateToLocalDate,
-    getMonthName,
-} from '../../utilities/timeUtilities';
+
 
 export default function PatientDetails() {
     const dispatch = useDispatch();
@@ -21,16 +18,7 @@ export default function PatientDetails() {
         useSelector((state) => state.userSchedules);
     const { singleUser } = useSelector((state) => state.users);
 
-    const getTime = (datetime) => {
-        let date = new Date(datetime);
-        return (
-            date.getDate() +
-            ' ' +
-            getMonthName(date.getMonth()) +
-            ' ' +
-            date.getFullYear()
-        );
-    };
+
 
     useEffect(() => {
         if (registerUserSchedule[1].doctor_id) {
@@ -40,20 +28,16 @@ export default function PatientDetails() {
 
     useEffect(() => {
         if (singleUser.hasOwnProperty('name')) {
-            let date = getTime(registerUserSchedule[1].session_date);
+            let date = getFomattedDate(registerUserSchedule[1].session_date);
 
-            let notice = getNewSessionNotice(singleUser.name, date);
+            let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date);
             dispatch(updateNewSessionNotice(notice));
         }
     }, [singleUser]);
 
-    const getDoctorName = (doctor_id, users) => {
-        let data = users.filter((user, i) => user._id === doctor_id);
-        return data.length ? data[0].name : '';
-    };
 
-    function getNewSessionNotice(doctorName, date) {
-        return `You selected a booking for Session by ${doctorName} at ${registerUserSchedule[1].session_time}  on ${date}. The price for the service is ৳5,000.00.`;
+    function getNewSessionNotice(doctorName, time, date) {
+        return `You selected a booking for Session by ${doctorName} at ${time}  on ${date}. The price for the service is ৳5,000.00.`;
     }
 
     const {

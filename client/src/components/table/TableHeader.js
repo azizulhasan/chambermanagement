@@ -5,9 +5,9 @@ import TableTh from './TableTh';
 export default function TableHeader({ children, classes, headers, thClasses }) {
     return (
         <thead
-            className={classNames('ctx-bg-gray-200 ctx-uppercase ', classes)}
+            className={classNames('bg-gray-200 hover:bg-gray-200 uppercase ', classes)}
         >
-            <TableTr classes={'hover:ctx-bg-gray-200 ctx-text-left'}>
+            <TableTr classes={' hover:!bg-gray-200 text-left'}>
                 {headers.length &&
                     headers.map((header, index) =>
                         thClasses && thClasses[1] === index ? (

@@ -9,6 +9,9 @@ import {
 } from '../data/data';
 import { cancelConfirm, getSwalOptions, ctxSwal } from './sweetAlert';
 import { FormValue } from './FormValue';
+import {
+    getMonthName,
+} from './timeUtilities';
 
 const getAllScripts = () => {
     let allScripts = Object.values(document.getElementsByTagName('script'));
@@ -526,7 +529,7 @@ export const get_all_dates = (year, month) => {
     return dates;
 };
 
-export const getOffDates = (offDays = [], currentDateString) => {
+export const getOffDatesFromDays = (offDays = [], currentDateString) => {
     let tempDate = new Date(currentDateString);
     let allDates = get_all_dates(tempDate.getFullYear(), tempDate.getMonth());
 
@@ -539,6 +542,26 @@ export const getOffDates = (offDays = [], currentDateString) => {
         }
     }
     return offDates;
+};
+
+export const getOffDatesFromDates = (offDates = [], currentDateString) => {
+    let tempDate = new Date(currentDateString);
+
+    offDates.push(tempDate.getDate())
+
+    return [...new Set(offDates)];
+};
+
+
+export const getFomattedDate = (datetime) => {
+    let date = new Date(datetime);
+    return (
+        date.getDate() +
+        ' ' +
+        getMonthName(date.getMonth()) +
+        ' ' +
+        date.getFullYear()
+    );
 };
 
 /**

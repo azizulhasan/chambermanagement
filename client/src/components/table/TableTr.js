@@ -16,7 +16,7 @@ export default function TableTr({
             onDragStart={onDragStart && onDragStart}
             onDragEnd={onDragEnd && onDragEnd}
             key={key}
-            className={classNames('hover:ctx-bg-gray-50', classes)}
+            className={classNames('hover:bg-gray-50', classes)}
         >
             {children}
         </tr>
