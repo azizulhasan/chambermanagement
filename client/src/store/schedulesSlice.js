@@ -152,15 +152,6 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
 
     await addConsultantName(data);
 
-    for (let i = 0; i < data.data.length; i++) {
-        const consultantId = data.data[i].user;
-        const consultant = await fetch(
-            process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
-        );
-        const consultantData = await consultant.json();
-        data.data[i].consultantName = consultantData.name;
-    }
-
     return data.data;
 });
 /**

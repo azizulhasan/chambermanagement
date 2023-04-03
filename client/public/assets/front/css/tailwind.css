@@ -994,10 +994,6 @@ video {
   height: 26px;
 }
 
-.h-2 {
-  height: 0.5rem;
-}
-
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1074,10 +1070,6 @@ video {
 
 .w-56 {
   width: 14rem;
-}
-
-.w-2 {
-  width: 0.5rem;
 }
 
 .min-w-fit {

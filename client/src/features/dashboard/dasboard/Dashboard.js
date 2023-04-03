@@ -9,56 +9,118 @@ import {
     TableHeader,
 } from 'react-bs-datatable';
 import { useDispatch, useSelector } from 'react-redux';
+import { Edit, Trash } from '../../../assets/atlasIcons/AtlasIconsSolid';
 import { database } from '../../../data/database';
 import { fetchUserSchedules } from '../../../store/userScheduleSlice';
+import DashboardModal from './DashboardModal';
 
 export default function Dashboard() {
-    const userSchedules = useSelector((state) => state.userSchedules);
+    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState(null);
+    const { userSchedules } = useSelector((state) => state.userSchedules);
     const dispatch = useDispatch();
 
     console.log({ userSchedules });
 
     const headers = [
-        { prop: 'session_name', title: 'Session', isFilterable: true },
-        { prop: 'doctor_name', title: 'Doctor', isFilterable: true },
+        { prop: 'session', title: 'Session', isFilterable: true },
+        { prop: 'patient', title: 'Patient', isFilterable: true },
         {
-            prop: 'patient_details',
-            title: 'Patient',
+            prop: 'doctor',
+            title: 'Doctor',
             isFilterable: true,
         },
-        { prop: 'session_time', title: 'Scheduled At', isFilterable: true },
+        { prop: 'patientPhone', title: 'Patient Phone', isFilterable: true },
         { prop: 'status', title: 'Status', isFilterable: true },
+        { prop: 'actions', title: 'Actions', isFilterable: true },
     ];
+
+    const Status = ({
+        currentState,
+        options = ['Upcomming', 'Ongoing', 'Completed'],
+    }) => {
+        const [statusState, setStatusState] = useState(currentState);
+
+        const handleStatusChange = (e) => {
+            setStatusState(e.target.value);
+        };
+
+        return (
+            <>
+                <select
+                    value={statusState}
+                    onChange={handleStatusChange}
+                    style={{
+                        padding: '4px 8px',
+                        backgroundColor: `${database.basic.themeColor}`,
+                        color: 'white',
+                        borderRadius: '4px',
+                    }}
+                >
+                    {options.map((option) => (
+                        <option value={option} key={option}>
+                            {option}
+                        </option>
+                    ))}
+                </select>
+            </>
+        );
+    };
+
+    const Actions = ({ userSchedule }) => (
+        <div style={{ display: 'inline-flex', gap: '4px' }}>
+            <button
+                style={{
+                    padding: '4px 8px',
+                    backgroundColor: `${database.basic.themeColor}`,
+                    color: 'white',
+                    borderRadius: '4px',
+                    border: 'none',
+                    outline: 'none',
+                }}
+                onClick={() => {
+                    setModalData(userSchedule);
+                    setShowModal(true);
+                }}
+            >
+                Details
+            </button>
+            <button
+                style={{
+                    padding: '4px 8px',
+                    backgroundColor: `${database.basic.themeColor}`,
+                    color: 'white',
+                    borderRadius: '4px',
+                    border: 'none',
+                    outline: 'none',
+                }}
+            >
+                Edit
+            </button>
+        </div>
+    );
+
     const body = useMemo(
         () =>
-            userSchedules.userSchedules.map((userSchedule) => {
+            userSchedules.map((userSchedule) => {
                 let doctor_name = userSchedule.consultantData?.name;
-                let Status = () => (
-                    <span
-                        style={{
-                            padding: '4px 8px',
-                            backgroundColor: `${database.basic.themeColor}`,
-                            opacity: 0.8,
-                            color: 'white',
-                            borderRadius: '4px',
-                        }}
-                    >
-                        Pending
-                    </span>
-                );
+
                 return {
-                    session_name: userSchedule.session_name,
-                    doctor_name: doctor_name,
-                    patient_details: userSchedule.name,
-                    session_time: userSchedule.session_time,
-                    status: <Status />,
+                    session: userSchedule.session_name,
+                    patient: userSchedule.name,
+                    doctor: doctor_name,
+                    patientPhone: userSchedule.phone,
+                    status: <Status currentState={userSchedule.status} />,
+                    actions: <Actions userSchedule={userSchedule} />,
                 };
             }),
-        [userSchedules.userSchedules]
+        [userSchedules]
     );
 
     useEffect(() => {
         dispatch(fetchUserSchedules());
+
+        return () => setShowModal(false);
     }, []);
 
     if (document.getElementsByClassName('btn-primary')[0]) {
@@ -72,52 +134,67 @@ export default function Dashboard() {
     }
 
     return (
-        <DatatableWrapper
-            body={body}
-            headers={headers}
-            paginationOptionsProps={{
-                initialState: {
-                    rowsPerPage: 10,
-                    options: [5, 10, 15, 20, 30, 50, 70, 100],
-                },
-            }}
-        >
+        <>
             <Row className="mb-4 p-2">
                 <Col
                     xs={12}
-                    lg={6}
-                    className="d-flex flex-col justify-content-end align-items-start"
-                ></Col>
-                <Col
-                    xs={12}
-                    lg={6}
-                    className="d-flex flex-col justify-content-end align-items-end"
+                    lg={12}
+                    className="d-flex flex-col justify-content-start align-items-start"
                 >
-                    <Filter />
+                    <DashboardModal
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                        modalData={modalData}
+                    />
                 </Col>
             </Row>
-            <Table>
-                <TableHeader />
-                <TableBody />
-            </Table>
-            <Row className="mb-2 p-2">
-                <Col
-                    xs={12}
-                    sm={6}
-                    lg={4}
-                    className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-                >
-                    <PaginationOptions />
-                </Col>
-                <Col
-                    xs={12}
-                    sm={6}
-                    lg={8}
-                    className="d-flex flex-col justify-content-end align-items-end mb-2"
-                >
-                    <Pagination />
-                </Col>
-            </Row>
-        </DatatableWrapper>
+            <DatatableWrapper
+                body={body}
+                headers={headers}
+                paginationOptionsProps={{
+                    initialState: {
+                        rowsPerPage: 10,
+                        options: [5, 10, 15, 20, 30, 50, 70, 100],
+                    },
+                }}
+            >
+                <Row className="mb-4 p-2">
+                    <Col
+                        xs={12}
+                        lg={6}
+                        className="d-flex flex-col justify-content-end align-items-start"
+                    ></Col>
+                    <Col
+                        xs={12}
+                        lg={6}
+                        className="d-flex flex-col justify-content-end align-items-end"
+                    >
+                        <Filter />
+                    </Col>
+                </Row>
+                <Table>
+                    <TableHeader />
+                    <TableBody />
+                </Table>
+                <Row className="mb-2 p-2">
+                    <Col
+                        xs={12}
+                        sm={6}
+                        lg={4}
+                        className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                    >
+                        <PaginationOptions />
+                    </Col>
+                    <Col
+                        xs={12}
+                        sm={6}
+                        lg={8}
+                        className="d-flex flex-col justify-content-end align-items-end mb-2"
+                    >
+                        <Pagination />
+                    </Col>
+                </Row>
+            </DatatableWrapper>
+        </>
     );
 }
