@@ -15,10 +15,15 @@ const initialState = {
         {
             prop: 'title',
             title: 'Title',
+            isFilterable: true,
         },
         {
             prop: 'image',
             title: 'Image',
+        },
+        {
+            prop: 'action',
+            title: 'Action',
         },
     ],
 };

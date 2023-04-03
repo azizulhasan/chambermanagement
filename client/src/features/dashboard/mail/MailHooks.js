@@ -60,31 +60,31 @@ const STORY_HEADERS = [
         prop: 'name',
         title: 'From',
         isFilterable: true,
-        isSortable: true,
+        // isSortable: true,
     },
     {
         prop: 'email',
         title: 'Email',
         isFilterable: true,
-        isSortable: true,
+        // isSortable: true,
     },
     {
         prop: 'subject',
         title: 'Subject',
         isFilterable: true,
-        isSortable: true,
+        // isSortable: true,
     },
     {
         prop: 'date',
         title: 'Date',
         isFilterable: true,
-        isSortable: true,
+        // isSortable: true,
     },
     {
         prop: 'action',
         title: 'Action',
         isFilterable: true,
-        isSortable: true,
+        // isSortable: true,
     },
 ];
 

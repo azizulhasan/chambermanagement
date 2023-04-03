@@ -12,6 +12,15 @@ import { getData, STORY_HEADERS, deletePost } from './MailHooks';
  * Components
  */
 import MailModal from './MailModal';
+import {
+    DatatableWrapper,
+    Filter,
+    Pagination,
+    PaginationOptions,
+    TableBody,
+    TableHeader,
+} from 'react-bs-datatable';
+import { database } from '../../../data/database';
 
 // Then, use it in a component.
 export default function Mail() {
@@ -60,6 +69,37 @@ export default function Mail() {
          */
         getData(process.env.REACT_APP_API_URL + '/api/contact_form').then(
             (res) => {
+                let data = res.data;
+                for (let i = 0; i < data.length; i++) {
+                    data[i].action = (
+                        <div>
+                            <Button
+                                style={{
+                                    paddingInline: '8px',
+                                    paddingBlock: '2px',
+                                    marginRight: '4px',
+                                }}
+                                bsPrefix="azh_btn azh_btn_edit"
+                                onClick={(e) =>
+                                    modalShow(true, mails[i]['_id'])
+                                }
+                            >
+                                Open
+                            </Button>
+                            <Button
+                                style={{
+                                    paddingInline: '8px',
+                                    paddingBlock: '2px',
+                                }}
+                                bsPrefix="azh_btn btn-danger azh_btn_experience"
+                                onClick={(e) => deleteMail(mails[i]['_id'])}
+                            >
+                                Delete
+                            </Button>{' '}
+                        </div>
+                    );
+                }
+
                 setMails(res.data);
                 if (res.data.length > 0) {
                     setTimeout(
@@ -95,6 +135,17 @@ export default function Mail() {
     const welcomeModalShow = (value) => {
         setIsWelcomeModalShow(value);
     };
+
+    if (document.getElementsByClassName('btn-primary')[0]) {
+        document.getElementsByClassName(
+            'btn-primary'
+        )[0].style.backgroundColor = database.basic.themeColor;
+    }
+
+    if (mails.length === 0) {
+        return <span>No mail found</span>;
+    }
+
     return (
         <React.Fragment>
             <WelComeModal
@@ -116,60 +167,54 @@ export default function Mail() {
                     />
                 </Col>
             </Row>
-            <Table bordered>
-                <thead>
-                    <tr>
-                        {STORY_HEADERS.map((hearder) => (
-                            <th key={hearder.prop}>{hearder.title}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {mails.length &&
-                        mails.map((experience, index) => (
-                            <tr key={index}>
-                                {Object.keys(experience).map((key) => {
-                                    if (
-                                        key === 'date' ||
-                                        key === 'name' ||
-                                        key === 'email' ||
-                                        key === 'subject'
-                                    ) {
-                                        return (
-                                            <td
-                                                key={key}
-                                                dangerouslySetInnerHTML={{
-                                                    __html: experience[key],
-                                                }}
-                                            ></td>
-                                        );
-                                    } else {
-                                        return null;
-                                    }
-                                })}
-                                <td>
-                                    <Button
-                                        className="mr-2"
-                                        bsPrefix="azh_btn azh_btn_edit"
-                                        onClick={(e) =>
-                                            modalShow(true, mails[index]['_id'])
-                                        }
-                                    >
-                                        Open
-                                    </Button>
-                                    <Button
-                                        bsPrefix="azh_btn btn-danger azh_btn_experience"
-                                        onClick={(e) =>
-                                            deleteMail(mails[index]['_id'])
-                                        }
-                                    >
-                                        Delete
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </Table>
+
+            <DatatableWrapper
+                body={mails}
+                headers={STORY_HEADERS}
+                paginationOptionsProps={{
+                    initialState: {
+                        rowsPerPage: 10,
+                        options: [5, 10, 15, 20, 30, 50, 70, 100],
+                    },
+                }}
+            >
+                <Row className="mb-4 p-2">
+                    <Col
+                        xs={12}
+                        lg={6}
+                        className="d-flex flex-col justify-content-end align-items-start"
+                    ></Col>
+                    <Col
+                        xs={12}
+                        lg={6}
+                        className="d-flex flex-col justify-content-end align-items-end"
+                    >
+                        <Filter />
+                    </Col>
+                </Row>
+                <Table>
+                    <TableHeader />
+                    <TableBody />
+                </Table>
+                <Row className="mb-2 p-2">
+                    <Col
+                        xs={12}
+                        sm={6}
+                        lg={4}
+                        className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                    >
+                        <PaginationOptions />
+                    </Col>
+                    <Col
+                        xs={12}
+                        sm={6}
+                        lg={8}
+                        className="d-flex flex-col justify-content-end align-items-end mb-2"
+                    >
+                        <Pagination />
+                    </Col>
+                </Row>
+            </DatatableWrapper>
         </React.Fragment>
     );
 }

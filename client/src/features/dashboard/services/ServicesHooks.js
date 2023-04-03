@@ -69,6 +69,10 @@ const STORY_HEADERS = [
         prop: 'image',
         title: 'Image',
     },
+    {
+        prop: 'action',
+        title: 'Action',
+    },
 ];
 
 export {
