@@ -2,6 +2,9 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserFromUserPanel } from '../../../store/usersSlice';
 import { fetchData } from '../../../utilities/utilities';
+import UpdateForm from '../components/form/UserUpdateForm';
+import UserUpdateForm from '../components/form/UserUpdateForm';
+import WindyHookForm from '../components/form/UserUpdateForm';
 import Tooltip from '../components/Tooltip';
 
 const initialState = {
@@ -86,16 +89,10 @@ const reducer = (state, action) => {
 const Settings = () => {
     const [loading, setLoading] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [userDetails, setUserDetails] = useState({
-        name: '',
-        phone: '',
-        password: '',
-    });
+    const [initialValues, setInitialValues] = useState(null);
     const [formState, updateFormState] = useReducer(reducer, initialState);
-    const loggedInUser = useSelector((state) => state.users.loggedInUser);
+    const { loggedInUser, userUpdated } = useSelector((state) => state.users);
     const dispatch = useDispatch();
-
-    console.log({ loggedInUser });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -146,17 +143,22 @@ const Settings = () => {
             // password: formState.password.value,
         };
 
-        console.log(payload);
-
-        // do update request
+        // update request
         dispatch(updateUserFromUserPanel(JSON.stringify(payload)));
+        fetchUserDetails(loggedInUser.id);
     };
 
-    const fetchUserDetails = async (id) => {
+    async function fetchUserDetails(id) {
         setLoading(true);
         try {
             const data = await fetchData({
                 endpoint: `/api/users/${id}`,
+            });
+            setInitialValues({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                password: data.password,
             });
             updateFormState({
                 type: 'UPDATE_FORM_STATE',
@@ -172,13 +174,23 @@ const Settings = () => {
             console.log(e);
             setLoading(false);
         }
-    };
+    }
 
     useEffect(() => {
         if (loggedInUser.id) {
             fetchUserDetails(loggedInUser.id);
         }
-    }, []);
+    }, [loggedInUser.id]);
+
+    useEffect(() => {
+        if (userUpdated) {
+            fetchUserDetails(loggedInUser.id);
+        }
+    }, [userUpdated]);
+
+    if (!initialValues) {
+        return <div>Please Wait...</div>;
+    }
 
     if (!loggedInUser.id) {
         return <div>You are not logged in</div>;
@@ -208,7 +220,7 @@ const Settings = () => {
                         <div>Name: {formState.name.value}</div>
                         <div>Phone: {formState.phone.value}</div>
                         <div>Email: {formState.email.value}</div>
-                        <div>Password: {formState.password.value}</div>
+                        <div>Password: ********</div>
                     </div>
                     <div>
                         <button
@@ -222,104 +234,7 @@ const Settings = () => {
                     </div>
                 </div>
             ) : null}
-            {editMode ? (
-                <form
-                    onSubmit={handleSubmit}
-                    className="p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto text-sm md:text-base flex flex-col gap-6"
-                >
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-col">
-                            <label htmlFor="name">Name:</label>
-                            <input
-                                name="name"
-                                type="string"
-                                value={formState.name.value}
-                                className="bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200"
-                                onChange={(e) =>
-                                    updateFormState({
-                                        type: 'UPDATE_NAME',
-                                        payload: {
-                                            value: e.target.value,
-                                        },
-                                    })
-                                }
-                            />
-                            <div className="text-red-600">
-                                {formState.name.errorMessage}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col">
-                            <label htmlFor="phone">Phone:</label>
-                            <input
-                                name="phone"
-                                type="tel"
-                                value={formState.phone.value}
-                                className="bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200"
-                                onChange={(e) =>
-                                    updateFormState({
-                                        type: 'UPDATE_PHONE',
-                                        payload: {
-                                            value: e.target.value,
-                                        },
-                                    })
-                                }
-                            />
-                            <div className="text-red-600">
-                                {formState.phone.errorMessage}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col">
-                            <label>Email: </label>
-                            <Tooltip
-                                text="Email not editable"
-                                position="left-10"
-                            >
-                                <div className="bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200">
-                                    {formState.email.value}
-                                </div>
-                            </Tooltip>
-                        </div>
-
-                        <div className="flex flex-col">
-                            <label htmlFor="password">Password:</label>
-                            <input
-                                name="password"
-                                type="string"
-                                value={formState.password.value}
-                                className="bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200"
-                                onChange={(e) =>
-                                    updateFormState({
-                                        type: 'UPDATE_PASSWORD',
-                                        payload: {
-                                            value: e.target.value,
-                                        },
-                                    })
-                                }
-                            />
-                            <div className="text-red-600">
-                                {formState.password.errorMessage}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <input
-                            type="submit"
-                            value="Update"
-                            className="font-semibold border px-4 py-1 text-white bg-themeColor rounded-md cursor-pointer"
-                        />
-                        <button
-                            onClick={() => {
-                                setEditMode(false);
-                            }}
-                            className="font-semibold border px-4 py-1  hover:bg-themeColor hover:text-white rounded-md cursor-pointer"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            ) : null}
+            {editMode ? <UserUpdateForm setEditMode={setEditMode} /> : null}
         </div>
     );
 };

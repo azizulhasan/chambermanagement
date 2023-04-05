@@ -47,6 +47,7 @@ const initialState = {
     ],
     USER_ROLES: ['USER', 'ADMIN', 'DOCTOR'],
     loggedInUser,
+    userUpdated: false,
 };
 
 const usersSlice = createSlice({
@@ -62,6 +63,9 @@ const usersSlice = createSlice({
         },
         logOut(state) {
             state.loggedInUser = loggedInUser;
+        },
+        changeUpdatedState(state, action) {
+            state.userUpdated = action.payload;
         },
     },
 
@@ -133,11 +137,13 @@ const usersSlice = createSlice({
 
         builder.addCase(updateUserFromUserPanel.fulfilled, (state, action) => {
             state.loggedInUser.name = action.payload.name;
+            state.userUpdated = action.payload.userUpdated;
         });
     },
 });
 
-export const { showModal, addUser, logOut } = usersSlice.actions;
+export const { showModal, addUser, logOut, changeUpdatedState } =
+    usersSlice.actions;
 
 export default usersSlice.reducer;
 
@@ -276,17 +282,26 @@ export const updateUser = createAsyncThunk('updateUser', async (payload) => {
 export const updateUserFromUserPanel = createAsyncThunk(
     'updateUserFromUserPanel',
     async (payload) => {
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/users/from_user_panel',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'PUT',
-                body: payload,
+        let data;
+        try {
+            const res = await fetch(
+                process.env.REACT_APP_API_URL + '/api/users/from_user_panel',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PUT',
+                    body: payload,
+                }
+            );
+            data = await res.json();
+            if (data) {
+                data.userUpdated = true;
+                alert('Update Successful.');
             }
-        );
-        const data = await res.json();
+        } catch (error) {
+            console.log(error);
+        }
 
         return data;
     }
