@@ -42,7 +42,7 @@ const HookedInput = ({
                         placeholder
                             ? placeholder
                             : label?.split('')[0].toUpperCase() +
-                              label?.slice(1)
+                            label?.slice(1)
                     }
                     type={type}
                     className={composedClass + inputClasses}

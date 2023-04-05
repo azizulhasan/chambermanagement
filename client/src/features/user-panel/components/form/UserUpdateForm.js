@@ -5,6 +5,8 @@ import { updateUserFromUserPanel } from '../../../../store/usersSlice';
 import { fetchData } from '../../../../utilities/utilities';
 import Tooltip from '../Tooltip';
 import HookedInput from './HookedInput';
+import Input from '../../../../components/form/Input';
+import { FormValidate } from '../../../../utilities/FormValidate';
 
 // validation
 const nameValidation = {
@@ -91,12 +93,20 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
                 endpoint: `/api/users/${id}`,
             });
 
+            // reset({
+            //     name: data.name,
+            //     phone: data.phone,
+            //     email: data.email,
+            //     password: data.password,
+            //     confirmPassword: '',
+            // });
+
             reset({
-                name: data.name,
-                phone: data.phone,
-                email: data.email,
-                password: data.password,
-                confirmPassword: '',
+                name: 'Azizul Hasan',
+                phone: '123',
+                email: 'hasan@gmail.com',
+                password: '123',
+                confirmPassword: '123',
             });
         } catch (e) {
             console.log(e);
@@ -104,6 +114,23 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
     }
 
     const updateUser = (data) => {
+        let formVal = new FormValidate()
+        let errors = []
+        Object.keys(data).map(key => {
+            if (key == 'name' && !formVal.validate(data[key])) {
+                errors.push(key)
+            }
+
+            if (key == 'phone' && !formVal.validate(data[key])) {
+                errors.push(key)
+            }
+        })
+
+        if (errors.length) {
+            alert('Please fill the proper value of these fields ' + errors.join(', '))
+            return;
+        }
+
         // create payload
         const payload = {
             id: loggedInUser.id,
@@ -111,6 +138,8 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
             phone: data.phone,
             // password: data.password,
         };
+
+
 
         dispatch(updateUserFromUserPanel(JSON.stringify(payload)));
     };
@@ -146,7 +175,7 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
                         name="name"
                         label="Name: "
                         register={register}
-                        validation={nameValidation}
+                        // validation={nameValidation}
                         styleVariant="edit"
                         withMessageSpace
                         errorMessage={errors.name?.message}
@@ -156,14 +185,15 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
                         label="Phone: "
                         type="tel"
                         register={register}
-                        validation={phoneValidation}
+                        // validation={phoneValidation}
                         styleVariant="edit"
                         withMessageSpace
                         errorMessage={errors.phone?.message}
                     />
 
+                    <Input classes='w-full ml-4 rounded-none p-2' placeholder='Email' name={'email'} type='email' disable='true' toolTip='Email not editable' label={'Email'} />
                     {/* readonly */}
-                    <div className="flex flex-col mb-5">
+                    <div className="flex flex-col mb-5 ">
                         <label>Email: </label>
                         <Tooltip text="Email not editable" position="left-10">
                             <div className="bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200">
@@ -176,7 +206,7 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
                         label="Password: "
                         type="password"
                         register={register}
-                        validation={passwordValidation}
+                        // validation={passwordValidation}
                         styleVariant="edit"
                         withMessageSpace
                         errorMessage={errors.password?.message}
@@ -187,7 +217,7 @@ const UserUpdateForm = ({ setEditMode, initialValues }) => {
                             label="Confirm Password: "
                             type="password"
                             register={register}
-                            validation={confirmPasswordValidation(watch)}
+                            // validation={confirmPasswordValidation(watch)}
                             styleVariant="edit"
                             withMessageSpace
                             errorMessage={errors.confirmPassword?.message}

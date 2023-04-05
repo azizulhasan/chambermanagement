@@ -188,26 +188,26 @@ const Settings = () => {
         }
     }, [userUpdated]);
 
-    if (!initialValues) {
-        return <div>Please Wait...</div>;
-    }
+    // if (!initialValues) {
+    //     return <div>Please Wait...</div>;
+    // }
 
-    if (!loggedInUser.id) {
-        return <div>You are not logged in</div>;
-    }
+    // if (!loggedInUser.id) {
+    //     return <div>You are not logged in</div>;
+    // }
 
-    if (loading) {
-        return <div>Loading please wait...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading please wait...</div>;
+    // }
 
-    if (!formState?.email) {
-        return (
-            <div>
-                Couldn't load your details. Please check internet connection and
-                reload.
-            </div>
-        );
-    }
+    // if (!formState?.email) {
+    //     return (
+    //         <div>
+    //             Couldn't load your details. Please check internet connection and
+    //             reload.
+    //         </div>
+    //     );
+    // }
 
     return (
         <div>
