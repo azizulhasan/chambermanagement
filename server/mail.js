@@ -27,7 +27,7 @@ const sendMail = (data) => {
     service: "gmail",
     auth: {
       user: credentials.email,
-      pass: credentials.password,
+      pass: 'vzjwrmzjivvdpcqy', // credentials.password,
     },
   });
   var mailOptions = {
