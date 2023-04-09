@@ -23,9 +23,6 @@ export default function Dashboard() {
     const [showEditModal, setShowEditModal] = useState(false);
     const { userSchedules } = useSelector((state) => state.userSchedules);
     const dispatch = useDispatch();
-
-    console.log({ userSchedules });
-
     const headers = [
         { prop: 'session', title: 'Session', isFilterable: true },
         { prop: 'patient', title: 'Patient', isFilterable: true },
@@ -95,7 +92,8 @@ export default function Dashboard() {
             >
                 Details
             </button>
-            <button
+            {/* EDIT FUNCTIONALITY WILL BE AVAILABLE FOR THE PRO VERSION */}
+            {/* <button
                 style={{
                     padding: '4px 8px',
                     backgroundColor: `${database.basic.themeColor}`,
@@ -110,7 +108,7 @@ export default function Dashboard() {
                 }}
             >
                 Edit
-            </button>
+            </button> */}
         </div>
     );
 

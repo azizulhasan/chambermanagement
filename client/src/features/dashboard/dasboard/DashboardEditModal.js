@@ -83,7 +83,7 @@ export default function DashboardEditModal({
                                 type="text"
                                 name="session_date"
                                 onChange={(e) => handleChange(e)}
-                                value={formData.session_date.slice(0, 10)}
+                                value={formData.session_date}
                                 placeholder="session date"
                             />
                         </Form.Group>
