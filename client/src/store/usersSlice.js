@@ -47,6 +47,7 @@ const initialState = {
     ],
     USER_ROLES: ['USER', 'ADMIN', 'DOCTOR'],
     loggedInUser,
+    userUpdated: false,
 };
 
 const usersSlice = createSlice({
@@ -62,6 +63,9 @@ const usersSlice = createSlice({
         },
         logOut(state) {
             state.loggedInUser = loggedInUser;
+        },
+        changeUpdatedState(state, action) {
+            state.userUpdated = action.payload;
         },
     },
 
@@ -123,19 +127,22 @@ const usersSlice = createSlice({
         });
 
         builder.addCase(userFromSchedule.fulfilled, (state, action) => {
-            state.scheduleUser = action.payload.data
+            state.scheduleUser = action.payload.data;
         });
-
-
 
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.users = action.payload;
             state.isModalActive = false;
         });
+
+        builder.addCase(updateUserFromUserPanel.fulfilled, (state, action) => {
+            state.loggedInUser.name = action.payload.name;
+        });
     },
 });
 
-export const { showModal, addUser, logOut } = usersSlice.actions;
+export const { showModal, addUser, logOut, changeUpdatedState } =
+    usersSlice.actions;
 
 export default usersSlice.reducer;
 
@@ -246,14 +253,18 @@ export const saveUser = createAsyncThunk('saveUser', async (payload) => {
 /**
  * Add a user from dashboard.
  */
-export const userFromSchedule = createAsyncThunk('userFromSchedule', async (payload) => {
-    return fetchData(payload)
-});
+export const userFromSchedule = createAsyncThunk(
+    'userFromSchedule',
+    async (payload) => {
+        return fetchData(payload);
+    }
+);
 
 /**
  * Update users details
  */
 export const updateUser = createAsyncThunk('updateUser', async (payload) => {
+    console.log({ payload });
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/users', {
         method: 'PUT',
         body: payload,
@@ -266,3 +277,32 @@ export const updateUser = createAsyncThunk('updateUser', async (payload) => {
     }
     return data.data;
 });
+
+export const updateUserFromUserPanel = createAsyncThunk(
+    'updateUserFromUserPanel',
+    async (payload) => {
+        console.log('fgfghh');
+        let data;
+        try {
+            const res = await fetch(
+                process.env.REACT_APP_API_URL + '/api/users/from_user_panel',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PUT',
+                    body: payload,
+                }
+            );
+            data = await res.json();
+            console.log(data);
+            if (data) {
+                alert('Update Successful.');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return data;
+    }
+);

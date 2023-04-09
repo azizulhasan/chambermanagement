@@ -8,6 +8,15 @@
     }
 }
 
+/* tailwind custom composed classes */
+.form__input--edit {
+    @apply bg-gray-100 px-2 py-1 rounded-t-md border-b focus:outline-gray-200;
+}
+
+.form__input--submit {
+    @apply font-semibold border px-4 py-1 text-white bg-themeColor rounded-md cursor-pointer;
+}
+
 * {
     font-family: serif;
 }

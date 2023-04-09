@@ -1,4 +1,4 @@
-import FrontSkeleton from '../layouts/FrontSkeleton';
+import FrontSkeleton from '../layouts/front/FrontSkeleton';
 import ModalContent from './appointment/ModalContent';
 
 export default function Appoinment() {

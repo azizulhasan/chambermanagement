@@ -3,17 +3,6 @@ import { useSelector } from 'react-redux';
 import { fetchData } from '../../../utilities/utilities';
 import DataTable from '../components/DataTable';
 
-const Status = ({ status }) => (
-    <a
-        href="https://meet.google.com/fss-jspv-wtw"
-        target="_blank"
-        rel="noreferrer"
-        className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md"
-    >
-        {status}
-    </a>
-);
-
 const Schedule = () => {
     const [body, setBody] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -29,9 +18,7 @@ const Schedule = () => {
                 title: 'Doctor',
                 isFilterable: true,
             },
-            { prop: 'duration', title: 'Duration', isFilterable: true },
-            { prop: 'date', title: 'Date', isFilterable: true },
-            { prop: 'time', title: 'Time', isFilterable: true },
+            { prop: 'phone', title: 'Phone', isFilterable: true },
             { prop: 'status', title: 'Status' },
         ];
     } else if (loggedInUser.userRole === 'DOCTOR') {
@@ -42,12 +29,23 @@ const Schedule = () => {
                 title: 'Patient',
                 isFilterable: true,
             },
-            { prop: 'duration', title: 'Duration', isFilterable: true },
-            { prop: 'date', title: 'Date', isFilterable: true },
-            { prop: 'time', title: 'Time', isFilterable: true },
+            { prop: 'phone', title: 'Phone', isFilterable: true },
             { prop: 'status', title: 'Status', isFilterable: true },
+            { prop: 'actions', title: 'Actions', isFilterable: true },
         ];
     }
+
+    const Status = ({ status }) => (
+        <span className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md">
+            {status}
+        </span>
+    );
+
+    const Actions = () => (
+        <span className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md">
+            Edit
+        </span>
+    );
 
     const fetchSchedules = async (id) => {
         setLoading(true);
@@ -64,19 +62,21 @@ const Schedule = () => {
             });
             setLoading(false);
             if (loggedInUser.userRole === 'USER' || null) {
-                setBody(() =>
-                    data.map((schedule) => {
-                        return {
-                            _id: 'nbdg5b87wsc3946',
-                            session: schedule.session_name,
-                            doctor: schedule.doctor_id,
-                            duration: '',
-                            date: schedule.session_date.slice(0, 10),
-                            time: schedule.session_time,
-                            status: <Status status={schedule.status} />,
-                        };
-                    })
-                );
+                let bodyData = [];
+                for (let i = 0; i < data.length; i++) {
+                    let doctorDetails = await fetchData({
+                        endpoint: `/api/users/${data[i]['doctor_id']}`,
+                    });
+                    bodyData[i] = {
+                        _id: 'nbdg5b87wsc3946',
+                        session: data[i].session_name,
+                        doctor: doctorDetails.name,
+                        phone: doctorDetails.phone,
+                        status: <Status status={data[i].status} />,
+                    };
+                }
+
+                setBody(bodyData);
             } else if (loggedInUser.userRole === 'DOCTOR') {
                 setBody(() =>
                     data.map((schedule) => {
@@ -84,17 +84,15 @@ const Schedule = () => {
                             _id: 'nbdg5b87wsc3946',
                             session: schedule.session_name,
                             patient: schedule.name,
-                            duration: '',
-                            date: schedule.session_date.slice(0, 10),
-                            time: schedule.session_time,
+                            phone: schedule.phone,
                             status: <Status status={schedule.status} />,
+                            actions: <Actions />,
                         };
                     })
                 );
             }
         } catch (e) {
             setLoading(false);
-            console.log(e);
         }
     };
 

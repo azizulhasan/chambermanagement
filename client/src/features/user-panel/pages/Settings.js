@@ -1,70 +1,85 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useReducer, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserFromUserPanel } from '../../../store/usersSlice';
 import { fetchData } from '../../../utilities/utilities';
+import UserUpdateForm from '../components/form/UserUpdateForm';
 
 const Settings = () => {
-    const loggedInUser = useSelector((state) => state.users.loggedInUser);
+    const [loading, setLoading] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [currentValues, setCurrentValues] = useState(null);
+    const { loggedInUser, userUpdated } = useSelector((state) => state.users);
 
-    console.log({ loggedInUser });
-
-    const fetchUserDetails = async (id) => {
+    async function fetchUserDetails(id) {
+        setLoading(true);
         try {
-            const { data } = await fetchData({
-                endpoint: `/api/userSchedule/doctorschedules/${id}`,
+            const data = await fetchData({
+                endpoint: `/api/users/${id}`,
             });
-            console.log({ data });
+            setCurrentValues({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                password: '',
+            });
+            setLoading(false);
         } catch (e) {
-            console.log(e);
+            setLoading(false);
         }
-    };
+    }
+
+    useEffect(() => {
+        if (loggedInUser.id) {
+            fetchUserDetails(loggedInUser.id);
+        }
+    }, [loggedInUser.id]);
+
+    if (!loggedInUser?.id) {
+        return (
+            <div className="p-4">
+                Please{' '}
+                <a href="/login" className="text-blue-600">
+                    login
+                </a>{' '}
+            </div>
+        );
+    }
+
+    if (!currentValues) {
+        return <div className="p-4">Please wait...</div>;
+    }
 
     return (
-        <div>
-            <h2 className="pb-2 text-base sm:text-lg font-medium">
-                Personal Information
+        <div className="p-4 ">
+            <h2 className="pb-2 text-base sm:text-lg font-medium mb-2">
+                {editMode ? 'Edit' : null} Personal Information
             </h2>
-            <div className="p-4 border blur-filter rounded-md bg-gray-50 overflow-x-auto text-sm md:text-base flex flex-col gap-3">
-                <div className="flex flex-col gap-2">
-                    <div>
-                        <label>Name:</label>
-                        <input
-                            type="string"
-                            value="John"
-                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
-                        />
+            {!editMode ? (
+                <div className="bg-gray-50 overflow-x-auto text-sm md:text-base flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
+                        <div>Name: {currentValues.name}</div>
+                        <div>Phone: {currentValues.phone}</div>
+                        <div>Email: {currentValues.email}</div>
+                        <div>Password: ********</div>
                     </div>
                     <div>
-                        Phone:{' '}
-                        <input
-                            type="string"
-                            value="+8801XXXXXXXXX"
-                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
-                        />
-                    </div>
-                    <div>
-                        Email:{' '}
-                        <input
-                            disabled
-                            type="string"
-                            value="johndoe@gmail.com"
-                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
-                        />
-                    </div>
-                    <div>
-                        Password:{' '}
-                        <input
-                            type="string"
-                            value="***********"
-                            className="bg-gray-100 px-2 py-1 rounded-tl-md rounded-tr-md border-b"
-                        />
+                        <button
+                            onClick={() => {
+                                setEditMode(true);
+                            }}
+                            className="font-semibold border px-4 py-1 text-white bg-themeColor rounded-md cursor-pointer"
+                        >
+                            Edit
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <button className="border px-4 py-1 text-white bg-themeColor rounded-md">
-                        Update
-                    </button>
-                </div>
-            </div>
+            ) : null}
+            {editMode ? (
+                <UserUpdateForm
+                    currentValues={currentValues}
+                    setEditMode={setEditMode}
+                />
+            ) : null}
         </div>
     );
 };

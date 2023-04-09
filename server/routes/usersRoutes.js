@@ -9,6 +9,7 @@ router.post('/', usersController.register_user_from_dashboard);
 router.post('/login', usersController.login_user);
 router.get('/', usersController.get_users);
 router.put('/', usersController.update_user);
+router.put('/from_user_panel', usersController.upate_user_from_user_panel);
 router.get('/:id', usersController.get_single_user_details);
 router.delete('/:id', usersController.delete_user);
 

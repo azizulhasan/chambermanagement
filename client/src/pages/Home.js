@@ -4,22 +4,16 @@ import { addCSS } from '../utilities/utilities';
 import Loader from '../components/common/CircleLoader';
 
 //Sections
-const Slider = lazy(() =>
-    import('../features/front/pages/home/sections/Slider')
-);
+const Slider = lazy(() => import('../features/front/home/Slider'));
 const Professionals = lazy(() =>
-    import('../features/front/pages/home/sections/Professionals')
+    import('../features/front/home/Professionals')
 );
 const HealthSerivces = lazy(() =>
-    import('../features/front/pages/home/sections/HealthSerivces')
+    import('../features/front/home/HealthSerivces')
 );
-const Contact = lazy(() =>
-    import('../features/front/pages/home/sections/Contact')
-);
-const Resources = lazy(() =>
-    import('../features/front/pages/home/sections/Resources')
-);
-const FrontSkeleton = lazy(() => import('../layouts/FrontSkeleton'));
+const Contact = lazy(() => import('../features/front/home/Contact'));
+const Resources = lazy(() => import('../features/front/home/Resources'));
+const FrontSkeleton = lazy(() => import('../layouts/front/FrontSkeleton'));
 
 const lazyComponents = [
     {

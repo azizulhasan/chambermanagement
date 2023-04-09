@@ -56,7 +56,6 @@ const generateRefreshToken = (user) => {
     );
 };
 
-
 /**
  * User register from frontend.
  * @param {Object} req.
@@ -83,8 +82,6 @@ const user_from_schedule = async (req, res) => {
             });
     }
 };
-
-
 
 /**
  * User register from frontend.
@@ -328,6 +325,48 @@ const update_user = (req, res) => {
     });
 };
 
+const upate_user_from_user_panel = async (req, res) => {
+    const id = req.body.id;
+
+    let update_data = {};
+    if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.phone, 10);
+        update_data = { ...req.body, password: hashedPassword };
+    } else {
+        update_data = { ...req.body };
+    }
+
+    delete update_data.id;
+    if (update_data.email) {
+        delete update_data.email;
+    }
+
+    try {
+        const result = await Users.findOneAndUpdate(
+            {
+                _id: id,
+            },
+            {
+                $set: update_data,
+            }
+        );
+
+        if (result) {
+            Users.findById(id)
+                .then((result) => {
+                    res.json(result);
+                })
+                .catch((err) => {
+                    res.json(err);
+                });
+        } else {
+            res.json('User Not Found');
+        }
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 /**
  * Delete user
  * @param {*} req
@@ -372,5 +411,6 @@ module.exports = {
     get_users,
     get_single_user_details,
     update_user,
+    upate_user_from_user_panel,
     delete_user,
 };

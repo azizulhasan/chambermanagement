@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import UserPanelSkeleton from '../layouts/UserPanelSkeleton';
+import UserPanelSkeleton from '../layouts/user-panel/UserPanelSkeleton';
 import Schedule from '../features/user-panel/pages/Schedule';
 import Settings from '../features/user-panel/pages/Settings';
 import '../styles/UserPanel.css';

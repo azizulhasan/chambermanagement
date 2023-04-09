@@ -17,6 +17,7 @@ import Facebook from './solid/Facebook';
 import Instagram from './solid/Instagram';
 import LinkedIn from './solid/LinkedIn';
 import Twitter from './solid/Twitter';
+import Information from './solid/Information';
 
 /**
  * All solid icons  are copied as jsx format
@@ -42,4 +43,5 @@ export {
     Facebook,
     LinkedIn,
     Instagram,
+    Information,
 };

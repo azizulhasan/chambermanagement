@@ -22,8 +22,10 @@ const DataTable = ({
             for (let header of headers) {
                 if (header.isFilterable) {
                     if (header.prop === key) {
+                        console.log(data[key]);
                         if (
                             data[key]
+                                .toString()
                                 .toLowerCase()
                                 .includes(filterText.trim().toLowerCase())
                         ) {

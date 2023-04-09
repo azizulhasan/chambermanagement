@@ -24,12 +24,12 @@ import {
 /**
  * Admin Dashboard Pages
  */
-import Dashboard from '../features/dashboard/pages/dasboard/Dashboard';
-import Mail from '../features/dashboard/pages/mail/Mail';
-import Services from '../features/dashboard/pages/services/Services';
-import Users from '../features/dashboard/pages/users/Users';
-import Schedules from '../features/dashboard/pages/schedules/Schedules';
-import Settings from '../features/dashboard/pages/settings/Settings';
+import Dashboard from '../features/dashboard/dasboard/Dashboard';
+import Mail from '../features/dashboard/mail/Mail';
+import Services from '../features/dashboard/services/Services';
+import Users from '../features/dashboard/users/Users';
+import Schedules from '../features/dashboard/schedules/Schedules';
+import Settings from '../features/dashboard/settings/Settings';
 /**
  * Portfolio components
  */
@@ -39,10 +39,10 @@ import Settings from '../features/dashboard/pages/settings/Settings';
 // import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
 // import Education from "../components/dashboard/portfolio/resume/education/Education";
 // import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
-import Contact from '../features/dashboard/pages/portfolio/contact/Contact';
+import Contact from '../features/dashboard/portfolio/contact/Contact';
 
 import { useSelector } from 'react-redux';
-import DashboardSkeleton from '../layouts/DashboardSkeleton';
+import DashboardSkeleton from '../layouts/dashboard/DashboardSkeleton';
 
 export default function AdminDashboard() {
     const [componentName, setComponentName] = useState(getComponentName());

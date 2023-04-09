@@ -14,13 +14,14 @@ export default function Input({
     onChange = null,
     toolTip = '',
     validate = null,
+    toolTipCss = '',
 }) {
     return toolTip ? (
         <>
-            <div className="ctx-group ctx-flex ctx-relative">
+            <div className="group flex relative">
                 {label && (
                     <label
-                        className="ctx-inline-flex ctx-mt-1 ctx-text-gray-500"
+                        className="inline-flex mt-1 text-gray-500"
                         htmlFor="input-field"
                     >
                         {label}
@@ -36,21 +37,21 @@ export default function Input({
                     autoComplete="off"
                     placeholder={placeholder}
                     className={classNames(
-                        'ctx-block ctx-rounded-md !ctx-border-gray-300 ctx-shadow-sm sm:ctx-text-sm',
+                        'block rounded-md !border-gray-300 shadow-sm sm:text-sm',
                         classes
                     )}
                     onChange={onChange && onChange}
                     onBlur={onBlur && onBlur}
                     {...{ validate }}
                 />
-                <ToolTip title={toolTip} />
+                <ToolTip classes={toolTipCss} title={toolTip} />
             </div>
         </>
     ) : (
-        <>
+        <div className="group flex">
             {label && (
                 <label
-                    className="ctx-inline-flex ctx-mt-1 ctx-text-gray-500"
+                    className="inline-flex mt-1 text-gray-500"
                     htmlFor="input-field"
                 >
                     {label}
@@ -66,12 +67,12 @@ export default function Input({
                 autoComplete="off"
                 placeholder={placeholder}
                 className={classNames(
-                    'ctx-block ctx-rounded-md !ctx-border-gray-300 ctx-shadow-sm sm:ctx-text-sm',
+                    'block rounded-md !border-gray-300 shadow-sm sm:text-sm',
                     classes
                 )}
                 onChange={onChange && onChange}
                 onBlur={onBlur && onBlur}
             />
-        </>
+        </div>
     );
 }
