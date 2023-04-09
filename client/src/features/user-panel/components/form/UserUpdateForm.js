@@ -13,7 +13,8 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         // let formVal = new FormValidate();
         // let errors = [];
         // Object.keys(data).map((key) => {
@@ -72,7 +73,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             className=" bg-gray-50 overflow-x-auto text-sm md:text-base flex flex-col gap-6"
         >
             <div className="flex flex-col gap-4">
@@ -83,7 +84,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     type="text"
                     label="Name"
                     value={data.name}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                 />
 
                 <Input
@@ -93,7 +94,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     type="tel"
                     label="Phone"
                     value={data.phone}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                 />
 
                 <Input
@@ -114,7 +115,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     type="password"
                     label="Password"
                     value={data.password}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                 />
 
                 {confirmPassword && (
@@ -125,7 +126,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                         type="password"
                         label="Confirm Password"
                         value={data.confirmPassword}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange(e)}
                     />
                 )}
             </div>
