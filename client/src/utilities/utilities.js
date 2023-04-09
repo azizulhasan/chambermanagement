@@ -94,8 +94,8 @@ export function removeCSSFromDOM(cssFilesArr) {
             } else {
                 let link = document.querySelector(
                     'link[href="' +
-                    cssFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -108,8 +108,8 @@ export function removeCSSFromDOM(cssFilesArr) {
                 // .replace(process.env.REACT_APP_URL, '')
                 let link = document.querySelector(
                     'link[href="' +
-                    cssFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        cssFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (link) link.remove();
             }
@@ -139,8 +139,8 @@ export function removeJsFromDOM(jsFiles) {
                 // .replace(process.env.REACT_APP_URL, '')
                 let script = document.querySelector(
                     'script[src="' +
-                    jsFile.replace(process.env.REACT_APP_URL, '') +
-                    '"]'
+                        jsFile.replace(process.env.REACT_APP_URL, '') +
+                        '"]'
                 );
                 if (script) script.remove();
             }
@@ -334,7 +334,7 @@ function getLocationData(position) {
             userAddress['countryName'] = userData.countryName;
             userAddress['locality'] = userData.locality;
             userAddress['principalSubdivision'] = userData.principalSubdivision;
-            userAddress['city'] = userData.city
+            userAddress['city'] = userData.city;
         }
     };
 
@@ -457,8 +457,8 @@ export const saveSessionData = (
     let typeofData = Array.isArray(data)
         ? 'array'
         : typeof data === 'object'
-            ? 'object'
-            : 'all';
+        ? 'object'
+        : 'all';
     switch (typeofData) {
         case 'object':
             newData = JSON.stringify(data);
@@ -627,8 +627,8 @@ export const getUserName = () => {
     return window.sessionStorage.getItem('user')
         ? JSON.parse(getSessionStorage()['user'])['name']
         : window.localStorage.getItem('user')
-            ? window.localStorage.getItem('user')['storage']
-            : '';
+        ? window.localStorage.getItem('user')['storage']
+        : '';
 };
 export const logout = () => {
     window.localStorage.removeItem('user');
@@ -692,7 +692,7 @@ export const getFormattedDate = () => {
 export const getIframeContent = (textareaIndex) => {
     let textareaId = document
         .getElementsByTagName('textarea')
-    [textareaIndex].getAttribute('id');
+        [textareaIndex].getAttribute('id');
     let iframeContent = document.getElementById(textareaId + '_ifr')
         .contentWindow.document.body.innerHTML;
 
@@ -1295,6 +1295,7 @@ export const fetchData = async (payload) => {
     config = {
         ...config,
     };
+    console.log({ url, config });
     try {
         const data = await fetch(url, config);
         return await data.json();

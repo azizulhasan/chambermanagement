@@ -9,14 +9,18 @@ import {
     TableHeader,
 } from 'react-bs-datatable';
 import { useDispatch, useSelector } from 'react-redux';
-import { Edit, Trash } from '../../../assets/atlasIcons/AtlasIconsSolid';
 import { database } from '../../../data/database';
-import { fetchUserSchedules } from '../../../store/userScheduleSlice';
-import DashboardModal from './DashboardModal';
+import {
+    fetchUserSchedules,
+    updateSchedule,
+} from '../../../store/userScheduleSlice';
+import DashboardDetailsModal from './DashboardDetailsModal';
+import DashboardEditModal from './DashboardEditModal';
 
 export default function Dashboard() {
-    const [showModal, setShowModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [modalData, setModalData] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
     const { userSchedules } = useSelector((state) => state.userSchedules);
     const dispatch = useDispatch();
 
@@ -36,14 +40,20 @@ export default function Dashboard() {
     ];
 
     const Status = ({
+        id,
         currentState,
         options = ['Upcomming', 'Ongoing', 'Completed'],
     }) => {
-        const [statusState, setStatusState] = useState(currentState);
+        const [statusState, setStatusState] = useState('');
 
         const handleStatusChange = (e) => {
             setStatusState(e.target.value);
+            dispatch(updateSchedule([id, { status: e.target.value }]));
         };
+
+        useEffect(() => {
+            setStatusState(currentState);
+        }, []);
 
         return (
             <>
@@ -80,7 +90,7 @@ export default function Dashboard() {
                 }}
                 onClick={() => {
                     setModalData(userSchedule);
-                    setShowModal(true);
+                    setShowDetailsModal(true);
                 }}
             >
                 Details
@@ -94,6 +104,10 @@ export default function Dashboard() {
                     border: 'none',
                     outline: 'none',
                 }}
+                onClick={() => {
+                    setModalData(userSchedule);
+                    setShowEditModal(true);
+                }}
             >
                 Edit
             </button>
@@ -102,7 +116,7 @@ export default function Dashboard() {
 
     const body = useMemo(
         () =>
-            userSchedules.map((userSchedule) => {
+            userSchedules?.map((userSchedule) => {
                 let doctor_name = userSchedule.consultantData?.name;
 
                 return {
@@ -110,7 +124,12 @@ export default function Dashboard() {
                     patient: userSchedule.name,
                     doctor: doctor_name,
                     patientPhone: userSchedule.phone,
-                    status: <Status currentState={userSchedule.status} />,
+                    status: (
+                        <Status
+                            currentState={userSchedule.status}
+                            id={userSchedule._id}
+                        />
+                    ),
                     actions: <Actions userSchedule={userSchedule} />,
                 };
             }),
@@ -120,7 +139,7 @@ export default function Dashboard() {
     useEffect(() => {
         dispatch(fetchUserSchedules());
 
-        return () => setShowModal(false);
+        return () => setShowDetailsModal(false);
     }, []);
 
     if (document.getElementsByClassName('btn-primary')[0]) {
@@ -129,7 +148,7 @@ export default function Dashboard() {
         )[0].style.backgroundColor = database.basic.themeColor;
     }
 
-    if (body.length === 0) {
+    if (!body || body.length === 0) {
         return <span>Loading, Please wait...</span>;
     }
 
@@ -141,9 +160,14 @@ export default function Dashboard() {
                     lg={12}
                     className="d-flex flex-col justify-content-start align-items-start"
                 >
-                    <DashboardModal
-                        showModal={showModal}
-                        setShowModal={setShowModal}
+                    <DashboardDetailsModal
+                        showModal={showDetailsModal}
+                        setShowModal={setShowDetailsModal}
+                        modalData={modalData}
+                    />
+                    <DashboardEditModal
+                        showModal={showEditModal}
+                        setShowModal={setShowEditModal}
                         modalData={modalData}
                     />
                 </Col>

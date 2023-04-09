@@ -281,7 +281,6 @@ export const updateUser = createAsyncThunk('updateUser', async (payload) => {
 export const updateUserFromUserPanel = createAsyncThunk(
     'updateUserFromUserPanel',
     async (payload) => {
-        console.log('fgfghh');
         let data;
         try {
             const res = await fetch(
@@ -291,11 +290,10 @@ export const updateUserFromUserPanel = createAsyncThunk(
                         'Content-Type': 'application/json',
                     },
                     method: 'PUT',
-                    body: payload,
+                    body: JSON.stringify(payload),
                 }
             );
             data = await res.json();
-            console.log(data);
             if (data) {
                 alert('Update Successful.');
             }

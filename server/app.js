@@ -23,8 +23,6 @@ const schedulesRoutes = require('./routes/schedulesRoutes');
 const userSchedulesRoutes = require('./routes/userSchedulesRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
-
-
 // express app
 const app = express();
 app.use(cors());
@@ -124,13 +122,12 @@ app.use('/api/schedules', schedulesRoutes);
 /**
  * User Schedule routes
  */
-app.use('/api/userSchedule', userSchedulesRoutes);
+app.use('/api/userSchedules', userSchedulesRoutes);
 
 /**
  * Payment Routes
  */
 app.use('/api/payment', paymentRoutes);
-
 
 /**
  * image file url
