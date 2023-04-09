@@ -696,6 +696,14 @@ video {
   top: -50%;
 }
 
+.\!left-\[10\%\] {
+  left: 10% !important;
+}
+
+.\!left-\[20\%\] {
+  left: 20% !important;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -1905,9 +1913,14 @@ video {
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
-.text-red-500 {
+.text-red-700 {
   --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
+  color: rgb(185 28 28 / var(--tw-text-opacity));
+}
+
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity));
 }
 
 .underline {

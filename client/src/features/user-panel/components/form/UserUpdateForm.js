@@ -2,16 +2,36 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserFromUserPanel } from '../../../../store/usersSlice';
 import Input from '../../../../components/form/Input';
+import { FormValidate } from '../../../../utilities/FormValidate';
 
 const UserUpdateForm = ({ currentValues, setEditMode }) => {
     const [data, setData] = useState(null);
+    const [errorMessages, setErrorMessages] = useState({})
+    const [formSubmitted, setFormSubmitted] = useState(true)
     const [confirmPassword, setConfirmPassword] = useState(false);
     const { loggedInUser } = useSelector((state) => state.users);
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
+        let formVal = new FormValidate();
+        let res = formVal.validate(e.target.value, e.target.getAttribute('type'))
+        let errMessge = {
+            ...res,
+            ...{
+                fieldName: e.target.name,
+                isFormSubmitted: formSubmitted,
+            }
+        }
+        let tempErrs = structuredClone(errorMessages)
+        tempErrs[e.target.name] = errMessge;
+        setErrorMessages(tempErrs)
         setData({ ...data, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        console.log(errorMessages)
+    }, [errorMessages])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -85,16 +105,18 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Name"
                     value={data.name}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('name') ? errorMessages.name : { type: 'red-700', message: 'name', isFormSubmitted: true, fieldName: 'name' }}
                 />
 
                 <Input
                     classes="w-full ml-4 rounded-none p-2"
                     placeholder="Phone"
                     name="phone"
-                    type="tel"
+                    type="number"
                     label="Phone"
                     value={data.phone}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('phone') ? errorMessages.phone : { type: 'red-700', message: 'phone', isFormSubmitted: true, fieldName: 'phone' }}
                 />
 
                 <Input
@@ -104,6 +126,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     type="email"
                     disable
                     toolTip="Email not editable"
+                    toolTipCss='!left-[20%]'
                     label={'Email'}
                     value={data.email}
                     readOnly
