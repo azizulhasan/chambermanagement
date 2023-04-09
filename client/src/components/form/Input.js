@@ -14,7 +14,7 @@ export default function Input({
     onChange = null,
     toolTip = '',
     validate = null,
-    toolTipCss = ''
+    toolTipCss = '',
 }) {
     return toolTip ? (
         <>
@@ -48,7 +48,7 @@ export default function Input({
             </div>
         </>
     ) : (
-        <>
+        <div className="group flex">
             {label && (
                 <label
                     className="inline-flex mt-1 text-gray-500"
@@ -73,6 +73,6 @@ export default function Input({
                 onChange={onChange && onChange}
                 onBlur={onBlur && onBlur}
             />
-        </>
+        </div>
     );
 }

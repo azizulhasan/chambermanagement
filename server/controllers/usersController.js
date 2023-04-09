@@ -328,7 +328,13 @@ const update_user = (req, res) => {
 const upate_user_from_user_panel = async (req, res) => {
     const id = req.body.id;
 
-    let update_data = { ...req.body };
+    let update_data = {};
+    if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.phone, 10);
+        update_data = { ...req.body, password: hashedPassword };
+    } else {
+        update_data = { ...req.body };
+    }
 
     delete update_data.id;
     if (update_data.email) {
@@ -353,6 +359,8 @@ const upate_user_from_user_panel = async (req, res) => {
                 .catch((err) => {
                     res.json(err);
                 });
+        } else {
+            res.json('User Not Found');
         }
     } catch (e) {
         console.log(e);
