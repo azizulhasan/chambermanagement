@@ -3,57 +3,63 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUserFromUserPanel } from '../../../../store/usersSlice';
 import Input from '../../../../components/form/Input';
 import { FormValidate } from '../../../../utilities/FormValidate';
+import { formSubmitted, updateErrMessages } from '../../../../store/commonDataSlice';
 
 const UserUpdateForm = ({ currentValues, setEditMode }) => {
     const [data, setData] = useState(null);
-    const [errorMessages, setErrorMessages] = useState({})
-    const [formSubmitted, setFormSubmitted] = useState(true)
-    const [confirmPassword, setConfirmPassword] = useState(false);
     const { loggedInUser } = useSelector((state) => state.users);
+    const { errorMessages, isFormSubmitted } = useSelector((state) => state.common);
+
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
-        let formVal = new FormValidate();
-        let res = formVal.validate(e.target.value, e.target.getAttribute('type'))
-        let errMessge = {
-            ...res,
-            ...{
-                fieldName: e.target.name,
-                isFormSubmitted: formSubmitted,
-            }
-        }
-        let tempErrs = structuredClone(errorMessages)
-        tempErrs[e.target.name] = errMessge;
-        setErrorMessages(tempErrs)
+        updateErrData(e.target.value, e.target.type, e.target.name)
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    useEffect(() => {
-        console.log(errorMessages)
-    }, [errorMessages])
+    let errs = {}
+    function updateErrData(value, type, fieldName) {
+        let formVal = new FormValidate();
+        let tempErrs = errs //structuredClone(errors)
+        let res = formVal.validate(value, type)
+
+        let errMessge = {
+            ...res,
+            ...{
+                fieldName: fieldName,
+                isFormSubmitted: isFormSubmitted,
+            }
+        }
+        tempErrs[fieldName] = errMessge;
+        dispatch(updateErrMessages(tempErrs))
+    }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // let formVal = new FormValidate();
-        // let errors = [];
-        // Object.keys(data).map((key) => {
-        //     if (key == 'name' && !formVal.validate(data[key])) {
-        //         errors.push(key);
-        //     }
+        dispatch(formSubmitted(true));
+        Object.keys(data).map((key) => {
+            let tempField = document.querySelector('input[name="' + key + '"]')
+            if (tempField) {
+                if (tempField.name == 'password') {
+                    if (tempField.value) {
+                        updateErrData(data[key], tempField.type, tempField.name)
+                    } else {
+                        let tempErrs = errs
+                        delete tempErrs.password;
+                        dispatch(updateErrMessages(tempErrs))
+                    }
+                } else {
+                    updateErrData(data[key], tempField.type, tempField.name)
+                }
+            }
+        });
 
-        //     if (key == 'phone' && !formVal.validate(data[key])) {
-        //         errors.push(key);
-        //     }
-        // });
-
-        // if (errors.length) {
-        //     alert(
-        //         'Please fill the proper value of these fields ' +
-        //             errors.join(', ')
-        //     );
-        //     return;
-        // }
+        for (let i = 0; i < Object.values(errs).length; i++) {
+            if (Object.values(errs)[i].message) {
+                return;
+            }
+        }
 
         // create payload
         let payload = {};
@@ -79,13 +85,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
         setData({ ...currentValues, confirmPassword: '' });
     }, [currentValues]);
 
-    useEffect(() => {
-        if (data?.password !== currentValues.password) {
-            setConfirmPassword(true);
-        } else if (data?.password === currentValues.password) {
-            setConfirmPassword(false);
-        }
-    }, [data?.password, currentValues.password]);
+
 
     if (!data) {
         return <div>Please Wait...</div>;
@@ -105,7 +105,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Name"
                     value={data.name}
                     onChange={(e) => handleChange(e)}
-                    errObj={errorMessages.hasOwnProperty('name') ? errorMessages.name : { type: 'red-700', message: 'name', isFormSubmitted: true, fieldName: 'name' }}
+                    errObj={errorMessages.hasOwnProperty('name') && errorMessages.name}
                 />
 
                 <Input
@@ -116,7 +116,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Phone"
                     value={data.phone}
                     onChange={(e) => handleChange(e)}
-                    errObj={errorMessages.hasOwnProperty('phone') ? errorMessages.phone : { type: 'red-700', message: 'phone', isFormSubmitted: true, fieldName: 'phone' }}
+                    errObj={errorMessages.hasOwnProperty('phone') && errorMessages.phone}
                 />
 
                 <Input
@@ -139,9 +139,10 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Password"
                     value={data.password}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('password') && errorMessages.password}
                 />
 
-                {confirmPassword && (
+                {data.password && (
                     <Input
                         classes="w-full ml-4 rounded-none p-2"
                         placeholder="Confirm Password"
@@ -150,6 +151,8 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                         label="Confirm Password"
                         value={data.confirmPassword}
                         onChange={(e) => handleChange(e)}
+                        errObj={errorMessages.hasOwnProperty('confirmPassword') && errorMessages.confirmPassword}
+
                     />
                 )}
             </div>
