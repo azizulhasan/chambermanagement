@@ -48,6 +48,15 @@ export default function Dashboard() {
             dispatch(updateSchedule([id, { status: e.target.value }]));
         };
 
+        const bgColor =
+            currentState === 'Completed'
+                ? database.basic.themeColor
+                : currentState === 'Upcomming'
+                ? '#dda900'
+                : currentState === 'Ongoing'
+                ? 'red'
+                : 'black';
+
         useEffect(() => {
             setStatusState(currentState);
         }, []);
@@ -59,7 +68,7 @@ export default function Dashboard() {
                     onChange={handleStatusChange}
                     style={{
                         padding: '4px 8px',
-                        backgroundColor: `${database.basic.themeColor}`,
+                        backgroundColor: bgColor,
                         color: 'white',
                         borderRadius: '4px',
                     }}
