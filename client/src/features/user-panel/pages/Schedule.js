@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchData } from '../../../utilities/utilities';
 import DataTable from '../components/DataTable';
+import Modal from '../components/Modal';
+import SessionUpdateForm from '../components/SessionUpdateForm';
 
 const Schedule = () => {
     const [body, setBody] = useState([]);
     const [loading, setLoading] = useState(false);
     const loggedInUser = useSelector((state) => state.users.loggedInUser);
+    const currentDoctorSchedules = useSelector(
+        (state) => state.userSchedules.currentDoctorSchedules
+    );
 
     let headers = [];
 
@@ -36,24 +41,45 @@ const Schedule = () => {
     }
 
     const Status = ({ status }) => (
-        <span className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md">
+        <button className="bg-themeColor drop-shadow-md text-white px-2.5 rounded-md">
             {status}
-        </span>
+        </button>
     );
 
-    const Actions = () => (
-        <span className="bg-themeColor drop-shadow-md text-white px-4 py-1 rounded-md">
-            Edit
-        </span>
-    );
+    const Actions = ({ data }) => {
+        const [open, setOpen] = useState(false);
+        return (
+            <div>
+                <button
+                    className="bg-themeColor drop-shadow-md text-white px-2.5 rounded-md"
+                    onClick={() => setOpen(true)}
+                >
+                    Edit
+                </button>
 
-    const fetchSchedules = async (id) => {
+                {open && (
+                    <Modal
+                        open={open}
+                        setOpen={setOpen}
+                        extraClasses="min-w-[85%] sm:min-w-[60%] rounded-md"
+                    >
+                        <SessionUpdateForm
+                            currentValues={data}
+                            setOpen={setOpen}
+                        />
+                    </Modal>
+                )}
+            </div>
+        );
+    };
+
+    async function fetchSchedules(id) {
         setLoading(true);
         let endpoint = '';
         if (loggedInUser.userRole === 'USER' || null) {
-            endpoint = `/api/userSchedule/userschedules/${id}`;
+            endpoint = `/api/userSchedules/userschedules/${id}`;
         } else if (loggedInUser.userRole === 'DOCTOR') {
-            endpoint = `/api/userSchedule/doctorschedules/${id}`;
+            endpoint = `/api/userSchedules/doctorschedules/${id}`;
         }
 
         try {
@@ -79,14 +105,14 @@ const Schedule = () => {
                 setBody(bodyData);
             } else if (loggedInUser.userRole === 'DOCTOR') {
                 setBody(() =>
-                    data.map((schedule) => {
+                    data.map((schedule, i) => {
                         return {
                             _id: 'nbdg5b87wsc3946',
                             session: schedule.session_name,
                             patient: schedule.name,
                             phone: schedule.phone,
                             status: <Status status={schedule.status} />,
-                            actions: <Actions />,
+                            actions: <Actions data={data[i]} />,
                         };
                     })
                 );
@@ -94,11 +120,11 @@ const Schedule = () => {
         } catch (e) {
             setLoading(false);
         }
-    };
+    }
 
     useEffect(() => {
         fetchSchedules(loggedInUser.id);
-    }, []);
+    }, [currentDoctorSchedules, loggedInUser.id]);
 
     if (loading) {
         return <div>Loading, please wait...</div>;

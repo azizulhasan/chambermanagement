@@ -4,13 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../store/usersSlice';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import Modal from '../../features/user-panel/components/Modal';
-import Navbar from './Sidebar';
+import Sidebar from './Sidebar';
+import { Menu } from '../../assets/atlasIcons/AtlasIconsSolid';
 
 const Topbar = () => {
     const [open, setOpen] = useState(false);
     const [render, setRender] = useState(false);
     const { width } = useWindowDimensions();
-    const { loggedInUser } = useSelector((state) => state.users);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const openModal = () => {
@@ -67,19 +67,13 @@ const Topbar = () => {
                 </Link>
 
                 <button className="block sm:hidden" onClick={openModal}>
-                    <i className="uil uil-bars"></i>
+                    <Menu />
                 </button>
             </div>
 
             {render && (
-                <Modal
-                    open={open}
-                    closeModal={closeModal}
-                    stylingClasses={`${
-                        open ? 'open-sidebar' : 'close-sidebar'
-                    }`}
-                >
-                    <Navbar closeModal={closeModal} />
+                <Modal open={open} setOpen={setOpen} variant="sidebar">
+                    <Sidebar closeModal={closeModal} />
                 </Modal>
             )}
         </div>

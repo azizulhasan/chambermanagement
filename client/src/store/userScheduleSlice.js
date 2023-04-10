@@ -118,6 +118,10 @@ let userSchedules = createSlice({
                 state.currentDoctorSchedules = action.payload.data;
                 state.status = true;
             });
+
+        builder.addCase(updateSchedule.fulfilled, (state, action) => {
+            state.currentDoctorSchedules = action.payload;
+        });
     },
 });
 
