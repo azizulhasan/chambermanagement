@@ -29,6 +29,56 @@ export default function Mail() {
     const [lgShow, setLgShow] = useState(false);
     const [isWelcomeModalShow, setIsWelcomeModalShow] = useState(false);
 
+    /**
+     * get all emails.
+     */
+    const fetchMails = () => {
+        getData(process.env.REACT_APP_API_URL + '/api/contact_form').then(
+            (res) => {
+                let data = res.data;
+                for (let i = 0; i < data.length; i++) {
+                    data[i].action = (
+                        <div>
+                            <Button
+                                style={{
+                                    paddingInline: '8px',
+                                    paddingBlock: '2px',
+                                    marginRight: '4px',
+                                }}
+                                bsPrefix="azh_btn azh_btn_edit"
+                                onClick={(e) => modalShow(true, data[i]['_id'])}
+                            >
+                                Open
+                            </Button>
+                            <Button
+                                style={{
+                                    paddingInline: '8px',
+                                    paddingBlock: '2px',
+                                }}
+                                bsPrefix="azh_btn btn-danger azh_btn_experience"
+                                onClick={(e) => deleteMail(data[i]['_id'])}
+                            >
+                                Delete
+                            </Button>{' '}
+                        </div>
+                    );
+                }
+
+                setMails(res.data);
+                if (res.data.length > 0) {
+                    setTimeout(
+                        () =>
+                            setUpdateBtn({
+                                display: true,
+                                id: res.data[0]._id,
+                            }),
+                        100
+                    );
+                }
+            }
+        );
+    };
+
     const setMailData = (data) => {
         setMails([data]);
         setUpdateBtn({ display: true, id: data._id });
@@ -56,7 +106,7 @@ export default function Mail() {
         alert('Are you sure? It will be permanently deleted.');
         deletePost(process.env.REACT_APP_API_URL + '/api/contact_form/' + id)
             .then((res) => {
-                setMails(res.data);
+                fetchMails();
                 toast('1 Mail Deleted');
             })
             .catch((err) => {
@@ -64,56 +114,7 @@ export default function Mail() {
             });
     };
     useEffect(() => {
-        /**
-         * get all emails.
-         */
-        getData(process.env.REACT_APP_API_URL + '/api/contact_form').then(
-            (res) => {
-                let data = res.data;
-                for (let i = 0; i < data.length; i++) {
-                    data[i].action = (
-                        <div>
-                            <Button
-                                style={{
-                                    paddingInline: '8px',
-                                    paddingBlock: '2px',
-                                    marginRight: '4px',
-                                }}
-                                bsPrefix="azh_btn azh_btn_edit"
-                                onClick={(e) =>
-                                    modalShow(true, mails[i]['_id'])
-                                }
-                            >
-                                Open
-                            </Button>
-                            <Button
-                                style={{
-                                    paddingInline: '8px',
-                                    paddingBlock: '2px',
-                                }}
-                                bsPrefix="azh_btn btn-danger azh_btn_experience"
-                                onClick={(e) => deleteMail(mails[i]['_id'])}
-                            >
-                                Delete
-                            </Button>{' '}
-                        </div>
-                    );
-                }
-
-                setMails(res.data);
-                if (res.data.length > 0) {
-                    setTimeout(
-                        () =>
-                            setUpdateBtn({
-                                display: true,
-                                id: res.data[0]._id,
-                            }),
-                        100
-                    );
-                }
-            }
-        );
-
+        fetchMails();
         /**
          * Onload disply welcome message.
          */
