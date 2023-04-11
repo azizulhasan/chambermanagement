@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Select from '../../../components/form/Select';
+import { updateSchedule } from '../../../store/userScheduleSlice';
 import { fetchData } from '../../../utilities/utilities';
 import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
@@ -24,6 +26,8 @@ const Schedule = () => {
                 isFilterable: true,
             },
             { prop: 'phone', title: 'Phone', isFilterable: true },
+            { prop: 'date', title: 'Date', isFilterable: true },
+            { prop: 'time', title: 'Time', isFilterable: true },
             { prop: 'status', title: 'Status' },
         ];
     } else if (loggedInUser.userRole === 'DOCTOR') {
@@ -35,16 +39,45 @@ const Schedule = () => {
                 isFilterable: true,
             },
             { prop: 'phone', title: 'Phone', isFilterable: true },
+            { prop: 'date', title: 'Date', isFilterable: true },
+            { prop: 'time', title: 'Time', isFilterable: true },
             { prop: 'status', title: 'Status', isFilterable: true },
-            { prop: 'actions', title: 'Actions', isFilterable: true },
+            // { prop: 'actions', title: 'Actions', isFilterable: true },
         ];
     }
 
-    const Status = ({ status }) => (
-        <button className="bg-themeColor drop-shadow-md text-white px-2.5 rounded-md">
-            {status}
-        </button>
-    );
+    const Status = ({ currentState, options, id }) => {
+        const [statusState, setStatusState] = useState('');
+        const dispatch = useDispatch();
+
+        const bgColor =
+            statusState === 'Completed'
+                ? 'bg-themeColor'
+                : statusState === 'Upcomming'
+                ? 'bg-yellow-600'
+                : statusState === 'Ongoing'
+                ? 'bg-red-600'
+                : 'black';
+
+        const handleStatusChange = (e) => {
+            setStatusState(e.target.value);
+            dispatch(updateSchedule([id, { status: e.target.value }]));
+        };
+
+        useEffect(() => {
+            setStatusState(currentState);
+        }, []);
+
+        return (
+            <Select
+                name="status"
+                value={statusState}
+                onChange={(e) => handleStatusChange(e)}
+                options={options}
+                classes={bgColor + ' rounded-md text-white py-1 px-1.5'}
+            />
+        );
+    };
 
     const Actions = ({ data }) => {
         const [open, setOpen] = useState(false);
@@ -86,6 +119,7 @@ const Schedule = () => {
             const { data } = await fetchData({
                 endpoint,
             });
+            console.log({ data });
             setLoading(false);
             if (loggedInUser.userRole === 'USER' || null) {
                 let bodyData = [];
@@ -94,25 +128,34 @@ const Schedule = () => {
                         endpoint: `/api/users/${data[i]['doctor_id']}`,
                     });
                     bodyData[i] = {
-                        _id: 'nbdg5b87wsc3946',
+                        _id: data[i]._id,
                         session: data[i].session_name,
                         doctor: doctorDetails.name,
                         phone: doctorDetails.phone,
-                        status: <Status status={data[i].status} />,
+                        date: data[i].session_date,
+                        time: data[i].session_time,
+                        status: <Status currentState={data[i].status} />,
                     };
                 }
-
                 setBody(bodyData);
             } else if (loggedInUser.userRole === 'DOCTOR') {
                 setBody(() =>
                     data.map((schedule, i) => {
                         return {
-                            _id: 'nbdg5b87wsc3946',
+                            _id: schedule._id,
                             session: schedule.session_name,
                             patient: schedule.name,
                             phone: schedule.phone,
-                            status: <Status status={schedule.status} />,
-                            actions: <Actions data={data[i]} />,
+                            date: schedule.session_date.slice(0, 10),
+                            time: schedule.session_time,
+                            status: (
+                                <Status
+                                    currentState={schedule.status}
+                                    id={schedule._id}
+                                    options={schedule.statusOptions}
+                                />
+                            ),
+                            // actions: <Actions data={data[i]} />,
                         };
                     })
                 );

@@ -46,7 +46,11 @@ const userSchedule = new Schema(
         status: {
             type: String,
             required: false,
-            default: "Upcomming"
+            default: 'Upcomming',
+        },
+        statusOptions: {
+            type: Array,
+            default: ['Upcomming', 'Ongoing', 'Completed'],
         },
     },
     { timestamps: true }
