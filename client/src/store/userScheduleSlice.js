@@ -241,9 +241,7 @@ export const updateSchedule = createAsyncThunk(
                 i
             ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
-        // await addConsultantName(data);
-
-        console.log(data.data);
+        await addUserData(data.data, 'doctor_id', 'consultantData');
 
         return data.data;
     }
