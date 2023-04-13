@@ -1,4 +1,5 @@
 const UserSchedule = require('../models/userSchedules');
+const { sendMail } = require('../mail')
 
 const getAllScedules = async () => {
     return await UserSchedule.find().sort({ createdAt: -1 });
@@ -58,11 +59,13 @@ const userSchedule_create_post = (req, res) => {
     schedule
         .save()
         .then(async (result) => {
+            sendMail(req.body);
             res.json({ data: result });
         })
         .catch((err) => {
             res.json(err);
         });
+
 };
 
 
@@ -93,6 +96,7 @@ const userSchedule_update_post = (req, res) => {
         }
     );
 };
+
 /**
  * Delete post
  * @param {*} req
@@ -110,6 +114,8 @@ const userSchedule_delete_post = (req, res) => {
         }
     });
 };
+
+
 
 module.exports = {
     userSchedule_index,

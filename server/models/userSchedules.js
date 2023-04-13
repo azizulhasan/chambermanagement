@@ -48,6 +48,11 @@ const userSchedule = new Schema(
             required: false,
             default: "Upcomming"
         },
+        paymentStatus: {
+            type: String,
+            required: false,
+            default: "Unpaid"
+        },
     },
     { timestamps: true }
 );

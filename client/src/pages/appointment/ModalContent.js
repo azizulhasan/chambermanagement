@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule } from '../../store/userScheduleSlice';
+import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule, mailScheduleToUser } from '../../store/userScheduleSlice';
 import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
 import { userFromSchedule } from '../../store/usersSlice';
 // import { proceed_to_pay } from '../../store/paymentSlice';
@@ -122,6 +122,12 @@ export default function ModalContent() {
 
         let data = getSessionStorage(['registerUserSchedule'])
         data = prepareDataForSave(data['registerUserSchedule'])
+        // Save session detail to database.
+        /**
+         * Mail session details to user
+         * 
+         * Pro feature mail will be send to admin and doctor.
+         */
         dispatch(
             saveUserSchedule({
                 endpoint: '/api/userSchedule',
@@ -135,28 +141,6 @@ export default function ModalContent() {
             })
         );
 
-
-        let userData = {
-            email: data.email,
-            name: data.name,
-            phone: data.phone,
-            subject: 'Atas AiDev Booking On Hold'
-        };
-
-        let url = process.env.REACT_APP_API_URL + '/api/contact_form';
-
-        let response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(userData),
-            headers: { 'Content-Type': 'application/json' },
-        })
-
-        response = response.json()
-
-        console.log(response)
-
-
-
         callback()
 
 
@@ -167,8 +151,8 @@ export default function ModalContent() {
         if (frontUserSingleSchedule.hasOwnProperty('_id') && frontUserSingleSchedule._id) {
             window.open('https://shop.bkash.com/md-mehedi-hasan01715703260/paymentlink/default-payment');
             saveSessionData('registerUserSchedule', defaultSchedule);
-            dispatch(clearUserSchedule({}))
-            dispatch(clearRegisterUserSchedule(defaultSchedule))
+            // dispatch(clearUserSchedule({}))
+            // dispatch(clearRegisterUserSchedule(defaultSchedule))
             ////////////////////////////////////////////////
             // This code will be applied for sslcommercz
             ///////////////////////////////////////////////
