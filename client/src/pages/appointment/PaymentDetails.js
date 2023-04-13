@@ -24,7 +24,7 @@ export default function PatientDetails() {
         return <>
             <h1 className='font-size-lg'>Congratulations:</h1>
             <p>You just booked a Session with {doctorName} at {time}  on {date}. The price for the service is ৳5,000.00.</p>
-            <p> Session Status: <strong className='bg-themeColor p-1 text-white' >On Hold</strong></p>
+            <p> Session Status: <strong className='bg-themeColor p-1 text-white' >Unpaid</strong></p>
             <p>Please pay for this session through <strong>BKASH</strong>. To confirm the session. </p>
         </>;
     }

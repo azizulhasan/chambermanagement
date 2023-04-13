@@ -151,8 +151,8 @@ export default function ModalContent() {
         if (frontUserSingleSchedule.hasOwnProperty('_id') && frontUserSingleSchedule._id) {
             window.open('https://shop.bkash.com/md-mehedi-hasan01715703260/paymentlink/default-payment');
             saveSessionData('registerUserSchedule', defaultSchedule);
-            // dispatch(clearUserSchedule({}))
-            // dispatch(clearRegisterUserSchedule(defaultSchedule))
+            dispatch(clearUserSchedule({}))
+            dispatch(clearRegisterUserSchedule(defaultSchedule))
             ////////////////////////////////////////////////
             // This code will be applied for sslcommercz
             ///////////////////////////////////////////////
