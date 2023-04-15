@@ -2,38 +2,64 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserFromUserPanel } from '../../../../store/usersSlice';
 import Input from '../../../../components/form/Input';
+import { FormValidate } from '../../../../utilities/FormValidate';
+import { formSubmitted, updateErrMessages } from '../../../../store/commonDataSlice';
 
 const UserUpdateForm = ({ currentValues, setEditMode }) => {
     const [data, setData] = useState(null);
-    const [confirmPassword, setConfirmPassword] = useState(false);
     const { loggedInUser } = useSelector((state) => state.users);
+    const { errorMessages, isFormSubmitted } = useSelector((state) => state.common);
+
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
+        updateErrData(e.target.value, e.target.type, e.target.name)
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
+    let errs = {}
+    function updateErrData(value, type, fieldName) {
+        let formVal = new FormValidate();
+        let tempErrs = errs //structuredClone(errors)
+        let res = formVal.validate(value, type)
+
+        let errMessge = {
+            ...res,
+            ...{
+                fieldName: fieldName,
+                isFormSubmitted: isFormSubmitted,
+            }
+        }
+        tempErrs[fieldName] = errMessge;
+        dispatch(updateErrMessages(tempErrs))
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // let formVal = new FormValidate();
-        // let errors = [];
-        // Object.keys(data).map((key) => {
-        //     if (key == 'name' && !formVal.validate(data[key])) {
-        //         errors.push(key);
-        //     }
+        dispatch(formSubmitted(true));
+        Object.keys(data).map((key) => {
+            let tempField = document.querySelector('input[name="' + key + '"]')
+            if (tempField) {
+                if (tempField.name == 'password') {
+                    if (tempField.value) {
+                        updateErrData(data[key], tempField.type, tempField.name)
+                    } else {
+                        let tempErrs = errs
+                        delete tempErrs.password;
+                        dispatch(updateErrMessages(tempErrs))
+                    }
+                } else {
+                    updateErrData(data[key], tempField.type, tempField.name)
+                }
+            }
+        });
 
-        //     if (key == 'phone' && !formVal.validate(data[key])) {
-        //         errors.push(key);
-        //     }
-        // });
-
-        // if (errors.length) {
-        //     alert(
-        //         'Please fill the proper value of these fields ' +
-        //             errors.join(', ')
-        //     );
-        //     return;
-        // }
+        for (let i = 0; i < Object.values(errs).length; i++) {
+            if (Object.values(errs)[i].message) {
+                return;
+            }
+        }
 
         // create payload
         let payload = {};
@@ -59,13 +85,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
         setData({ ...currentValues, confirmPassword: '' });
     }, [currentValues]);
 
-    useEffect(() => {
-        if (data?.password !== currentValues.password) {
-            setConfirmPassword(true);
-        } else if (data?.password === currentValues.password) {
-            setConfirmPassword(false);
-        }
-    }, [data?.password, currentValues.password]);
+
 
     if (!data) {
         return <div>Please Wait...</div>;
@@ -85,16 +105,18 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Name"
                     value={data.name}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('name') && errorMessages.name}
                 />
 
                 <Input
                     classes="w-full ml-4 rounded-none p-2"
                     placeholder="Phone"
                     name="phone"
-                    type="tel"
+                    type="number"
                     label="Phone"
                     value={data.phone}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('phone') && errorMessages.phone}
                 />
 
                 <Input
@@ -104,6 +126,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     type="email"
                     disable
                     toolTip="Email not editable"
+                    toolTipCss='!left-[20%]'
                     label={'Email'}
                     value={data.email}
                     readOnly
@@ -116,9 +139,10 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                     label="Password"
                     value={data.password}
                     onChange={(e) => handleChange(e)}
+                    errObj={errorMessages.hasOwnProperty('password') && errorMessages.password}
                 />
 
-                {confirmPassword && (
+                {data.password && (
                     <Input
                         classes="w-full ml-4 rounded-none p-2"
                         placeholder="Confirm Password"
@@ -127,6 +151,8 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
                         label="Confirm Password"
                         value={data.confirmPassword}
                         onChange={(e) => handleChange(e)}
+                        errObj={errorMessages.hasOwnProperty('confirmPassword') && errorMessages.confirmPassword}
+
                     />
                 )}
             </div>

@@ -101,7 +101,7 @@ export default function Login() {
                                                 defaultValue={
                                                     window.sessionStorage.getItem(
                                                         'email'
-                                                    ) || ''
+                                                    ) || 'hasan@gmail.com'
                                                 }
                                             />
                                             {errors.email && (
@@ -119,7 +119,7 @@ export default function Login() {
                                                 })}
                                                 className="bg-gray-100 outline-none text-sm flex-1 border-none"
                                                 placeholder="Password"
-                                                defaultValue={''}
+                                                defaultValue={'123'}
                                             />
                                             {errors.password && (
                                                 <span className="error">

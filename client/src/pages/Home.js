@@ -134,6 +134,8 @@ export default function Home() {
                 <div className="hidden inline-block text-black underline transition hover:text-white/75"></div>
                 {/* TABLE */}
                 <div className='hidden hover:bg-gray-200 hover:!bg-gray-200'></div>
+                {/* LOGIN */}
+                <div className='hidden text-red-700 text-green-700'></div>
                 {/*ADD PREFIX TO EVERY CLASS*/}
                 {/*in your editor (i used phpstorm ctrl+shift+f for find and replace in all files of a specific folder):*/}
                 {/*find  : (?<=class=["'][^"']*)([0-9a-zA-Z_-]+\s*)(?=[^"']*["'])*/}
