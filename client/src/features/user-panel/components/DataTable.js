@@ -22,7 +22,6 @@ const DataTable = ({
             for (let header of headers) {
                 if (header.isFilterable) {
                     if (header.prop === key) {
-                        console.log(data[key]);
                         if (
                             data[key]
                                 .toString()
@@ -49,8 +48,6 @@ const DataTable = ({
         }
         return pageNums;
     }, [pageCount]);
-
-    console.log({ rowsPerPage, indexOfFirstRow, indexOfLastRow });
 
     useEffect(() => {
         setIndexOfFirstRow(0);

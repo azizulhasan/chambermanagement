@@ -114,6 +114,7 @@ let userSchedules = createSlice({
 
         builder.addCase(updateSchedule.fulfilled, (state, action) => {
             state.userSchedules = action.payload;
+            state.currentDoctorSchedules = action.payload;
         });
     },
 });
@@ -226,6 +227,7 @@ export const updateRegisterSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
+        console.log(payload[1]);
         const res = await fetch(
             process.env.REACT_APP_API_URL + `/api/userschedules/${payload[0]}`,
             {

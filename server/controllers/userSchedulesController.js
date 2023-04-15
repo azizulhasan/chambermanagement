@@ -75,7 +75,6 @@ const userSchedule_create_post = (req, res) => {
  */
 const userSchedule_update_post = (req, res) => {
     const id = req.params.id;
-    console.log(id);
     UserSchedule.findOneAndUpdate(
         {
             _id: id,
