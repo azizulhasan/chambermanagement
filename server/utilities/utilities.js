@@ -26,7 +26,16 @@ const uploadImage = () => {
     }).single('image');
 };
 
+
+const getFomattedDate = (datetime) => {
+    return new Date(datetime).toDateString()
+};
+
+
 module.exports = {
     getImagePath,
     uploadImage,
+    getFomattedDate,
 };
+
+

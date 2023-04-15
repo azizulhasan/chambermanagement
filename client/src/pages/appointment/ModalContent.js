@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule } from '../../store/userScheduleSlice';
+import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule, mailScheduleToUser } from '../../store/userScheduleSlice';
 import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
 import { userFromSchedule } from '../../store/usersSlice';
 // import { proceed_to_pay } from '../../store/paymentSlice';
@@ -9,6 +9,8 @@ import { userFromSchedule } from '../../store/usersSlice';
 const SessionDetails = lazy(() => import('./SessionDetails'))
 const PatientDetails = lazy(() => import('./PatientDetails'))
 const PaymentDetails = lazy(() => import('./PaymentDetails'))
+const WelcomeMessage = lazy(() => import('./WelcomeMessage'))
+
 export default function ModalContent() {
     const slides = [
         {
@@ -16,6 +18,9 @@ export default function ModalContent() {
         },
         {
             component: <PatientDetails />,
+        },
+        {
+            component: <WelcomeMessage />,
         },
         {
             component: <PaymentDetails />,
@@ -111,29 +116,38 @@ export default function ModalContent() {
         saveSessionData(sessionKey, sessionData[sessionKey]);
     }
 
-    const proceedToPay = (e, currentPage) => {
+    const submitSchedule = async (e, currentPage, callback) => {
         e.preventDefault();
+        if (!document.getElementById('tems_and_conditions').checked) return alert('Please check the terms of services and refund policy.')
+
         let data = getSessionStorage(['registerUserSchedule'])
         data = prepareDataForSave(data['registerUserSchedule'])
-        if (currentPage === 3) {
-            dispatch(
-                saveUserSchedule({
-                    endpoint: '/api/userSchedule',
-                    config: {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        method: 'POST',
-                        body: JSON.stringify(data),
+        // Save session detail to database.
+        /**
+         * Mail session details to user
+         * 
+         * Pro feature mail will be send to admin and doctor.
+         */
+        dispatch(
+            saveUserSchedule({
+                endpoint: '/api/userSchedule',
+                config: {
+                    headers: {
+                        'Content-Type': 'application/json',
                     },
-                })
-            );
-        }
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                },
+            })
+        );
+
+        callback()
 
 
     }
 
-    useEffect(() => {
+    const proceedToPay = (e, frontUserSingleSchedule) => {
+        e.preventDefault();
         if (frontUserSingleSchedule.hasOwnProperty('_id') && frontUserSingleSchedule._id) {
             window.open('https://shop.bkash.com/md-mehedi-hasan01715703260/paymentlink/default-payment');
             saveSessionData('registerUserSchedule', defaultSchedule);
@@ -152,9 +166,10 @@ export default function ModalContent() {
             //         body: JSON.stringify(frontUserSingleSchedule),
             //     },
             // }))
+        } else {
+            alert('Something went wrong. Please try again.')
         }
-
-    }, [frontUserSingleSchedule])
+    }
 
     return (
         <Suspense fallback={<h1>Loading</h1>} >
@@ -184,13 +199,19 @@ export default function ModalContent() {
                         currentPage = parseInt(status.split('of')[0]);
                     }
                     {
-                        return currentPage !== 3 ? <button
+                        return currentPage !== 4 ? currentPage === 3 ? <button
+                            type="button"
+                            className="absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                            onClick={(e) => submitSchedule(e, currentPage, hasNext)}
+                        >
+                            Submit
+                        </button> : <button
                             type="button"
                             className="absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
                             onClick={(e) => isCurrentSlideIsValid(e, hasNext)}
                         >
                             Next
-                        </button> : <button type='button' className='absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor' onClick={(e) => proceedToPay(e, currentPage)}>Proceed To Pay</button>
+                        </button> : <button type='button' className='absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor' onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
                     }
                 }}
                 className="presentation-mode appointment px-5 my-8"

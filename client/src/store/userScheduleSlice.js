@@ -118,6 +118,7 @@ let userSchedules = createSlice({
                 state.currentDoctorSchedules = action.payload.data;
                 state.status = true;
             });
+
     },
 });
 
@@ -193,6 +194,7 @@ export const saveUserSchedule = createAsyncThunk(
         return fetchData(payload);
     }
 );
+
 
 /**
  * clear user single schedule.

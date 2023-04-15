@@ -6,7 +6,7 @@ export default function TableTd({ children, classes, key = '', onClick }) {
             key={key}
             onClick={onClick}
             className={classNames(
-                'ctx-py-3 ctx-text-sm ctx-text-gray-700',
+                'py-3 text-sm text-gray-700',
                 classes
             )}
         >

@@ -16,7 +16,7 @@ export default function Table({
         <table
             id={id}
             className={classNames(
-                'ctx-w-full ctx-text-sm ctx-text-left ctx-text-gray-500 dark:ctx-text-gray-400',
+                'w-full text-sm text-left text-gray-500 dark:text-gray-400',
                 classes
             )}
         >
@@ -25,7 +25,7 @@ export default function Table({
                 <TableHeader
                     headers={headers}
                     thClasses={thClasses}
-                    classes={'ctx-pl-2'}
+                    classes={'pl-2'}
                 />
             ) : null}
             {children}
