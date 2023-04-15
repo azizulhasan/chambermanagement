@@ -57,7 +57,6 @@ export default function MailModal({
     const getMailContent = (id) => {
         getData(process.env.REACT_APP_API_URL + '/api/contact_form/' + id)
             .then((res) => {
-                console.log(res);
                 setData(res);
             })
             .catch((err) => {

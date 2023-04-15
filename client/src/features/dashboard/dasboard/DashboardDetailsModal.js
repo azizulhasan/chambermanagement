@@ -1,6 +1,10 @@
 import { Button, Modal } from 'react-bootstrap';
 
-export default function DashboardModal({ showModal, setShowModal, modalData }) {
+export default function DashboardDetailsModal({
+    showModal,
+    setShowModal,
+    modalData,
+}) {
     const handleClose = () => setShowModal(false);
 
     return (
@@ -24,7 +28,10 @@ export default function DashboardModal({ showModal, setShowModal, modalData }) {
                     >
                         <div>
                             <div>Session: {modalData?.session_name}</div>
-                            <div>Scheduled At: {modalData?.session_time}</div>
+                            <div>
+                                Date: {modalData?.session_date.slice(0, 10)}
+                            </div>
+                            <div>Time: {modalData?.session_time}</div>
                             <div>
                                 Length: {modalData?.per_session_length} mins
                             </div>

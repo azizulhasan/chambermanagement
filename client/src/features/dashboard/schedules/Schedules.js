@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { Col, Row, Table, Button } from 'react-bootstrap';
-import { fetchSchedules, deleteSchedule } from '../../../store/schedulesSlice';
+import {
+    fetchSchedules,
+    deleteSchedule,
+    showModal,
+} from '../../../store/schedulesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 /**
@@ -28,7 +32,6 @@ export default function Schedules() {
         (state) => state.schedules
     );
 
-    console.log({ schedules, SCHEDULE_HEADERS });
 
     /**
      *
@@ -56,7 +59,9 @@ export default function Schedules() {
                 }}
                 className="mr-2"
                 bsPrefix="azh_btn azh_btn_edit"
-                onClick={(e) => dispatch(fetchSingleUser(schedule['_id']))}
+                onClick={(e) => {
+                    dispatch(showModal(true));
+                }}
             >
                 <Edit />
             </Button>

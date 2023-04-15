@@ -290,7 +290,7 @@ export const updateUserFromUserPanel = createAsyncThunk(
                         'Content-Type': 'application/json',
                     },
                     method: 'PUT',
-                    body: payload,
+                    body: JSON.stringify(payload),
                 }
             );
             data = await res.json();

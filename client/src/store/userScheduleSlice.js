@@ -1,13 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { convertUTCDateToLocalDate } from '../utilities/timeUtilities';
 import { defaultUserScheduleData } from '.././data/database';
-import {
-    addUserData,
-    fetchData,
-    getLocalStorage,
-    setLocalStorage,
-    setSessionStorage,
-} from '../utilities/utilities';
+import { addUserData, fetchData } from '../utilities/utilities';
 
 export const STATUSES = {
     IDLE: 'idle',
@@ -119,6 +112,9 @@ let userSchedules = createSlice({
                 state.status = true;
             });
 
+        builder.addCase(updateSchedule.fulfilled, (state, action) => {
+            state.userSchedules = action.payload;
+        });
     },
 });
 
@@ -134,7 +130,7 @@ export default userSchedules.reducer;
  */
 export const fetchUserSchedules = createAsyncThunk('schedules', async () => {
     const res = await fetch(
-        process.env.REACT_APP_API_URL + '/api/userSchedule'
+        process.env.REACT_APP_API_URL + '/api/userSchedules'
     );
     const data = await res.json();
 
@@ -246,7 +242,7 @@ export const updateSchedule = createAsyncThunk(
                 i
             ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
         }
-        // await addConsultantName(data);
+        await addUserData(data.data, 'doctor_id', 'consultantData');
 
         return data.data;
     }
