@@ -32,7 +32,6 @@ export default function Schedules() {
         (state) => state.schedules
     );
 
-    console.log({ schedules, SCHEDULE_HEADERS });
 
     /**
      *
