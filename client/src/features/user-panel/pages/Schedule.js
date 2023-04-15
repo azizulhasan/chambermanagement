@@ -54,10 +54,10 @@ const Schedule = () => {
             statusState === 'Completed'
                 ? 'bg-themeColor'
                 : statusState === 'Upcomming'
-                ? 'bg-yellow-600'
-                : statusState === 'Ongoing'
-                ? 'bg-red-600'
-                : 'black';
+                    ? 'bg-yellow-600'
+                    : statusState === 'Ongoing'
+                        ? 'bg-red-600'
+                        : 'black';
 
         const handleStatusChange = (e) => {
             setStatusState(e.target.value);
@@ -69,13 +69,15 @@ const Schedule = () => {
         }, []);
 
         return (
-            <Select
-                name="status"
-                value={statusState}
-                onChange={(e) => handleStatusChange(e)}
-                options={options}
-                classes={bgColor + ' rounded-md text-white py-1 px-1.5'}
-            />
+            //TODO: status will be updatable like dashboard for only doctor.
+            // <Select
+            //     name="status"
+            //     value={statusState}
+            //     onChange={(e) => handleStatusChange(e)}
+            //     options={options}
+            //     classes={bgColor + ' rounded-md text-white py-1 px-1.5'}
+            // />
+            <div className='bg-themeColor text-white py-1 px-1.5 w-24'>{statusState}</div>
         );
     };
 
@@ -119,7 +121,6 @@ const Schedule = () => {
             const { data } = await fetchData({
                 endpoint,
             });
-            console.log({ data });
             setLoading(false);
             if (loggedInUser.userRole === 'USER' || null) {
                 let bodyData = [];

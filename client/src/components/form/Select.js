@@ -4,7 +4,7 @@ export default function Select({
     id,
     name,
     selected,
-    options,
+    options = [],
     classes,
     defaultValue = '',
     value = '',
