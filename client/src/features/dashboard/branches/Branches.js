@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { Col, Row, Table, Button } from 'react-bootstrap';
 import {
-    fetchServices,
-    fetchSingleService,
-    deleteService,
-} from '../../../store/serviceSlice';
+    fetchBranches,
+    fetchSingleBranch,
+    deleteBranch,
+} from '../../../store/branchesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Components
  */
-import ServicesModal from './ServicesModal';
+import BranchesModal from './BranchesModal';
 import { addCSS } from '../../../utilities/utilities';
 import {
     DatatableWrapper,
@@ -24,23 +24,22 @@ import { Edit, Trash } from '../../../assets/atlasIcons/AtlasIconsSolid';
 import { database } from '../../../data/database';
 
 // Then, use it in a component.
-export default function Services() {
+export default function Branches() {
     const dispatch = useDispatch();
-    const { services, SERVICE_HEADERS } = useSelector(
-        (state) => state.services
+    const { branches, BRANCHE_HEADERS } = useSelector(
+        (state) => state.branches
     );
 
-    let SERVICE_BODY = JSON.parse(JSON.stringify(services)).map(
-        (service, i) => {
+
+    let BRANCH_BODY = JSON.parse(JSON.stringify(branches)).map(
+        (branch, i) => {
+            let tempBranch = { branch };
+            tempBranch = {
+                ...branch,
+                ...{ address: branch.address.replace(/<[^>]*>?/gm, '') },
+            }
             return {
-                ...service,
-                image: (
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: services[i]['image'],
-                        }}
-                    ></span>
-                ),
+                ...tempBranch,
                 action: (
                     <div>
                         <Button
@@ -55,7 +54,7 @@ export default function Services() {
                             bsPrefix="azh_btn azh_btn_edit"
                             onClick={(e) =>
                                 dispatch(
-                                    fetchSingleService(SERVICE_BODY[i]['_id'])
+                                    fetchSingleBranch(BRANCH_BODY[i]['_id'])
                                 )
                             }
                         >
@@ -70,7 +69,7 @@ export default function Services() {
                                 alignItems: 'center',
                             }}
                             bsPrefix="azh_btn azh_btn_trash"
-                            onClick={(e) => deleteData(SERVICE_BODY[i]['_id'])}
+                            onClick={(e) => deleteData(BRANCH_BODY[i]['_id'])}
                         >
                             <Trash />
                         </Button>
@@ -81,10 +80,8 @@ export default function Services() {
     );
 
     useEffect(() => {
-        dispatch(fetchServices());
+        dispatch(fetchBranches());
     }, [dispatch]);
-
-    addCSS(['/assets/dashboard/css/services.css']);
 
     /**
      *
@@ -97,7 +94,7 @@ export default function Services() {
         if (!result) {
             return;
         }
-        dispatch(deleteService(id));
+        dispatch(deleteBranch(id));
     };
 
     if (document.getElementsByClassName('btn-primary')[0]) {
@@ -105,7 +102,6 @@ export default function Services() {
             'btn-primary'
         )[0].style.backgroundColor = database.basic.themeColor;
     }
-
 
 
     return (
@@ -116,12 +112,12 @@ export default function Services() {
                     lg={12}
                     className="d-flex flex-col justify-content-start align-items-start"
                 >
-                    <ServicesModal />
+                    <BranchesModal />
                 </Col>
             </Row>
             <DatatableWrapper
-                body={SERVICE_BODY}
-                headers={SERVICE_HEADERS}
+                body={BRANCH_BODY}
+                headers={BRANCHE_HEADERS}
                 paginationOptionsProps={{
                     initialState: {
                         rowsPerPage: 10,

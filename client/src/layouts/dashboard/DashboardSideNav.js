@@ -39,6 +39,12 @@ export default function DashboardSideNav() {
                             </div>
                             Services
                         </Link>
+                        <Link className="nav-link" to="/dashboard/branches">
+                            <div style={{ width: '20px', marginRight: '8px' }}>
+                                <ServicesIcon />
+                            </div>
+                            Branches
+                        </Link>
                         <Link className="nav-link" to="/dashboard/users">
                             <div style={{ width: '20px', marginRight: '8px' }}>
                                 <UsersIcon />

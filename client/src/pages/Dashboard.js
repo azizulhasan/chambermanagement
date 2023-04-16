@@ -27,18 +27,11 @@ import {
 import Dashboard from '../features/dashboard/dasboard/Dashboard';
 import Mail from '../features/dashboard/mail/Mail';
 import Services from '../features/dashboard/services/Services';
+import Branches from '../features/dashboard/branches/Branches';
 import Users from '../features/dashboard/users/Users';
 import Schedules from '../features/dashboard/schedules/Schedules';
 import Settings from '../features/dashboard/settings/Settings';
-/**
- * Portfolio components
- */
-// import Hero from "../components/dashboard/portfolio/hero/Hero";
-// import About from "../components/dashboard/portfolio/about/About";
-// import Skills from "../components/dashboard/portfolio/skills/Skills";
-// import Summery from "../components/dashboard/portfolio/resume/summery/Summery";
-// import Education from "../components/dashboard/portfolio/resume/education/Education";
-// import Experience from "../components/dashboard/portfolio/resume/experience/Experience";
+
 import Contact from '../features/dashboard/portfolio/contact/Contact';
 
 import { useSelector } from 'react-redux';
@@ -98,6 +91,7 @@ export default function AdminDashboard() {
                                 <Route path="/" element={<Dashboard />} />
                                 <Route path="mail" element={<Mail />} />
                                 <Route path="services" element={<Services />} />
+                                <Route path="branches" element={<Branches />} />
                                 <Route path="users" element={<Users />} />
                                 <Route
                                     path="schedules"
