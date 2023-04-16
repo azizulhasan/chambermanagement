@@ -19,6 +19,7 @@ const contactFormRoutes = require('./routes/contactFormRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
+const branchesRoutes = require('./routes/branchesRoutes');
 const schedulesRoutes = require('./routes/schedulesRoutes');
 const userSchedulesRoutes = require('./routes/userSchedulesRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
@@ -113,6 +114,13 @@ app.use('/api/settings', settingsRoutes);
  * Services routes
  */
 app.use('/api/services', servicesRoutes);
+
+/**
+ * Services routes
+ */
+app.use('/api/branches', branchesRoutes);
+
+
 
 /**
  * schedules routes
