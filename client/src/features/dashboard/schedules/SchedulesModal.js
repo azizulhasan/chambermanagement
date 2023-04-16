@@ -17,6 +17,7 @@ import { sliceComponentName } from '../../../utilities/utilities';
 import { amOrPm } from '../../../utilities/timeUtilities';
 
 import SlotPicker from './timeslots/SlotPicker';
+import { fetchBranches } from '../../../store/branchesSlice';
 
 /**
  * Css
@@ -34,10 +35,11 @@ export default function SchedulesModal() {
         (state) => state.schedules
     );
     const { users } = useSelector((state) => state.users);
+    const { branches } = useSelector((state) => state.branches);
+
 
     const [schedule, setSchedule] = useState(() => singleSchedule);
     const [field, setField] = useState(() => []);
-    const [selectedTime, setSelectedTime] = useState([]);
     const [lang, setLang] = useState('en');
     const [isUpdateMode, setIsUpdateMode] = useState(false);
     const interval = 60;
@@ -51,6 +53,10 @@ export default function SchedulesModal() {
             let data = { offDay: e };
             dispatch(updateScheduleState(data));
         } else {
+            if (e.target.name === 'user') {
+                console.log(schedules)
+                // return;
+            }
             let data = { [e.target.name]: e.target.value };
             dispatch(updateScheduleState(data));
         }
@@ -61,14 +67,19 @@ export default function SchedulesModal() {
             setIsUpdateMode(true);
         }
         dispatch(fetchUsers());
+        dispatch(fetchBranches());
     }, []);
+
+
+
 
     useEffect(() => {
         if (singleSchedule._id) {
             dispatch(showModal(true));
             setSchedule(singleSchedule);
         }
-    }, [singleSchedule, dispatch]);
+        console.log(singleSchedule)
+    }, [singleSchedule]);
 
     /**
      * Handle schedules content form submission
@@ -96,15 +107,36 @@ export default function SchedulesModal() {
         if (!singleSchedule.timeSlots.length) {
             alert('Please fill Time slots');
         }
+
         /**
          * Update data if "_id" exists. else save form data.
          */
-
         if (data._id !== undefined) {
-            console.log({ sID96: data._id });
-            dispatch(updateSchedule([data._id, singleSchedule]));
+            let tempData = {
+                ...singleSchedule,
+                ...{ id: data._id }
+            }
+            dispatch(updateSchedule({
+                endpoint: `/api/schedules/${data._id}`,
+                config: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PUT',
+                    body: JSON.stringify(tempData),
+                },
+            }));
         } else {
-            dispatch(saveSchedule(singleSchedule));
+            dispatch(saveSchedule({
+                endpoint: '/api/schedules',
+                config: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(singleSchedule),
+                },
+            }))
         }
     };
 
@@ -155,25 +187,33 @@ export default function SchedulesModal() {
                             className="mb-4"
                             controlId="singleSchedule.branch"
                         >
-                            <Form.Label>Branch</Form.Label>
-                            <Form.Control
-                                type="text"
+                            <Form.Label>Branch Name</Form.Label>
+                            <Form.Select
                                 name="branch"
                                 onChange={handleChange}
-                                value={singleSchedule.branch}
-                                placeholder="branch name"
-                            />
+                                defaultValue={singleSchedule.branch}
+                                required
+                            >
+                                <option value="0">Select Branch Name</option>
+                                {branches.length &&
+                                    branches.map((branch, i) =>
+                                        <option key={i} value={branch._id}>
+                                            {branch.name}
+                                        </option>
+                                    )}
+                            </Form.Select>
                         </Form.Group>
 
                         <Form.Group
                             className="mb-4"
-                            controlId="singleSchedule.branch"
+                            controlId="singleSchedule.user"
                         >
                             <Form.Label>Consultant</Form.Label>
                             <Form.Select
                                 name="user"
                                 onChange={handleChange}
                                 defaultValue={singleSchedule.user}
+                                required
                             >
                                 {!isUpdateMode && (
                                     <option value={'0'}>
@@ -189,6 +229,20 @@ export default function SchedulesModal() {
                                         ) : null
                                     )}
                             </Form.Select>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-4"
+                            controlId="singleSchedule.sessionFee"
+                        >
+                            <Form.Label>Session Fee</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="sessionFee"
+                                onChange={handleChange}
+                                value={singleSchedule.sessionFee}
+                                placeholder="Session Fee"
+                                required
+                            />
                         </Form.Group>
                         <Form.Group
                             className="mb-4"
@@ -213,6 +267,7 @@ export default function SchedulesModal() {
                                 onRemove={handleChange}
                                 options={options} // Options to display in the dropdown
                                 isObject={false}
+                                required
                             />
                         </Form.Group>
                         <Form.Group

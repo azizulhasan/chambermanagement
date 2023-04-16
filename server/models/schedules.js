@@ -25,6 +25,10 @@ const schedulesSchema = new Schema(
             required: true,
             default: [],
         },
+        sessionFee: {
+            type: Number,
+            required: true,
+        },
     },
     { timestamps: true }
 );

@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
  * Components
  */
 import BranchesModal from './BranchesModal';
-import { addCSS } from '../../../utilities/utilities';
 import {
     DatatableWrapper,
     Filter,
