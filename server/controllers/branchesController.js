@@ -90,7 +90,7 @@ const branches_update_post = (req, res) => {
                 Branches.find()
                     .sort({ createdAt: -1 })
                     .then((result) => {
-                        res.json({ data: result });
+                        res.json(result);
                     })
                     .catch((err) => {
                         console.log(err);

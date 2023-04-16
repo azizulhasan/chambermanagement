@@ -53,7 +53,6 @@ const branchSlice = createSlice({
         });
 
         builder.addCase(fetchBranches.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.branches = action.payload;
             state.status = STATUSES.IDLE;
         });

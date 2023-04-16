@@ -76,8 +76,6 @@ export default function BranchesModal() {
         });
         formData['address'] = getIframeContent();
         formData['details'] = getIframeContent(1);
-        console.log(formData)
-
 
         /**
          * Update data if "_id" exists. else save form data.
@@ -90,7 +88,7 @@ export default function BranchesModal() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    method: 'POST',
+                    method: 'PUT',
                     body: JSON.stringify(formData),
                 },
             }));

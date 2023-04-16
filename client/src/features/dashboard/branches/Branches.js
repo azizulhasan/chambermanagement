@@ -30,12 +30,16 @@ export default function Branches() {
         (state) => state.branches
     );
 
-    console.log(branches)
 
     let BRANCH_BODY = JSON.parse(JSON.stringify(branches)).map(
         (branch, i) => {
-            return {
+            let tempBranch = { branch };
+            tempBranch = {
                 ...branch,
+                ...{ address: branch.address.replace(/<[^>]*>?/gm, '') },
+            }
+            return {
+                ...tempBranch,
                 action: (
                     <div>
                         <Button
@@ -78,12 +82,6 @@ export default function Branches() {
     useEffect(() => {
         dispatch(fetchBranches());
     }, [dispatch]);
-
-    useEffect(() => {
-        console.log(branches)
-    }, [])
-
-    // addCSS(['/assets/dashboard/css/branches.css']);
 
     /**
      *
