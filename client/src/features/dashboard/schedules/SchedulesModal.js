@@ -18,6 +18,7 @@ import { amOrPm } from '../../../utilities/timeUtilities';
 
 import SlotPicker from './timeslots/SlotPicker';
 import { fetchBranches } from '../../../store/branchesSlice';
+import { displayNotice } from '../../../store/commonDataSlice';
 
 /**
  * Css
@@ -53,10 +54,30 @@ export default function SchedulesModal() {
             let data = { offDay: e };
             dispatch(updateScheduleState(data));
         } else {
-            if (e.target.name === 'user') {
-                console.log(schedules)
-                // return;
+            let isScheduledWithBranch = false;
+            if (singleSchedule.sessionType === 'physical' && e.target.name === 'user' && e.target.value !== '0') {
+                schedules.map(schedule => {
+                    if (schedule.user === e.target.value && schedule.branch === singleSchedule.branch) {
+                        isScheduledWithBranch = true;
+                    }
+                })
             }
+
+            if (singleSchedule.sessionType === 'physical' && e.target.name === 'branch' && e.target.value !== '0') {
+                schedules.map(schedule => {
+                    if (schedule.user === singleSchedule.user && schedule.branch === e.target.value) {
+                        isScheduledWithBranch = true;
+                    }
+                })
+            }
+
+            if (isScheduledWithBranch) {
+                alert('This dorctor/consultant schedule already done with this branch.')
+                e.target.value = '0'
+                return;
+            }
+
+
             let data = { [e.target.name]: e.target.value };
             dispatch(updateScheduleState(data));
         }
@@ -78,7 +99,6 @@ export default function SchedulesModal() {
             dispatch(showModal(true));
             setSchedule(singleSchedule);
         }
-        console.log(singleSchedule)
     }, [singleSchedule]);
 
     /**
@@ -96,7 +116,7 @@ export default function SchedulesModal() {
         let data = {};
         for (let [key, value] of form.entries()) {
             data[key] = value;
-            if (key === '' || value === '') {
+            if (key === '' || value === '' || value === '0') {
                 if (key !== 'search_name_input') {
                     alert('Please fill the value of : ' + key);
                     return;
@@ -106,6 +126,7 @@ export default function SchedulesModal() {
 
         if (!singleSchedule.timeSlots.length) {
             alert('Please fill Time slots');
+            return;
         }
 
         /**
@@ -183,7 +204,24 @@ export default function SchedulesModal() {
                                 hidden
                             />
                         )}
+
                         <Form.Group
+                            className="mb-4"
+                            controlId="singleSchedule.sessionType"
+                        >
+                            <Form.Label>Session Type</Form.Label>
+                            <Form.Select
+                                name="sessionType"
+                                onChange={handleChange}
+                                defaultValue={singleSchedule.sessionType}
+                                required
+                            >
+                                <option value="physical">Physical</option>
+                                <option value="online">Online</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        {singleSchedule.sessionType === 'physical' && <Form.Group
                             className="mb-4"
                             controlId="singleSchedule.branch"
                         >
@@ -202,7 +240,8 @@ export default function SchedulesModal() {
                                         </option>
                                     )}
                             </Form.Select>
-                        </Form.Group>
+                        </Form.Group>}
+
 
                         <Form.Group
                             className="mb-4"

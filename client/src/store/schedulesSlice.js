@@ -24,6 +24,7 @@ let initialState = {
         'Friday',
     ],
     singleSchedule: {
+        sessionType: 'physical',
         branch: '',
         perSessionLength: 60,
         sessionFee: 0,
@@ -35,8 +36,8 @@ let initialState = {
     isModalActive: false,
     SCHEDULE_HEADERS: [
         {
-            prop: 'branch',
-            title: 'Branch',
+            prop: 'branchName',
+            title: 'Branch Name',
         },
         {
             prop: 'consultantName',
@@ -68,6 +69,7 @@ let schedulesSlice = createSlice({
         addSchedule(state, action) {
             state.isModalActive = true;
             state.singleSchedule = {
+                sessionType: 'physical',
                 branch: '',
                 perSessionLength: 60,
                 offDay: [],
@@ -144,7 +146,7 @@ async function addExtraData(data) {
         );
         const branchData = await branch.json();
 
-        data[i].branch = branchData.name;
+        data[i].branchName = branchData.name ?? 'Online';
     }
 
     return data;
@@ -182,8 +184,9 @@ export const deleteSchedule = createAsyncThunk(
             { method: 'DELETE' }
         );
         const data = await res.json();
+        await addExtraData(data);
 
-        return data.data;
+        return data;
     }
 );
 /**
