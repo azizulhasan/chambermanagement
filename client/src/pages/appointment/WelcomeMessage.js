@@ -35,7 +35,7 @@ const WelcomeMessage = () => {
         let doctorName = singleUser.name;
 
         return <>
-            <Table classes='w-[50%] translate-x-1/2 border ' id='welocmemessage' headers={['Session Details', 'Patient Details']}>
+            <Table headers={[]} classes='w-[50%] translate-x-1/2 border ' id='welocmemessage' >
                 <TableBody>
                     <TableTr>
                         <TableTd>

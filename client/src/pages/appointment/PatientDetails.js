@@ -7,8 +7,10 @@ import { getFomattedDate, prepareScheduleSessionData } from '../../utilities/uti
 import {
     updateRegisterSchedule,
     updateNewSessionNotice,
+    fetchDoctorSchedules,
 } from '../../store/userScheduleSlice';
 import { fetchSingleUser } from '../../store/usersSlice';
+import { fetchSchedules } from '../../store/schedulesSlice';
 
 
 export default function PatientDetails() {
@@ -16,20 +18,24 @@ export default function PatientDetails() {
     const pageNo = 2;
     const { registerUserSchedule, isNewSchedule, newSessionNotice } =
         useSelector((state) => state.userSchedules);
+    const { schedules } =
+        useSelector((state) => state.schedules);
     const { singleUser } = useSelector((state) => state.users);
-
-
 
     useEffect(() => {
         if (registerUserSchedule[1].doctor_id) {
+            dispatch(
+                fetchSchedules()
+            );
             dispatch(fetchSingleUser(registerUserSchedule[1].doctor_id));
+
         }
     }, [registerUserSchedule]);
 
     useEffect(() => {
         if (singleUser.hasOwnProperty('name')) {
             let date = getFomattedDate(registerUserSchedule[1].session_date);
-
+            console.log(schedules)
             let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date);
             dispatch(updateNewSessionNotice(notice));
         }

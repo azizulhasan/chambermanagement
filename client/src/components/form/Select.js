@@ -78,7 +78,7 @@ function getArrayOptions(options, selected) {
         return (
             <option key={index} value={option}>
                 {' '}
-                {option}{' '}
+                {option.slice(0, 1).toUpperCase() + option.slice(1, option.length)}{' '}
             </option>
         );
     });

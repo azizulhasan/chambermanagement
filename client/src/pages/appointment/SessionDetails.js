@@ -90,8 +90,8 @@ export default function SessionDetails() {
         setDoctors(data);
         let specialities = [];
         data.map((doctor) => {
-            if (!specialities.includes(doctor.speciality)) {
-                specialities.push(doctor.speciality);
+            if (!specialities.includes(doctor.speciality.toLowerCase())) {
+                specialities.push(doctor.speciality.toLowerCase());
             }
         });
         setSpecialities(specialities);
@@ -129,7 +129,6 @@ export default function SessionDetails() {
             limit--;
         }
 
-        console.log(registerUserSchedule[pageNo].session_time)
         if (registerUserSchedule[pageNo].session_time) {
             setDefaultSelectedTime([registerUserSchedule[pageNo].session_time]);
         }
@@ -207,21 +206,21 @@ export default function SessionDetails() {
     const onChange = (e) => {
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
-                (doctor) => doctor.speciality === e.target.value
+                (doctor) => doctor.speciality.toLowerCase() === e.target.value.toLowerCase()
             );
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors);
         }
         if (e.target.name === 'doctor_id') {
-            if (e.target.value !== '0') {
-                dispatch(
-                    fetchDoctorSchedules({
-                        endpoint:
-                            '/api/userSchedule/doctorschedules/' +
-                            e.target.value,
-                        config: {},
-                    })
-                );
-            }
+            // if (e.target.value !== '0') {
+            //     dispatch(
+            //         fetchDoctorSchedules({
+            //             endpoint:
+            //                 '/api/userSchedule/doctorschedules/' +
+            //                 e.target.value,
+            //             config: {},
+            //         })
+            //     );
+            // }
 
             let filteredSchedule = schedules.filter(
                 (schedule) => schedule.user === e.target.value
@@ -289,7 +288,7 @@ export default function SessionDetails() {
 
     return (
         <div className="flex border py-4 mb-8 ">
-            <div className="w-60 ">
+            <div className="w-44 ">
                 <label htmlFor="session_name">Session</label>
                 <Select
                     value={
@@ -299,19 +298,19 @@ export default function SessionDetails() {
                     }
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
-                    classes={'border w-60 p-2'}
+                    classes={'border w-44 p-2'}
                     options={specialities}
                     id="session_name"
                     name="session_name"
                     required={true}
                 />
             </div>
-            <div className="w-60">
+            <div className=" ml-2 w-44">
                 <label htmlFor="doctor_id">Doctor</label>
                 <Select
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Doctor"
-                    classes={'border w-60 p-2'}
+                    classes={'border w-44 p-2'}
                     options={filteredDoctors}
                     id="doctor_id"
                     name="doctor_id"
@@ -357,7 +356,7 @@ export default function SessionDetails() {
                     }}
                 />
             </div>
-            <div className="w-60">
+            <div className="w-44">
                 <label htmlFor="session_time">Session Time</label>
                 <SlotPicker
                     interval={filteredSchedule.perSessionLength}

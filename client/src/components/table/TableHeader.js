@@ -9,17 +9,14 @@ export default function TableHeader({ children, classes, headers, thClasses }) {
         >
             <TableTr classes={' hover:!bg-gray-200 text-left'}>
                 {headers.length &&
-                    headers.map((header, index) =>
-                        thClasses && thClasses[1] === index ? (
-                            <TableTh key={index} classes={thClasses[0]}>
-                                {header}{' '}
-                            </TableTh>
-                        ) : (
-                            <TableTh key={index} classes={thClasses}>
-                                {header}
-                            </TableTh>
-                        )
-                    )}
+                    headers.map((header, index) => {
+                        return thClasses && thClasses[1] === index ? <TableTh key={index} classes={thClasses[0]}>
+                            {header}{' '}
+                        </TableTh> : <TableTh key={index} classes={thClasses}>
+                            {header}
+                        </TableTh>
+                    })
+                }
             </TableTr>
         </thead>
     );
