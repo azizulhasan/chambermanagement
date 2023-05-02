@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import {
-    fetchDoctorSchedules,
     updateRegisterSchedule,
 } from '../../store/userScheduleSlice';
+import {
+    fetchBranches,
+} from '../../store/branchesSlice';
 import Select from '../../components/form/Select';
 import {
     addToImutableObject,
@@ -45,6 +47,8 @@ export default function SessionDetails() {
     });
     const [timeSlots, setTimeSlots] = useState([]);
     const [offDates, setOffDates] = useState([]);
+    const [currentBranches, setCurrentBranches] = useState([]);
+
     const ref = React.useRef();
     const dispatch = useDispatch();
 
@@ -55,6 +59,7 @@ export default function SessionDetails() {
         isNewSchedule,
         defaultSchedule,
     } = useSelector((state) => state.userSchedules);
+    const { branches } = useSelector((state) => state.branches);
 
 
     useEffect(() => {
@@ -75,6 +80,12 @@ export default function SessionDetails() {
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
+        dispatch(
+            fetchBranches({
+                endpoint: '/api/branches',
+                config: {},
+            })
+        );
         let sessionData = getSessionStorage(['registerUserSchedule']);
         if (!Object.keys(sessionData).length) {
             saveSessionData('registerUserSchedule', defaultSchedule);
@@ -84,6 +95,10 @@ export default function SessionDetails() {
             );
         }
     }, []);
+
+    useEffect(() => {
+        setCurrentBranches(branches)
+    }, [branches])
 
     useEffect(() => {
         let data = users.filter((user, i) => user.userRole === 'DOCTOR');
@@ -204,6 +219,7 @@ export default function SessionDetails() {
     };
 
     const onChange = (e) => {
+        // Filter current doctor schedules from users.
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
                 (doctor) => doctor.speciality.toLowerCase() === e.target.value.toLowerCase()
@@ -211,17 +227,7 @@ export default function SessionDetails() {
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors);
         }
         if (e.target.name === 'doctor_id') {
-            // if (e.target.value !== '0') {
-            //     dispatch(
-            //         fetchDoctorSchedules({
-            //             endpoint:
-            //                 '/api/userSchedule/doctorschedules/' +
-            //                 e.target.value,
-            //             config: {},
-            //         })
-            //     );
-            // }
-
+            // filter current doctor schedules.
             let filteredSchedule = schedules.filter(
                 (schedule) => schedule.user === e.target.value
             );
@@ -232,6 +238,20 @@ export default function SessionDetails() {
                 );
 
                 setFilteredSchedule(filteredSchedule[0]);
+            }
+
+            // filter current doctor branches.
+            if (e.target.value !== '0') {
+                let filterBranches = []
+                filteredSchedule.map(schedule => {
+                    branches.map(branch => {
+                        if (branch._id === schedule.branch) {
+                            filterBranches.push(branch)
+                        }
+                    })
+                })
+
+                setCurrentBranches(filterBranches)
             }
         }
 
@@ -287,88 +307,117 @@ export default function SessionDetails() {
     }, [currentDoctorSchedules]);
 
     return (
-        <div className="flex border py-4 mb-8 ">
-            <div className="w-44 ">
-                <label htmlFor="session_name">Session</label>
-                <Select
-                    value={
-                        registerUserSchedule[pageNo].session_name
-                            ? registerUserSchedule[pageNo].session_name
-                            : '0'
-                    }
-                    onChange={(e) => onChange(e)}
-                    defaultOption="Select Session"
-                    classes={'border w-44 p-2'}
-                    options={specialities}
-                    id="session_name"
-                    name="session_name"
-                    required={true}
-                />
-            </div>
-            <div className=" ml-2 w-44">
-                <label htmlFor="doctor_id">Doctor</label>
-                <Select
-                    onChange={(e) => onChange(e)}
-                    defaultOption="Select Doctor"
-                    classes={'border w-44 p-2'}
-                    options={filteredDoctors}
-                    id="doctor_id"
-                    name="doctor_id"
-                    required={true}
-                    value={
-                        registerUserSchedule[pageNo].doctor_id
-                            ? registerUserSchedule[pageNo].doctor_id
-                            : '0'
-                    }
-                />
-            </div>
-            <div className="w-72">
-                <label htmlFor="session_date">Select Date</label>
-                <Calendar
-                    tileClassName={
-                        'p-2.5 hover:text-white hover:bg-themeColor '
-                    }
-                    tileDisabled={({ activeStartDate, date, view }) => {
-                        if (offDates.includes(date.getDate())) {
-                            return true;
+        <div className="flex flex-wrap justify-start border py-4 mb-8 ">
+            <div className=''>
+                <div className="w-44 ">
+                    <label htmlFor="session_name">Session</label>
+                    <Select
+                        value={
+                            registerUserSchedule[pageNo].session_name
+                                ? registerUserSchedule[pageNo].session_name
+                                : '0'
                         }
-                        return false;
-                    }}
-                    className="mx-2 border border-themeColor session_date"
-                    onChange={(e) => setSessionDate(e)}
-                    value={date}
-                    showNeighboringMonth={false}
-                    inputRef={ref}
-                    calendarType={'US'}
-                    onActiveStartDateChange={({
-                        action,
-                        activeStartDate,
-                        value,
-                        view,
-                    }) => {
-                        setCurrentDateString(
-                            activeStartDate.getFullYear() +
-                            '-' +
-                            (activeStartDate.getMonth() + 1) +
-                            '-' +
-                            activeStartDate.getDate()
-                        );
-                    }}
-                />
+                        onChange={(e) => onChange(e)}
+                        defaultOption="Select Session"
+                        classes={'border w-44 p-2'}
+                        options={specialities}
+                        id="session_name"
+                        name="session_name"
+                        required={true}
+                    />
+                </div>
             </div>
-            <div className="w-44">
-                <label htmlFor="session_time">Session Time</label>
-                <SlotPicker
-                    interval={filteredSchedule.perSessionLength}
-                    from={'07:00'}
-                    to={'23:00'}
-                    unAvailableSlots={unAvailableSlots}
-                    lang={'en'}
-                    defaultSelectedTime={defaultSelectedTime}
-                    onSelectTime={(s) => addToSelectedArray(s)}
-                    classes="hover:cursor-pointer"
-                    timeSlots={timeSlots}
-                />
+            <div className=''>
+                <div className=" ml-2 w-44">
+                    <label htmlFor="doctor_id">Doctor</label>
+                    <Select
+                        onChange={(e) => onChange(e)}
+                        defaultOption="Select Doctor"
+                        classes={'border w-44 p-2'}
+                        options={filteredDoctors}
+                        id="doctor_id"
+                        name="doctor_id"
+                        required={true}
+                        value={
+                            registerUserSchedule[pageNo].doctor_id
+                                ? registerUserSchedule[pageNo].doctor_id
+                                : '0'
+                        }
+                    />
+                </div>
+            </div>
+            <div className=''>
+                <div className=" ml-2 w-44">
+                    <label htmlFor="branch_id">Branch Name</label>
+                    <Select
+                        onChange={(e) => onChange(e)}
+                        defaultOption="Online"
+                        defaultValue="online"
+                        classes={'border w-44 p-2'}
+                        options={currentBranches}
+                        id="branch_id"
+                        name="branch_id"
+                        required={true}
+                        value={
+                            registerUserSchedule[pageNo].branch_id
+                                ? registerUserSchedule[pageNo].branch_id
+                                : '0'
+                        }
+                    />
+                </div>
+            </div>
+
+            <div className=''>
+                <div className="w-72">
+                    <label htmlFor="session_date">Select Date</label>
+                    <Calendar
+                        tileClassName={
+                            'p-2.5 hover:text-white hover:bg-themeColor '
+                        }
+                        tileDisabled={({ activeStartDate, date, view }) => {
+                            if (offDates.includes(date.getDate())) {
+                                return true;
+                            }
+                            return false;
+                        }}
+                        className="mx-2 border border-themeColor session_date"
+                        onChange={(e) => setSessionDate(e)}
+                        value={date}
+                        showNeighboringMonth={false}
+                        inputRef={ref}
+                        calendarType={'US'}
+                        onActiveStartDateChange={({
+                            action,
+                            activeStartDate,
+                            value,
+                            view,
+                        }) => {
+                            setCurrentDateString(
+                                activeStartDate.getFullYear() +
+                                '-' +
+                                (activeStartDate.getMonth() + 1) +
+                                '-' +
+                                activeStartDate.getDate()
+                            );
+                        }}
+                    />
+                </div>
+            </div>
+            <div className=''>
+                <div className="w-44">
+                    <label htmlFor="session_time">Session Time</label>
+                    <SlotPicker
+                        interval={filteredSchedule.perSessionLength}
+                        from={'07:00'}
+                        to={'23:00'}
+                        unAvailableSlots={unAvailableSlots}
+                        lang={'en'}
+                        defaultSelectedTime={defaultSelectedTime}
+                        onSelectTime={(s) => addToSelectedArray(s)}
+                        classes="hover:cursor-pointer"
+                        timeSlots={timeSlots}
+                    />
+                </div>
             </div>
         </div>
     );

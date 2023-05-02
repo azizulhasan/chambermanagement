@@ -26,7 +26,7 @@ export default function Select({
                 classes
             )}
         >
-            {addDefaultOption && <option value="0">{defaultOption}</option>}
+            {addDefaultOption && <option value={defaultValue}>{defaultOption}</option>}
             {options.length
                 ? typeof options[0] == 'string'
                     ? getArrayOptions(options, selected)

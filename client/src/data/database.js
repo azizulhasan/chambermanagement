@@ -403,6 +403,7 @@ export const defaultUserScheduleData = {
     1: {
         session_name: '',
         doctor_id: '',
+        branch_id: '',
         session_date: '',
         session_time: '',
         per_session_length: '',
