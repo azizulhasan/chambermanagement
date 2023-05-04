@@ -19,7 +19,7 @@ export default function PatientDetails() {
         let sessionName = registerUserSchedule[1].session_name;
         let patientName = registerUserSchedule[2].name
         let doctorName = singleUser.name;
-        let sessionFee = '৳' + "2353453465";
+        let sessionFee = '৳' + registerUserSchedule[1].session_fee;
         return <>
             <h1 className='font-size-lg'>Congratulations:</h1>
             <p>You just booked a Session with {doctorName} at {time}  on {date}. The price for the service is {sessionFee}.</p>

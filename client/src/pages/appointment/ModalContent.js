@@ -130,7 +130,7 @@ export default function ModalContent() {
          */
         dispatch(
             saveUserSchedule({
-                endpoint: '/api/userSchedule',
+                endpoint: '/api/userschedules',
                 config: {
                     headers: {
                         'Content-Type': 'application/json',

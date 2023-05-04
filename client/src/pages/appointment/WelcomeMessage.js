@@ -18,6 +18,8 @@ const WelcomeMessage = () => {
         (state) => state.userSchedules
     );
     const { singleUser } = useSelector((state) => state.users);
+    const { branches } = useSelector((state) => state.branches);
+
 
 
     // useEffect(() => {
@@ -27,12 +29,24 @@ const WelcomeMessage = () => {
     //     }
     // }, [registerUserSchedule]);
 
+    const getBranchName = (branchId) => {
+        let branchName = ''
+        branches.map(branch => {
+            if (branch._id === branchId) {
+                branchName = branch.name;
+            }
+        })
+
+        return branchName;
+    }
+
     function getNewSessionNotice() {
         let date = getFomattedDate(registerUserSchedule[1].session_date);
         let time = registerUserSchedule[1].session_time;
         let sessionName = registerUserSchedule[1].session_name;
         let patientName = registerUserSchedule[2].name
         let doctorName = singleUser.name;
+
 
         return <>
             <Table headers={[]} classes='w-[50%] translate-x-1/2 border ' id='welocmemessage' >
@@ -91,6 +105,22 @@ const WelcomeMessage = () => {
                                 <div>Session Time</div>
                                 <div>:</div>
                                 <div>{time}</div>
+                            </div>
+                        </TableTd>
+                        <TableTd>
+                            <div className='flex justify-left'>
+                                <div>{registerUserSchedule[1].branch_id === 'online' ? 'Session Type ' : 'Branch Name '}</div>
+                                <div> :</div>
+                                <div>{registerUserSchedule[1].branch_id === 'online' ? 'Online' : getBranchName(registerUserSchedule[1].branch_id)}</div>
+                            </div>
+                        </TableTd>
+                    </TableTr>
+                    <TableTr classes='bg-gray-50'>
+                        <TableTd>
+                            <div className='flex  justify-left '>
+                                <div>Session Fee</div>
+                                <div>:</div>
+                                <div>৳{registerUserSchedule[1].session_fee}</div>
                             </div>
                         </TableTd>
                         <TableTd>

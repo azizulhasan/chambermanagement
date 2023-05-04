@@ -219,6 +219,8 @@ export default function SessionDetails() {
     };
 
     const onChange = (e) => {
+        let filterBranches = []
+
         // Filter current doctor schedules from users.
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
@@ -242,7 +244,6 @@ export default function SessionDetails() {
 
             // filter current doctor branches.
             if (e.target.value !== '0') {
-                let filterBranches = []
                 filteredSchedule.map(schedule => {
                     branches.map(branch => {
                         if (branch._id === schedule.branch) {
@@ -254,6 +255,20 @@ export default function SessionDetails() {
                 setCurrentBranches(filterBranches)
             }
         }
+
+        if (e.target.name === 'branch_id') {
+            let session_fee = null
+            schedules.map(schedule => {
+                if (e.target.value === schedule.branch) {
+                    session_fee = schedule.sessionFee
+                }
+            })
+            if (session_fee) {
+                let data = prepareScheduleSessionData('session_fee', session_fee, 1);
+                dispatch(updateRegisterSchedule(data));
+            }
+        }
+
 
         let data = prepareScheduleSessionData(e.target.name, e.target.value, 1);
         dispatch(updateRegisterSchedule(data));

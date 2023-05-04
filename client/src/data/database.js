@@ -404,6 +404,7 @@ export const defaultUserScheduleData = {
         session_name: '',
         doctor_id: '',
         branch_id: '',
+        session_fee: '',
         session_date: '',
         session_time: '',
         per_session_length: '',

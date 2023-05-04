@@ -36,14 +36,14 @@ export default function PatientDetails() {
         if (singleUser.hasOwnProperty('name')) {
             let date = getFomattedDate(registerUserSchedule[1].session_date);
             console.log(schedules)
-            let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date);
+            let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date, registerUserSchedule[1].session_fee);
             dispatch(updateNewSessionNotice(notice));
         }
     }, [singleUser]);
 
 
-    function getNewSessionNotice(doctorName, time, date) {
-        return `You selected a booking for Session by ${doctorName} at ${time}  on ${date}. The price for the service is ৳5,000.00.`;
+    function getNewSessionNotice(doctorName, time, date, sessionFee) {
+        return `You selected a booking for Session with ${doctorName} at ${time}  on ${date}. The price for the service is ৳${sessionFee}.`;
     }
 
     const {
