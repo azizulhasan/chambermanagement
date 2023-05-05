@@ -322,117 +322,107 @@ export default function SessionDetails() {
     }, [currentDoctorSchedules]);
 
     return (
-        <div className="flex flex-wrap justify-start border py-4 mb-8 ">
-            <div className=''>
-                <div className="w-44 ">
-                    <label htmlFor="session_name">Session</label>
-                    <Select
-                        value={
-                            registerUserSchedule[pageNo].session_name
-                                ? registerUserSchedule[pageNo].session_name
-                                : '0'
-                        }
-                        onChange={(e) => onChange(e)}
-                        defaultOption="Select Session"
-                        classes={'border w-44 p-2'}
-                        options={specialities}
-                        id="session_name"
-                        name="session_name"
-                        required={true}
-                    />
-                </div>
+        <div className="flex flex-wrap justify-start  py-4 mb-12 sm:mb-8 ">
+            <div className="w-44">
+                <label htmlFor="session_name">Session</label>
+                <Select
+                    value={
+                        registerUserSchedule[pageNo].session_name
+                            ? registerUserSchedule[pageNo].session_name
+                            : '0'
+                    }
+                    onChange={(e) => onChange(e)}
+                    defaultOption="Select Session"
+                    classes={'border w-44 p-2'}
+                    options={specialities}
+                    id="session_name"
+                    name="session_name"
+                    required={true}
+                />
             </div>
-            <div className=''>
-                <div className=" ml-2 w-44">
-                    <label htmlFor="doctor_id">Doctor</label>
-                    <Select
-                        onChange={(e) => onChange(e)}
-                        defaultOption="Select Doctor"
-                        classes={'border w-44 p-2'}
-                        options={filteredDoctors}
-                        id="doctor_id"
-                        name="doctor_id"
-                        required={true}
-                        value={
-                            registerUserSchedule[pageNo].doctor_id
-                                ? registerUserSchedule[pageNo].doctor_id
-                                : '0'
-                        }
-                    />
-                </div>
+            <div className="ml-2 w-44">
+                <label htmlFor="doctor_id">Doctor</label>
+                <Select
+                    onChange={(e) => onChange(e)}
+                    defaultOption="Select Doctor"
+                    classes={'border w-44 p-2'}
+                    options={filteredDoctors}
+                    id="doctor_id"
+                    name="doctor_id"
+                    required={true}
+                    value={
+                        registerUserSchedule[pageNo].doctor_id
+                            ? registerUserSchedule[pageNo].doctor_id
+                            : '0'
+                    }
+                />
             </div>
-            <div className=''>
-                <div className=" ml-2 w-44">
-                    <label htmlFor="branch_id">Branch Name</label>
-                    <Select
-                        onChange={(e) => onChange(e)}
-                        defaultOption="Online"
-                        defaultValue="online"
-                        classes={'border w-44 p-2'}
-                        options={currentBranches}
-                        id="branch_id"
-                        name="branch_id"
-                        required={true}
-                        value={
-                            registerUserSchedule[pageNo].branch_id
-                                ? registerUserSchedule[pageNo].branch_id
-                                : '0'
-                        }
-                    />
-                </div>
+            <div className=" ml-2 w-44">
+                <label htmlFor="branch_id">Branch Name</label>
+                <Select
+                    onChange={(e) => onChange(e)}
+                    defaultOption="Online"
+                    defaultValue="online"
+                    classes={'border w-44 p-2'}
+                    options={currentBranches}
+                    id="branch_id"
+                    name="branch_id"
+                    required={true}
+                    value={
+                        registerUserSchedule[pageNo].branch_id
+                            ? registerUserSchedule[pageNo].branch_id
+                            : '0'
+                    }
+                />
             </div>
 
-            <div className=''>
-                <div className="w-72">
-                    <label htmlFor="session_date">Select Date</label>
-                    <Calendar
-                        tileClassName={
-                            'p-2.5 hover:text-white hover:bg-themeColor '
+            <div className="w-72">
+                <label htmlFor="session_date">Select Date</label>
+                <Calendar
+                    tileClassName={
+                        'p-2.5 hover:text-white hover:bg-themeColor '
+                    }
+                    tileDisabled={({ activeStartDate, date, view }) => {
+                        if (offDates.includes(date.getDate())) {
+                            return true;
                         }
-                        tileDisabled={({ activeStartDate, date, view }) => {
-                            if (offDates.includes(date.getDate())) {
-                                return true;
-                            }
-                            return false;
-                        }}
-                        className="mx-2 border border-themeColor session_date"
-                        onChange={(e) => setSessionDate(e)}
-                        value={date}
-                        showNeighboringMonth={false}
-                        inputRef={ref}
-                        calendarType={'US'}
-                        onActiveStartDateChange={({
-                            action,
-                            activeStartDate,
-                            value,
-                            view,
-                        }) => {
-                            setCurrentDateString(
-                                activeStartDate.getFullYear() +
-                                '-' +
-                                (activeStartDate.getMonth() + 1) +
-                                '-' +
-                                activeStartDate.getDate()
-                            );
-                        }}
-                    />
-                </div>
+                        return false;
+                    }}
+                    className="mx-2 border border-themeColor session_date"
+                    onChange={(e) => setSessionDate(e)}
+                    value={date}
+                    showNeighboringMonth={false}
+                    inputRef={ref}
+                    calendarType={'US'}
+                    onActiveStartDateChange={({
+                        action,
+                        activeStartDate,
+                        value,
+                        view,
+                    }) => {
+                        setCurrentDateString(
+                            activeStartDate.getFullYear() +
+                            '-' +
+                            (activeStartDate.getMonth() + 1) +
+                            '-' +
+                            activeStartDate.getDate()
+                        );
+                    }}
+                />
             </div>
-            <div className=''>
-                <div className="w-44">
-                    <label htmlFor="session_time">Session Time</label>
-                    <SlotPicker
-                        interval={filteredSchedule.perSessionLength}
-                        from={'07:00'}
-                        to={'23:00'}
-                        unAvailableSlots={unAvailableSlots}
-                        lang={'en'}
-                        defaultSelectedTime={defaultSelectedTime}
-                        onSelectTime={(s) => addToSelectedArray(s)}
-                        classes="hover:cursor-pointer"
-                        timeSlots={timeSlots}
-                    />
-                </div>
+            <div className="w-44">
+                <label htmlFor="session_time">Session Time</label>
+                <SlotPicker
+                    interval={filteredSchedule.perSessionLength}
+                    from={'07:00'}
+                    to={'23:00'}
+                    unAvailableSlots={unAvailableSlots}
+                    lang={'en'}
+                    defaultSelectedTime={defaultSelectedTime}
+                    onSelectTime={(s) => addToSelectedArray(s)}
+                    classes="hover:cursor-pointer"
+                    timeSlots={timeSlots}
+                />
             </div>
         </div>
     );

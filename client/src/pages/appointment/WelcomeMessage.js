@@ -49,7 +49,7 @@ const WelcomeMessage = () => {
 
 
         return <>
-            <Table headers={[]} classes='w-[50%] translate-x-1/2 border ' id='welocmemessage' >
+            <Table headers={['Session Details', 'Patient Details']} classes='w-full sm:w-[50%] sm:translate-x-1/2 border ' id='welocmemessage' >
                 <TableBody>
                     <TableTr>
                         <TableTd>

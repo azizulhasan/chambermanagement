@@ -70,8 +70,8 @@ export default function PatientDetails() {
                     </p>
                 )}
             </div>
-            <div className="flex justify-between py-4 mb-8 ">
-                <div className=" w-full col-span-4">
+            <div className="flex flex-wrap  justify-between py-4 mb-8 ">
+                <div className="py-2 sm:py-0">
                     <Input
                         label={'Patient Name'}
                         name="name"
@@ -83,7 +83,7 @@ export default function PatientDetails() {
                         onChange={(e) => getFormValue(e)}
                     />
                 </div>
-                <div className="w-full px-2 col-span-4">
+                <div className="py-2 sm:py-0">
                     <Input
                         label={'Email ID'}
                         name="email"
@@ -103,7 +103,7 @@ export default function PatientDetails() {
                         <span className="error">Emai is require.</span>
                     )}
                 </div>
-                <div className="w-full col-span-4">
+                <div className=" py-2 sm:py-0">
                     <Input
                         label={'Phone Number'}
                         name="phone"
