@@ -4,8 +4,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const { uploadImage, getImagePath } = require('../utilities/utilities');
+const { config } = require('../auth/config')
 
 let refreshTokens = [];
+
 
 const getRefreshToken = (req, res) => {
     const refreshToken = req.body.token;
@@ -19,7 +21,7 @@ const getRefreshToken = (req, res) => {
 
     jwt.verify(
         refreshToken,
-        process.env.AUTH_TOKEN_REFRESH_KEY,
+        config.jwt.secret,
         (err, user) => {
             err && console.log(err);
             refreshTokens = refreshTokens.filter(
@@ -40,20 +42,41 @@ const getRefreshToken = (req, res) => {
 };
 // role, name, id
 const generateAccessToken = (user) => {
-    return jwt.sign(
-        { id: user._id, userRole: user.userRole, name: user.name },
-        process.env.AUTH_TOKEN_SECRET_KEY,
-        {
-            expiresIn: '200s',
-        }
-    );
+    // return jwt.sign(
+    //     { id: user._id, userRole: user.userRole, name: user.name },
+    //     process.env.AUTH_TOKEN_SECRET_KEY,
+    //     {
+    //         expiresIn: '200s',
+    //     }
+    // );
+    return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, config.jwt.secret, {
+        expiresIn: '1h',
+        notBefore: '0', // Cannot use before now, can be configured to be deferred.
+        algorithm: 'HS256',
+        audience: config.jwt.audience,
+        issuer: config.jwt.issuer
+    })
 };
 
+/**
+ * 
+ * @see https://www.toptal.com/json/jwt-nodejs-security
+ * @param {*} user 
+ */
 const generateRefreshToken = (user) => {
-    return jwt.sign(
-        { id: user._id, userRole: user.userRole, name: user.name },
-        process.env.AUTH_TOKEN_REFRESH_KEY
-    );
+    // return jwt.sign(
+    //     { id: user._id, userRole: user.userRole, name: user.name },
+    //     process.env.AUTH_TOKEN_REFRESH_KEY
+    // );
+
+    return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, config.jwt.secret, {
+        expiresIn: '1h',
+        notBefore: '0', // Cannot use before now, can be configured to be deferred.
+        algorithm: 'HS256',
+        audience: config.jwt.audience,
+        issuer: config.jwt.issuer
+    })
+
 };
 
 /**
@@ -178,7 +201,6 @@ const login_user = async (req, res) => {
     const user = await Users.findOne({
         email: req.body.email,
     });
-    console.log(req.body.email);
     if (!user) {
         return res.json({
             status: false,
