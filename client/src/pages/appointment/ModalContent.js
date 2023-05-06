@@ -30,8 +30,11 @@ export default function ModalContent() {
     const { registerUserSchedule, frontUserSingleSchedule, defaultSchedule } = useSelector(
         (state) => state.userSchedules
     );
-    const { scheduleUser } = useSelector(
+    const { scheduleUser, users } = useSelector(
         (state) => state.users
+    );
+    const { branches } = useSelector(
+        (state) => state.branches
     );
     const [pageNo, setPageNo] = useState(1)
     const dispatch = useDispatch();
@@ -125,6 +128,18 @@ export default function ModalContent() {
 
         let data = getSessionStorage(['registerUserSchedule'])
         data = prepareDataForSave(data['registerUserSchedule'])
+        branches.map(branch => {
+            if (data.branch_id === branch._id) {
+                data.branch_name = branch.name;
+            }
+        })
+        if (!data.hasOwnProperty('branch_name')) {
+            data.branch_name = 'online';
+        }
+        if (scheduleUser && scheduleUser.hasOwnProperty('name')) {
+            data.doctor_name = scheduleUser.name;
+        }
+
         // Save session detail to database.
         /**
          * Mail session details to user

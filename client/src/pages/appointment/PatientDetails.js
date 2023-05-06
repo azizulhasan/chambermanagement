@@ -35,7 +35,6 @@ export default function PatientDetails() {
     useEffect(() => {
         if (singleUser.hasOwnProperty('name')) {
             let date = getFomattedDate(registerUserSchedule[1].session_date);
-            console.log(schedules)
             let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date, registerUserSchedule[1].session_fee);
             dispatch(updateNewSessionNotice(notice));
         }

@@ -37,7 +37,16 @@ const getUser = async (id) => {
   return true;
 };
 
+const getSessionPlaceDetails = (data) => {
+  let temp = '';
+  if (data.branch_name === 'online') {
+    temp = 'This session will be online. You will get a link after payment complete. Please login after payment complete to get meeting link.'
+  } else {
+    temp = `This session will be at <strong>${data.branch_name}</strong> branch of <strong>${process.env.SITE_NAME}</strong>.`
+  }
 
+  return temp;
+}
 
 
 const sendMail = async (data) => {
@@ -69,7 +78,11 @@ const sendMail = async (data) => {
     let paymentStatus = ' Unpaid';
     let sessionFee = data.session_fee + 'TK';
 
-    await getUser(data.doctor_id);
+    if (data.hasOwnProperty('doctor_name')) {
+      doctorData.name = data.doctor_name;
+    } else {
+      await getUser(data.doctor_id)
+    }
 
     mailOptions = {
       from: credentials.email,
@@ -81,6 +94,7 @@ const sendMail = async (data) => {
         for ${data.per_session_length} minutes.<p>
         <p> Payment Status:  ${paymentStatus}</p>
         <p> Session Fee:  ${sessionFee}</p>
+        <p> ${getSessionPlaceDetails(data)}</p>
         <p>If you're booking session for the first time then here is credentials for login.</p>
         <p>Email: ${data.email}</p>
         <p>Password: ${data.phone} </p>

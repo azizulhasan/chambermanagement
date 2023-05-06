@@ -97,7 +97,11 @@ export default function SessionDetails() {
     }, []);
 
     useEffect(() => {
-        setCurrentBranches(branches)
+
+        let tempBranches = structuredClone(branches)
+        tempBranches.unshift({ _id: 'online', name: 'online' })
+
+        setCurrentBranches(tempBranches)
     }, [branches])
 
     useEffect(() => {
@@ -251,7 +255,7 @@ export default function SessionDetails() {
                         }
                     })
                 })
-
+                filterBranches.unshift({ _id: 'online', name: 'online' })
                 setCurrentBranches(filterBranches)
             }
         }
@@ -361,8 +365,7 @@ export default function SessionDetails() {
                 <label htmlFor="branch_id">Branch Name</label>
                 <Select
                     onChange={(e) => onChange(e)}
-                    defaultOption="Online"
-                    defaultValue="online"
+                    defaultOption="Select Branch"
                     classes={'border w-44 p-2'}
                     options={currentBranches}
                     id="branch_id"
