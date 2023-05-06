@@ -1,6 +1,14 @@
 const { verify } = require('jsonwebtoken');
 const { config } = require('./config')
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ * @see https://www.toptal.com/json/jwt-nodejs-security
+ */
 const verifyToken = (req, res, next) => {
     // Get the JWT from the request header.
     const token = req.headers['authorization'];
