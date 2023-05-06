@@ -40,6 +40,7 @@ const WelcomeMessage = () => {
         return branchName;
     }
 
+
     function getNewSessionNotice() {
         let date = getFomattedDate(registerUserSchedule[1].session_date);
         let time = registerUserSchedule[1].session_time;
@@ -49,18 +50,18 @@ const WelcomeMessage = () => {
 
 
         return <>
-            <Table headers={['Session Details', 'Patient Details']} classes='w-full sm:w-[50%] sm:translate-x-1/2 border ' id='welocmemessage' >
+            <Table headers={['Session Details', 'Patient Details']} classes='w-full sm:w-[50%] sm:translate-x-1/2 border' id='welocmemessage' >
                 <TableBody>
                     <TableTr>
-                        <TableTd>
-                            <div className='flex  justify-left '>
+                        <TableTd classes='!py-2'>
+                            <div className='flex'>
                                 <div>Session Name</div>
                                 <div>:</div>
                                 <div>{sessionName}</div>
                             </div>
                         </TableTd>
-                        <TableTd>
-                            <div className='flex justify-left'>
+                        <TableTd classes='!py-2'>
+                            <div className='flex '>
                                 <div>Name</div>
                                 <div>:</div>
                                 <div>{patientName}</div>
@@ -68,15 +69,15 @@ const WelcomeMessage = () => {
                         </TableTd>
                     </TableTr>
                     <TableTr classes='bg-gray-50'>
-                        <TableTd>
-                            <div className='flex  justify-left '>
+                        <TableTd classes='!py-2'>
+                            <div className='flex   '>
                                 <div>Doctor Name</div>
                                 <div>:</div>
                                 <div>{doctorName}</div>
                             </div>
                         </TableTd>
-                        <TableTd>
-                            <div className='flex justify-left'>
+                        <TableTd classes='!py-2'>
+                            <div className='flex '>
                                 <div>Email</div>
                                 <div>:</div>
                                 <div>{registerUserSchedule[2].email}</div>
@@ -84,15 +85,15 @@ const WelcomeMessage = () => {
                         </TableTd>
                     </TableTr>
                     <TableTr>
-                        <TableTd>
-                            <div className='flex  justify-left '>
+                        <TableTd classes='!py-2'>
+                            <div className='flex   '>
                                 <div>Session Date</div>
                                 <div>:</div>
                                 <div>{date}</div>
                             </div>
                         </TableTd>
-                        <TableTd>
-                            <div className='flex justify-left'>
+                        <TableTd classes='!py-2'>
+                            <div className='flex '>
                                 <div>Phone</div>
                                 <div>:</div>
                                 <div>{registerUserSchedule[2].phone}</div>
@@ -100,15 +101,15 @@ const WelcomeMessage = () => {
                         </TableTd>
                     </TableTr>
                     <TableTr classes='bg-gray-50'>
-                        <TableTd>
-                            <div className='flex  justify-left '>
+                        <TableTd classes='!py-2'>
+                            <div className='flex   '>
                                 <div>Session Time</div>
                                 <div>:</div>
                                 <div>{time}</div>
                             </div>
                         </TableTd>
-                        <TableTd>
-                            <div className='flex justify-left'>
+                        <TableTd classes='!py-2'>
+                            <div className='flex '>
                                 <div>{registerUserSchedule[1].branch_id === 'online' ? 'Session Type ' : 'Branch Name '}</div>
                                 <div> :</div>
                                 <div>{registerUserSchedule[1].branch_id === 'online' ? 'Online' : getBranchName(registerUserSchedule[1].branch_id)}</div>
@@ -116,15 +117,15 @@ const WelcomeMessage = () => {
                         </TableTd>
                     </TableTr>
                     <TableTr classes='bg-gray-50'>
-                        <TableTd>
-                            <div className='flex  justify-left '>
+                        <TableTd classes='!py-2'>
+                            <div className='flex   '>
                                 <div>Session Fee</div>
                                 <div>:</div>
                                 <div>৳{registerUserSchedule[1].session_fee}</div>
                             </div>
                         </TableTd>
-                        <TableTd>
-                            <div className='flex justify-left'>
+                        <TableTd classes='!py-2'>
+                            <div className='flex '>
                             </div>
                         </TableTd>
                     </TableTr>
