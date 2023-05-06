@@ -26,7 +26,7 @@ export default function Select({
                 classes
             )}
         >
-            {addDefaultOption && <option value="0">{defaultOption}</option>}
+            {addDefaultOption && <option value={defaultValue}>{defaultOption}</option>}
             {options.length
                 ? typeof options[0] == 'string'
                     ? getArrayOptions(options, selected)
@@ -78,7 +78,7 @@ function getArrayOptions(options, selected) {
         return (
             <option key={index} value={option}>
                 {' '}
-                {option}{' '}
+                {option.slice(0, 1).toUpperCase() + option.slice(1, option.length)}{' '}
             </option>
         );
     });

@@ -67,7 +67,7 @@ const sendMail = async (data) => {
   } else {
     // schedule form
     let paymentStatus = ' Unpaid';
-    let sessionFee = ' 5000TK';
+    let sessionFee = data.session_fee + 'TK';
 
     await getUser(data.doctor_id);
 

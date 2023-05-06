@@ -4,6 +4,7 @@ import {
     fetchSchedules,
     deleteSchedule,
     showModal,
+    fetchSingleSchedule,
 } from '../../../store/schedulesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -61,6 +62,15 @@ export default function Schedules() {
                 bsPrefix="azh_btn azh_btn_edit"
                 onClick={(e) => {
                     dispatch(showModal(true));
+                    dispatch(fetchSingleSchedule({
+                        endpoint: `/api/schedules/${schedule['_id']}`,
+                        config: {
+                            headers: {
+                                'Content-Type': "application/json"
+                            },
+                            method: 'GET'
+                        }
+                    }))
                 }}
             >
                 <Edit />

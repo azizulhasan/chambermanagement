@@ -3,9 +3,13 @@ const Schema = mongoose.Schema;
 
 const schedulesSchema = new Schema(
     {
-        branch: {
+        sessionType: {
             type: String,
             required: true,
+        },
+        branch: {
+            type: String,
+            required: false,
         },
         user: {
             type: String,
@@ -24,6 +28,10 @@ const schedulesSchema = new Schema(
             type: Array,
             required: true,
             default: [],
+        },
+        sessionFee: {
+            type: Number,
+            required: true,
         },
     },
     { timestamps: true }

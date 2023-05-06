@@ -7,8 +7,10 @@ import { getFomattedDate, prepareScheduleSessionData } from '../../utilities/uti
 import {
     updateRegisterSchedule,
     updateNewSessionNotice,
+    fetchDoctorSchedules,
 } from '../../store/userScheduleSlice';
 import { fetchSingleUser } from '../../store/usersSlice';
+import { fetchSchedules } from '../../store/schedulesSlice';
 
 
 export default function PatientDetails() {
@@ -16,28 +18,32 @@ export default function PatientDetails() {
     const pageNo = 2;
     const { registerUserSchedule, isNewSchedule, newSessionNotice } =
         useSelector((state) => state.userSchedules);
+    const { schedules } =
+        useSelector((state) => state.schedules);
     const { singleUser } = useSelector((state) => state.users);
-
-
 
     useEffect(() => {
         if (registerUserSchedule[1].doctor_id) {
+            dispatch(
+                fetchSchedules()
+            );
             dispatch(fetchSingleUser(registerUserSchedule[1].doctor_id));
+
         }
     }, [registerUserSchedule]);
 
     useEffect(() => {
         if (singleUser.hasOwnProperty('name')) {
             let date = getFomattedDate(registerUserSchedule[1].session_date);
-
-            let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date);
+            console.log(schedules)
+            let notice = getNewSessionNotice(singleUser.name, registerUserSchedule[1].session_time, date, registerUserSchedule[1].session_fee);
             dispatch(updateNewSessionNotice(notice));
         }
     }, [singleUser]);
 
 
-    function getNewSessionNotice(doctorName, time, date) {
-        return `You selected a booking for Session by ${doctorName} at ${time}  on ${date}. The price for the service is ৳5,000.00.`;
+    function getNewSessionNotice(doctorName, time, date, sessionFee) {
+        return `You selected a booking for Session with ${doctorName} at ${time}  on ${date}. The price for the service is ৳${sessionFee}.`;
     }
 
     const {
@@ -64,8 +70,8 @@ export default function PatientDetails() {
                     </p>
                 )}
             </div>
-            <div className="flex justify-between py-4 mb-8 ">
-                <div className=" w-full col-span-4">
+            <div className="flex flex-wrap  justify-between py-4 mb-8 ">
+                <div className="py-2 sm:py-0">
                     <Input
                         label={'Patient Name'}
                         name="name"
@@ -77,7 +83,7 @@ export default function PatientDetails() {
                         onChange={(e) => getFormValue(e)}
                     />
                 </div>
-                <div className="w-full px-2 col-span-4">
+                <div className="py-2 sm:py-0">
                     <Input
                         label={'Email ID'}
                         name="email"
@@ -97,7 +103,7 @@ export default function PatientDetails() {
                         <span className="error">Emai is require.</span>
                     )}
                 </div>
-                <div className="w-full col-span-4">
+                <div className=" py-2 sm:py-0">
                     <Input
                         label={'Phone Number'}
                         name="phone"

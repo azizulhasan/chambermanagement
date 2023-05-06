@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+    fetchData,
     getLocalStorage,
     setLocalStorage,
     setSessionStorage,
@@ -23,8 +24,10 @@ let initialState = {
         'Friday',
     ],
     singleSchedule: {
+        sessionType: 'physical',
         branch: '',
         perSessionLength: 60,
+        sessionFee: 0,
         offDay: [],
         timeSlots: [],
         user: '',
@@ -33,8 +36,8 @@ let initialState = {
     isModalActive: false,
     SCHEDULE_HEADERS: [
         {
-            prop: 'branch',
-            title: 'Branch',
+            prop: 'branchName',
+            title: 'Branch Name',
         },
         {
             prop: 'consultantName',
@@ -45,13 +48,13 @@ let initialState = {
             title: 'Session Length',
         },
         {
-            prop: 'offDay',
-            title: 'Off Day',
+            prop: 'sessionFee',
+            title: 'Session Fee',
         },
         {
-            prop: 'updatedAt',
-            title: 'Last Updated',
-        },
+            prop: 'offDay',
+            title: 'Off Day',
+        }
     ],
     SCHEDULE_ROLES: ['SCHEDULE', 'ADMIN', 'DOCTOR'],
 };
@@ -66,6 +69,7 @@ let schedulesSlice = createSlice({
         addSchedule(state, action) {
             state.isModalActive = true;
             state.singleSchedule = {
+                sessionType: 'physical',
                 branch: '',
                 perSessionLength: 60,
                 offDay: [],
@@ -106,11 +110,10 @@ let schedulesSlice = createSlice({
         });
 
         builder.addCase(deleteSchedule.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+            state.schedules = action.payload ?? [];
         });
 
         builder.addCase(saveSchedule.fulfilled, (state, action) => {
-            console.log(action.payload.data);
             state.schedules = action.payload;
             state.isModalActive = false;
         });
@@ -128,17 +131,25 @@ export let { showModal, addSchedule, updateScheduleState } =
 export default schedulesSlice.reducer;
 
 /**
- * This function will use userId to add consultantName to the schedules
+ * This function will use userId to add consultantName to the schedules and other data from id.
  */
-async function addConsultantName(data) {
-    for (let i = 0; i < data.data.length; i++) {
-        const consultantId = data.data[i].user;
+async function addExtraData(data) {
+    for (let i = 0; i < data.length; i++) {
+        const consultantId = data[i].user;
         const consultant = await fetch(
             process.env.REACT_APP_API_URL + `/api/users/${consultantId}`
         );
         const consultantData = await consultant.json();
-        data.data[i].consultantName = consultantData.name;
+        data[i].consultantName = consultantData.name;
+        const branch = await fetch(
+            process.env.REACT_APP_API_URL + `/api/branches/${data[i].branch}`
+        );
+        const branchData = await branch.json();
+
+        data[i].branchName = branchData.name ?? 'Online';
     }
+
+    return data;
 }
 
 // Thunks
@@ -150,8 +161,7 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/schedules');
     const data = await res.json();
 
-    await addConsultantName(data);
-
+    await addExtraData(data.data);
     return data.data;
 });
 /**
@@ -160,15 +170,7 @@ export const fetchSchedules = createAsyncThunk('schedules', async () => {
 export const fetchSingleSchedule = createAsyncThunk(
     'schedules/singleSchedule',
     async (payload) => {
-        const id = payload;
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + `/api/schedules/${id}`
-        );
-        const data = await res.json();
-
-        console.log({ data });
-
-        return data;
+        return fetchData(payload)
     }
 );
 /**
@@ -182,13 +184,9 @@ export const deleteSchedule = createAsyncThunk(
             { method: 'DELETE' }
         );
         const data = await res.json();
-        for (let i = 0; i < data.data.length; i++) {
-            data.data[
-                i
-            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
-        }
+        await addExtraData(data);
 
-        return data.data;
+        return data;
     }
 );
 /**
@@ -197,21 +195,11 @@ export const deleteSchedule = createAsyncThunk(
 export const saveSchedule = createAsyncThunk(
     'saveSchedule',
     async (payload) => {
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + '/api/schedules',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-                body: JSON.stringify(payload),
-            }
-        );
-        const data = await res.json();
+        let data = await fetchData(payload)
 
-        // await addConsultantName(data);
+        await addExtraData(data)
 
-        return data.data;
+        return data
     }
 );
 /**
@@ -220,24 +208,10 @@ export const saveSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + `/api/schedules/${payload[0]}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'PUT',
-                body: JSON.stringify(payload[1]),
-            }
-        );
-        const data = await res.json();
-        for (let i = 0; i < data.data.length; i++) {
-            data.data[
-                i
-            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
-        }
-        // await addConsultantName(data);
+        let data = await fetchData(payload)
 
-        return data.data;
+        await addExtraData(data)
+
+        return data
     }
 );

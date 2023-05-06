@@ -22,7 +22,7 @@ export default function Input({
             <div className="group flex relative">
                 {label && (
                     <label
-                        className="inline-flex mt-1 text-gray-500"
+                        className="inline-flex mt-1 text-gray-500 whitespace-nowrap"
                         htmlFor="input-field"
                     >
                         {label}
@@ -55,7 +55,7 @@ export default function Input({
             <div className="group flex">
                 {label && (
                     <label
-                        className="inline-flex mt-1 text-gray-500"
+                        className="inline-flex mt-1 text-gray-500 whitespace-nowrap"
                         htmlFor="input-field"
                     >
                         {label}

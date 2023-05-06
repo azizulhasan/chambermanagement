@@ -74,8 +74,7 @@ export default function BranchesModal() {
                 formData[key] = data[key];
             }
         });
-        formData['address'] = getIframeContent();
-        formData['details'] = getIframeContent(1);
+        formData['details'] = getIframeContent();
 
         /**
          * Update data if "_id" exists. else save form data.
@@ -158,22 +157,13 @@ export default function BranchesModal() {
                             controlId="branch.address"
                         >
                             <Form.Label>Address<sup className='text-red-500'>*</sup></Form.Label>
-                            <Editor
-                                initialValue={branch.address}
+                            <Form.Control
+                                type="text"
                                 name="address"
-                                init={{
-                                    height: 200,
-                                    menubar: true,
-                                    plugins: [
-                                        'a11ychecker advcode advlist anchor autolink codesample fullscreen help  tinydrive',
-                                        ' lists link media noneditable powerpaste preview',
-                                        ' searchreplace table template tinymcespellchecker visualblocks wordcount',
-                                    ],
-                                    toolbar:
-                                        'insertfile a11ycheck undo redo | bold italic | forecolor backcolor | template codesample | alignleft aligncenter alignright alignjustify | bullist numlist | link image tinydrive',
-                                    content_style:
-                                        'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                                }}
+                                onChange={handleChange}
+                                value={branch.address}
+                                placeholder="Address"
+                                required
                             />
                         </Form.Group>
                         <Form.Group

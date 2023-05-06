@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import {
-    fetchDoctorSchedules,
     updateRegisterSchedule,
 } from '../../store/userScheduleSlice';
+import {
+    fetchBranches,
+} from '../../store/branchesSlice';
 import Select from '../../components/form/Select';
 import {
     addToImutableObject,
@@ -45,6 +47,8 @@ export default function SessionDetails() {
     });
     const [timeSlots, setTimeSlots] = useState([]);
     const [offDates, setOffDates] = useState([]);
+    const [currentBranches, setCurrentBranches] = useState([]);
+
     const ref = React.useRef();
     const dispatch = useDispatch();
 
@@ -55,6 +59,7 @@ export default function SessionDetails() {
         isNewSchedule,
         defaultSchedule,
     } = useSelector((state) => state.userSchedules);
+    const { branches } = useSelector((state) => state.branches);
 
 
     useEffect(() => {
@@ -75,6 +80,12 @@ export default function SessionDetails() {
     useEffect(() => {
         dispatch(fetchSchedules());
         dispatch(fetchUsers());
+        dispatch(
+            fetchBranches({
+                endpoint: '/api/branches',
+                config: {},
+            })
+        );
         let sessionData = getSessionStorage(['registerUserSchedule']);
         if (!Object.keys(sessionData).length) {
             saveSessionData('registerUserSchedule', defaultSchedule);
@@ -86,12 +97,16 @@ export default function SessionDetails() {
     }, []);
 
     useEffect(() => {
+        setCurrentBranches(branches)
+    }, [branches])
+
+    useEffect(() => {
         let data = users.filter((user, i) => user.userRole === 'DOCTOR');
         setDoctors(data);
         let specialities = [];
         data.map((doctor) => {
-            if (!specialities.includes(doctor.speciality)) {
-                specialities.push(doctor.speciality);
+            if (!specialities.includes(doctor.speciality.toLowerCase())) {
+                specialities.push(doctor.speciality.toLowerCase());
             }
         });
         setSpecialities(specialities);
@@ -129,7 +144,6 @@ export default function SessionDetails() {
             limit--;
         }
 
-        console.log(registerUserSchedule[pageNo].session_time)
         if (registerUserSchedule[pageNo].session_time) {
             setDefaultSelectedTime([registerUserSchedule[pageNo].session_time]);
         }
@@ -205,24 +219,17 @@ export default function SessionDetails() {
     };
 
     const onChange = (e) => {
+        let filterBranches = []
+
+        // Filter current doctor schedules from users.
         if (e.target.name === 'session_name') {
             let filteredDoctors = doctors.filter(
-                (doctor) => doctor.speciality === e.target.value
+                (doctor) => doctor.speciality.toLowerCase() === e.target.value.toLowerCase()
             );
             if (filteredDoctors.length) setFilteredDoctors(filteredDoctors);
         }
         if (e.target.name === 'doctor_id') {
-            if (e.target.value !== '0') {
-                dispatch(
-                    fetchDoctorSchedules({
-                        endpoint:
-                            '/api/userSchedule/doctorschedules/' +
-                            e.target.value,
-                        config: {},
-                    })
-                );
-            }
-
+            // filter current doctor schedules.
             let filteredSchedule = schedules.filter(
                 (schedule) => schedule.user === e.target.value
             );
@@ -234,7 +241,34 @@ export default function SessionDetails() {
 
                 setFilteredSchedule(filteredSchedule[0]);
             }
+
+            // filter current doctor branches.
+            if (e.target.value !== '0') {
+                filteredSchedule.map(schedule => {
+                    branches.map(branch => {
+                        if (branch._id === schedule.branch) {
+                            filterBranches.push(branch)
+                        }
+                    })
+                })
+
+                setCurrentBranches(filterBranches)
+            }
         }
+
+        if (e.target.name === 'branch_id') {
+            let session_fee = null
+            schedules.map(schedule => {
+                if (e.target.value === schedule.branch) {
+                    session_fee = schedule.sessionFee
+                }
+            })
+            if (session_fee) {
+                let data = prepareScheduleSessionData('session_fee', session_fee, 1);
+                dispatch(updateRegisterSchedule(data));
+            }
+        }
+
 
         let data = prepareScheduleSessionData(e.target.name, e.target.value, 1);
         dispatch(updateRegisterSchedule(data));
@@ -288,8 +322,8 @@ export default function SessionDetails() {
     }, [currentDoctorSchedules]);
 
     return (
-        <div className="flex border py-4 mb-8 ">
-            <div className="w-60 ">
+        <div className="flex flex-wrap justify-start  py-4 mb-12 sm:mb-8 ">
+            <div className="w-44">
                 <label htmlFor="session_name">Session</label>
                 <Select
                     value={
@@ -299,19 +333,19 @@ export default function SessionDetails() {
                     }
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Session"
-                    classes={'border w-60 p-2'}
+                    classes={'border w-44 p-2'}
                     options={specialities}
                     id="session_name"
                     name="session_name"
                     required={true}
                 />
             </div>
-            <div className="w-60">
+            <div className="ml-2 w-44">
                 <label htmlFor="doctor_id">Doctor</label>
                 <Select
                     onChange={(e) => onChange(e)}
                     defaultOption="Select Doctor"
-                    classes={'border w-60 p-2'}
+                    classes={'border w-44 p-2'}
                     options={filteredDoctors}
                     id="doctor_id"
                     name="doctor_id"
@@ -323,6 +357,25 @@ export default function SessionDetails() {
                     }
                 />
             </div>
+            <div className=" ml-2 w-44">
+                <label htmlFor="branch_id">Branch Name</label>
+                <Select
+                    onChange={(e) => onChange(e)}
+                    defaultOption="Online"
+                    defaultValue="online"
+                    classes={'border w-44 p-2'}
+                    options={currentBranches}
+                    id="branch_id"
+                    name="branch_id"
+                    required={true}
+                    value={
+                        registerUserSchedule[pageNo].branch_id
+                            ? registerUserSchedule[pageNo].branch_id
+                            : '0'
+                    }
+                />
+            </div>
+
             <div className="w-72">
                 <label htmlFor="session_date">Select Date</label>
                 <Calendar
@@ -357,7 +410,7 @@ export default function SessionDetails() {
                     }}
                 />
             </div>
-            <div className="w-60">
+            <div className="w-44">
                 <label htmlFor="session_time">Session Time</label>
                 <SlotPicker
                     interval={filteredSchedule.perSessionLength}

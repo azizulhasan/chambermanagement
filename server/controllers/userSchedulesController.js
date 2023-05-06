@@ -18,7 +18,7 @@ const userSchedule_index = async (req, res) => {
 const get_doctor_schedules = async (req, res) => {
     const doctor_id = req.params.doctor_id;
     let doctorSchedules = await UserSchedule.find({
-        doctor_id: doctor_id,
+        _id: doctor_id,
     }).sort({ createdAt: -1 });
     res.json({ data: doctorSchedules });
 };

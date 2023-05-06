@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule, mailScheduleToUser } from '../../store/userScheduleSlice';
 import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
 import { userFromSchedule } from '../../store/usersSlice';
+import { useState } from 'react';
 // import { proceed_to_pay } from '../../store/paymentSlice';
 
 const SessionDetails = lazy(() => import('./SessionDetails'))
@@ -32,11 +33,13 @@ export default function ModalContent() {
     const { scheduleUser } = useSelector(
         (state) => state.users
     );
+    const [pageNo, setPageNo] = useState(1)
     const dispatch = useDispatch();
     function isCurrentSlideIsValid(e, callback) {
         let status =
             document.getElementsByClassName('carousel-status')[0].innerHTML;
         let currentPage = parseInt(status.split('of')[0]);
+        setPageNo(currentPage)
         let slideObject = registerUserSchedule[currentPage];
         let sessionData = getSessionStorage(['registerUserSchedule']);
         if (sessionData === undefined) {
@@ -130,7 +133,7 @@ export default function ModalContent() {
          */
         dispatch(
             saveUserSchedule({
-                endpoint: '/api/userSchedule',
+                endpoint: '/api/userschedules',
                 config: {
                     headers: {
                         'Content-Type': 'application/json',
@@ -171,6 +174,26 @@ export default function ModalContent() {
         }
     }
 
+
+    const getButtonPosition = () => {
+        let buttonPosition = 'top-[88%]';
+        if (pageNo === 4) {
+            buttonPosition = 'top-[35%]'
+            if (window.innerWidth > 575) {
+                buttonPosition = 'top-[50%]'
+            }
+        } else if (pageNo === 3) {
+            buttonPosition = 'top-[50%]'
+            if (window.innerWidth > 575) {
+                buttonPosition = 'top-[88%]'
+            }
+        } else if (pageNo === 2) {
+            buttonPosition = 'top-[50%]'
+        }
+
+        return buttonPosition;
+    }
+
     return (
         <Suspense fallback={<h1>Loading</h1>} >
             <Carousel
@@ -185,7 +208,7 @@ export default function ModalContent() {
                 renderArrowPrev={(hasPrev, label) => (
                     <button
                         type="button"
-                        className="absolute top-[88%] left-[44%] px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                        className={["absolute top-[88%] left-[10%] sm:left-[44%] px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor", getButtonPosition()].join(' ')}
                         onClick={hasPrev}
                     >
                         Back
@@ -198,20 +221,21 @@ export default function ModalContent() {
                             document.getElementsByClassName('carousel-status')[0].innerHTML;
                         currentPage = parseInt(status.split('of')[0]);
                     }
+                    setPageNo(currentPage)
                     {
                         return currentPage !== 4 ? currentPage === 3 ? <button
                             type="button"
-                            className="absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                            className={["absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor", getButtonPosition()].join(' ')}
                             onClick={(e) => submitSchedule(e, currentPage, hasNext)}
                         >
                             Submit
                         </button> : <button
                             type="button"
-                            className="absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor"
+                            className={["absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor", getButtonPosition()].join(' ')}
                             onClick={(e) => isCurrentSlideIsValid(e, hasNext)}
                         >
                             Next
-                        </button> : <button type='button' className='absolute top-[88%] left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor' onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
+                        </button> : <button type='button' className={['absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor', getButtonPosition()].join(' ')} onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
                     }
                 }}
                 className="presentation-mode appointment px-5 my-8"
