@@ -62,6 +62,8 @@ const usersSlice = createSlice({
             state.singleUser = {};
         },
         logOut(state) {
+            window.localStorage.removeItem('user');
+            window.sessionStorage.removeItem('user');
             state.loggedInUser = loggedInUser;
         },
         changeUpdatedState(state, action) {
@@ -264,7 +266,6 @@ export const userFromSchedule = createAsyncThunk(
  * Update users details
  */
 export const updateUser = createAsyncThunk('updateUser', async (payload) => {
-    console.log({ payload });
     const res = await fetch(process.env.REACT_APP_API_URL + '/api/users', {
         method: 'PUT',
         body: payload,

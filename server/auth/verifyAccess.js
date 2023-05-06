@@ -1,5 +1,5 @@
-const { verify } = require('jsonwebtoken');
-const { config } = require('./config')
+const Users = require('../models/users');
+
 
 /**
  * 
@@ -10,9 +10,20 @@ const { config } = require('./config')
  * @see https://www.toptal.com/json/jwt-nodejs-security
  */
 const verifyAccess = (req, res, next) => {
+    let id = req.headers.id
+    if (id) {
+        Users.findById(id)
+            .then((result) => {
+                if (result.userRole !== 'ADMIN') {
+                    res.status('401').json("Don't have access")
+                }
+            })
+            .catch((err) => {
+                res.json(err);
+            });
+    }
 
 
-    // Pass programmatic flow to the next middleware/controller.
     next();
 };
 

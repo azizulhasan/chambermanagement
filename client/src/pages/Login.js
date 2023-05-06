@@ -43,11 +43,12 @@ export default function Login() {
             alert('Check recaption');
             return;
         }
-        data.remember_me = document.getElementById('remember_me')?.value;
-        if (data.remember_me !== undefined) {
+        data.remember_me = document.getElementById('remember')?.checked;
+        if (data.remember_me) {
             setLocalStorage({ remember_me: true });
             delete data.remember_me;
         }
+
         dispatch(loginUser(JSON.stringify(data)));
         captchaRef.current.reset();
     };

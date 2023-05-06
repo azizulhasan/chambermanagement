@@ -42,13 +42,6 @@ const getRefreshToken = (req, res) => {
 };
 // role, name, id
 const generateAccessToken = (user) => {
-    // return jwt.sign(
-    //     { id: user._id, userRole: user.userRole, name: user.name },
-    //     process.env.AUTH_TOKEN_SECRET_KEY,
-    //     {
-    //         expiresIn: '200s',
-    //     }
-    // );
     return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, config.jwt.secret, {
         expiresIn: '1h',
         notBefore: '0', // Cannot use before now, can be configured to be deferred.
@@ -64,11 +57,6 @@ const generateAccessToken = (user) => {
  * @param {*} user 
  */
 const generateRefreshToken = (user) => {
-    // return jwt.sign(
-    //     { id: user._id, userRole: user.userRole, name: user.name },
-    //     process.env.AUTH_TOKEN_REFRESH_KEY
-    // );
-
     return jwt.sign({ id: user._id, userRole: user.userRole, name: user.name }, config.jwt.secret, {
         expiresIn: '1h',
         notBefore: '0', // Cannot use before now, can be configured to be deferred.
@@ -76,7 +64,6 @@ const generateRefreshToken = (user) => {
         audience: config.jwt.audience,
         issuer: config.jwt.issuer
     })
-
 };
 
 /**

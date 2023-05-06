@@ -12,8 +12,8 @@ const { config } = require('./config')
 const verifyToken = (req, res, next) => {
     // Get the JWT from the request header.
     const token = req.headers['authorization'];
-    let jwtPayload;
 
+    let jwtPayload;
     // Validate the token and retrieve its data.
     try {
         // Verify the payload fields.
