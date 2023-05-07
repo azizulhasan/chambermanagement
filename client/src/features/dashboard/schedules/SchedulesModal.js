@@ -85,9 +85,6 @@ export default function SchedulesModal() {
         dispatch(fetchBranches());
     }, []);
 
-
-
-
     useEffect(() => {
         if (singleSchedule._id) {
             dispatch(showModal(true));
