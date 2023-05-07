@@ -2,7 +2,6 @@
 
 import { Carousel } from 'react-responsive-carousel';
 
-import { useDispatch } from 'react-redux';
 import { database } from '../../../data/database';
 import { Link } from 'react-router-dom';
 

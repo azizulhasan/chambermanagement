@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import { Multiselect } from 'multiselect-react-dropdown';
 import {
     showModal,
@@ -18,7 +18,6 @@ import { amOrPm } from '../../../utilities/timeUtilities';
 
 import SlotPicker from './timeslots/SlotPicker';
 import { fetchBranches } from '../../../store/branchesSlice';
-import { displayNotice } from '../../../store/commonDataSlice';
 
 /**
  * Css
@@ -27,7 +26,6 @@ import { displayNotice } from '../../../store/commonDataSlice';
 export default function SchedulesModal() {
     const dispatch = useDispatch();
     const { schedules } = useSelector((state) => state.schedules);
-    const { singleUser } = useSelector((state) => state.users);
     useEffect(() => {
         dispatch(fetchSchedules());
     }, []);
@@ -39,11 +37,7 @@ export default function SchedulesModal() {
     const { branches } = useSelector((state) => state.branches);
 
 
-    const [schedule, setSchedule] = useState(() => singleSchedule);
-    const [field, setField] = useState(() => []);
-    const [lang, setLang] = useState('en');
     const [isUpdateMode, setIsUpdateMode] = useState(false);
-    const interval = 60;
 
     /**
      * Handle content change value.
@@ -97,7 +91,6 @@ export default function SchedulesModal() {
     useEffect(() => {
         if (singleSchedule._id) {
             dispatch(showModal(true));
-            setSchedule(singleSchedule);
         }
     }, [singleSchedule]);
 
