@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-
 const Pagination = ({
     pageNumbers,
     currentPage,
@@ -22,9 +20,8 @@ const Pagination = ({
         <div className="flex h-8 gap-[1px] text-gray-800">
             <div className="flex gap-[1px] h-full">
                 <div
-                    className={`${arrowCommonStyle} ${
-                        currentPage === 1 ? arrowDisabledStyle : ''
-                    }`}
+                    className={`${arrowCommonStyle} ${currentPage === 1 ? arrowDisabledStyle : ''
+                        }`}
                     onClick={() => {
                         if (currentPage > 1) {
                             setIndexOfFirstRow(0);
@@ -37,9 +34,8 @@ const Pagination = ({
                     &laquo;
                 </div>
                 <div
-                    className={`${arrowCommonStyle} ${
-                        currentPage === 1 ? arrowDisabledStyle : ''
-                    }`}
+                    className={`${arrowCommonStyle} ${currentPage === 1 ? arrowDisabledStyle : ''
+                        }`}
                     onClick={() => {
                         if (currentPage > 1) {
                             setIndexOfFirstRow((prev) => prev - rowsPerPage);
@@ -54,12 +50,11 @@ const Pagination = ({
             </div>
             <div className="flex gap-[1px]">
                 <div
-                    className={`pt-1 ${
-                        currentPage === pageNumbers.length &&
-                        pageNumbers.length > 2
+                    className={`pt-1 ${currentPage === pageNumbers.length &&
+                            pageNumbers.length > 2
                             ? ''
                             : 'hidden'
-                    }`}
+                        }`}
                 >
                     ...
                 </div>
@@ -67,13 +62,11 @@ const Pagination = ({
                     return (
                         <div
                             key={page}
-                            className={`${pageCommonStyle} ${
-                                page === currentPage
+                            className={`${pageCommonStyle} ${page === currentPage
                                     ? pageActiveStyle
                                     : pageInactiveStyle
-                            } ${page > currentPage + 1 ? 'hidden' : ''} ${
-                                page < currentPage - 1 ? 'hidden' : ''
-                            }`}
+                                } ${page > currentPage + 1 ? 'hidden' : ''} ${page < currentPage - 1 ? 'hidden' : ''
+                                }`}
                             onClick={() => {
                                 if (currentPage !== page) {
                                     if (currentPage < page) {
@@ -81,13 +74,13 @@ const Pagination = ({
                                             (prev) =>
                                                 prev +
                                                 rowsPerPage *
-                                                    (page - currentPage)
+                                                (page - currentPage)
                                         );
                                         setIndexOfLastRow(
                                             (prev) =>
                                                 prev +
                                                 rowsPerPage *
-                                                    (page - currentPage)
+                                                (page - currentPage)
                                         );
 
                                         setCurrentPage(page);
@@ -96,13 +89,13 @@ const Pagination = ({
                                             (prev) =>
                                                 prev -
                                                 rowsPerPage *
-                                                    (currentPage - page)
+                                                (currentPage - page)
                                         );
                                         setIndexOfLastRow(
                                             (prev) =>
                                                 prev -
                                                 rowsPerPage *
-                                                    (currentPage - page)
+                                                (currentPage - page)
                                         );
 
                                         setCurrentPage(page);
@@ -115,23 +108,21 @@ const Pagination = ({
                     );
                 })}
                 <div
-                    className={`pt-1 ${
-                        currentPage === 1 && pageNumbers.length > 2
+                    className={`pt-1 ${currentPage === 1 && pageNumbers.length > 2
                             ? ''
                             : 'hidden'
-                    }`}
+                        }`}
                 >
                     ...
                 </div>
             </div>
             <div className="flex gap-[1px] h-full">
                 <div
-                    className={`${arrowCommonStyle} ${
-                        currentPage === pageNumbers.length ||
-                        pageNumbers.length === 0
+                    className={`${arrowCommonStyle} ${currentPage === pageNumbers.length ||
+                            pageNumbers.length === 0
                             ? arrowDisabledStyle
                             : ''
-                    }`}
+                        }`}
                     onClick={() => {
                         if (currentPage < pageNumbers.length) {
                             setIndexOfFirstRow((prev) => prev + rowsPerPage);
@@ -144,12 +135,11 @@ const Pagination = ({
                     &rsaquo;
                 </div>
                 <div
-                    className={`${arrowCommonStyle} ${
-                        currentPage === pageNumbers.length ||
-                        pageNumbers.length === 0
+                    className={`${arrowCommonStyle} ${currentPage === pageNumbers.length ||
+                            pageNumbers.length === 0
                             ? arrowDisabledStyle
                             : ''
-                    }`}
+                        }`}
                     onClick={() => {
                         if (currentPage < pageNumbers.length) {
                             setIndexOfFirstRow(
