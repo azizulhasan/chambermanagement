@@ -36,8 +36,6 @@ mongoose
     .then((result) => app.listen(PORT))
     .catch((err) => console.log(err));
 
-// register view engine.
-// app.set("view engine", "ejs");
 
 // middleware & static files folder declare
 app.use(express.static('public'));
