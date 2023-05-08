@@ -10,6 +10,11 @@ const toastConfig = {
     progress: undefined,
 };
 
+/**
+ * 
+ * @param {*} message 
+ * @param {*} type 
+ */
 const notify = (message, type = 'success') => {
     switch (type) {
         case type === 'success':
