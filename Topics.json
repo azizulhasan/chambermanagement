@@ -1,0 +1,30 @@
+[
+    {
+        "topic": "Local storage",
+        "data": [
+            "localStorage which by default store data with no expiration untill crean by javscript or clearing the Browser cache / Locally Stored Data."
+        ]
+    },
+    {
+        "topic": "Session Storage",
+        "data": [
+            "Stores data only for a session, meaning that the data is stored until the browser (or tab) is closed.",
+            "Data is never transferred to the server.",
+            "Storage limit is larger than a cookie (at most 5MB)."
+        ]
+    },
+    {
+        "topic": "Session Storage",
+        "data": [
+            "Stores data only for a session, meaning that the data is stored until the browser (or tab) is closed.",
+            "Data is never transferred to the server.",
+            "Storage limit is larger than a cookie (at most 5MB)."
+        ]
+    },
+    {
+        "topic": "Time Slot picker",
+        "data": [
+            "https://github.com/wassimbj/slotpicker/"
+        ]
+    }
+]

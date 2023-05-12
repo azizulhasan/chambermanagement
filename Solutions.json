@@ -1,0 +1,50 @@
+[
+    {
+        "question": "How to get the body's content of an iframe in Javascript?",
+        "answer": "https://stackoverflow.com/questions/926916/how-to-get-the-bodys-content-of-an-iframe-in-javascript"
+    },
+    {
+        "question": "Get content of tinyMCE's textarea editor.",
+        "answer": "https://stackoverflow.com/questions/6541782/getting-the-value-from-a-tinymce-textarea"
+    },
+    {
+        "question": "How to upload an image using MERN stack",
+        "answer": " https://dev.to/yosraskhiri/how-to-upload-an-image-using-mern-stack-1j95"
+    },
+    {
+        "question": "Detect URL Change in JavaScript Without Refresh",
+        "url": "https://phpcoder.tech/detect-url-change-in-javascript-without-refresh/"
+    },
+    {
+        "question": "CSS pseudo elements in React",
+        "url": "https://stackoverflow.com/questions/28269669/css-pseudo-elements-in-react"
+    },
+    {
+        "question": "Adding Custom Environment Variables",
+        "url": "https://create-react-app.dev/docs/adding-custom-environment-variables/"
+    },
+    {
+        "question": "Get location of current user",
+        "url": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation"
+    },
+    {
+        "question": "How to convert getCurrentPosition results to city name for free using ReverseGeocoding API?",
+        "url": "https://www.bigdatacloud.com/blog/convert-getcurrentposition-free-reversegeocoding-api"
+    },
+    {
+        "question": "404 page",
+        "url": "https://github.com/Siddhant-K-code/404-Error-Page---Astronaut/blob/master/src/.html"
+    },
+    {
+        "question": "How to import utilities functions in react.",
+        "url": "https://www.pluralsight.com/guides/importing-utility-functions-in-reactjs"
+    },
+    {
+        "question": "Get formatted date of today with time",
+        "url": "https://stackoverflow.com/questions/14638018/current-time-formatting-with-javascript"
+    },
+    {
+        "question": "Deploying a Full-Stack MERN app with Heroku",
+        "url": "https://dev.to/hawacodes/deploying-a-mern-app-with-heroku-3km7"
+    }
+]

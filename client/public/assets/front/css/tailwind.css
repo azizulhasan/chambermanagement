@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -684,16 +684,20 @@ video {
   top: 88%;
 }
 
+.top-\[35\%\] {
+  top: 35%;
+}
+
+.top-\[50\%\] {
+  top: 50%;
+}
+
 .left-\[10\%\] {
   left: 10%;
 }
 
 .left-\[54\%\] {
   left: 54%;
-}
-
-.top-\[50\%\] {
-  top: 50%;
 }
 
 .top-1\/2 {
@@ -714,10 +718,6 @@ video {
 
 .\!left-\[20\%\] {
   left: 20% !important;
-}
-
-.top-\[35\%\] {
-  top: 35%;
 }
 
 .z-50 {
@@ -1713,6 +1713,11 @@ video {
   padding-right: 0.75rem;
 }
 
+.\!py-2 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -1741,16 +1746,6 @@ video {
 .px-2\.5 {
   padding-left: 0.625rem;
   padding-right: 0.625rem;
-}
-
-.\!py-1 {
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.25rem !important;
-}
-
-.\!py-2 {
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.5rem !important;
 }
 
 .pt-10 {
