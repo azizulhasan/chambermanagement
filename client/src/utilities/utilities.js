@@ -1367,3 +1367,34 @@ export async function addUserData(data, userIdKey, userDetailsKey) {
         data[i][userDetailsKey] = userData;
     }
 }
+
+
+export const getHeaders = (isContentTypeJson = true) => {
+    let headers = {}
+    let sssionData = getSessionStorage(['user'])
+    if (sssionData.hasOwnProperty('user')) {
+        let user = sssionData.user
+        headers['Authorization'] = 'Bearer ' + user.accessToken
+        headers['id'] = user.id
+        headers['userrole'] = user.userRole
+    }
+
+    let localStorageData = getLocalStorage(['user'])
+    if (!headers.hasOwnProperty('id') && localStorageData.hasOwnProperty('user')) {
+        let user = JSON.parse(localStorageData.user)
+        headers['Authorization'] = 'Bearer ' + user.accessToken
+        headers['id'] = user.id
+        headers['userrole'] = user.userRole
+    }
+    /**
+     * Apply security key for all request.
+     */
+    if (!headers.hasOwnProperty('id')) {
+        // write code
+    }
+    if (isContentTypeJson) {
+        headers['Content-Type'] = 'application/json'
+    }
+
+    return headers;
+}

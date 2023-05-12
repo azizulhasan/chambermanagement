@@ -16,6 +16,7 @@ import {
 } from '../../../store/userScheduleSlice';
 import DashboardDetailsModal from './DashboardDetailsModal';
 import DashboardEditModal from './DashboardEditModal';
+import { getHeaders, getLocalStorage, getSessionStorage } from '../../../utilities/utilities';
 
 export default function Dashboard() {
     const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -36,6 +37,7 @@ export default function Dashboard() {
         { prop: 'actions', title: 'Actions', isFilterable: true },
     ];
 
+
     const Status = ({
         id,
         currentState,
@@ -45,17 +47,24 @@ export default function Dashboard() {
 
         const handleStatusChange = (e) => {
             setStatusState(e.target.value);
-            dispatch(updateSchedule([id, { status: e.target.value }]));
+            dispatch(updateSchedule({
+                endpoint: `/api/userSchedules/${id}`,
+                config: {
+                    headers: getHeaders(),
+                    method: 'PUT',
+                    body: JSON.stringify({ status: e.target.value }),
+                }
+            }));
         };
 
         const bgColor =
             currentState === 'Completed'
                 ? database.basic.themeColor
                 : currentState === 'Upcomming'
-                ? '#dda900'
-                : currentState === 'Ongoing'
-                ? 'red'
-                : 'black';
+                    ? '#dda900'
+                    : currentState === 'Ongoing'
+                        ? 'red'
+                        : 'black';
 
         useEffect(() => {
             setStatusState(currentState);
