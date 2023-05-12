@@ -11,11 +11,11 @@ let credentials = {};
 const getData = () => {
   Settings.find()
     .sort({ createdAt: -1 })
-
     .then((res) => {
-
-      credentials.email = res[0].email;
-      credentials.password = res[0].password;
+      if (res && res.length) {
+        credentials.email = res[0].email;
+        credentials.password = res[0].password;
+      }
     })
     .catch((err) => {
       console.log(err);
