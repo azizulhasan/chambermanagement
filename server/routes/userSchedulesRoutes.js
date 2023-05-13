@@ -6,7 +6,7 @@ const { verifyAccess } = require('../auth/verifyAccess');
 const router = express.Router();
 
 
-router.post('/', verifyToken, userSchedulesController.userSchedule_create_post);
+router.post('/', userSchedulesController.userSchedule_create_post);
 router.get('/', userSchedulesController.userSchedule_index);
 router.put('/:id', verifyToken, verifyAccess, userSchedulesController.userSchedule_update_post);
 router.get('/:id', userSchedulesController.userSchedule_details);
