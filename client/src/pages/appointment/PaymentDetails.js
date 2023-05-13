@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getFomattedDate } from '../../utilities/utilities';
 
 export default function PatientDetails() {
-    const [notice, setNotice] = useState('')
     const { isNewSchedule, registerUserSchedule, currentDoctorSchedules } = useSelector(
         (state) => state.userSchedules
     );
@@ -16,8 +14,6 @@ export default function PatientDetails() {
     function getNewSessionNotice() {
         let date = getFomattedDate(registerUserSchedule[1].session_date);
         let time = registerUserSchedule[1].session_time;
-        let sessionName = registerUserSchedule[1].session_name;
-        let patientName = registerUserSchedule[2].name
         let doctorName = singleUser.name;
         let sessionFee = '৳' + registerUserSchedule[1].session_fee;
         return <>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Select from '../../../components/form/Select';
-import { updateSchedule } from '../../../store/userScheduleSlice';
 import { fetchData } from '../../../utilities/utilities';
 import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
@@ -48,21 +46,15 @@ const Schedule = () => {
 
     const Status = ({ currentState, options, id }) => {
         const [statusState, setStatusState] = useState('');
-        const dispatch = useDispatch();
 
-        const bgColor =
-            statusState === 'Completed'
-                ? 'bg-themeColor'
-                : statusState === 'Upcomming'
-                    ? 'bg-yellow-600'
-                    : statusState === 'Ongoing'
-                        ? 'bg-red-600'
-                        : 'black';
-
-        const handleStatusChange = (e) => {
-            setStatusState(e.target.value);
-            dispatch(updateSchedule([id, { status: e.target.value }]));
-        };
+        // const bgColor =
+        //     statusState === 'Completed'
+        //         ? 'bg-themeColor'
+        //         : statusState === 'Upcomming'
+        //             ? 'bg-yellow-600'
+        //             : statusState === 'Ongoing'
+        //                 ? 'bg-red-600'
+        //                 : 'black';
 
         useEffect(() => {
             setStatusState(currentState);

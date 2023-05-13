@@ -1,4 +1,3 @@
-import React from 'react';
 import langText from './lang';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -23,12 +22,11 @@ export default function TimeSlot({
         onSelect(slot);
     };
     return (
-        <React.Fragment>
+        <>
             <div
                 onClick={(e) => handleOnSelect(e)}
-                className={`sp-timeslot  ${isSelected ? 'selected' : ''} ${
-                    isOnTheHour && 'with-tick'
-                }`}
+                className={`sp-timeslot  ${isSelected ? 'selected' : ''} ${isOnTheHour && 'with-tick'
+                    }`}
                 style={isSelected ? { background: selectedSlotColor } : {}}
             >
                 <span
@@ -56,6 +54,6 @@ export default function TimeSlot({
                     </span>
                 )}
             </div>
-        </React.Fragment>
+        </>
     );
 }

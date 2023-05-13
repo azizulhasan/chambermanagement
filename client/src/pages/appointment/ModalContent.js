@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule, mailScheduleToUser } from '../../store/userScheduleSlice';
+import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule } from '../../store/userScheduleSlice';
 import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
 import { userFromSchedule } from '../../store/usersSlice';
 import { useState } from 'react';

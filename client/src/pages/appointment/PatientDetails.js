@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Input from '../../components/form/Input';
@@ -7,7 +7,6 @@ import { getFomattedDate, prepareScheduleSessionData } from '../../utilities/uti
 import {
     updateRegisterSchedule,
     updateNewSessionNotice,
-    fetchDoctorSchedules,
 } from '../../store/userScheduleSlice';
 import { fetchSingleUser } from '../../store/usersSlice';
 import { fetchSchedules } from '../../store/schedulesSlice';
@@ -18,8 +17,6 @@ export default function PatientDetails() {
     const pageNo = 2;
     const { registerUserSchedule, isNewSchedule, newSessionNotice } =
         useSelector((state) => state.userSchedules);
-    const { schedules } =
-        useSelector((state) => state.schedules);
     const { singleUser } = useSelector((state) => state.users);
 
     useEffect(() => {
@@ -47,7 +44,6 @@ export default function PatientDetails() {
 
     const {
         register,
-        handleSubmit,
         formState: { errors },
     } = useForm();
 

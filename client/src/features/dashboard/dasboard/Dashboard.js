@@ -16,7 +16,7 @@ import {
 } from '../../../store/userScheduleSlice';
 import DashboardDetailsModal from './DashboardDetailsModal';
 import DashboardEditModal from './DashboardEditModal';
-import { getHeaders, getLocalStorage, getSessionStorage } from '../../../utilities/utilities';
+import { getHeaders } from '../../../utilities/utilities';
 
 export default function Dashboard() {
     const [showDetailsModal, setShowDetailsModal] = useState(false);

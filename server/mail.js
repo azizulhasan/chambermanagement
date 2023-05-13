@@ -12,7 +12,7 @@ const getData = () => {
   Settings.find()
     .sort({ createdAt: -1 })
     .then((res) => {
-      if (res && res.length) {
+      if (res.length) {
         credentials.email = res[0].email;
         credentials.password = res[0].password;
       }

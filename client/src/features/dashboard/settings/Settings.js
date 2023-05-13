@@ -127,17 +127,18 @@ export default function Settings() {
                 >
                     <h4>Mail Credentials</h4>
                     <p className="text-danger mt-2 mb-2">
-                        Note: Please Enable Less secure app access for recieving
-                        email.{' '}
+                        Note: Please generate <strong>App Password</strong> to send mail to your customer And paste the password below..<br />
+
+                        <strong>Important</strong>: To create an app password, you need 2-Step Verification on your Google Account.
                         <a
-                            href="https://www.google.com/settings/security/lesssecureapps"
+                            href="https://support.google.com/accounts/answer/185833?hl=en"
                             target="_blank"
                         >
                             <button
                                 className="azh_btn azh_btn_edit azh_btn azh_btn_edit-primary"
                                 type="button"
                             >
-                                Enable
+                                Get App Password
                             </button>
                         </a>
                     </p>
