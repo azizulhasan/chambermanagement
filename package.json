@@ -20,9 +20,6 @@
     "author": "azizulhasan",
     "license": "ISC",
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.2.1",
-        "@fortawesome/free-solid-svg-icons": "^6.2.1",
-        "@fortawesome/react-fontawesome": "^0.2.0",
         "axios": "^0.27.2",
         "bcryptjs": "^2.4.3",
         "concurrently": "^7.0.0",
