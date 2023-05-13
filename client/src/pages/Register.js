@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { registerUser } from '../store/usersSlice';
@@ -8,11 +8,8 @@ import { FaRegEnvelope, FaRegUser } from 'react-icons/fa';
 import { MdLockOutline, MdPhone } from 'react-icons/md';
 
 import {
-    getSessionStorage,
-    getLocalStorage,
     addCSS,
 } from '../utilities/utilities';
-import { useNavigate } from 'react-router-dom';
 
 const initialUser = {
     name: 'azizul hasan',
@@ -23,7 +20,6 @@ const initialUser = {
 };
 
 export default function Register() {
-    //#region Hooks
     const {
         register,
         handleSubmit,
@@ -31,28 +27,11 @@ export default function Register() {
     } = useForm();
     const captchaRef = useRef(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    //#endregion
 
-    //#region States
     const [user, setUser] = useState(initialUser);
-    //#endregion
 
-    //#region useEffect
-    // useEffect(() => {
-    //     const Auth = {
-    //         session: getSessionStorage()['user'],
-    //         storage: getLocalStorage()['user'],
-    //     };
-    //     console.log({ ...Auth });
-    //     if (Auth.session !== undefined || Auth.storage !== undefined) {
-    //~ window.location.href = process.env.REACT_APP_URL + "/dashboard";
-    //         navigate('/dashboard');
-    //     }
-    // }, [navigate]);
-    //#endregion
 
-    //#region Events
+
     const onSubmit = (data) => {
         if (data.password !== data.confirmPassword) {
             alert('Password did not match.');
@@ -68,14 +47,11 @@ export default function Register() {
         dispatch(registerUser(JSON.stringify(data)));
         captchaRef.current.reset();
     };
-    //#endregion
 
-    //#region Custom Functions
     addCSS([
         '/assets/front/css/register.css',
         '/assets/front/css/tailwind.css',
     ]);
-    //#endregion
 
     return (
         <div>

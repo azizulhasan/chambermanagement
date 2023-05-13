@@ -14,9 +14,6 @@ import { loginUser } from '../store/usersSlice';
  */
 import {
     addCSS,
-    getLocalStorage,
-    getSessionStorage,
-    setLocalStorage,
 } from '../utilities/utilities';
 
 export default function ForgotPassword() {
@@ -26,20 +23,13 @@ export default function ForgotPassword() {
         formState: { errors },
     } = useForm();
     const captchaRef = useRef(null);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    //#region Events
     const onSubmit = (data) => {
         data.timeStart = new Date().getTime();
-        console.log(data);
-        // dispatch(registerUser(JSON.stringify(data)));
     };
-    //#endregion
 
-    //#region Custom Function
+
     addCSS(['/assets/front/css/login.css']);
-    //#endregion
     return (
         <div className="flex flex-col xl:justify-center lg:justify-between justify-center items-center min-h-screen py-2 bg-gray-100 g-6">
             <main className="flex flex-col items-center justify-center w-full flex-1 text-center">

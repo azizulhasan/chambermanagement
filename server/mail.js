@@ -13,9 +13,10 @@ const getData = () => {
     .sort({ createdAt: -1 })
 
     .then((res) => {
-
-      credentials.email = res[0].email;
-      credentials.password = res[0].password;
+      if (res.length) {
+        credentials.email = res[0].email;
+        credentials.password = res[0].password;
+      }
     })
     .catch((err) => {
       console.log(err);

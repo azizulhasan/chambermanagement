@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import SlotPicker from './timeslots/SlotPicker';
-import { amOrPm } from '../../utilities/timeUtilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSchedules } from '../../store/schedulesSlice';
 import { fetchUsers } from '../../store/usersSlice';
@@ -14,14 +13,11 @@ import {
 } from '../../store/branchesSlice';
 import Select from '../../components/form/Select';
 import {
-    addToImutableObject,
     getOffDatesFromDays,
     getOffDatesFromDates,
     getSessionStorage,
-    get_all_dates,
     prepareScheduleSessionData,
     saveSessionData,
-    setSessionStorage,
 } from '../../utilities/utilities';
 
 export default function SessionDetails() {

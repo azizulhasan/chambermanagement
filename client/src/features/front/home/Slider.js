@@ -1,12 +1,7 @@
 // https://www.npmjs.com/package/react-responsive-carousel
 
 import { Carousel } from 'react-responsive-carousel';
-import { addCSS } from '../../../utilities/utilities';
-// onChange = { onChange } onClickItem = { onClickItem } onClickThumb = { onClickThumb }
 
-import { useDispatch, useSelector } from 'react-redux';
-import { openModal } from '../../../store/commonDataSlice';
-import { useEffect, useState } from 'react';
 import { database } from '../../../data/database';
 import { Link } from 'react-router-dom';
 
@@ -21,12 +16,6 @@ const {
 } = database;
 
 const Slider = () => {
-    const [path, setPath] = useState('./assets/front/images/corousel/');
-    const { showNotice, noticeMessage, noticeDelay } = useSelector(
-        (state) => state.common
-    );
-
-    const dispatch = useDispatch();
 
     // addCSS([
     //     '/assets/front/css/slider/slider.scss'

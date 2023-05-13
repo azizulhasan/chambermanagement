@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-    BrowserRouter as Router,
     Routes,
     Route,
-    redirect,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useJwt } from 'react-jwt';
-import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     addScripts,
     addCSS,
     getComponentName,
-    authenTicateUser,
-    getRgisteredUser,
-    isAdmin,
-    redirectUser,
-    removeJsFromDOM,
-    removeCSSFromDOM,
 } from '../utilities/utilities';
 
 /**
@@ -32,7 +23,6 @@ import Users from '../features/dashboard/users/Users';
 import Schedules from '../features/dashboard/schedules/Schedules';
 import Settings from '../features/dashboard/settings/Settings';
 
-import Contact from '../features/dashboard/portfolio/contact/Contact';
 
 import { useSelector } from 'react-redux';
 import DashboardSkeleton from '../layouts/dashboard/DashboardSkeleton';
@@ -41,7 +31,6 @@ export default function AdminDashboard() {
     const [componentName, setComponentName] = useState(getComponentName());
     const { loggedInUser } = useSelector((state) => state.users);
     const accessToken = loggedInUser ? loggedInUser.accessToken : null;
-    const navigate = useNavigate();
 
     const { decodedToken, isExpired, reEvaluateToken } = useJwt(accessToken);
 
@@ -97,7 +86,6 @@ export default function AdminDashboard() {
                                     path="schedules"
                                     element={<Schedules />}
                                 />
-                                <Route path="contact" element={<Contact />} />
                                 <Route path="settings" element={<Settings />} />
                             </Routes>
                         </div>
