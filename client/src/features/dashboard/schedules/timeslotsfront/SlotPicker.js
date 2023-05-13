@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TimeSlot from './TimeSlot';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(utc);
@@ -55,7 +55,6 @@ export default function SlotPicker({
     const handleSelection = (data) => {
         // selectedTime.push({ data: data.format('HH:mm') })
         let slots = [{ data: data.format('HH:mm') }].concat(selectedTime);
-        console.log(slots);
         setSelectedTime(slots);
         // console.log(data.format('HH:mm'))
         onSelectTime(data);
@@ -97,9 +96,8 @@ export default function SlotPicker({
     return (
         <div className="p-5">
             <div
-                className={`time-selector-w d-block ${
-                    lang == 'ar' && 'sp-rtl'
-                }`}
+                className={`time-selector-w d-block ${lang == 'ar' && 'sp-rtl'
+                    }`}
             >
                 <div className="os-times-w">
                     <div className="timeslots">

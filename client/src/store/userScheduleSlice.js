@@ -173,11 +173,6 @@ export const deleteSchedule = createAsyncThunk(
             { method: 'DELETE' }
         );
         const data = await res.json();
-        for (let i = 0; i < data.data.length; i++) {
-            data.data[
-                i
-            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
-        }
 
         return data.data;
     }
@@ -227,23 +222,8 @@ export const updateRegisterSchedule = createAsyncThunk(
 export const updateSchedule = createAsyncThunk(
     'updateSchedule',
     async (payload) => {
-        console.log(payload[1]);
-        const res = await fetch(
-            process.env.REACT_APP_API_URL + `/api/userschedules/${payload[0]}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'PUT',
-                body: JSON.stringify(payload[1]),
-            }
-        );
-        const data = await res.json();
-        for (let i = 0; i < data.data.length; i++) {
-            data.data[
-                i
-            ].image = `<img id="previewImage_${i}" height="20" width="20" alt="" src="${data.data[i].image}">`;
-        }
+        let data = fetchData(payload);
+
         await addUserData(data.data, 'doctor_id', 'consultantData');
 
         return data.data;

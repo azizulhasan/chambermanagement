@@ -1,8 +1,6 @@
 import {
     addCSS,
     addScripts,
-    removeCSSFromDOM,
-    removeJsFromDOM,
 } from '../../utilities/utilities';
 import Footer from './Footer';
 import MenuBar from './MenuBar';

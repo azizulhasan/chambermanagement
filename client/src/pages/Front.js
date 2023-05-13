@@ -6,8 +6,6 @@ import PrivacyPolicy from '../components/front/common/policy/PrivacyPolicy';
 import TermsOfServices from '../components/front/common/policy/TermsOfServices';
 import {
     addCSS,
-    authenTicateUser,
-    getRgisteredUser,
 } from '../utilities/utilities';
 import PrivateOutlet from '../components/front/common/UserPrivateOutlet';
 

@@ -1,6 +1,4 @@
-import { useEffect, lazy, Suspense, useState, Component } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCSS } from '../utilities/utilities';
+import { useEffect, lazy, Suspense, useState } from 'react';
 import Loader from '../components/common/CircleLoader';
 
 //Sections
@@ -15,46 +13,38 @@ const Contact = lazy(() => import('../features/front/home/Contact'));
 const Resources = lazy(() => import('../features/front/home/Resources'));
 const FrontSkeleton = lazy(() => import('../layouts/front/FrontSkeleton'));
 
-const lazyComponents = [
-    {
-        compoent: <Professionals />,
-        id: 'team',
-    },
-];
 
 export default function Home() {
     const [displaCompoents, setDisplaCompoents] = useState({});
-    const { showModal } = useSelector((state) => state.common);
-    const dispatch = useDispatch();
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
         /**
          * Display or hide portfolio menus.
          */
-        const displayMunu = () => {
-            let menus = document.getElementsByClassName('mobileMenu');
-            if (window.innerWidth > 991) {
-                [...menus].forEach((menu) => {
-                    menu.style.display = 'none';
-                });
-            } else {
-                [...menus].forEach((menu) => {
-                    menu.style.display = 'block';
-                });
-            }
-        };
-        displayMunu();
+        // const displayMunu = () => {
+        //     let menus = document.getElementsByClassName('mobileMenu');
+        //     if (window.innerWidth > 991) {
+        //         [...menus].forEach((menu) => {
+        //             menu.style.display = 'none';
+        //         });
+        //     } else {
+        //         [...menus].forEach((menu) => {
+        //             menu.style.display = 'block';
+        //         });
+        //     }
+        // };
+        // displayMunu();
         /**
          * Display some menus on mobile
          */
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 991) {
-                displayMunu();
-            } else if (window.innerWidth < 991 && window.innerWidth > 989) {
-                window.location.reload(true);
-                displayMunu();
-            }
-        });
+        // window.addEventListener('resize', () => {
+        //     if (window.innerWidth > 991) {
+        //         displayMunu();
+        //     } else if (window.innerWidth < 991 && window.innerWidth > 989) {
+        //         window.location.reload(true);
+        //         displayMunu();
+        //     }
+        // });
     }, []);
 
     useEffect(() => {
@@ -97,27 +87,34 @@ export default function Home() {
                     <Slider />
                     {/** End Slider */}
                     <div className="wrapper">
-                        {displaCompoents.hasOwnProperty('professional') &&
-                            displaCompoents.professional && (
-                                <Professionals id={'team'} />
-                            )}
+
+                        {/* {displaCompoents.hasOwnProperty('professional') &&
+                            displaCompoents.professional && ( */}
+                        <Professionals id={'team'} />
+                        {/* )} */}
+
+
 
                         {/** Healteh Service Section */}
-                        {displaCompoents.hasOwnProperty('healthService') &&
-                            displaCompoents.healthService && (
-                                <HealthSerivces id={'healthService'} />
-                            )}
+                        {/* {displaCompoents.hasOwnProperty('healthService') &&
+                            displaCompoents.healthService && ( */}
+                        <HealthSerivces id={'healthService'} />
+                        {/* )} */}
+
+
                         {/** Resource */}
                         {/* {displaCompoents.hasOwnProperty('resource') &&
-                            displaCompoents.resource && (
-                                <Resources id={'resource'} />
-                            )} */}
+                            displaCompoents.resource && ( */}
+                        <Resources id={'resource'} />
+                        {/* )} */}
+
+
 
                         {/** Contact Section */}
-                        {displaCompoents.hasOwnProperty('contact') &&
-                            displaCompoents.contact && (
-                                <Contact id={'contact'} />
-                            )}
+                        {/* {displaCompoents.hasOwnProperty('contact') &&
+                            displaCompoents.contact && ( */}
+                        <Contact id={'contact'} />
+                        {/* )} */}
                     </div>
                 </FrontSkeleton>
 

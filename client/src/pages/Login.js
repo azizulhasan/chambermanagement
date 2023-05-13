@@ -15,7 +15,6 @@ import { loginUser } from '../store/usersSlice';
 import { addCSS, setLocalStorage } from '../utilities/utilities';
 
 export default function Login() {
-    //#region Hooks
     const {
         register,
         handleSubmit,
@@ -26,15 +25,12 @@ export default function Login() {
     const { loggedInUser } = useSelector((state) => state.users);
     const navigate = useNavigate();
 
-    //#region useEffect
     useEffect(() => {
         if (loggedInUser.accessToken) {
             navigate('/');
         }
     }, [loggedInUser.accessToken, navigate]);
-    //#endregion
 
-    //#region Events
     const onSubmit = (data) => {
         const token = captchaRef.current.getValue();
         data.token = token;
@@ -43,22 +39,20 @@ export default function Login() {
             alert('Check recaption');
             return;
         }
-        data.remember_me = document.getElementById('remember_me')?.value;
-        if (data.remember_me !== undefined) {
+        data.remember_me = document.getElementById('remember')?.checked;
+        if (data.remember_me) {
             setLocalStorage({ remember_me: true });
             delete data.remember_me;
         }
+
         dispatch(loginUser(JSON.stringify(data)));
         captchaRef.current.reset();
     };
-    //#endregion
 
-    //#region Custom Function
     addCSS([
         '/assets/front/css/login.css',
         '/assets/front/css/tailwind.css',
     ]);
-    //#endregion
 
     return (
         <div>

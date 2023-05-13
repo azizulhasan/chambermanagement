@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../data/database';
@@ -12,8 +12,7 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
-    const [hiddenMenus, setHiddenMenus] = useState([]);
-    const [rendered, setRendered] = useState(false);
+    const [hiddenMenus] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -115,9 +114,8 @@ export default function MenuBar() {
 
                 <div>
                     <div
-                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${
-                            navbar ? 'block' : 'hidden'
-                        }`}
+                        className={`flex-1 justify-self-center pb-3 mt-3 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
+                            }`}
                     >
                         <ul className="items-center justify-center space-y-3 md:flex md:space-x-6 md:space-y-0">
                             {topMenus?.map((item) => {

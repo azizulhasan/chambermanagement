@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-import langText from './lang';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
@@ -19,14 +17,13 @@ export default function TimeSlot({
     disableColor = '#b9b9b9'
 }) {
     const isOnTheHour = slot.get('m') === 0; // e.g: 01:00 is, while 01:05 is not ¯\_(ツ)_/¯
-    const langData = langText[lang];
     const handleOnSelect = (e) => {
         e.preventDefault();
         onSelect(slot);
     };
 
     return (
-        <React.Fragment>
+        <>
             {disabled ? <div
                 className={`sp-timeslot cursor-default py-1 rounded-sm my-1.5  ${disabled ? 'selected' : ''
                     } ${isOnTheHour && 'with-tick'}`}
@@ -81,6 +78,6 @@ export default function TimeSlot({
                     className="radioBtn"
                 ></button>
             </div>}
-        </React.Fragment>
+        </>
     );
 }

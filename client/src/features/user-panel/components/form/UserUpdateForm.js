@@ -78,7 +78,7 @@ const UserUpdateForm = ({ currentValues, setEditMode }) => {
             };
         }
 
-        dispatch(updateUserFromUserPanel(JSON.stringify(payload)));
+        dispatch(updateUserFromUserPanel(payload));
     };
 
     useEffect(() => {

@@ -1,17 +1,14 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUserFromUserPanel } from '../../../store/usersSlice';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { fetchData } from '../../../utilities/utilities';
 import UserUpdateForm from '../components/form/UserUpdateForm';
 
 const Settings = () => {
-    const [loading, setLoading] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [currentValues, setCurrentValues] = useState(null);
-    const { loggedInUser, userUpdated } = useSelector((state) => state.users);
+    const { loggedInUser } = useSelector((state) => state.users);
 
     async function fetchUserDetails(id) {
-        setLoading(true);
         try {
             const data = await fetchData({
                 endpoint: `/api/users/${id}`,
@@ -22,9 +19,8 @@ const Settings = () => {
                 email: data.email,
                 password: '',
             });
-            setLoading(false);
         } catch (e) {
-            setLoading(false);
+            // write something
         }
     }
 

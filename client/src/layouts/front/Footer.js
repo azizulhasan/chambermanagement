@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { database } from '../../data/database';
 const {
@@ -14,9 +13,8 @@ const {
 export default function Footer() {
     const sectionsCount = sectionsOrder.length;
 
-    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${
-        sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
-    } md:[&>*]:p-4 `;
+    const sectionWidth = `[&>*]:w-full sm:[&>*]:max-w-[33%] ${sectionsCount > 4 ? 'md:[&>*]:max-w-[15%]' : 'md:[&>*]:max-w-[25%]'
+        } md:[&>*]:p-4 `;
 
     return (
         <div>
@@ -105,7 +103,7 @@ export default function Footer() {
                                                             </Link>
                                                         ) : null}
                                                         {!link &&
-                                                        Icon != null ? (
+                                                            Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <span className="text-white">
@@ -114,7 +112,7 @@ export default function Footer() {
                                                             </div>
                                                         ) : null}
                                                         {link &&
-                                                        Icon != null ? (
+                                                            Icon != null ? (
                                                             <div className="flex items-start justify-center gap-1.5 sm:justify-start">
                                                                 <Icon fill="#fff" />
                                                                 <Link
@@ -134,7 +132,7 @@ export default function Footer() {
                             );
                         })}
                     </div>
-                    <div>
+                    {/* <div>
                         <a
                             target="_blank"
                             href="https://www.sslcommerz.com/"
@@ -146,7 +144,7 @@ export default function Footer() {
                                 src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-03.png"
                             />
                         </a>
-                    </div>
+                    </div> */}
                 </div>
             </footer>
         </div>

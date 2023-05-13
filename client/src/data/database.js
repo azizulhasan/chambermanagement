@@ -27,7 +27,7 @@ export const database = {
         backgroundColor: 'rgb(250, 250, 255)',
         contacts: {
             phone: { number: '+8801715769060', Icon: PhoneArrowUpRight },
-            email: { address: '+8801715769060', Icon: Mail },
+            email: { address: 'mindtoheart.bd@gmail.com', Icon: Mail },
         },
         companyAddress: {
             area: 'House #00, Road# 00, Dhanmondi,',
