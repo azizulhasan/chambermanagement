@@ -94,11 +94,7 @@ export default function Login() {
                                                 })}
                                                 className="bg-gray-100 outline-none text-sm flex-1 border-none"
                                                 placeholder="Enter Email Address..."
-                                                defaultValue={
-                                                    window.sessionStorage.getItem(
-                                                        'email'
-                                                    ) || 'hasan@gmail.com'
-                                                }
+                                                defaultValue={window.sessionStorage.getItem('email')}
                                             />
                                             {errors.email && (
                                                 <span className="error">
@@ -115,7 +111,7 @@ export default function Login() {
                                                 })}
                                                 className="bg-gray-100 outline-none text-sm flex-1 border-none"
                                                 placeholder="Password"
-                                                defaultValue={'123'}
+                                                defaultValue={''}
                                             />
                                             {errors.password && (
                                                 <span className="error">

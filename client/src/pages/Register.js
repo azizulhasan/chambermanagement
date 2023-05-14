@@ -14,11 +14,11 @@ import { database } from '../data/database';
 const { pages: { register: { registerImage } } } = database;
 
 const initialUser = {
-    name: 'azizul hasan',
-    phone: '23523463546',
-    email: 'azizulhasan.cr@gmail.com',
-    password: '123',
-    confirmPassword: '123',
+    // name: 'azizul hasan',
+    // phone: '23523463546',
+    // email: 'azizulhasan.cr@gmail.com',
+    // password: '123',
+    // confirmPassword: '123',
 };
 
 export default function Register() {

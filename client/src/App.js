@@ -94,12 +94,12 @@ export default function App() {
                         element={<TermsOfServices />}
                     />
                     {/*//TODO: This route path must applied after session and locale storage issue fixed. */}
-                    {/* <Route path="/" element={<AdminPrivateOutlet />}> */}
-                    <Route path="dashboard/*" element={<Dashboard />} />
-                    {/* </Route> */}
-                    {/* <Route path="/" element={<UserPrivateOutlet />}> */}
-                    <Route path="user-panel/*" element={<UserPanel />} />
-                    {/* </Route> */}
+                    <Route path="/" element={<AdminPrivateOutlet />}>
+                        <Route path="dashboard/*" element={<Dashboard />} />
+                    </Route>
+                    <Route path="/" element={<UserPrivateOutlet />}>
+                        <Route path="user-panel/*" element={<UserPanel />} />
+                    </Route>
                     <Route path="*" element={<NotFound />} />;
                 </Routes>
             </Suspense>

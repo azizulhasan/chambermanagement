@@ -76,20 +76,24 @@ export const database = {
                 { name: 'Privacy Policy', link: '/privacy-policy', icon: null },
             ],
             ourServices: [
-                { name: 'Professionals', link: '/', icon: null },
                 {
-                    name: 'Psychological',
-                    link: '/service-details/psychologicalCounseling',
+                    name: 'Individual Counselling',
+                    link: '/service-details/individualcounselling',
                     icon: null,
                 },
                 {
-                    name: 'Corporate',
-                    link: '/service-details/corporateService',
+                    name: 'Family Therapy',
+                    link: '/service-details/familytherapy',
                     icon: null,
                 },
                 {
-                    name: 'Child Development',
-                    link: '/service-details/childDevelopment',
+                    name: 'Couples Counselling',
+                    link: '/service-details/couplescounselling',
+                    icon: null,
+                },
+                {
+                    name: 'Online Counselling',
+                    link: '/service-details/onlinecounselling',
                     icon: null,
                 },
             ],
@@ -243,49 +247,64 @@ export const database = {
                     title: 'Health Services',
                     carouselData: [
                         {
-                            title: 'Psychological Counseling',
-                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
-                            slug: 'psychologicalCounseling',
+                            title: 'Individual psychological counselling',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/4.jpg`,
+                            slug: 'individualcounselling',
                         },
                         {
-                            title: 'Corporate Service',
-                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
-                            slug: 'corporateService',
+                            title: 'Family Therapy',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/6.jpg`,
+                            slug: 'familytherapy',
                         },
                         {
-                            title: 'Child Development',
+                            title: 'Couples Counselling',
                             image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
-                            slug: 'childDevelopment',
+                            slug: 'couplescounselling',
                         },
                         {
-                            title: 'Psychological Counseling',
-                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
-                            slug: 'psychologicalCounseling',
+                            title: 'Online Counselling',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/5.jpg`,
+                            slug: 'onlinecounselling',
                         },
                         {
-                            title: 'Corporate Service',
-                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
-                            slug: 'corporateService',
+                            title: 'EMDR Based Trauma Therapy',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/8.jpg`,
+                            slug: 'emdrbasedtrauma',
                         },
                         {
-                            title: 'Child Development',
-                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
-                            slug: 'childDevelopment',
+                            title: 'Online Couples Counselling',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/5.jpg`,
+                            slug: 'onlinecouplescounselling',
                         },
                     ],
                     serviceDetailsData: {
-                        psychologicalCounseling: {
+                        individualcounselling: {
                             slogan: 'Counseling for Everyone',
                             image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
                             details: getDummyServiceDetails(),
                         },
-                        corporateService: {
-                            slogan: 'About MindToHeart for Corporates',
+                        familytherapy: {
+                            slogan: '',
                             image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
                             details: getDummyServiceDetails(),
                         },
-                        childDevelopment: {
-                            slogan: 'If The World Is A Stage, Remember Our Children Are Sitting In The Front Row',
+                        couplescounselling: {
+                            slogan: '',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
+                            details: getDummyServiceDetails(),
+                        },
+                        onlinecounselling: {
+                            slogan: '',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
+                            details: getDummyServiceDetails(),
+                        },
+                        emdrbasedtrauma: {
+                            slogan: '',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
+                            details: getDummyServiceDetails(),
+                        },
+                        onlinecouplescounselling: {
+                            slogan: '',
                             image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
                             details: getDummyServiceDetails(),
                         },

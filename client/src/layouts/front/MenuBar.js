@@ -1,10 +1,11 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../data/database';
 import { logOut } from '../../store/usersSlice';
 
 const { topMenus, basic: { trademark: { logo } } } = database;
+const { basic } = database;
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -13,7 +14,9 @@ function classNames(...classes) {
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
-    const [hiddenMenus] = useState([]);
+    const [hiddenMenus, setHiddenMenus] = useState([]);
+    const [rendered, setRendered] = useState([]);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -27,27 +30,27 @@ export default function MenuBar() {
         navigate('/');
     };
 
-    // useEffect(() => {
-    //     if (!rendered) {
-    //         setRendered(true);
-    //     }
-    //     if (loggedInUser.accessToken) {
-    //         if (loggedInUser.userRole === 'ADMIN') {
-    //             setHiddenMenus(['/user-panel', '/login']);
-    //         } else if (
-    //             loggedInUser.userRole === 'USER' ||
-    //             loggedInUser.userRole === 'DOCTOR'
-    //         ) {
-    //             setHiddenMenus(['/dashboard', '/login']);
-    //         }
-    //     } else {
-    //         setHiddenMenus(['/user-panel']);
-    //     }
-    // }, [loggedInUser.accessToken, loggedInUser, rendered]);
+    useEffect(() => {
+        if (!rendered) {
+            setRendered(true);
+        }
+        if (loggedInUser.accessToken) {
+            if (loggedInUser.userRole === 'ADMIN') {
+                setHiddenMenus(['/user-panel', '/login']);
+            } else if (
+                loggedInUser.userRole === 'USER' ||
+                loggedInUser.userRole === 'DOCTOR'
+            ) {
+                setHiddenMenus(['/login', '/dashboard']);
+            }
+        } else {
+            setHiddenMenus(['/user-panel', '/dashboard']);
+        }
+    }, [loggedInUser.accessToken, loggedInUser, rendered]);
 
-    // if (!rendered) {
-    //     return <></>;
-    // }
+    if (!rendered) {
+        return <></>;
+    }
 
     return (
         <nav className="w-full bg-white shadow ">
@@ -71,7 +74,7 @@ export default function MenuBar() {
                             }
                             alt="Mind To Heart"
                         />
-                        Mind To Heart
+                        {basic.trademark.texts.title}
                     </Link>
                     <div className="md:hidden">
                         <button
