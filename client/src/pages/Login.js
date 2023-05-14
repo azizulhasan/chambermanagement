@@ -1,5 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef } from 'react';
+/**
+ * Get captcha key from this url 
+ * https://www.google.com/recaptcha/about/
+ *
+ */
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { FaRegEnvelope } from 'react-icons/fa';
