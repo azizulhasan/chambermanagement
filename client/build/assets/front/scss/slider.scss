@@ -1,0 +1,45 @@
+@import 'slider/mixins/animation';
+
+.carousel {
+    .slide {
+        min-width: 100%;
+        margin: 0;
+        position: relative;
+        text-align: center;
+        // padding-bottom: 32px;
+
+        img {
+            width: 100%;
+            vertical-align: top;
+            border: 0;
+        }
+
+        iframe {
+            display: inline-block;
+            width: calc(100% - 80px);
+            margin: 0 40px 40px;
+            border: 0;
+        }
+
+        .legend {
+            @include transition(all, 0.5s, ease-in-out);
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            margin-left: -45%;
+            width: 30%;
+            border-radius: 10px;
+            // background: rgb(84 96 58);
+            color: #fff;
+            padding: 10px;
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.95;
+            @include transition(opacity, 0.35s, ease-in-out);
+
+            a {
+                color: white;
+            }
+        }
+    }
+}

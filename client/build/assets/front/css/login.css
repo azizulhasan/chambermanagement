@@ -1,0 +1,38 @@
+.bg-login-image {
+    background: url('../img/cat.jpg');
+    background-position: 50% 19%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+form.user .form-group .custom-checkbox.small label {
+    line-height: 1.5rem;
+}
+
+form.user .form-control-user {
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 1rem 1rem;
+    margin: 10px 0;
+}
+
+form.user .btn-user {
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 0.75rem 1rem;
+}
+
+.image-height {
+    height: 500px;
+    /* width: 600PX; */
+}
+@media only screen and (max-width: 640px) {
+    /* For tablets and mobile: */
+    .h-image {
+        display: none;
+    }
+    .image-height {
+        height: 440px;
+        margin-top: -50px;
+    }
+}

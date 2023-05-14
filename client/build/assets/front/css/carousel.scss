@@ -1,0 +1,8 @@
+// basic imports
+@import 'slider/variables';
+@import 'slider/mixins/breakpoints';
+@import 'slider/mixins/animation';
+@import 'slider/mixins/utils';
+
+// buttons, form inputs, etc...
+@import 'slider/carousel';

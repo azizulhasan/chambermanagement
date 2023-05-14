@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../data/database';
 import { logOut } from '../../store/usersSlice';
 
-const { topMenus } = database;
+const { topMenus, basic: { trademark: { logo } } } = database;
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
+
 
 export default function MenuBar() {
     const [navbar, setNavbar] = useState(false);
@@ -59,16 +60,14 @@ export default function MenuBar() {
                         <img
                             className="block h-10 w-auto lg:hidden"
                             src={
-                                process.env.REACT_APP_URL +
-                                '/assets/front/images/mindtoheart.ogo.png'
+                                logo.image
                             }
                             alt="Mind To Heart"
                         />
                         <img
                             className="hidden h-8 w-auto lg:block"
                             src={
-                                process.env.REACT_APP_URL +
-                                '/assets/front/images/mindtoheart.ogo.png'
+                                logo.image
                             }
                             alt="Mind To Heart"
                         />

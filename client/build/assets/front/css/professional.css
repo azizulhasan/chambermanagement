@@ -1,0 +1,49 @@
+.professional .carousel .slide {
+    min-width: 100%;
+    margin: 0;
+    position: relative;
+    text-align: center;
+}
+.professional .carousel .slide .professional {
+    width: 100%;
+    vertical-align: top;
+    display: flex;
+    flex-direction: row;
+    border: 0;
+}
+.professional .carousel .slide .professional img {
+    width: 100%;
+}
+.professional .carousel .slide iframe {
+    display: inline-block;
+    width: calc(100% - 80px);
+    margin: 0 40px 40px;
+    border: 0;
+}
+.professional .carousel .slide .legend {
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    margin-left: -45%;
+    width: 30%;
+    border-radius: 10px;
+    background: #54603a;
+    color: #fff;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    opacity: 0.95;
+    -webkit-transition: opacity 0.35s ease-in-out;
+    -moz-transition: opacity 0.35s ease-in-out;
+    -ms-transition: opacity 0.35s ease-in-out;
+    -o-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+.professional .carousel .slide .legend a {
+    color: white;
+}

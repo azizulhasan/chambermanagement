@@ -42,7 +42,7 @@ export const database = {
                 subTitle: 'Psychological Wellness Center',
             },
             logo: {
-                image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`,
+                image: `${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.logo.png`,
             },
         },
         userRoles: ['USER', 'DOCTOR', 'ADMIN'],
@@ -125,27 +125,27 @@ export const database = {
                     title: 'Hero',
                     slides: [
                         {
-                            img: './assets/front/images/corousel/hero/1.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/a-bouquet-of-green-branches-with-blooming-fresh-le-2022-02-14-17-58-56-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                         {
-                            img: './assets/front/images/corousel/hero/2.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/a-bright-pink-diary-a-pen-on-the-table-a-cup-of-2022-02-16-07-01-18-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                         {
-                            img: './assets/front/images/corousel/hero/3.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/child-holding-young-green-plant-in-hands-2022-02-01-22-37-36-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                         {
-                            img: './assets/front/images/corousel/hero/4.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/green-leaves-in-a-black-vase-2022-01-07-17-16-43-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                         {
-                            img: './assets/front/images/corousel/hero/5.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/interior-of-modern-child-psychologist-office-2021-08-30-01-47-27-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                         {
-                            img: './assets/front/images/corousel/hero/6.jpeg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/hero/picture-frames-with-plant-pots-adorn-the-living-ro-2021-09-02-23-56-03-utc.jpg`,
                             content: 'Book An Appointment',
                         },
                     ],
@@ -154,39 +154,39 @@ export const database = {
                     title: 'Health Professionals',
                     carouselData: [
                         {
-                            specialist: 'PHYCHOLOGIST',
-                            name: 'Dr. Mr. Madadi Hasan',
-                            img: './assets/front/images/corousel/health-professionals/1.jpg',
+                            specialist: 'Lead Psychologist',
+                            name: 'Md. Mehedi Hasan',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/1.jpg`,
                             slug: 'madadiHasan',
                         },
                         {
-                            specialist: 'PHYCHOLOGIST',
-                            name: 'Dr. Mr. Kamrul Hasan',
-                            img: './assets/front/images/corousel/health-professionals/2.jpg',
-                            slug: 'kamrulHasan',
+                            specialist: 'Psychological Counsellor',
+                            name: 'Linda Sultana',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/2.jpg`,
+                            slug: 'lindasultana',
                         },
                         {
-                            specialist: 'PHYCHOLOGIST',
-                            name: 'Dr. Mr. Imarn Masud',
-                            img: './assets/front/images/corousel/health-professionals/3.jpg',
-                            slug: 'imranMasud',
+                            specialist: 'Psychological Counsellor',
+                            name: 'Rahnuma –E- Jannat',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/3.jpg`,
+                            slug: 'rahman-e-jannat',
                         },
                         {
-                            specialist: 'PHYCHOLOGIST',
-                            name: 'Dr. Mr. Shirajuddin',
-                            img: './assets/front/images/corousel/health-professionals/4.jpg',
-                            slug: 'shirajuddin',
+                            specialist: 'Psychological Counsellor',
+                            name: 'Asma Ara',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/4.jpg`,
+                            slug: 'asmaara',
                         },
                         {
-                            specialist: 'PHYCHOLOGIST',
-                            name: 'Dr. Mr. Saiful Islam',
-                            img: './assets/front/images/corousel/health-professionals/5.jpg',
-                            slug: 'saifulIslam',
+                            specialist: 'Psychological Counsellor',
+                            name: 'Mahmuda Akter Sathi',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/5.jpg`,
+                            slug: 'mahmudaaktershethi',
                         },
                         {
-                            specialist: 'PHYCHOLOGIST',
+                            specialist: 'Psychological Counsellor',
                             name: 'Dr. Mr. Siddique Ahmed',
-                            img: './assets/front/images/corousel/health-professionals/6.jpg',
+                            img: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-professionals/6.jpg`,
                             slug: 'siddiqueAhmed',
                         },
                     ],
@@ -244,32 +244,32 @@ export const database = {
                     carouselData: [
                         {
                             title: 'Psychological Counseling',
-                            image: './assets/front/images/corousel/health-services/1.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
                             slug: 'psychologicalCounseling',
                         },
                         {
                             title: 'Corporate Service',
-                            image: './assets/front/images/corousel/health-services/2.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
                             slug: 'corporateService',
                         },
                         {
                             title: 'Child Development',
-                            image: './assets/front/images/corousel/health-services/3.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
                             slug: 'childDevelopment',
                         },
                         {
                             title: 'Psychological Counseling',
-                            image: './assets/front/images/corousel/health-services/1.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/1.jpg`,
                             slug: 'psychologicalCounseling',
                         },
                         {
                             title: 'Corporate Service',
-                            image: './assets/front/images/corousel/health-services/2.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/2.jpg`,
                             slug: 'corporateService',
                         },
                         {
                             title: 'Child Development',
-                            image: './assets/front/images/corousel/health-services/3.jpg',
+                            image: `${process.env.REACT_APP_URL}/assets/front/images/corousel/health-services/3.jpg`,
                             slug: 'childDevelopment',
                         },
                     ],
@@ -307,16 +307,16 @@ export const database = {
                             url: 'xYBUY1kZpf8',
                         },
                         {
-                            title: 'Sexual Abuse and Trauma',
-                            url: 'SHKy2AYv16g',
+                            title: 'A 6 Minute Mindful Progressive Muscle Relaxation',
+                            url: '9x3tl81NW3w',
                         },
                         {
-                            title: 'Sexual Abuse and Trauma',
-                            url: 'SHKy2AYv16g',
+                            title: 'Adverse Childhood Experiences (ACEs)',
+                            url: 'W-8jTTIsJ7Q',
                         },
                         {
-                            title: 'Sexual Abuse and Trauma',
-                            url: 'SHKy2AYv16g',
+                            title: 'শৈশবের অপ্রিয় স্মৃতিগুলো',
+                            url: 'LwTxhkJ2-s0',
                         },
                     ],
                 },
@@ -350,6 +350,12 @@ export const database = {
                 bannerImage: '',
             },
         },
+        login: {
+            loginImage: `${process.env.REACT_APP_URL}/assets/front/images/login/login_page.PNG`
+        },
+        register: {
+            registerImage: `${process.env.REACT_APP_URL}/assets/front/images/login/login_page.PNG`
+        }
     },
 };
 

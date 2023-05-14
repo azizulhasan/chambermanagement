@@ -6,13 +6,15 @@ import { FaRegEnvelope } from 'react-icons/fa';
 import { MdLockOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import loginImage from '../assets/login/login_page.PNG';
 import { loginUser } from '../store/usersSlice';
+
 /**
  *
  * utilities
  */
 import { addCSS, setLocalStorage } from '../utilities/utilities';
+import { database } from '../data/database';
+const { pages: { login: { loginImage } } } = database;
 
 export default function Login() {
     const {

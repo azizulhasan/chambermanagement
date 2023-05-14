@@ -1,0 +1,55 @@
+.azh_btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.azh_btn {
+    border-radius: 2px;
+}
+.topnav_bg,
+.topnav_bg .btn-dark,
+#layoutSidenav_nav,
+.footer_bg,
+.ButtonGroup__root .btn-primary,
+.azh_btn {
+    background-color: rgb(103, 147, 75);
+}
+
+.ButtonGroup__root .btn-primary:disabled,
+.btn-primary.disabled,
+.azh_btn,
+.topnav_bg .btn-dark {
+    border-color: white;
+}
+
+.topnav_bg a.navbar-brand,
+.topnav_bg button,
+.topnav_bg #btnNavbarSearch,
+.topnav_bg #navbarDropdown,
+#sidenavAccordion .sb-sidenav-menu-heading,
+#sidenavAccordion a.nav-link,
+#sidenavAccordion a.nav-link .sb-nav-link-icon,
+.sb-sidenav-footer,
+.footer_bg a,
+.azh_btn,
+.ButtonGroup__root .btn-primary {
+    color: white;
+}
+.modal {
+    background-color: rgba(0, 0, 0, 0.4);
+}

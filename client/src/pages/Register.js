@@ -3,13 +3,15 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { registerUser } from '../store/usersSlice';
 import ReCAPTCHA from 'react-google-recaptcha';
-import retistrationImage from '../assets/registration/registration_page.PNG';
 import { FaRegEnvelope, FaRegUser } from 'react-icons/fa';
 import { MdLockOutline, MdPhone } from 'react-icons/md';
 
 import {
     addCSS,
 } from '../utilities/utilities';
+
+import { database } from '../data/database';
+const { pages: { register: { registerImage } } } = database;
 
 const initialUser = {
     name: 'azizul hasan',
@@ -62,7 +64,7 @@ export default function Register() {
                     <div className="bg-white rounded-2xl shadow-2xl sm:block md:flex lg:flex xl:flex max-w-4xl">
                         <div className="sm:hidden md:block lg:block xl:block h-image">
                             <img
-                                src={retistrationImage}
+                                src={registerImage}
                                 alt="Login Images"
                                 className="rounded-l-2xl image-height"
                             />
@@ -215,7 +217,7 @@ export default function Register() {
 
                         <div className="sm:block md:hidden lg:hidden xl:hidden">
                             <img
-                                src={retistrationImage}
+                                src={registerImage}
                                 alt="Login Images"
                                 className="rounded-l-2xl image-height"
                             />

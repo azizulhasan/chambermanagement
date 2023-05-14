@@ -93,14 +93,16 @@ const Resources = (id = 'resources') => {
                                                     />
                                                 </div>
                                                 <div className="p-5 w-full">
-                                                    <a href="/#">
-                                                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                    <a target='_blank' href={`https://www.youtube.com/watch?v=${resourceData[
+                                                        currentIndex
+                                                    ].url}`}>
+                                                        <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                                             {
                                                                 resourceData[
                                                                     currentIndex
                                                                 ].title
                                                             }
-                                                        </h5>
+                                                        </h6>
                                                     </a>
                                                 </div>
                                             </div>

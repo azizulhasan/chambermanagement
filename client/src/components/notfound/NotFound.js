@@ -1,5 +1,6 @@
 import React from 'react';
 import './notFound.css';
+import { Link } from 'react-router-dom';
 export default function NotFound() {
     const drawVisor = () => {
         const canvas = document.getElementById('visor');
@@ -42,22 +43,8 @@ export default function NotFound() {
                 <div className="error__description">
                     It looks like one of the developers fell asleep
                 </div>
-                <button
-                    className="error__button error__button--active"
-                    onClick={(e) => {
-                        window.location.href = '/';
-                    }}
-                >
-                    HOME
-                </button>
-                <button
-                    className="error__button"
-                    onClick={(e) => {
-                        window.location.href = '/#contact';
-                    }}
-                >
-                    CONTACT
-                </button>
+                <Link className='error__button error__button--active' to={'/'} >HOME</Link>
+                <Link className='error__button' to={'/#contact'} >CONTACT</Link>
             </div>
 
             <div className="astronaut">

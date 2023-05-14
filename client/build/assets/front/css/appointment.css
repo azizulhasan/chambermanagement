@@ -1,0 +1,131 @@
+.appointment .carousel .slide {
+    min-width: 100%;
+    margin: 0;
+    position: relative;
+    text-align: center;
+}
+.appointment .carousel .slide .appointment {
+    width: 100%;
+    vertical-align: top;
+    display: flex;
+    flex-direction: row;
+    border: 0;
+}
+.appointment .carousel .slide .appointment img {
+    width: 100%;
+}
+.appointment .carousel .slide iframe {
+    display: inline-block;
+    width: calc(100% - 80px);
+    margin: 0 40px 40px;
+    border: 0;
+}
+.appointment .carousel .slide .legend {
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    margin-left: -45%;
+    width: 30%;
+    border-radius: 10px;
+    background: #54603a;
+    color: #fff;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    opacity: 0.95;
+    -webkit-transition: opacity 0.35s ease-in-out;
+    -moz-transition: opacity 0.35s ease-in-out;
+    -ms-transition: opacity 0.35s ease-in-out;
+    -o-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+.appointment .carousel .slide .legend a {
+    color: white;
+}
+
+.appointment div div.slider-wrapper.axis-horizontal{
+    padding-bottom: 30px;
+}
+
+
+/* Customize data */
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
+    float: right;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
+    margin-left: 15px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
+    float: left;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
+    margin-right: 15px ;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button:hover{
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+
+/* date */
+.react-calendar__navigation__label{
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.react-calendar__navigation__label:hover{
+    padding-left: 7px;
+    padding-right: 7px;
+    color:white;
+    background-color: rgb(103, 147, 75);
+}
+
+/* Session slots */
+.sp-timeslot{
+    background-color:  #04bb03  /*#8fe286*/;
+    color:white;
+}
+.sp-timeslot:hover{
+    background-color: rgb(103, 147, 75) ;
+}
+/* .react-calendar__month-view__days__day--weekend{
+    color: red;
+} */
+
+
+
+/* #04bb03 */
+
+/* disable color */
+/* #b9b9b9 */
