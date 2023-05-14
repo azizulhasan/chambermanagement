@@ -7,13 +7,6 @@ const path = require('path');
 /**
  * Routes
  */
-const blogRoutes = require('./routes/blogRoutes');
-const heroRoutes = require('./routes/heroRoutes');
-const aboutRoutes = require('./routes/aboutRoutes');
-const skillsRoutes = require('./routes/skillsRoutes');
-const summeryRoutes = require('./routes/summeryRoutes');
-const educationRoutes = require('./routes/educationRoutes');
-const experienceRoutes = require('./routes/experienceRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const contactFormRoutes = require('./routes/contactFormRoutes');
 const usersRoutes = require('./routes/usersRoutes');
@@ -26,7 +19,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 
 // express app
 const app = express();
-app.use(cors());
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 // connect to mongodb & listen for requests.
 const DB_URL = process.env.DB_URL;
@@ -38,7 +31,7 @@ mongoose
 
 
 // middleware & static files folder declare
-app.use(express.static('public'));
+// app.use(express.static('public'));
 /**
  * This middleware is used for recognizing request object as string or array.
  * and "express.json()" function recognize request object as json format.

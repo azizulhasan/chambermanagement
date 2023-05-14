@@ -4,7 +4,8 @@
     "description": "Doctors chember management system",
     "main": "server/app.js",
     "engines": {
-        "node": "16.13.2"
+        "node": "16.13.2",
+        "npm": "8.4.0"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
