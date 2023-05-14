@@ -6,13 +6,15 @@ import { FaRegEnvelope } from 'react-icons/fa';
 import { MdLockOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import loginImage from '../assets/login/login_page.PNG';
 import { loginUser } from '../store/usersSlice';
+
 /**
  *
  * utilities
  */
 import { addCSS, setLocalStorage } from '../utilities/utilities';
+import { database } from '../data/database';
+const { pages: { login: { loginImage } } } = database;
 
 export default function Login() {
     const {
@@ -92,11 +94,7 @@ export default function Login() {
                                                 })}
                                                 className="bg-gray-100 outline-none text-sm flex-1 border-none"
                                                 placeholder="Enter Email Address..."
-                                                defaultValue={
-                                                    window.sessionStorage.getItem(
-                                                        'email'
-                                                    ) || 'hasan@gmail.com'
-                                                }
+                                                defaultValue={window.sessionStorage.getItem('email')}
                                             />
                                             {errors.email && (
                                                 <span className="error">
@@ -113,7 +111,7 @@ export default function Login() {
                                                 })}
                                                 className="bg-gray-100 outline-none text-sm flex-1 border-none"
                                                 placeholder="Password"
-                                                defaultValue={'123'}
+                                                defaultValue={''}
                                             />
                                             {errors.password && (
                                                 <span className="error">

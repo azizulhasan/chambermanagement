@@ -6,6 +6,8 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import Modal from '../../features/user-panel/components/Modal';
 import Sidebar from './Sidebar';
 import { Menu } from '../../assets/atlasIcons/AtlasIconsSolid';
+import { database } from '../../data/database';
+const { basic: { trademark: { logo } } } = database;
 
 const Topbar = () => {
     const [open, setOpen] = useState(false);
@@ -31,7 +33,6 @@ const Topbar = () => {
     const userLogout = (e) => {
         e.preventDefault();
         alert('Are you sure?');
-        console.log('after are you sure');
         dispatch(logOut());
         navigate('/');
     };
@@ -45,12 +46,12 @@ const Topbar = () => {
                 <div className="flex flex-shrink-0 items-center  text-black font-medium">
                     <img
                         className="block h-10 w-auto lg:hidden"
-                        src={`${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`}
+                        src={logo.image}
                         alt="Mind To Heart"
                     />
                     <img
                         className="hidden h-8 w-auto lg:block"
-                        src={`${process.env.REACT_APP_URL}/assets/front/images/mindtoheart.ogo.png`}
+                        src={logo.image}
                         alt="Mind To Heart"
                     />
                     Mind To Heart

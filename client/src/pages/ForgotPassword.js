@@ -1,13 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { FaRegEnvelope } from 'react-icons/fa';
-import { MdLockOutline } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import loginImage from '../assets/login/login_page.PNG';
-import { loginUser } from '../store/usersSlice';
+
 /**
  *
  * utilities

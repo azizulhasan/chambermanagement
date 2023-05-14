@@ -53,39 +53,6 @@ app.use((req, res, next) => {
     next();
 });
 
-/**
- * Blog routes start
- */
-app.use('/blogs', blogRoutes);
-
-/**
- * Hero Routs
- */
-app.use('/api/hero', heroRoutes);
-
-/**
- * About Routes
- */
-app.use('/api/about', aboutRoutes);
-
-/**
- * Skills Routes
- */
-app.use('/api/skills', skillsRoutes);
-
-/**
- * Summery Routes
- */
-app.use('/api/summery', summeryRoutes);
-
-/**
- * Education Routes
- */
-app.use('/api/education', educationRoutes);
-/**
- * Experience Routes
- */
-app.use('/api/experience', experienceRoutes);
 
 /**
  * Experience Routes
@@ -99,10 +66,7 @@ app.use('/api/contact_form', contactFormRoutes);
  * users Routes
  */
 app.use('/api/users', usersRoutes);
-/**
- * Login Routes
- */
-// app.use("/api/login", loginRoutes);
+
 /**
  * Settings routes
  */
@@ -117,7 +81,6 @@ app.use('/api/services', servicesRoutes);
  * Services routes
  */
 app.use('/api/branches', branchesRoutes);
-
 
 
 /**
