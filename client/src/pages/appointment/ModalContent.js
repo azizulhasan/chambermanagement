@@ -227,10 +227,10 @@ export default function ModalContent() {
                 emulateTouch={false}
                 autoFocus={false}
                 onSwipeMove={(e) => {
-                    let validateData = checkValidation(e);
-                    if (validateData.alertData.length) {
-                        alert('Please fill the value of ' + validateData.alertData.join(', '));
-                    }
+                    // let validateData = checkValidation(e);
+                    // if (validateData.alertData.length) {
+                    //     alert('Please fill the value of ' + validateData.alertData.join(', '));
+                    // }
                 }}
                 // showArrows={true}
                 showIndicators={false}

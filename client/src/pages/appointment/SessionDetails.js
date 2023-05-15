@@ -276,26 +276,26 @@ export default function SessionDetails() {
 
     const setSessionDate = (date) => {
         // prevent form selecting previous date.
-        if (date < new Date()) {
+        if (date.getDate() < new Date().getDate()) {
             alert("You can't select previous date.")
             return
-        }
-
-
-        setDate(date);
-        let data = prepareScheduleSessionData('session_date', date);
-        dispatch(updateRegisterSchedule(data));
-        if (currentDoctorSchedules.length) {
-            let bookedSchedules = [];
-            for (let i = 0; i < currentDoctorSchedules.length; i++) {
-                let session = currentDoctorSchedules[i];
-                let tempDate = new Date(session.session_date);
-                if (tempDate.getMonth() === date.getMonth() && tempDate.getDate() === date.getDate()) {
-                    bookedSchedules.push(session.session_time);
+        } else {
+            setDate(date);
+            let data = prepareScheduleSessionData('session_date', date);
+            dispatch(updateRegisterSchedule(data));
+            if (currentDoctorSchedules.length) {
+                let bookedSchedules = [];
+                for (let i = 0; i < currentDoctorSchedules.length; i++) {
+                    let session = currentDoctorSchedules[i];
+                    let tempDate = new Date(session.session_date);
+                    if (tempDate.getMonth() === date.getMonth() && tempDate.getDate() === date.getDate()) {
+                        bookedSchedules.push(session.session_time);
+                    }
                 }
+                setUnAvailableSlots(bookedSchedules);
             }
-            setUnAvailableSlots(bookedSchedules);
         }
+
     };
 
     useEffect(() => {
