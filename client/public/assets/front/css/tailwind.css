@@ -1382,6 +1382,14 @@ video {
   overflow-y: auto;
 }
 
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+.\!overflow-y-scroll {
+  overflow-y: scroll !important;
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;

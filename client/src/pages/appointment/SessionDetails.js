@@ -275,6 +275,13 @@ export default function SessionDetails() {
     };
 
     const setSessionDate = (date) => {
+        // prevent form selecting previous date.
+        if (date < new Date()) {
+            alert("You can't select previous date.")
+            return
+        }
+
+
         setDate(date);
         let data = prepareScheduleSessionData('session_date', date);
         dispatch(updateRegisterSchedule(data));

@@ -38,7 +38,8 @@ export default function ModalContent() {
     );
     const [pageNo, setPageNo] = useState(1)
     const dispatch = useDispatch();
-    function isCurrentSlideIsValid(e, callback) {
+
+    const checkValidation = (e) => {
         let status =
             document.getElementsByClassName('carousel-status')[0].innerHTML;
         let currentPage = parseInt(status.split('of')[0]);
@@ -64,14 +65,21 @@ export default function ModalContent() {
                 if (key !== 'user_id') alertData.push(key);
             }
         });
-        if (alertData.length) {
-            alert('Please fill the value of ' + alertData.join(', '));
+
+        return { alertData, currentPage };
+    }
+
+    function isCurrentSlideIsValid(e, callback) {
+
+        let validateData = checkValidation(e);
+
+        if (validateData.alertData.length) {
+            alert('Please fill the value of ' + validateData.alertData.join(', '));
         } else {
             let data = getSessionStorage(['registerUserSchedule']);
             data = data['registerUserSchedule'];
             data = prepareDataForSave(data);
-
-            if (currentPage === 2) {
+            if (validateData.currentPage === 2) {
                 let userData = {
                     email: data.email,
                     name: data.name,
@@ -217,7 +225,13 @@ export default function ModalContent() {
                 autoPlay={false}
                 infiniteLoop={false}
                 emulateTouch={false}
-                autoFocus={true}
+                autoFocus={false}
+                onSwipeMove={(e) => {
+                    let validateData = checkValidation(e);
+                    if (validateData.alertData.length) {
+                        alert('Please fill the value of ' + validateData.alertData.join(', '));
+                    }
+                }}
                 // showArrows={true}
                 showIndicators={false}
                 renderArrowPrev={(hasPrev, label) => (
@@ -253,7 +267,7 @@ export default function ModalContent() {
                         </button> : <button type='button' className={['absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor', getButtonPosition()].join(' ')} onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
                     }
                 }}
-                className="presentation-mode appointment px-5 my-8"
+                className="presentation-mode appointment px-5 my-8 !overflow-y-scroll "
             >
                 {slides.map((item, index) => {
                     return <div key={index}>{item.component}</div>;
