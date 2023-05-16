@@ -10,9 +10,9 @@ const getAllScedules = async () => {
  * @param {Object} res
  */
 const userSchedule_index = async (req, res) => {
-    let userschedule = await getAllScedules();
+    let userschedules = await getAllScedules();
 
-    res.json({ data: userschedule });
+    res.json({ data: userschedules });
 };
 
 const get_doctor_schedules = async (req, res) => {

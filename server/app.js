@@ -4,16 +4,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
+const { varifyIsFromCode, verifyToken, verifyAccess } = require('./auth/varify');
+
 /**
  * Routes
  */
-const blogRoutes = require('./routes/blogRoutes');
-const heroRoutes = require('./routes/heroRoutes');
-const aboutRoutes = require('./routes/aboutRoutes');
-const skillsRoutes = require('./routes/skillsRoutes');
-const summeryRoutes = require('./routes/summeryRoutes');
-const educationRoutes = require('./routes/educationRoutes');
-const experienceRoutes = require('./routes/experienceRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const contactFormRoutes = require('./routes/contactFormRoutes');
 const usersRoutes = require('./routes/usersRoutes');
@@ -52,6 +47,12 @@ app.use((req, res, next) => {
     res.locals.path = req.path;
     next();
 });
+
+
+/**
+ * Check if the request is from code not from others places live browser, postman etc
+ */
+app.use(varifyIsFromCode);
 
 
 /**
