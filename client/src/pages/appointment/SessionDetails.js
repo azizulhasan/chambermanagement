@@ -119,7 +119,7 @@ export default function SessionDetails() {
         let endsAt = '23:00';
         let interval = filteredSchedule.perSessionLength;
         let slots = [];
-        let initialSlots = 7;
+        let initialSlots = 4;
         while (
             dayjs(`2001-01-01 ${startsAt}`, 'YYYY-MM-DD HH:mm').isBefore(
                 dayjs(`2001-01-01 ${endsAt}`, 'YYYY-MM-DD HH:mm')

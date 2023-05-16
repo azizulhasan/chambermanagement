@@ -2,7 +2,7 @@ import React, { useEffect, lazy, Suspense } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearRegisterUserSchedule, clearUserSchedule, saveUserSchedule } from '../../store/userScheduleSlice';
-import { getSessionStorage, prepareDataForSave, saveSessionData } from '../../utilities/utilities';
+import { getSessionStorage, prepareDataForSave, saveSessionData, isAndroid } from '../../utilities/utilities';
 import { userFromSchedule } from '../../store/usersSlice';
 import { useState } from 'react';
 // import { proceed_to_pay } from '../../store/paymentSlice';
@@ -198,6 +198,175 @@ export default function ModalContent() {
     }
 
 
+    /**
+     * https://codingartistweb.com/2022/09/how-to-detect-swipe-direction-with-javascript/
+     */
+    // setTimeout(() => {
+    //     let touchArea = document.querySelector(".appointment");
+    //     let output = document.getElementById("output");
+
+    //     //Initial mouse X and Y positions are 0
+
+    //     let mouseX,
+    //         initialX = 0;
+    //     let mouseY,
+    //         initialY = 0;
+    //     let isSwiped;
+
+    //     //Events for touch and mouse
+    //     let events = {
+    //         mouse: {
+    //             down: "mousedown",
+    //             move: "mousemove",
+    //             up: "mouseup",
+    //         },
+    //         touch: {
+    //             down: "touchstart",
+    //             move: "touchmove",
+    //             up: "touchend",
+    //         },
+    //     };
+
+    //     let deviceType = "";
+
+    //     //Detect touch device
+
+    //     const isTouchDevice = () => {
+    //         try {
+    //             //We try to create TouchEvent (it would fail for desktops and throw error)
+    //             document.createEvent("TouchEvent");
+    //             deviceType = "touch";
+    //             return true;
+    //         } catch (e) {
+    //             deviceType = "mouse";
+    //             return false;
+    //         }
+    //     };
+
+    //     //Get left and top of touchArea
+    //     let rectLeft = touchArea.getBoundingClientRect().left;
+    //     let rectTop = touchArea.getBoundingClientRect().top;
+
+    //     //Get Exact X and Y position of mouse/touch
+    //     const getXY = (e) => {
+    //         mouseX = (!isTouchDevice() ? e.pageX : e.touches[0].pageX) - rectLeft;
+    //         mouseY = (!isTouchDevice() ? e.pageY : e.touches[0].pageY) - rectTop;
+    //     };
+
+    //     isTouchDevice();
+
+    //     //Start Swipe
+    //     touchArea.addEventListener(events[deviceType].down, (event) => {
+    //         isSwiped = true;
+    //         //Get X and Y Position
+    //         getXY(event);
+    //         initialX = mouseX;
+    //         initialY = mouseY;
+    //     });
+
+    //     //Mousemove / touchmove
+    //     touchArea.addEventListener(events[deviceType].move, (event) => {
+    //         if (!isTouchDevice()) {
+    //             event.preventDefault();
+    //         }
+    //         if (isSwiped) {
+    //             getXY(event);
+
+    //             let diffX = mouseX - initialX;
+    //             let diffY = mouseY - initialY;
+    //             if (Math.abs(diffY) > Math.abs(diffX)) {
+
+
+    //                 output.innerText = diffY > 0 ? "Down" : "Up";
+
+    //                 // down:  value e.g 1 or more
+    //                 if (diffY > 0) {
+    //                     console.log(diffY)
+    //                     document.body.scrollTop = diffY;
+    //                     document.documentElement.scrollTop = diffY;
+    //                 } else {
+    //                     // Up:  value e.g -1 or more
+    //                     document.body.scrollTop = diffY;
+    //                     document.documentElement.scrollTop = diffY;
+    //                     console.log(diffY)
+    //                 }
+    //             } else {
+    //                 output.innerText = diffX > 0 ? "Right" : "Left";
+    //             }
+    //         }
+    //     });
+
+    //     //Stop Drawing
+    //     touchArea.addEventListener(events[deviceType].up, () => {
+    //         isSwiped = false;
+    //     });
+
+    //     touchArea.addEventListener("mouseleave", () => {
+    //         isSwiped = false;
+    //     });
+
+    //     window.onload = () => {
+    //         isSwiped = false;
+    //     };
+
+    // }, 3000)
+
+
+
+
+
+
+    /**
+     * https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
+     * @returns 
+     */
+
+    // setTimeout(() => {
+    //     // left: 37, up: 38, right: 39, down: 40,
+    //     // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+    //     var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+    //     function preventDefault(e) {
+    //         e.preventDefault();
+    //     }
+
+    //     function preventDefaultForScrollKeys(e) {
+    //         if (keys[e.keyCode]) {
+    //             preventDefault(e);
+    //             return false;
+    //         }
+    //     }
+
+    //     // modern Chrome requires { passive: false } when adding event
+    //     var supportsPassive = false;
+    //     try {
+    //         window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+    //             get: function () { supportsPassive = true; }
+    //         }));
+    //     } catch (e) { }
+
+    //     var wheelOpt = supportsPassive ? { passive: false } : false;
+    //     var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+    //     // call this to Disable
+    //     function disableScroll() {
+    //         window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+    //         window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    //         window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    //         window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+    //     }
+
+    //     // call this to Enable
+    //     function enableScroll() {
+    //         window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    //         window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    //         window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    //         window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+    //     }
+    //     disableScroll();
+    // }, 3000);
+
+
     const getButtonPosition = () => {
         let buttonPosition = 'top-[88%]';
         if (pageNo === 4) {
@@ -224,9 +393,10 @@ export default function ModalContent() {
                 showThumbs={false}
                 autoPlay={false}
                 infiniteLoop={false}
-                emulateTouch={false}
+                emulateTouch={true}
                 autoFocus={false}
                 onSwipeMove={(e) => {
+                    // console.log(e);
                     // let validateData = checkValidation(e);
                     // if (validateData.alertData.length) {
                     //     alert('Please fill the value of ' + validateData.alertData.join(', '));
@@ -258,13 +428,15 @@ export default function ModalContent() {
                             onClick={(e) => submitSchedule(e, currentPage, hasNext)}
                         >
                             Submit
-                        </button> : <button
-                            type="button"
-                            className={["absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor", getButtonPosition()].join(' ')}
-                            onClick={(e) => isCurrentSlideIsValid(e, hasNext)}
-                        >
-                            Next
-                        </button> : <button type='button' className={['absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor', getButtonPosition()].join(' ')} onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
+                        </button> : <>
+                            <button
+                                type="button"
+                                className={["absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor", getButtonPosition()].join(' ')}
+                                onClick={(e) => isCurrentSlideIsValid(e, hasNext)}
+                            >
+                                Next
+                            </button> <div id='output'></div>
+                        </> : <button type='button' className={['absolute left-[54%] justify-center px-4 py-2 z-50 bg-themeColor text-white hover:bg-white hover:text-themeColor hover:border-2 hover:border-themeColor', getButtonPosition()].join(' ')} onClick={(e) => proceedToPay(e, frontUserSingleSchedule)}>Proceed To Pay</button>
                     }
                 }}
                 className="presentation-mode appointment px-5 my-8 !overflow-y-scroll "

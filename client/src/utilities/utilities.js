@@ -1352,6 +1352,18 @@ export const redirectUser = (user) => {
     }
 };
 
+
+export const isAndroid = () => {
+    let ua = navigator.userAgent.toLowerCase();
+
+    let isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+    if (isAndroid) {
+        return true;
+    }
+    return false
+}
+
+
 // # The "addUserData" function below takes an array of objects and each of these objects will have user id. Sometimes we will need the details of that user. So we will use this function to retrieve user details from the backend and add them to every objects of that array we recieved.
 // # Below are the arguments we will have to pass when we will invoke this function
 // -> data : arrayOfObjectsIncludingUserIdEach, type - array of objects
