@@ -17,11 +17,17 @@ const varifyIsFromCode = (req, res, next) => {
         isFromCode = true
     }
 
+
     //'sec-fetch-site': 'same-site',
     // this header exist and value should be  "same-site"
     if (headers.hasOwnProperty('sec-fetch-site') && headers['sec-fetch-site'] === 'same-site') {
         isFromCode = true
     }
+
+    if (req.url.match(/api/gm) === null) {
+        isFromCode = false
+    }
+
     if (isFromCode) {
         next();
     } else {
