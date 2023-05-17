@@ -1,7 +1,7 @@
 const express = require('express');
 const userSchedulesController = require('../controllers/userSchedulesController');
-const { verifyToken } = require('../auth/verifyToken');
-const { verifyAccess } = require('../auth/verifyAccess');
+const { varifyIsFromCode, verifyToken, verifyAccess } = require('../auth/varify');
+
 
 const router = express.Router();
 

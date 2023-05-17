@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
+const { varifyIsFromCode, verifyToken, verifyAccess } = require('./auth/varify');
+
 /**
  * Routes
  */
@@ -45,6 +47,12 @@ app.use((req, res, next) => {
     res.locals.path = req.path;
     next();
 });
+
+
+/**
+ * Check if the request is from code not from others places live browser, postman etc
+ */
+app.use(varifyIsFromCode);
 
 
 /**
